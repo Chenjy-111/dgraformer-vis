@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --att-lo: 251 238 220;
+  --att-hi: 168 52 31;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink-900 font-sans antialiased;
+  font-feature-settings: 'cv05', 'ss01';
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd3df transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #cbd3df;
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    @apply font-serif text-ink-900;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.16em] text-accent;
+  }
+  .card {
+    @apply bg-white border border-line rounded-card shadow-card;
+  }
+  .hairline {
+    @apply border-t border-line;
+  }
+  .data-num {
+    @apply font-mono tabular-nums;
+  }
+  .focus-ring {
+    @apply outline-none ring-2 ring-accent/40 ring-offset-1 ring-offset-white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
