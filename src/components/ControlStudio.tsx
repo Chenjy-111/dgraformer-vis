@@ -171,10 +171,9 @@ export function ControlStudio() {
                 value={s.graphLayout}
                 onChange={(l) => s.set('graphLayout', l)}
                 options={[
-                  { value: 'circular', label: 'Circular' },
-                  { value: 'force', label: 'Force' },
                   { value: 'matrix', label: 'Matrix' },
                   { value: 'sidebyside', label: 'Side' },
+                  { value: 'circular', label: 'Circular' },
                 ]}
                 size="sm"
                 wrap

@@ -38,7 +38,7 @@ export function GraphNetwork({
 
   function nodePos(i: number) {
     const angle = (2 * Math.PI * i) / N - Math.PI / 2;
-    const r = layout === 'circular' ? radius : radius * (0.5 + 0.5 * Math.random());
+    const r = radius;
     return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
   }
 

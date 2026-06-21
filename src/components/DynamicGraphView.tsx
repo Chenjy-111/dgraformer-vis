@@ -47,7 +47,7 @@ export function DynamicGraphView() {
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
   const isMatrix = s.graphLayout === 'matrix';
   const isSide = s.graphLayout === 'sidebyside';
-  const netLayout = s.graphLayout === 'force' ? 'force' : 'circular';
+  const netLayout = 'circular';
 
   return (
     <div>
@@ -65,7 +65,7 @@ export function DynamicGraphView() {
           <Panel caption="Dynamic graph Ew (all weights)">
             <GraphMatrix variables={sample.variables} matrix={win.dynamic_graph} target={s.target} />
           </Panel>
-          <Panel caption="Sparse essential graph Ẽw (after Top-K)">
+          <Panel caption="Sparse graph Ẽw (Top-K)">
             <GraphMatrix variables={sample.variables} matrix={win.sparse_graph} target={s.target} />
           </Panel>
         </div>

@@ -32,7 +32,7 @@ export type ViewMode =
   | 'sensitivity'
   | 'narrative';
 
-export type GraphLayout = 'circular' | 'force' | 'matrix' | 'sidebyside';
+export type GraphLayout = 'circular' | 'matrix' | 'sidebyside';
 export type GraphSource = 'static' | 'dynamic' | 'sparse' | 'difference';
 export type ScaleId = 1 | 2 | 3;
 export type ExplanationDepth = 'brief' | 'standard' | 'technical';
