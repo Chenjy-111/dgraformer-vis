@@ -37,7 +37,7 @@ export function AblationView() {
   const [metric, setMetric] = useState<'mse' | 'mae'>('mse');
   const [dataset, setDataset] = useState<DatasetId>(s.dataset);
   const [horizon, setHorizon] = useState<Horizon>(s.horizon);
-  const [picked, setPicked] = useState<string | null>(null);
+  const [picked, setPicked] = useState<string | null>('Full DGraFormer');
 
   const table = useMemo(() => generateAblation(dataset, horizon), [dataset, horizon]);
   const full = table.rows.find((r) => r.variant === 'Full')!;
@@ -57,7 +57,7 @@ export function AblationView() {
         selectedRow.note
       )
     );
-  }, [picked, dataset, horizon]);
+  }, [picked, dataset, horizon, s.sample]);
 
   const bars = table.rows.map((r) => ({
     label: r.label,
