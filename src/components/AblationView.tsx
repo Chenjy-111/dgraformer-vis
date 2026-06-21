@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
+import { buildAblationExplanation } from '@/engine/explanationEngine';
 import { MetricBarChart } from './charts/MetricBarChart';
 import { Tabs } from './ui/Tabs';
 import { Select } from './ui/Select';
@@ -41,6 +42,22 @@ export function AblationView() {
   const table = useMemo(() => generateAblation(dataset, horizon), [dataset, horizon]);
   const full = table.rows.find((r) => r.variant === 'Full')!;
   const selectedRow: AblationRow | undefined = table.rows.find((r) => r.label === picked);
+
+  useEffect(() => {
+    if (!s.sample || !selectedRow) return;
+    s.setExplanation(
+      buildAblationExplanation(
+        { sample: s.sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head },
+        selectedRow.variant,
+        selectedRow.label,
+        selectedRow.mse,
+        selectedRow.mae,
+        full.mse,
+        full.mae,
+        selectedRow.note
+      )
+    );
+  }, [picked, dataset, horizon]);
 
   const bars = table.rows.map((r) => ({
     label: r.label,

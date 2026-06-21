@@ -123,7 +123,7 @@ export interface AblationTable {
 
 export interface SensitivityCurve {
   param: 'm' | 'Ke' | 'alpha';
-  dataset: 'Weather' | 'Solar';
+  dataset: DatasetId;
   x: number[];
   mse: number[];
   mae: number[];

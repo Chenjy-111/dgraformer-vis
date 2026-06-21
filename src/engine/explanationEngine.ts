@@ -211,6 +211,106 @@ export function buildErrorExplanation(ctx: Ctx, step: number): Explanation {
   };
 }
 
+export function buildAblationExplanation(
+  ctx: Ctx,
+  variant: string,
+  label: string,
+  mse: number,
+  mae: number,
+  fullMse: number,
+  fullMae: number,
+  note: string
+): Explanation {
+  const { sample, depth } = ctx;
+  const pctMse = ((mse - fullMse) / fullMse * 100);
+  const pctMae = ((mae - fullMae) / fullMae * 100);
+  const isFull = variant === 'Full';
+
+  const summary = isFull
+    ? `Full DGraFormer achieves MSE=${fullMse.toFixed(3)}, MAE=${fullMae.toFixed(3)} on ${sample.dataset} at horizon ${sample.horizon}. All components active: dynamic time windows, dynamic graph learning, essential correlation focusing, and multi-scale transformer encoding.`
+    : `Removing ${label} increases MSE by ${pctMse.toFixed(1)}% and MAE by ${pctMae.toFixed(1)}% on ${sample.dataset} (h${sample.horizon}). ${note}`;
+
+  return {
+    id: newId(),
+    title: isFull ? 'Full DGraFormer' : `Ablation: ${label}`,
+    mode: 'ablation',
+    selectionLabel: `${sample.dataset} · h${sample.horizon} · ${variant}`,
+    summary: trim(summary, depth),
+    evidence: [
+      { label: 'MSE', value: mse.toFixed(3), tone: isFull ? 'kept' : 'warn' },
+      { label: 'MAE', value: mae.toFixed(3), tone: isFull ? 'kept' : 'warn' },
+      { label: 'Δ MSE vs Full', value: isFull ? 'baseline' : `+${pctMse.toFixed(1)}%`, tone: isFull ? 'kept' : 'warn' },
+      { label: 'Δ MAE vs Full', value: isFull ? 'baseline' : `+${pctMae.toFixed(1)}%`, tone: isFull ? 'kept' : 'warn' },
+      { label: 'Component', value: label },
+    ],
+    formula: isFull
+      ? 'Full: DCGL + MTT with all components enabled'
+      : '\\text{Ablation} = \\text{DGraFormer} \\setminus \\text{' + variant + '}',
+    assumption: 'Ablation values are based on paper-reported metrics. Each variant removes exactly one component while keeping others at their best settings.',
+    caveat: isFull
+      ? 'Full model numbers are taken from the published IJCAI-25 paper.'
+      : 'The degradation isolates this component\'s contribution, but components may interact non-linearly.',
+    nextStep: isFull
+      ? 'Click a variant to see the cost of removing each component.'
+      : 'Compare across variants to understand which component contributes most.',
+    quality: { evidence: 0.9, specificity: 0.85, mechanism: 0.8, uncertainty: 0.75 },
+  };
+}
+
+export function buildSensitivityExplanation(
+  ctx: Ctx,
+  param: 'm' | 'Ke' | 'alpha'
+): Explanation {
+  const { sample, depth } = ctx;
+
+  const meta: Record<string, { title: string; formula: string; summary: string }> = {
+    m: {
+      title: 'Sensitivity: window size m',
+      formula: 'm \\in \\{24, 72, 144, 423, 1008\\}',
+      summary:
+        `Window size m controls how many time steps each dynamic graph covers. ` +
+        `On ${sample.dataset}, performance follows a U-shape: too small loses context, too large mixes heterogeneous correlations. ` +
+        `The paper reports m=144 (one day of hourly data) as optimal for ETTh1.`,
+    },
+    Ke: {
+      title: 'Sensitivity: focusing ratio Ke',
+      formula: 'K_e = w_{\\text{ratio}} \\in \\{0.005, 0.01, 0.05, 0.1, 0.5\\}',
+      summary:
+        `Ke is the fraction of strongest edges retained after Top-K focusing. ` +
+        `Low Ke aggressively prunes edges (high sparsity); high Ke keeps more connections. ` +
+        `The paper finds Ke=0.05 balances noise removal against information preservation.`,
+    },
+    alpha: {
+      title: 'Sensitivity: prior proportion α',
+      formula: 'E_w = \\alpha C + (1-\\alpha) R_w, \\; \\alpha \\in \\{0.1, 0.3, 0.5, 0.7, 0.9\\}',
+      summary:
+        `α mixes the static Fourier prior C with the dynamically learned correlation R_w. ` +
+        `The curve is nearly flat across α values, showing that DCGL adaptively compensates: ` +
+        `graph learning adjusts regardless of the prior\'s weight.`,
+    },
+  };
+
+  const m = meta[param];
+  return {
+    id: newId(),
+    title: m.title,
+    mode: 'sensitivity',
+    selectionLabel: `${sample.dataset} · h${sample.horizon} · ${param}`,
+    summary: trim(m.summary, depth),
+    evidence: [
+      { label: 'Parameter', value: param },
+      { label: 'Dataset', value: sample.dataset },
+      { label: 'Horizon', value: String(sample.horizon) },
+      { label: 'Formula', value: m.formula },
+    ],
+    formula: m.formula,
+    assumption: 'Sensitivity curves are generated from multiple training runs varying one parameter while holding others fixed.',
+    caveat: 'The chart data shown here is illustrative. Real values require re-training the model for each parameter setting.',
+    nextStep: 'Switch between m, Ke, and α to see how each hyperparameter affects model performance.',
+    quality: { evidence: 0.7, specificity: 0.75, mechanism: 0.8, uncertainty: 0.7 },
+  };
+}
+
 export function buildDefaultForView(ctx: Ctx, view: ViewMode): Explanation {
   switch (view) {
     case 'forecast':
