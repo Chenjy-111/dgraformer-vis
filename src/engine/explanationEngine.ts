@@ -211,6 +211,66 @@ export function buildErrorExplanation(ctx: Ctx, step: number): Explanation {
   };
 }
 
+const ABLATION_META: Record<string, {
+  whatItDoes: string;
+  whyItHurts: string;
+  formula: string;
+  rank: string;
+}> = {
+  Full: {
+    whatItDoes:
+      'All four components work together: DCGL learns dynamic correlation graphs across time windows, ' +
+      'Top-K focusing prunes weak edges to suppress noise, and MTT extracts temporal patterns at three patch scales.',
+    whyItHurts: '',
+    formula: '\\text{DCGL}(E_w) \\; \\rightarrow \\; \\text{Top-K}(\\tilde{E}_w) \\; \\rightarrow \\; \\text{MTT}(\\text{patch}_1, \\text{patch}_2, \\text{patch}_3)',
+    rank: 'baseline',
+  },
+  'w/o DTW': {
+    whatItDoes:
+      'Dynamic Time Windows partition the input into m-step windows, each learning its own correlation graph. ' +
+      'Without DTW, a single static graph spans all time steps and cannot capture correlations that shift over time ' +
+      '(e.g., day vs. night patterns in hourly data).',
+    whyItHurts:
+      'This causes the largest accuracy drop because temporal correlation drift is the core challenge in multivariate forecasting — ' +
+      'variables that are strongly coupled in one period may be weakly coupled in another.',
+    formula: '\\text{w/o DTW: } E_{\\text{single}} \\; \\text{replaces} \\; \\{E_{w_1}, E_{w_2}, \\dots, E_{w_k}\\}',
+    rank: 'largest degradation',
+  },
+  'w/o DGL': {
+    whatItDoes:
+      'Dynamic Graph Learning uses trainable embeddings to learn window-specific correlation matrices ' +
+      '(E_w = α·C + (1-α)·R_w). Without DGL, only the static Fourier prior C is used. ' +
+      'The model loses the ability to adaptively discover correlations from data.',
+    whyItHurts:
+      'Static priors capture seasonal patterns but miss short-term coupling changes. ' +
+      'This is the second-largest drop, confirming that learned dynamic graphs are more informative than hand-crafted priors.',
+    formula: '\\text{w/o DGL: } E_w = C \\; \\text{(static Fourier prior only)}',
+    rank: 'second-largest degradation',
+  },
+  'w/o ECF': {
+    whatItDoes:
+      'Essential Correlation Focusing (Top-K sparsification) retains only the strongest ' +
+      'w_ratio fraction of edges per window, discarding weak and potentially noisy correlations. ' +
+      'Without ECF, all positive edges participate in message passing, injecting noise into the graph convolution.',
+    whyItHurts:
+      'Moderate degradation — sparsification is a denoising step. Without it, the model is slightly less robust ' +
+      'but can still learn useful representations from the full graph.',
+    formula: '\\text{w/o ECF: } \\tilde{E}_w = E_w \\; \\text{(no top-K mask)}',
+    rank: 'moderate degradation',
+  },
+  'w/o MTE': {
+    whatItDoes:
+      'Multi-scale Transformer Encoding processes patches at three temporal resolutions: ' +
+      'fine (single-patch, e.g. 8 steps), medium (merged-patch, 16 steps), and coarse (merged-again, 32 steps). ' +
+      'Without MTE, only a single fixed patch size is used, missing patterns at other scales.',
+    whyItHurts:
+      'Moderate degradation — single-scale Transformers still work reasonably well, ' +
+      'but multi-scale encoding consistently improves by capturing both short-term fluctuations and long-range trends.',
+    formula: '\\text{w/o MTE: single-scale Transformer instead of 3-stage hierarchical encoder}',
+    rank: 'moderate degradation',
+  },
+};
+
 export function buildAblationExplanation(
   ctx: Ctx,
   variant: string,
@@ -224,90 +284,32 @@ export function buildAblationExplanation(
   const { sample, depth } = ctx;
   const pctMse = ((mse - fullMse) / fullMse * 100);
   const pctMae = ((mae - fullMae) / fullMae * 100);
-  const isFull = variant === 'Full';
+  const meta = ABLATION_META[variant] ?? ABLATION_META['Full'];
 
-  const summary = isFull
-    ? `Full DGraFormer achieves MSE=${fullMse.toFixed(3)}, MAE=${fullMae.toFixed(3)} on ${sample.dataset} at horizon ${sample.horizon}. All components active: dynamic time windows, dynamic graph learning, essential correlation focusing, and multi-scale transformer encoding.`
-    : `Removing ${label} increases MSE by ${pctMse.toFixed(1)}% and MAE by ${pctMae.toFixed(1)}% on ${sample.dataset} (h${sample.horizon}). ${note}`;
+  const summary = variant === 'Full'
+    ? `${meta.whatItDoes} Full model MSE=${fullMse.toFixed(3)}, MAE=${fullMae.toFixed(3)} on ${sample.dataset} (h${sample.horizon}). Click any variant below to see what happens when a component is removed.`
+    : `${meta.whatItDoes} ${meta.whyItHurts}`;
 
   return {
     id: newId(),
-    title: isFull ? 'Full DGraFormer' : `Ablation: ${label}`,
+    title: variant === 'Full' ? 'Full DGraFormer — all components' : `${label} — ${meta.rank}`,
     mode: 'ablation',
-    selectionLabel: `${sample.dataset} · h${sample.horizon} · ${variant}`,
+    selectionLabel: `${sample.dataset} · h${sample.horizon}`,
     summary: trim(summary, depth),
     evidence: [
-      { label: 'MSE', value: mse.toFixed(3), tone: isFull ? 'kept' : 'warn' },
-      { label: 'MAE', value: mae.toFixed(3), tone: isFull ? 'kept' : 'warn' },
-      { label: 'Δ MSE vs Full', value: isFull ? 'baseline' : `+${pctMse.toFixed(1)}%`, tone: isFull ? 'kept' : 'warn' },
-      { label: 'Δ MAE vs Full', value: isFull ? 'baseline' : `+${pctMae.toFixed(1)}%`, tone: isFull ? 'kept' : 'warn' },
-      { label: 'Component', value: label },
+      { label: 'MSE', value: mse.toFixed(3), tone: variant === 'Full' ? 'kept' : 'warn' },
+      { label: 'MAE', value: mae.toFixed(3), tone: variant === 'Full' ? 'kept' : 'warn' },
+      { label: 'Δ MSE vs Full', value: variant === 'Full' ? '—' : `+${pctMse.toFixed(1)}%`, tone: 'warn' },
+      { label: 'Δ MAE vs Full', value: variant === 'Full' ? '—' : `+${pctMae.toFixed(1)}%`, tone: 'warn' },
+      { label: 'Impact rank', value: meta.rank },
     ],
-    formula: isFull
-      ? 'Full: DCGL + MTT with all components enabled'
-      : '\\text{Ablation} = \\text{DGraFormer} \\setminus \\text{' + variant + '}',
-    assumption: 'Ablation values are based on paper-reported metrics. Each variant removes exactly one component while keeping others at their best settings.',
-    caveat: isFull
-      ? 'Full model numbers are taken from the published IJCAI-25 paper.'
-      : 'The degradation isolates this component\'s contribution, but components may interact non-linearly.',
-    nextStep: isFull
-      ? 'Click a variant to see the cost of removing each component.'
-      : 'Compare across variants to understand which component contributes most.',
-    quality: { evidence: 0.9, specificity: 0.85, mechanism: 0.8, uncertainty: 0.75 },
-  };
-}
-
-export function buildSensitivityExplanation(
-  ctx: Ctx,
-  param: 'm' | 'Ke' | 'alpha'
-): Explanation {
-  const { sample, depth } = ctx;
-
-  const meta: Record<string, { title: string; formula: string; summary: string }> = {
-    m: {
-      title: 'Sensitivity: window size m',
-      formula: 'm \\in \\{24, 72, 144, 423, 1008\\}',
-      summary:
-        `Window size m controls how many time steps each dynamic graph covers. ` +
-        `On ${sample.dataset}, performance follows a U-shape: too small loses context, too large mixes heterogeneous correlations. ` +
-        `The paper reports m=144 (one day of hourly data) as optimal for ETTh1.`,
-    },
-    Ke: {
-      title: 'Sensitivity: focusing ratio Ke',
-      formula: 'K_e = w_{\\text{ratio}} \\in \\{0.005, 0.01, 0.05, 0.1, 0.5\\}',
-      summary:
-        `Ke is the fraction of strongest edges retained after Top-K focusing. ` +
-        `Low Ke aggressively prunes edges (high sparsity); high Ke keeps more connections. ` +
-        `The paper finds Ke=0.05 balances noise removal against information preservation.`,
-    },
-    alpha: {
-      title: 'Sensitivity: prior proportion α',
-      formula: 'E_w = \\alpha C + (1-\\alpha) R_w, \\; \\alpha \\in \\{0.1, 0.3, 0.5, 0.7, 0.9\\}',
-      summary:
-        `α mixes the static Fourier prior C with the dynamically learned correlation R_w. ` +
-        `The curve is nearly flat across α values, showing that DCGL adaptively compensates: ` +
-        `graph learning adjusts regardless of the prior\'s weight.`,
-    },
-  };
-
-  const m = meta[param];
-  return {
-    id: newId(),
-    title: m.title,
-    mode: 'sensitivity',
-    selectionLabel: `${sample.dataset} · h${sample.horizon} · ${param}`,
-    summary: trim(m.summary, depth),
-    evidence: [
-      { label: 'Parameter', value: param },
-      { label: 'Dataset', value: sample.dataset },
-      { label: 'Horizon', value: String(sample.horizon) },
-      { label: 'Formula', value: m.formula },
-    ],
-    formula: m.formula,
-    assumption: 'Sensitivity curves are generated from multiple training runs varying one parameter while holding others fixed.',
-    caveat: 'The chart data shown here is illustrative. Real values require re-training the model for each parameter setting.',
-    nextStep: 'Switch between m, Ke, and α to see how each hyperparameter affects model performance.',
-    quality: { evidence: 0.7, specificity: 0.75, mechanism: 0.8, uncertainty: 0.7 },
+    formula: meta.formula,
+    assumption: 'Each variant removes exactly one component while keeping all others at their best settings.',
+    caveat: variant === 'Full'
+      ? 'Metrics from the published IJCAI-25 paper.'
+      : `Degradation = cost of removing this component. Components may interact, so individual contributions are not strictly additive.`,
+    nextStep: 'Compare degradation magnitudes to understand which component matters most for this dataset.',
+    quality: { evidence: 0.92, specificity: 0.88, mechanism: 0.9, uncertainty: 0.75 },
   };
 }
 
