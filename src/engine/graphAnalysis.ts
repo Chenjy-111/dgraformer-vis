@@ -1,15 +1,41 @@
 import type { GraphEdge, SampleData, WindowData } from '@/types/demo';
 
-export function activeMatrix(win: WindowData, source: 'static' | 'dynamic' | 'sparse' | 'difference'): number[][] {
-  if (source === 'static') return win.static_graph;
+export function activeMatrix(
+  win: WindowData,
+  source: 'static' | 'dynamic' | 'sparse' | 'difference',
+  priorC?: number[][]
+): number[][] {
+  if (source === 'static') return priorC ?? win.static_graph;
   if (source === 'sparse') return win.sparse_graph;
   if (source === 'difference') {
+    const base = priorC ?? win.static_graph;
     const N = win.dynamic_graph.length;
     return Array.from({ length: N }, (_, i) =>
-      Array.from({ length: N }, (_, j) => Math.round((win.dynamic_graph[i][j] - win.static_graph[i][j]) * 1000) / 1000)
+      Array.from({ length: N }, (_, j) => Math.round((win.dynamic_graph[i][j] - base[i][j]) * 1000) / 1000)
     );
   }
   return win.dynamic_graph;
+}
+
+/** Cosine similarity matrix from variable-wise history sequences. */
+export function computePriorC(history: number[][]): number[][] {
+  const N = history.length;
+  const T = history[0]?.length ?? 0;
+  const norms = history.map((row) => {
+    let sumSq = 0;
+    for (let t = 0; t < T; t++) sumSq += row[t] * row[t];
+    return Math.sqrt(sumSq) || 1e-8;
+  });
+  const result: number[][] = Array.from({ length: N }, () => Array(N).fill(0));
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      if (i === j) { result[i][j] = 1; continue; }
+      let dot = 0;
+      for (let t = 0; t < T; t++) dot += history[i][t] * history[j][t];
+      result[i][j] = dot / (norms[i] * norms[j]);
+    }
+  }
+  return result;
 }
 
 /** Recompute kept/filtered split for a custom keep ratio (UI slider). */

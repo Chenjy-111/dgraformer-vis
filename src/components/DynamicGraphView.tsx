@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
 import { GraphNetwork } from './charts/GraphNetwork';
 import { GraphMatrix } from './charts/GraphMatrix';
-import { activeMatrix, recomputeTopK } from '@/engine/graphAnalysis';
+import { activeMatrix, computePriorC, recomputeTopK } from '@/engine/graphAnalysis';
 import { buildEdgeExplanation, buildNodeExplanation, buildWindowExplanation } from '@/engine/explanationEngine';
 import type { GraphEdge } from '@/types/demo';
 
@@ -37,11 +37,16 @@ export function DynamicGraphView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sample?.sample_id, s.windowIdx, s.graphSource]);
 
+  const priorC = useMemo(() => (sample?.history ? computePriorC(sample.history) : null), [sample?.sample_id]);
+
   const networkEdges = useMemo(() => {
     if (!win) return [];
-    if (s.graphSource === 'static') return edgesFromMatrix(win.static_graph, s.topkRatio);
-    return recomputeTopK(win.edges, s.topkRatio);
-  }, [win, s.graphSource, s.topkRatio]);
+    if (s.graphSource === 'static') return edgesFromMatrix(priorC ?? win.static_graph, s.topkRatio);
+    if (s.graphSource === 'dynamic') return recomputeTopK(win.edges, s.topkRatio);
+    if (s.graphSource === 'sparse') return edgesFromMatrix(win.sparse_graph, s.topkRatio);
+    // difference
+    return edgesFromMatrix(activeMatrix(win, 'difference', priorC ?? undefined), s.topkRatio);
+  }, [win, s.graphSource, s.topkRatio, priorC]);
 
   if (!sample || !win) return null;
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
@@ -73,7 +78,7 @@ export function DynamicGraphView() {
         <div className="flex justify-center">
           <GraphMatrix
             variables={sample.variables}
-            matrix={activeMatrix(win, s.graphSource)}
+            matrix={activeMatrix(win, s.graphSource, priorC ?? undefined)}
             diverging={s.graphSource === 'difference'}
             target={s.target}
             size={Math.min(420, 60 + sample.variables.length * 44)}
