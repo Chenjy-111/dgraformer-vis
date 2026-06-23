@@ -55,7 +55,7 @@ export function TopKFocusingView() {
             layout="circular"
             showFiltered
             showLabels={false}
-            threshold={0}
+            threshold={s.edgeThreshold}
             target={s.target}
             highlightTarget={s.highlightTarget}
             selectedNode={null}
@@ -71,7 +71,7 @@ export function TopKFocusingView() {
             layout="circular"
             showFiltered={false}
             showLabels={false}
-            threshold={0}
+            threshold={s.edgeThreshold}
             target={s.target}
             highlightTarget={s.highlightTarget}
             selectedNode={null}
