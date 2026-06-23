@@ -16,6 +16,14 @@ export function topErrorPeaks(sample: SampleData, variable: number, k = 5): Erro
   return idx.map(({ v, i }) => ({ step: i, value: Math.round(v * 1000) / 1000, windowId: null }));
 }
 
+export function targetMetrics(sample: SampleData, variable: number): { mse: number; mae: number } {
+  const e = sample.error[variable] ?? [];
+  if (e.length === 0) return { mse: 0, mae: 0 };
+  const mae = e.reduce((a, b) => a + b, 0) / e.length;
+  const mse = e.reduce((a, b) => a + b * b, 0) / e.length;
+  return { mse: Math.round(mse * 1e6) / 1e6, mae: Math.round(mae * 1e6) / 1e6 };
+}
+
 export function horizonErrorGrowth(sample: SampleData, variable: number): { early: number; late: number } {
   const e = sample.error[variable] ?? [];
   if (e.length === 0) return { early: 0, late: 0 };

@@ -2,7 +2,7 @@ import type { GraphEdge, SampleData, ScaleId, ViewMode } from '@/types/demo';
 import type { Explanation, ExplanationDepth } from '@/types/explanation';
 import { classifyNodeRole, edgeStabilityAcrossWindows, nodeDegree } from './graphAnalysis';
 import { attentionConcentration, getScale, headMatrix, patchRange } from './attentionAnalysis';
-import { diagnose, horizonErrorGrowth } from './errorDiagnosis';
+import { diagnose, horizonErrorGrowth, targetMetrics } from './errorDiagnosis';
 
 let idSeq = 0;
 const newId = () => `exp-${++idSeq}`;
@@ -25,6 +25,7 @@ export function buildForecastExplanation(ctx: Ctx): Explanation {
   const { sample, target, depth } = ctx;
   const v = sample.variables[target];
   const growth = horizonErrorGrowth(sample, target);
+  const tm = targetMetrics(sample, target);
   const summary =
     `The forecast for ${v} on ${sample.dataset} (horizon ${sample.horizon}) follows the ground truth closely in the ` +
     `near term and drifts gradually further out. Mean absolute error rises from ${growth.early} early in the horizon ` +
@@ -36,8 +37,8 @@ export function buildForecastExplanation(ctx: Ctx): Explanation {
     selectionLabel: `${sample.dataset} · sample ${sample.sample_id} · h${sample.horizon} · ${v}`,
     summary: trim(summary, depth),
     evidence: [
-      { label: 'Reported MSE', value: String(sample.metrics.mse) },
-      { label: 'Reported MAE', value: String(sample.metrics.mae) },
+      { label: `MSE (${v})`, value: String(tm.mse) },
+      { label: `MAE (${v})`, value: String(tm.mae) },
       { label: 'Early-horizon error', value: String(growth.early) },
       { label: 'Late-horizon error', value: String(growth.late), tone: 'warn' },
       { label: 'Look-back windows', value: String(sample.windows.length) },

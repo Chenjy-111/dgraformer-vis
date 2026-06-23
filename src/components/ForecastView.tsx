@@ -1,7 +1,8 @@
 import { useDemoStore } from '@/store/useDemoStore';
 import { ForecastChart } from './ForecastChart';
 import { buildForecastExplanation, buildWindowExplanation, buildErrorExplanation } from '@/engine/explanationEngine';
-import { useEffect } from 'react';
+import { targetMetrics } from '@/engine/errorDiagnosis';
+import { useEffect, useMemo } from 'react';
 
 export function ForecastView() {
   const s = useDemoStore();
@@ -25,6 +26,7 @@ export function ForecastView() {
   if (!sample) return null;
 
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
+  const tm = useMemo(() => targetMetrics(sample, s.target), [sample, s.target]);
 
   return (
     <div>
@@ -33,7 +35,7 @@ export function ForecastView() {
           Forecast · {sample.variables[s.target]} <span className="text-ink-400">({sample.dataset})</span>
         </h3>
         <span className="data-num text-[12px] text-ink-400">
-          MSE {sample.metrics.mse} · MAE {sample.metrics.mae}
+          MSE {tm.mse} · MAE {tm.mae}
         </span>
       </div>
 
