@@ -49,7 +49,7 @@ export function GraphMatrix({
               return (
                 <div
                   key={j}
-                  className={`flex items-center justify-center ${isTarget ? 'ring-1 ring-accent/40' : ''}`}
+                  className={`flex items-center justify-center ${isTarget ? 'ring-2 ring-amber-500/60' : ''}`}
                   style={{ width: cellSize, height: cellSize, backgroundColor: color(val) }}
                   onMouseEnter={(e) => show(e, label)}
                   onMouseMove={move}

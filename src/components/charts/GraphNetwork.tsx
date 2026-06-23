@@ -38,9 +38,11 @@ export function GraphNetwork({
 
   function nodePos(i: number) {
     const angle = (2 * Math.PI * i) / N - Math.PI / 2;
-    const r = radius;
-    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+    return { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
   }
+
+  const focused = highlightTarget ? target : null;
+  const hasFocus = focused !== null;
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
@@ -51,18 +53,39 @@ export function GraphNetwork({
         const t = nodePos(e.target);
         const isSel =
           selectedEdge?.source === e.source && selectedEdge?.target === e.target;
-        const isTargetRelated =
-          highlightTarget && (e.source === target || e.target === target);
-        const opacity = e.kept ? (isTargetRelated ? 0.9 : 0.5) : 0.12;
-        const strokeW = e.kept ? Math.max(1, e.weight * 4) : 0.8;
+        const isTargetEdge =
+          hasFocus && (e.source === focused || e.target === focused);
+
+        let stroke: string;
+        let opacity: number;
+        let strokeW: number;
+
+        if (isSel) {
+          stroke = '#2563eb';
+          opacity = 1;
+          strokeW = Math.max(1.5, e.weight * 3.5);
+        } else if (isTargetEdge && e.kept) {
+          stroke = '#d97706';
+          opacity = 0.85;
+          strokeW = Math.max(1, e.weight * 3);
+        } else if (e.kept) {
+          stroke = '#94a3b8';
+          opacity = hasFocus ? 0.25 : 0.45;
+          strokeW = Math.max(0.8, e.weight * 2.5);
+        } else {
+          stroke = '#94a3b8';
+          opacity = 0.12;
+          strokeW = 0.6;
+        }
+
         return (
           <g key={`${e.source}-${e.target}`}>
             <line
               x1={s.x} y1={s.y} x2={t.x} y2={t.y}
-              stroke={isSel ? '#c85031' : '#94a3b8'}
-              strokeWidth={isSel ? strokeW + 1.5 : strokeW}
+              stroke={stroke}
+              strokeWidth={strokeW}
               opacity={opacity}
-              className={onClickEdge ? 'cursor-pointer hover:opacity-100' : ''}
+              className={onClickEdge ? 'cursor-pointer' : ''}
               onClick={() => onClickEdge?.(e)}
             />
             {showLabels && e.kept && (
@@ -72,6 +95,7 @@ export function GraphNetwork({
                 fontSize={8}
                 fill="#64748b"
                 textAnchor="middle"
+                opacity={hasFocus && !isTargetEdge ? 0.25 : 0.65}
               >
                 {e.weight.toFixed(2)}
               </text>
@@ -79,24 +103,40 @@ export function GraphNetwork({
           </g>
         );
       })}
+
       {/* Nodes */}
       {variables.map((v, i) => {
         const p = nodePos(i);
         const isTarget = i === target;
         const isSelected = i === selectedNode;
+
+        let fill: string;
+        if (isSelected) fill = '#2563eb';
+        else if (isTarget) fill = '#d97706';
+        else fill = '#94a3b8';
+
         return (
           <g key={v}>
+            {/* Pulsating ring around target */}
+            {isTarget && (
+              <circle cx={p.x} cy={p.y} r={5.5} fill="none" stroke="#d97706" strokeWidth={2}>
+                <animate attributeName="r" values="5.5;9.5;5.5" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite" />
+              </circle>
+            )}
+
             <circle
-              cx={p.x} cy={p.y} r={isTarget ? 10 : isSelected ? 8 : 6}
-              fill={isTarget ? '#c85031' : isSelected ? '#2563eb' : '#e2e8f0'}
-              stroke={isTarget ? '#fff' : 'none'}
-              strokeWidth={2}
+              cx={p.x} cy={p.y} r={6.5}
+              fill={fill}
+              stroke="#fff"
+              strokeWidth={1.6}
               className={onClickNode ? 'cursor-pointer' : ''}
               onClick={() => onClickNode?.(i)}
             />
             <text
               x={p.x} y={p.y + 16}
-              fontSize={9} fill={isTarget ? '#c85031' : '#475569'}
+              fontSize={9}
+              fill={isTarget ? '#b45309' : '#475569'}
               textAnchor="middle"
               fontWeight={isTarget ? 600 : 400}
             >
