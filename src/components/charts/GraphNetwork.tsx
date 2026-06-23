@@ -33,6 +33,7 @@ export function GraphNetwork({
   const cy = size / 2;
 
   const kept = edges.filter((e) => e.kept);
+  const visible = kept.filter((e) => e.weight >= threshold);
 
   function nodePos(i: number) {
     const angle = (2 * Math.PI * i) / N - Math.PI / 2;
@@ -46,6 +47,17 @@ export function GraphNetwork({
   const selectColor = '#2563eb';
   const normalColor = '#94a3b8';
 
+  // Dynamic weight range of visible edges for color mapping
+  const wMin = visible.length > 0 ? visible.reduce((a, e) => Math.min(a, e.weight), Infinity) : 0;
+  const wMax = visible.length > 0 ? visible.reduce((a, e) => Math.max(a, e.weight), -Infinity) : 1;
+  const wSpread = wMax - wMin || 0.01;
+
+  function norm(w: number): number {
+    // Map weight to 0..1 within observed range, with power curve to stretch low end
+    const raw = (w - wMin) / wSpread;
+    return Math.pow(Math.max(0, Math.min(1, raw)), 0.6);
+  }
+
   /** RGB linear interpolation clamped to [0,1]. */
   function lerpColor(a: string, b: string, t: number): string {
     const ah = parseInt(a.slice(1), 16);
@@ -57,28 +69,30 @@ export function GraphNetwork({
     return `rgb(${r},${g},${bl})`;
   }
 
-  /** Target-edge color: amber → orange → deep red, two-stop piecewise. */
+  /** Target-edge: yellow → vivid orange → dark red, stretched to observed range. */
   function targetEdgeColor(w: number): string {
-    if (w <= 0.5) return lerpColor('#f59e0b', '#d97706', w / 0.5);
-    return lerpColor('#d97706', '#991b1b', (w - 0.5) / 0.5);
+    const t = norm(w);
+    if (t <= 0.5) return lerpColor('#fbbf24', '#ea580c', t / 0.5);
+    return lerpColor('#ea580c', '#7f1d1d', (t - 0.5) / 0.5);
   }
 
-  /** Normal kept-edge color: light slate → dark slate. */
+  /** Normal edge: very light → very dark slate, stretched to observed range. */
   function normalEdgeColor(w: number): string {
-    return lerpColor('#cbd5e1', '#475569', w);
+    return lerpColor('#e2e8f0', '#1e293b', norm(w));
   }
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {/* Edges */}
-      {kept.map((e) => {
-        if (e.weight < threshold) return null;
+      {visible.map((e) => {
         const s = nodePos(e.source);
         const t = nodePos(e.target);
         const isSel =
           selectedEdge?.source === e.source && selectedEdge?.target === e.target;
         const isTargetEdge =
           hasFocus && (e.source === focused || e.target === focused);
+
+        const tNorm = norm(e.weight);
 
         let stroke: string;
         let opacity: number;
@@ -87,15 +101,15 @@ export function GraphNetwork({
         if (isSel) {
           stroke = selectColor;
           opacity = 1;
-          strokeW = Math.max(1.5, e.weight * 3.5);
+          strokeW = 1.5 + tNorm * 4;
         } else if (isTargetEdge) {
           stroke = targetEdgeColor(e.weight);
-          opacity = 0.85;
-          strokeW = Math.max(1, e.weight * 2.8);
+          opacity = 0.9;
+          strokeW = 0.8 + tNorm * 5;
         } else {
           stroke = normalEdgeColor(e.weight);
-          opacity = hasFocus ? 0.3 : 0.5;
-          strokeW = Math.max(0.8, e.weight * 2.5);
+          opacity = hasFocus ? 0.25 : 0.45;
+          strokeW = 0.6 + tNorm * 4.5;
         }
 
         return (
