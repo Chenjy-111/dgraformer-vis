@@ -55,7 +55,7 @@ export function GraphNetwork({
   function norm(w: number): number {
     // Map weight to 0..1 within observed range, with power curve to stretch low end
     const raw = (w - wMin) / wSpread;
-    return Math.pow(Math.max(0, Math.min(1, raw)), 0.6);
+    return Math.pow(Math.max(0, Math.min(1, raw)), 0.35);
   }
 
   /** RGB linear interpolation clamped to [0,1]. */
@@ -101,15 +101,15 @@ export function GraphNetwork({
         if (isSel) {
           stroke = selectColor;
           opacity = 1;
-          strokeW = 1.5 + tNorm * 4;
+          strokeW = 1.5 + tNorm * 2.5;
         } else if (isTargetEdge) {
           stroke = targetEdgeColor(e.weight);
           opacity = 0.9;
-          strokeW = 0.8 + tNorm * 5;
+          strokeW = 0.8 + tNorm * 3.0;
         } else {
           stroke = normalEdgeColor(e.weight);
           opacity = hasFocus ? 0.25 : 0.45;
-          strokeW = 0.6 + tNorm * 4.5;
+          strokeW = 0.8 + tNorm * 2.5;
         }
 
         return (
