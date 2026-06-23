@@ -162,7 +162,6 @@ export function ControlStudio() {
             onChange={(v) => s.set('edgeThreshold', v)}
             format={(v) => v.toFixed(2)}
           />
-          <Toggle checked={s.showFiltered} onChange={(v) => s.set('showFiltered', v)} label="Show filtered edges" />
           <Toggle checked={s.showEdgeLabels} onChange={(v) => s.set('showEdgeLabels', v)} label="Show edge labels" />
           <Toggle checked={s.highlightTarget} onChange={(v) => s.set('highlightTarget', v)} label="Highlight target" />
           {s.view === 'graph' && (

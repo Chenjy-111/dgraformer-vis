@@ -90,7 +90,6 @@ export function DynamicGraphView() {
             variables={sample.variables}
             edges={networkEdges}
             layout={netLayout}
-            showFiltered={s.graphSource === 'sparse' ? false : s.showFiltered}
             showLabels={s.showEdgeLabels}
             threshold={s.edgeThreshold}
             target={s.target}

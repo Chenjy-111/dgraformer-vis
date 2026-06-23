@@ -19,6 +19,7 @@ export function TopKFocusingView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sample?.sample_id, s.windowIdx]);
 
+  const rawEdges = useMemo(() => (win ? win.edges.map((e) => ({ ...e, kept: true })) : []), [win]);
   const edges = useMemo(() => (win ? recomputeTopK(win.edges, s.topkRatio) : []), [win, s.topkRatio]);
   if (!sample || !win) return null;
 
@@ -51,9 +52,8 @@ export function TopKFocusingView() {
         <BeforeAfter label="Before · Ew (original graph)">
           <GraphNetwork
             variables={sample.variables}
-            edges={edges}
+            edges={rawEdges}
             layout="circular"
-            showFiltered
             showLabels={false}
             threshold={s.edgeThreshold}
             target={s.target}
@@ -69,9 +69,8 @@ export function TopKFocusingView() {
             variables={sample.variables}
             edges={kept}
             layout="circular"
-            showFiltered={false}
             showLabels={false}
-            threshold={0}
+            threshold={s.edgeThreshold}
             target={s.target}
             highlightTarget={s.highlightTarget}
             selectedNode={null}

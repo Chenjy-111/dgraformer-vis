@@ -4,7 +4,6 @@ export function GraphNetwork({
   variables,
   edges,
   layout,
-  showFiltered,
   showLabels,
   threshold,
   target,
@@ -18,7 +17,6 @@ export function GraphNetwork({
   variables: string[];
   edges: GraphEdge[];
   layout: GraphLayout;
-  showFiltered: boolean;
   showLabels: boolean;
   threshold: number;
   target: number;
@@ -34,7 +32,7 @@ export function GraphNetwork({
   const cx = size / 2;
   const cy = size / 2;
 
-  const filtered = edges.filter((e) => e.kept);
+  const kept = edges.filter((e) => e.kept);
 
   function nodePos(i: number) {
     const angle = (2 * Math.PI * i) / N - Math.PI / 2;
@@ -48,10 +46,32 @@ export function GraphNetwork({
   const selectColor = '#2563eb';
   const normalColor = '#94a3b8';
 
+  /** RGB linear interpolation clamped to [0,1]. */
+  function lerpColor(a: string, b: string, t: number): string {
+    const ah = parseInt(a.slice(1), 16);
+    const bh = parseInt(b.slice(1), 16);
+    const clamp = (v: number) => Math.max(0, Math.min(255, Math.round(v)));
+    const r = clamp(((ah >> 16) & 0xff) * (1 - t) + ((bh >> 16) & 0xff) * t);
+    const g = clamp(((ah >> 8) & 0xff) * (1 - t) + ((bh >> 8) & 0xff) * t);
+    const bl = clamp((ah & 0xff) * (1 - t) + (bh & 0xff) * t);
+    return `rgb(${r},${g},${bl})`;
+  }
+
+  /** Target-edge color: amber → orange → deep red, two-stop piecewise. */
+  function targetEdgeColor(w: number): string {
+    if (w <= 0.5) return lerpColor('#f59e0b', '#d97706', w / 0.5);
+    return lerpColor('#d97706', '#991b1b', (w - 0.5) / 0.5);
+  }
+
+  /** Normal kept-edge color: light slate → dark slate. */
+  function normalEdgeColor(w: number): string {
+    return lerpColor('#cbd5e1', '#475569', w);
+  }
+
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {/* Edges */}
-      {(showFiltered ? edges : filtered).map((e) => {
+      {kept.map((e) => {
         if (e.weight < threshold) return null;
         const s = nodePos(e.source);
         const t = nodePos(e.target);
@@ -68,18 +88,14 @@ export function GraphNetwork({
           stroke = selectColor;
           opacity = 1;
           strokeW = Math.max(1.5, e.weight * 3.5);
-        } else if (isTargetEdge && e.kept) {
-          stroke = targetColor;
-          opacity = 0.8;
+        } else if (isTargetEdge) {
+          stroke = targetEdgeColor(e.weight);
+          opacity = 0.85;
           strokeW = Math.max(1, e.weight * 2.8);
-        } else if (e.kept) {
-          stroke = normalColor;
-          opacity = hasFocus ? 0.25 : 0.45;
-          strokeW = Math.max(0.8, e.weight * 2.5);
         } else {
-          stroke = normalColor;
-          opacity = 0.12;
-          strokeW = 0.6;
+          stroke = normalEdgeColor(e.weight);
+          opacity = hasFocus ? 0.3 : 0.5;
+          strokeW = Math.max(0.8, e.weight * 2.5);
         }
 
         return (
@@ -92,7 +108,7 @@ export function GraphNetwork({
               className={onClickEdge ? 'cursor-pointer' : ''}
               onClick={() => onClickEdge?.(e)}
             />
-            {showLabels && e.kept && (
+            {showLabels && (
               <text
                 x={(s.x + t.x) / 2}
                 y={(s.y + t.y) / 2}
