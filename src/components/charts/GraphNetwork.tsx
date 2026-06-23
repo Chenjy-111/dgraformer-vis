@@ -44,6 +44,10 @@ export function GraphNetwork({
   const focused = highlightTarget ? target : null;
   const hasFocus = focused !== null;
 
+  const targetColor = '#c85031';
+  const selectColor = '#2563eb';
+  const normalColor = '#94a3b8';
+
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {/* Edges */}
@@ -61,19 +65,19 @@ export function GraphNetwork({
         let strokeW: number;
 
         if (isSel) {
-          stroke = '#2563eb';
+          stroke = selectColor;
           opacity = 1;
           strokeW = Math.max(1.5, e.weight * 3.5);
         } else if (isTargetEdge && e.kept) {
-          stroke = '#d97706';
-          opacity = 0.85;
-          strokeW = Math.max(1, e.weight * 3);
+          stroke = targetColor;
+          opacity = 0.8;
+          strokeW = Math.max(1, e.weight * 2.8);
         } else if (e.kept) {
-          stroke = '#94a3b8';
+          stroke = normalColor;
           opacity = hasFocus ? 0.25 : 0.45;
           strokeW = Math.max(0.8, e.weight * 2.5);
         } else {
-          stroke = '#94a3b8';
+          stroke = normalColor;
           opacity = 0.12;
           strokeW = 0.6;
         }
@@ -111,24 +115,16 @@ export function GraphNetwork({
         const isSelected = i === selectedNode;
 
         let fill: string;
-        if (isSelected) fill = '#2563eb';
-        else if (isTarget) fill = '#d97706';
-        else fill = '#94a3b8';
+        if (isSelected) fill = selectColor;
+        else if (isTarget) fill = targetColor;
+        else fill = normalColor;
 
         return (
           <g key={v}>
-            {/* Pulsating ring around target */}
-            {isTarget && (
-              <circle cx={p.x} cy={p.y} r={5.5} fill="none" stroke="#d97706" strokeWidth={2}>
-                <animate attributeName="r" values="5.5;9.5;5.5" dur="2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite" />
-              </circle>
-            )}
-
             <circle
               cx={p.x} cy={p.y} r={6.5}
               fill={fill}
-              stroke="#fff"
+              stroke={isTarget || isSelected ? '#fff' : 'none'}
               strokeWidth={1.6}
               className={onClickNode ? 'cursor-pointer' : ''}
               onClick={() => onClickNode?.(i)}
@@ -136,7 +132,7 @@ export function GraphNetwork({
             <text
               x={p.x} y={p.y + 16}
               fontSize={9}
-              fill={isTarget ? '#b45309' : '#475569'}
+              fill={isTarget ? targetColor : '#475569'}
               textAnchor="middle"
               fontWeight={isTarget ? 600 : 400}
             >
@@ -145,6 +141,21 @@ export function GraphNetwork({
           </g>
         );
       })}
+
+      {/* Pulsating ring — rendered after all nodes so it stays on top */}
+      {highlightTarget && (
+        <circle
+          cx={nodePos(target).x}
+          cy={nodePos(target).y}
+          r={5.5}
+          fill="none"
+          stroke={targetColor}
+          strokeWidth={2}
+        >
+          <animate attributeName="r" values="5.5;9.5;5.5" dur="2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite" />
+        </circle>
+      )}
     </svg>
   );
 }

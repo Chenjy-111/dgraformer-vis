@@ -49,8 +49,11 @@ export function GraphMatrix({
               return (
                 <div
                   key={j}
-                  className={`flex items-center justify-center ${isTarget ? 'ring-2 ring-amber-500/60' : ''}`}
-                  style={{ width: cellSize, height: cellSize, backgroundColor: color(val) }}
+                  className="flex items-center justify-center"
+                  style={{
+                    width: cellSize, height: cellSize, backgroundColor: color(val),
+                    ...(isTarget ? { outline: '2px solid rgba(200,80,49,0.55)', outlineOffset: '-1px', position: 'relative', zIndex: 1 } : {}),
+                  }}
                   onMouseEnter={(e) => show(e, label)}
                   onMouseMove={move}
                   onMouseLeave={hide}
