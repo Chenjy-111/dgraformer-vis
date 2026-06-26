@@ -1,5 +1,6 @@
 import { useDemoStore } from '@/store/useDemoStore';
 import { Badge } from './ui/Badge';
+import { KatexSpan } from './KatexSpan';
 import { Meter } from './ui/Meter';
 import { Button } from './ui/Button';
 import { Pin, Copy } from 'lucide-react';
@@ -84,8 +85,8 @@ export function ExplanationInspector() {
           )}
 
           {s.showFormulas && e.formula && (
-            <Note label="Formula" mono>
-              {e.formula}
+            <Note label="Formula">
+              <KatexSpan tex={e.formula} />
             </Note>
           )}
           {s.showAssumptions && e.assumption && <Note label="Assumption">{e.assumption}</Note>}

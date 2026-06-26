@@ -1,4 +1,5 @@
 import { Section } from './layout/Section';
+import { KatexSpan } from './KatexSpan';
 
 export function MethodExplainer() {
   return (
@@ -18,15 +19,15 @@ export function MethodExplainer() {
           <div className="mt-4 space-y-3">
             <Formula
               caption="Seasonal prior from the frequency domain"
-              expr="X_sea = IDFT( argTopK_{Kf}(|DFT(X_all)|), A, Φ )"
+              expr="X_{sea} = \text{IDFT}(\,\text{argTopK}_{K_f}(|\text{DFT}(X_{all})|), A, \Phi\,)"
             />
-            <Formula caption="Cosine-similarity prior matrix" expr="C = X_sea · X_sea^T / (‖X_sea‖ · ‖X_sea‖^T)" />
+            <Formula caption="Cosine-similarity prior matrix" expr="C = X_{sea} \cdot X_{sea}^T \;/\; (\|X_{sea}\| \cdot \|X_{sea}\|^T)" />
             <Formula
-              caption="Window graph: prior mixed with learnable dynamic graph (α: 0.9 → 0.1)"
-              expr="E_w = α·C + (1 − α)·R_w,    α ∈ [0.1, 0.9]"
+              caption="Window graph: prior mixed with learnable dynamic graph"
+              expr="E_w = \alpha \cdot C + (1-\alpha) \cdot R_w,\quad \alpha \in [0.1,0.9]"
             />
-            <Formula caption="Top-Ke essential focusing mask" expr="Ẽ_w = M_w ⊙ E_w,    M_w = reshape(1_{argTopK_{Ke}(vec(E_w))})" />
-            <Formula caption="Mix-hop message passing with residual" expr="H^{(l)} = β·H^{(0)} + (1 − β)·A·H^{(l−1)}" />
+            <Formula caption="Top-Ke essential focusing mask" expr="\tilde{E}_w = M_w \odot E_w,\quad M_w = \text{reshape}(\mathbf{1}_{\text{argTopK}_{K_e}(\text{vec}(E_w))})" />
+            <Formula caption="Mix-hop message passing with residual" expr="H^{(l)} = \beta \cdot H^{(0)} + (1-\beta) \cdot A \cdot H^{(l-1)}" />
           </div>
         </div>
 
@@ -37,9 +38,9 @@ export function MethodExplainer() {
             MTT patches each series and reads temporal structure at progressively coarser scales.
           </p>
           <div className="mt-4 space-y-3">
-            <Formula caption="Patch embedding (p = 8 steps per patch)" expr="x̄^i = W_p · h^i_p + W_pos" />
-            <Formula caption="Scaled dot-product self-attention over patches" expr="z^i_a = softmax( Q^i K^{iT} / √d_k ) · V^i" />
-            <Formula caption="Pairwise patch combination across layers" expr="X_p^{(l)} = reshape(Z^{(l−1)}, [N, 2D^{(l−1)}, S^{(l−1)}/2])" />
+            <Formula caption="Patch embedding (p = 8 steps per patch)" expr="\bar{x}^i = W_p \cdot h^i_p + W_{pos}" />
+            <Formula caption="Scaled dot-product self-attention over patches" expr="z^i_a = \text{softmax}\!\left( Q^i K^{iT} / \sqrt{d_k} \right) \cdot V^i" />
+            <Formula caption="Pairwise patch combination across layers" expr="X_p^{(l)} = \text{reshape}\!\left(Z^{(l-1)},\; [\,N,\; 2D^{(l-1)},\; S^{(l-1)}/2\,]\right)" />
           </div>
           <div className="mt-5 grid grid-cols-3 gap-2 text-center text-[12px]">
             <ScaleChip n="Scale 1" sub="8-step patches" note="local fluctuation" />
@@ -56,7 +57,9 @@ function Formula({ caption, expr }: { caption: string; expr: string }) {
   return (
     <div>
       <div className="text-[12px] text-ink-400">{caption}</div>
-      <div className="mt-1 rounded-md bg-paper px-3 py-2 font-mono text-[12.5px] text-ink-900">{expr}</div>
+      <div className="mt-1 rounded-md bg-paper px-3 py-2 text-[12.5px] text-ink-900">
+        <KatexSpan tex={expr} block />
+      </div>
     </div>
   );
 }
