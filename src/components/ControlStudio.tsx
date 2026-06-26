@@ -144,15 +144,26 @@ export function ControlStudio() {
             </Field>
           )}
           {s.view === 'topk' && (
-            <Slider
-              label="Top-K keep ratio"
-              value={s.topkRatio}
-              min={0.05}
-              max={1}
-              step={0.05}
-              onChange={(v) => s.set('topkRatio', v)}
-              format={(v) => `${Math.round(v * 100)}%`}
-            />
+            <>
+              <Slider
+                label="Top-K keep ratio"
+                value={s.topkRatio}
+                min={0.05}
+                max={1}
+                step={0.05}
+                onChange={(v) => s.set('topkRatio', v)}
+                format={(v) => `${Math.round(v * 100)}%`}
+              />
+              <Slider
+                label="Edge threshold"
+                value={s.edgeThreshold}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) => s.set('edgeThreshold', v)}
+                format={(v) => v.toFixed(2)}
+              />
+            </>
           )}
           <Toggle checked={s.showEdgeLabels} onChange={(v) => s.set('showEdgeLabels', v)} label="Show edge labels" />
           <Toggle checked={s.highlightTarget} onChange={(v) => s.set('highlightTarget', v)} label="Highlight target" />
