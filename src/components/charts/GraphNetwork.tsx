@@ -13,6 +13,7 @@ export function GraphNetwork({
   onClickEdge,
   onClickNode,
   size = 300,
+  weightRange,
 }: {
   variables: string[];
   edges: GraphEdge[];
@@ -26,6 +27,7 @@ export function GraphNetwork({
   onClickEdge?: (e: GraphEdge) => void;
   onClickNode?: (n: number) => void;
   size?: number;
+  weightRange?: [number, number];
 }) {
   const N = variables.length;
   const radius = size / 2 - 30;
@@ -47,9 +49,8 @@ export function GraphNetwork({
   const selectColor = '#2563eb';
   const normalColor = '#94a3b8';
 
-  // Dynamic weight range of visible edges for color mapping
-  const wMin = visible.length > 0 ? visible.reduce((a, e) => Math.min(a, e.weight), Infinity) : 0;
-  const wMax = visible.length > 0 ? visible.reduce((a, e) => Math.max(a, e.weight), -Infinity) : 1;
+  const wMin = weightRange ? weightRange[0] : visible.length > 0 ? visible.reduce((a, e) => Math.min(a, e.weight), Infinity) : 0;
+  const wMax = weightRange ? weightRange[1] : visible.length > 0 ? visible.reduce((a, e) => Math.max(a, e.weight), -Infinity) : 1;
   const wSpread = wMax - wMin || 0.01;
 
   function norm(w: number): number {

@@ -21,6 +21,11 @@ export function TopKFocusingView() {
 
   const rawEdges = useMemo(() => (win ? win.edges.map((e) => ({ ...e, kept: true })) : []), [win]);
   const edges = useMemo(() => (win ? recomputeTopK(win.edges, s.topkRatio) : []), [win, s.topkRatio]);
+  const globalWeightRange = useMemo((): [number, number] => {
+    if (!win) return [0, 1];
+    const ws = win.edges.map((e) => e.weight);
+    return [Math.min(...ws), Math.max(...ws)];
+  }, [win]);
   if (!sample || !win) return null;
 
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
@@ -54,7 +59,7 @@ export function TopKFocusingView() {
             variables={sample.variables}
             edges={rawEdges}
             layout="circular"
-            showLabels={false}
+            showLabels={s.showEdgeLabels}
             threshold={s.edgeThreshold}
             target={s.target}
             highlightTarget={s.highlightTarget}
@@ -62,6 +67,7 @@ export function TopKFocusingView() {
             selectedEdge={s.selectedEdge}
             onClickEdge={onEdge}
             size={300}
+            weightRange={globalWeightRange}
           />
         </BeforeAfter>
         <BeforeAfter label="After · Ẽw = Mw ⊙ Ew (sparsified)">
@@ -69,7 +75,7 @@ export function TopKFocusingView() {
             variables={sample.variables}
             edges={kept}
             layout="circular"
-            showLabels={false}
+            showLabels={s.showEdgeLabels}
             threshold={s.edgeThreshold}
             target={s.target}
             highlightTarget={s.highlightTarget}
@@ -77,6 +83,7 @@ export function TopKFocusingView() {
             selectedEdge={s.selectedEdge}
             onClickEdge={onEdge}
             size={300}
+            weightRange={globalWeightRange}
           />
         </BeforeAfter>
       </div>

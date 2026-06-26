@@ -13,7 +13,6 @@ import type {
   DatasetId,
   GraphLayout,
   GraphSource,
-  Granularity,
   Horizon,
   ExplanationDepth,
   ScaleId,
@@ -130,38 +129,47 @@ export function ControlStudio() {
             format={(v) => `#${v + 1}`}
           />
           {s.view === 'graph' && (
-            <Field label="Graph source">
-              <Select<GraphSource>
-                value={s.graphSource}
-                onChange={(g) => s.set('graphSource', g)}
-                options={[
-                  { value: 'static', label: 'Static prior C' },
-                  { value: 'dynamic', label: 'Window dynamic Ew' },
-                  { value: 'sparse', label: 'Sparse essential Ẽw' },
-                  { value: 'difference', label: 'Difference (Ew − C)' },
-                ]}
-                ariaLabel="Graph source"
-              />
-            </Field>
+            <>
+              <Field label="Graph source">
+                <Select<GraphSource>
+                  value={s.graphSource}
+                  onChange={(g) => s.set('graphSource', g)}
+                  options={[
+                    { value: 'static', label: 'Static prior C' },
+                    { value: 'dynamic', label: 'Window dynamic Ew' },
+                    { value: 'sparse', label: 'Sparse essential Ẽw' },
+                    { value: 'difference', label: 'Difference (Ew − C)' },
+                  ]}
+                  ariaLabel="Graph source"
+                />
+              </Field>
+              <Field label="Top-K keep ratio">
+                <span className="data-num text-[13px]">{Math.round(s.topkRatio * 100)}%</span>
+              </Field>
+            </>
           )}
-          <Slider
-            label="Top-K keep ratio"
-            value={s.topkRatio}
-            min={0.05}
-            max={1}
-            step={0.05}
-            onChange={(v) => s.set('topkRatio', v)}
-            format={(v) => `${Math.round(v * 100)}%`}
-          />
-          <Slider
-            label="Edge threshold"
-            value={s.edgeThreshold}
-            min={0}
-            max={1}
-            step={0.05}
-            onChange={(v) => s.set('edgeThreshold', v)}
-            format={(v) => v.toFixed(2)}
-          />
+          {s.view === 'topk' && (
+            <Slider
+              label="Top-K keep ratio"
+              value={s.topkRatio}
+              min={0.05}
+              max={1}
+              step={0.05}
+              onChange={(v) => s.set('topkRatio', v)}
+              format={(v) => `${Math.round(v * 100)}%`}
+            />
+          )}
+          {s.view === 'topk' && (
+            <Slider
+              label="Edge threshold"
+              value={s.edgeThreshold}
+              min={0}
+              max={1}
+              step={0.05}
+              onChange={(v) => s.set('edgeThreshold', v)}
+              format={(v) => v.toFixed(2)}
+            />
+          )}
           <Toggle checked={s.showEdgeLabels} onChange={(v) => s.set('showEdgeLabels', v)} label="Show edge labels" />
           <Toggle checked={s.highlightTarget} onChange={(v) => s.set('highlightTarget', v)} label="Highlight target" />
           {s.view === 'graph' && (
@@ -220,21 +228,6 @@ export function ControlStudio() {
               { value: 'brief', label: 'Brief' },
               { value: 'standard', label: 'Standard' },
               { value: 'technical', label: 'Technical' },
-            ]}
-            size="sm"
-            wrap
-          />
-        </Field>
-        <Field label="Granularity">
-          <Tabs<Granularity>
-            value={s.granularity}
-            onChange={(g) => s.set('granularity', g)}
-            options={[
-              { value: 'sample', label: 'Sample' },
-              { value: 'window', label: 'Window' },
-              { value: 'variable', label: 'Variable' },
-              { value: 'edge', label: 'Edge' },
-              { value: 'patch', label: 'Patch' },
             ]}
             size="sm"
             wrap

@@ -4,7 +4,6 @@ import type {
   DatasetId,
   GraphLayout,
   GraphSource,
-  Granularity,
   Horizon,
   ExplanationDepth,
   SampleData,
@@ -53,7 +52,6 @@ interface DemoState {
 
   // explanation controls
   depth: ExplanationDepth;
-  granularity: Granularity;
   showFormulas: boolean;
   showAssumptions: boolean;
   showCaveats: boolean;
@@ -121,7 +119,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   showFiltered: true,
   showEdgeLabels: false,
   highlightTarget: true,
-  graphLayout: 'circular',
+  graphLayout: 'matrix',
 
   scale: 1,
   head: 0,
@@ -129,7 +127,6 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   linkAttention: true,
 
   depth: 'standard',
-  granularity: 'window',
   showFormulas: true,
   showAssumptions: true,
   showCaveats: true,
@@ -208,7 +205,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
       topkRatio: 0.4,
       edgeThreshold: 0.2,
       showFiltered: true,
-      graphLayout: 'circular',
+      graphLayout: 'matrix',
       scale: 1,
       head: 0,
       selectedEdge: null,

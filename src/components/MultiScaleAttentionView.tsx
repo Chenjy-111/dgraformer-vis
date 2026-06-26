@@ -47,26 +47,24 @@ export function MultiScaleAttentionView() {
         </span>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
-        <div className="flex flex-col items-center">
-          <AttentionHeatmap
-            matrix={mat}
-            patchLabel={(i) => `P${i + 1}`}
-            selected={s.hoveredPatch}
-            onHoverCell={(q, k) => s.set('hoveredPatch', { q, k })}
-            onClickCell={(q, k) => {
-              s.set('hoveredPatch', { q, k });
-              s.log('Click attention cell', undefined, `scale ${s.scale} P${q + 1}→P${k + 1}`);
-              s.setExplanation(buildPatchExplanation(ctx, q, k));
-            }}
-            size={Math.min(380, 120 + sc.nPatches * 24)}
-            title={`Scale ${s.scale} · head ${s.head}`}
-          />
-          <p className="mt-2 max-w-md text-center text-[12px] text-ink-400">{SCALE_NOTE[s.scale]}</p>
-        </div>
+      <div className="flex flex-col items-center">
+        <AttentionHeatmap
+          matrix={mat}
+          patchLabel={(i) => `P${i + 1}`}
+          selected={s.hoveredPatch}
+          onHoverCell={(q, k) => s.set('hoveredPatch', { q, k })}
+          onClickCell={(q, k) => {
+            s.set('hoveredPatch', { q, k });
+            s.log('Click attention cell', undefined, `scale ${s.scale} P${q + 1}→P${k + 1}`);
+            s.setExplanation(buildPatchExplanation(ctx, q, k));
+          }}
+          size={Math.min(380, 120 + sc.nPatches * 24)}
+          title={`Scale ${s.scale} · head ${s.head}`}
+        />
+        <p className="mt-2 max-w-md text-center text-[12px] text-ink-400">{SCALE_NOTE[s.scale]}</p>
 
-        <div>
-          <div className="eyebrow mb-2">{s.linkAttention ? 'Linked forecast (hover a cell)' : 'Forecast'}</div>
+        <div className="mt-6 w-full max-w-lg">
+          <div className="eyebrow mb-2 text-center">{s.linkAttention ? 'Linked forecast (hover a cell)' : 'Forecast'}</div>
           <ForecastChart
             sample={sample}
             variable={s.target}
@@ -74,11 +72,12 @@ export function MultiScaleAttentionView() {
             showPatchBoundary
             highlightPatches={highlight}
           />
-          <div className="mt-3 rounded-md border border-line bg-paper p-3 text-[12.5px] text-ink-500">
-            Strongest link in this head: <span className="font-mono text-ink-700">P{strong.q + 1} → P{strong.k + 1}</span>{' '}
-            (weight {strong.w.toFixed(2)}). Darker cells mean a query patch (row) draws more from a key patch (column).
-            Compare heads and scales to see how local vs. periodic vs. trend evidence is combined.
-          </div>
+        </div>
+
+        <div className="mt-3 max-w-lg rounded-md border border-line bg-paper p-3 text-[12.5px] text-ink-500">
+          Strongest link in this head: <span className="font-mono text-ink-700">P{strong.q + 1} → P{strong.k + 1}</span>{' '}
+          (weight {strong.w.toFixed(2)}). Darker cells mean a query patch (row) draws more from a key patch (column).
+          Compare heads and scales to see how local vs. periodic vs. trend evidence is combined.
         </div>
       </div>
     </div>
