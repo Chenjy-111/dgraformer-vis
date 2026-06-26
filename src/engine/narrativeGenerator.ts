@@ -218,7 +218,7 @@ export function explanationToMarkdown(e: Explanation): string {
     for (const ev of e.evidence) lines.push(`- **${ev.label}:** ${ev.value}`);
     lines.push('');
   }
-  if (e.formula) lines.push('## Formula', '', '```', e.formula, '```', '');
+  if (e.formula) lines.push('## Formula', '', e.formula.replace(/<[^>]*>/g, ''), '');
   if (e.assumption) lines.push('## Assumption', '', e.assumption, '');
   if (e.caveat) lines.push('## Caveat', '', e.caveat, '');
   if (e.nextStep) lines.push('## Suggested next step', '', e.nextStep, '');

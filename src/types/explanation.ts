@@ -22,7 +22,7 @@ export interface Explanation {
   selectionLabel: string;
   summary: string;
   evidence: EvidenceItem[];
-  formula?: string; // KaTeX-free, rendered as plain math text
+  formula?: string; // pre-rendered KaTeX HTML at build time
   assumption?: string;
   caveat?: string;
   whatChanged?: string;

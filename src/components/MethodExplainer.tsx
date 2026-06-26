@@ -1,5 +1,20 @@
 import { Section } from './layout/Section';
 import { KatexSpan } from './KatexSpan';
+import { prender } from '@/utils/katexPrender';
+
+const DCGL_FORMULAS = [
+  { caption: 'Seasonal prior from the frequency domain', html: prender('X_{sea} = \\text{IDFT}(\\,\\text{argTopK}_{K_f}(|\\text{DFT}(X_{all})|), A, \\Phi\\,)') },
+  { caption: 'Cosine-similarity prior matrix', html: prender('C = X_{sea} \\cdot X_{sea}^T \\;/\\; (\\|X_{sea}\\| \\cdot \\|X_{sea}\\|^T)') },
+  { caption: 'Window graph: prior mixed with learnable dynamic graph', html: prender('E_w = \\alpha \\cdot C + (1-\\alpha) \\cdot R_w,\\quad \\alpha \\in [0.1,0.9]') },
+  { caption: 'Top-Ke essential focusing mask', html: prender('\\tilde{E}_w = M_w \\odot E_w,\\quad M_w = \\text{reshape}(\\mathbf{1}_{\\text{argTopK}_{K_e}(\\text{vec}(E_w))})') },
+  { caption: 'Mix-hop message passing with residual', html: prender('H^{(l)} = \\beta \\cdot H^{(0)} + (1-\\beta) \\cdot A \\cdot H^{(l-1)}') },
+];
+
+const MTT_FORMULAS = [
+  { caption: 'Patch embedding (p = 8 steps per patch)', html: prender('\\bar{x}^i = W_p \\cdot h^i_p + W_{pos}') },
+  { caption: 'Scaled dot-product self-attention over patches', html: prender('z^i_a = \\text{softmax}\\!\\left( Q^i K^{iT} / \\sqrt{d_k} \\right) \\cdot V^i') },
+  { caption: 'Pairwise patch combination across layers', html: prender('X_p^{(l)} = \\text{reshape}\\!\\left(Z^{(l-1)},\\; [\\,N,\\; 2D^{(l-1)},\\; S^{(l-1)}/2\\,]\\right)') },
+];
 
 export function MethodExplainer() {
   return (
@@ -17,17 +32,14 @@ export function MethodExplainer() {
             DCGL learns a correlation graph per window, then keeps only the essential edges.
           </p>
           <div className="mt-4 space-y-3">
-            <Formula
-              caption="Seasonal prior from the frequency domain"
-              expr="X_{sea} = \text{IDFT}(\,\text{argTopK}_{K_f}(|\text{DFT}(X_{all})|), A, \Phi\,)"
-            />
-            <Formula caption="Cosine-similarity prior matrix" expr="C = X_{sea} \cdot X_{sea}^T \;/\; (\|X_{sea}\| \cdot \|X_{sea}\|^T)" />
-            <Formula
-              caption="Window graph: prior mixed with learnable dynamic graph"
-              expr="E_w = \alpha \cdot C + (1-\alpha) \cdot R_w,\quad \alpha \in [0.1,0.9]"
-            />
-            <Formula caption="Top-Ke essential focusing mask" expr="\tilde{E}_w = M_w \odot E_w,\quad M_w = \text{reshape}(\mathbf{1}_{\text{argTopK}_{K_e}(\text{vec}(E_w))})" />
-            <Formula caption="Mix-hop message passing with residual" expr="H^{(l)} = \beta \cdot H^{(0)} + (1-\beta) \cdot A \cdot H^{(l-1)}" />
+            {DCGL_FORMULAS.map((f) => (
+              <div key={f.caption}>
+                <div className="text-[12px] text-ink-400">{f.caption}</div>
+                <div className="mt-1 rounded-md bg-paper px-3 py-2 text-[12.5px] text-ink-900">
+                  <KatexSpan html={f.html} block />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -38,9 +50,14 @@ export function MethodExplainer() {
             MTT patches each series and reads temporal structure at progressively coarser scales.
           </p>
           <div className="mt-4 space-y-3">
-            <Formula caption="Patch embedding (p = 8 steps per patch)" expr="\bar{x}^i = W_p \cdot h^i_p + W_{pos}" />
-            <Formula caption="Scaled dot-product self-attention over patches" expr="z^i_a = \text{softmax}\!\left( Q^i K^{iT} / \sqrt{d_k} \right) \cdot V^i" />
-            <Formula caption="Pairwise patch combination across layers" expr="X_p^{(l)} = \text{reshape}\!\left(Z^{(l-1)},\; [\,N,\; 2D^{(l-1)},\; S^{(l-1)}/2\,]\right)" />
+            {MTT_FORMULAS.map((f) => (
+              <div key={f.caption}>
+                <div className="text-[12px] text-ink-400">{f.caption}</div>
+                <div className="mt-1 rounded-md bg-paper px-3 py-2 text-[12.5px] text-ink-900">
+                  <KatexSpan html={f.html} block />
+                </div>
+              </div>
+            ))}
           </div>
           <div className="mt-5 grid grid-cols-3 gap-2 text-center text-[12px]">
             <ScaleChip n="Scale 1" sub="8-step patches" note="local fluctuation" />
@@ -50,17 +67,6 @@ export function MethodExplainer() {
         </div>
       </div>
     </Section>
-  );
-}
-
-function Formula({ caption, expr }: { caption: string; expr: string }) {
-  return (
-    <div>
-      <div className="text-[12px] text-ink-400">{caption}</div>
-      <div className="mt-1 rounded-md bg-paper px-3 py-2 text-[12.5px] text-ink-900">
-        <KatexSpan tex={expr} block />
-      </div>
-    </div>
   );
 }
 

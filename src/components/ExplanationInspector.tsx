@@ -86,7 +86,7 @@ export function ExplanationInspector() {
 
           {s.showFormulas && e.formula && (
             <Note label="Formula">
-              <KatexSpan tex={e.formula} />
+              <KatexSpan html={e.formula} />
             </Note>
           )}
           {s.showAssumptions && e.assumption && <Note label="Assumption">{e.assumption}</Note>}

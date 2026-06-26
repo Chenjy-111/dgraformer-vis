@@ -3,9 +3,25 @@ import type { Explanation, ExplanationDepth } from '@/types/explanation';
 import { classifyNodeRole, edgeStabilityAcrossWindows, nodeDegree, recomputeTopK } from './graphAnalysis';
 import { attentionConcentration, getScale, headMatrix, patchRange } from './attentionAnalysis';
 import { diagnose, horizonErrorGrowth, targetMetrics } from './errorDiagnosis';
+import { prender } from '@/utils/katexPrender';
 
 let idSeq = 0;
 const newId = () => `exp-${++idSeq}`;
+
+// Pre-render all formula strings at module load time (build time)
+const F = {
+  forecast: prender('Y = {x_{T+1}, ..., x_{T+\\tau}}  with  X = {x_1, ..., x_T}'),
+  edgeKept: prender('\\tilde{E}_w = M_w \\odot E_w,  with  E_w = \\alpha C + (1-\\alpha) R_w'),
+  edgeFiltered: prender('M_w = top\\text{-}K_e( vec(E_w) ) ; filtered if rank > K_e'),
+  window: prender('E_w = \\alpha C + (1-\\alpha) R_w'),
+  attention: prender('z_a = softmax( Q K^\\top / \\sqrt{d_k} ) V'),
+  ablationFull: prender('\\text{DCGL}(E_w) \\; \\rightarrow \\; \\text{Top-K}(\\tilde{E}_w) \\; \\rightarrow \\; \\text{MTT}(\\text{patch}_1, \\text{patch}_2, \\text{patch}_3)'),
+  ablationNoDTW: prender('\\text{w/o DTW: } E_{\\text{single}} \\; \\text{replaces} \\; \\{E_{w_1}, E_{w_2}, \\dots, E_{w_k}\\}'),
+  ablationNoDGL: prender('\\text{w/o DGL: } E_w = C \\; \\text{(static Fourier prior only)}'),
+  ablationNoECF: prender('\\text{w/o ECF: } \\tilde{E}_w = E_w \\; \\text{(no top-K mask)}'),
+  ablationNoMTE: prender('\\text{w/o MTE: single-scale Transformer instead of 3-stage hierarchical encoder}'),
+  topK: prender('\\tilde{E}_w = M_w \\odot E_w, \\quad M_w = \\text{top-}K_e(\\text{vec}(E_w))'),
+};
 
 interface Ctx {
   sample: SampleData;
@@ -43,7 +59,7 @@ export function buildForecastExplanation(ctx: Ctx): Explanation {
       { label: 'Late-horizon error', value: String(growth.late), tone: 'warn' },
       { label: 'Look-back windows', value: String(sample.windows.length) },
     ],
-    formula: 'Y = {x_{T+1}, ..., x_{T+\\tau}}  with  X = {x_1, ..., x_T}',
+    formula: F.forecast,
     assumption: 'The displayed curves are precomputed model outputs; the demo does not run inference in the browser.',
     caveat: 'Per-sample numbers are deterministic mock values calibrated to the reported dataset-level metrics, not exact paper outputs.',
     nextStep: 'Click a high-error segment to jump to its look-back window and inspect the dynamic graph there.',
@@ -82,9 +98,7 @@ export function buildEdgeExplanation(ctx: Ctx, edge: GraphEdge): Explanation {
       { label: 'Related to target', value: relatedTarget ? `yes (${sample.variables[target]})` : 'no' },
       { label: 'Window mean error', value: String(win.mean_error) },
     ],
-    formula: kept
-      ? '\\tilde{E}_w = M_w \\odot E_w,  with  E_w = \\alpha C + (1-\\alpha) R_w'
-      : 'M_w = top\\text{-}K_e( vec(E_w) ) ; filtered if rank > K_e',
+    formula: kept ? F.edgeKept : F.edgeFiltered,
     assumption: 'Edge weight is interpreted as learned correlation strength used for representation aggregation, not causal influence.',
     caveat: kept
       ? 'A retained edge does not prove that ' + s + ' causes ' + t + '. It indicates the model found this relationship useful.'
@@ -145,7 +159,7 @@ export function buildWindowExplanation(ctx: Ctx): Explanation {
       { label: 'Sparsity', value: `${Math.round(win.sparsity_ratio * 100)}%` },
       { label: 'Window mean error', value: String(win.mean_error) },
     ],
-    formula: 'E_w = \\alpha C + (1-\\alpha) R_w',
+    formula: F.window,
     assumption: 'Each window learns its own correlation graph; windows are assumed locally stable.',
     caveat: 'Window sizing here is chosen for visualization (3\u20138 windows). In the paper, m equals one day for the dataset.',
     nextStep: 'Switch to the Top-K Focusing view to see which edges survive sparsification.',
@@ -179,7 +193,7 @@ export function buildPatchExplanation(ctx: Ctx, q: number, k: number): Explanati
       { label: 'Scale semantics', value: scale === 1 ? 'short-term' : scale === 2 ? 'periodic' : 'long-range' },
       { label: 'Concentration', value: String(conc) },
     ],
-    formula: 'z_a = softmax( Q K^\\top / \\sqrt{d_k} ) V',
+    formula: F.attention,
     assumption: 'Attention is read at the patch level; higher weight means more temporal evidence drawn from the key patch.',
     caveat: 'Attention weights are correlational summaries, not a guarantee of which patch determined the prediction.',
     nextStep: 'Compare the same patch link across scales 1\u20133 to see local vs. periodic vs. trend behaviour.',
@@ -223,7 +237,7 @@ const ABLATION_META: Record<string, {
       'All four components work together: DCGL learns dynamic correlation graphs across time windows, ' +
       'Top-K focusing prunes weak edges to suppress noise, and MTT extracts temporal patterns at three patch scales.',
     whyItHurts: '',
-    formula: '\\text{DCGL}(E_w) \\; \\rightarrow \\; \\text{Top-K}(\\tilde{E}_w) \\; \\rightarrow \\; \\text{MTT}(\\text{patch}_1, \\text{patch}_2, \\text{patch}_3)',
+    formula: F.ablationFull,
     rank: 'baseline',
   },
   'w/o DTW': {
@@ -234,7 +248,7 @@ const ABLATION_META: Record<string, {
     whyItHurts:
       'This causes the largest accuracy drop because temporal correlation drift is the core challenge in multivariate forecasting — ' +
       'variables that are strongly coupled in one period may be weakly coupled in another.',
-    formula: '\\text{w/o DTW: } E_{\\text{single}} \\; \\text{replaces} \\; \\{E_{w_1}, E_{w_2}, \\dots, E_{w_k}\\}',
+    formula: F.ablationNoDTW,
     rank: 'largest degradation',
   },
   'w/o DGL': {
@@ -245,7 +259,7 @@ const ABLATION_META: Record<string, {
     whyItHurts:
       'Static priors capture seasonal patterns but miss short-term coupling changes. ' +
       'This is the second-largest drop, confirming that learned dynamic graphs are more informative than hand-crafted priors.',
-    formula: '\\text{w/o DGL: } E_w = C \\; \\text{(static Fourier prior only)}',
+    formula: F.ablationNoDGL,
     rank: 'second-largest degradation',
   },
   'w/o ECF': {
@@ -256,7 +270,7 @@ const ABLATION_META: Record<string, {
     whyItHurts:
       'Moderate degradation — sparsification is a denoising step. Without it, the model is slightly less robust ' +
       'but can still learn useful representations from the full graph.',
-    formula: '\\text{w/o ECF: } \\tilde{E}_w = E_w \\; \\text{(no top-K mask)}',
+    formula: F.ablationNoECF,
     rank: 'moderate degradation',
   },
   'w/o MTE': {
@@ -267,7 +281,7 @@ const ABLATION_META: Record<string, {
     whyItHurts:
       'Moderate degradation — single-scale Transformers still work reasonably well, ' +
       'but multi-scale encoding consistently improves by capturing both short-term fluctuations and long-range trends.',
-    formula: '\\text{w/o MTE: single-scale Transformer instead of 3-stage hierarchical encoder}',
+    formula: F.ablationNoMTE,
     rank: 'moderate degradation',
   },
 };
@@ -357,7 +371,7 @@ export function buildTopKExplanation(ctx: Ctx, topkRatio: number): Explanation {
       { label: 'Window sparsity', value: `${Math.round(win.sparsity_ratio * 100)}%` },
       { label: 'Global keep ratio', value: `${Math.round(topkRatio * 100)}%` },
     ],
-    formula: '\\tilde{E}_w = M_w \\odot E_w, \\quad M_w = \\text{top-}K_e(\\text{vec}(E_w))',
+    formula: F.topK,
     assumption: `Top-K ratio ${Math.round(topkRatio * 100)}% means only the top ${Math.round(topkRatio * 100)}% of edges by weight are retained per window; all others are masked to zero.`,
     caveat: keptTarget.length === 0
       ? `${v} has no edges surviving Top-K in this window — it may be weakly correlated with other variables here, or correlations are distributed across many weak edges.`
