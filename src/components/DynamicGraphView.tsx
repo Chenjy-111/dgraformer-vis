@@ -41,12 +41,12 @@ export function DynamicGraphView() {
 
   const networkEdges = useMemo(() => {
     if (!win) return [];
-    if (s.graphSource === 'static') return edgesFromMatrix(priorC ?? win.static_graph, s.topkRatio);
-    if (s.graphSource === 'dynamic') return recomputeTopK(win.edges, s.topkRatio);
-    if (s.graphSource === 'sparse') return edgesFromMatrix(win.sparse_graph, s.topkRatio);
+    if (s.graphSource === 'static') return edgesFromMatrix(priorC ?? win.static_graph, 1);
+    if (s.graphSource === 'dynamic') return recomputeTopK(win.edges, 1);
+    if (s.graphSource === 'sparse') return edgesFromMatrix(win.sparse_graph, 1);
     // difference
-    return edgesFromMatrix(activeMatrix(win, 'difference', priorC ?? undefined), s.topkRatio);
-  }, [win, s.graphSource, s.topkRatio, priorC]);
+    return edgesFromMatrix(activeMatrix(win, 'difference', priorC ?? undefined), 1);
+  }, [win, s.graphSource, priorC]);
 
   if (!sample || !win) return null;
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };

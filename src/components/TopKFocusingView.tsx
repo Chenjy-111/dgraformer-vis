@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
 import { GraphNetwork } from './charts/GraphNetwork';
 import { recomputeTopK } from '@/engine/graphAnalysis';
-import { buildEdgeExplanation, buildWindowExplanation } from '@/engine/explanationEngine';
+import { buildEdgeExplanation, buildTopKExplanation } from '@/engine/explanationEngine';
 import type { GraphEdge } from '@/types/demo';
 import { Badge } from './ui/Badge';
 
@@ -14,10 +14,10 @@ export function TopKFocusingView() {
   useEffect(() => {
     if (sample)
       s.setExplanation(
-        buildWindowExplanation({ sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head })
+        buildTopKExplanation({ sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head }, s.topkRatio)
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sample?.sample_id, s.windowIdx]);
+  }, [sample?.sample_id, s.windowIdx, s.target, s.topkRatio]);
 
   const rawEdges = useMemo(() => (win ? win.edges.map((e) => ({ ...e, kept: true })) : []), [win]);
   const edges = useMemo(() => (win ? recomputeTopK(win.edges, s.topkRatio) : []), [win, s.topkRatio]);

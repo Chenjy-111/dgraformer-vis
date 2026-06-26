@@ -129,24 +129,19 @@ export function ControlStudio() {
             format={(v) => `#${v + 1}`}
           />
           {s.view === 'graph' && (
-            <>
-              <Field label="Graph source">
-                <Select<GraphSource>
-                  value={s.graphSource}
-                  onChange={(g) => s.set('graphSource', g)}
-                  options={[
-                    { value: 'static', label: 'Static prior C' },
-                    { value: 'dynamic', label: 'Window dynamic Ew' },
-                    { value: 'sparse', label: 'Sparse essential Ẽw' },
-                    { value: 'difference', label: 'Difference (Ew − C)' },
-                  ]}
-                  ariaLabel="Graph source"
-                />
-              </Field>
-              <Field label="Top-K keep ratio">
-                <span className="data-num text-[13px]">{Math.round(s.topkRatio * 100)}%</span>
-              </Field>
-            </>
+            <Field label="Graph source">
+              <Select<GraphSource>
+                value={s.graphSource}
+                onChange={(g) => s.set('graphSource', g)}
+                options={[
+                  { value: 'static', label: 'Static prior C' },
+                  { value: 'dynamic', label: 'Window dynamic Ew' },
+                  { value: 'sparse', label: 'Sparse essential Ẽw' },
+                  { value: 'difference', label: 'Difference (Ew − C)' },
+                ]}
+                ariaLabel="Graph source"
+              />
+            </Field>
           )}
           {s.view === 'topk' && (
             <Slider
@@ -157,17 +152,6 @@ export function ControlStudio() {
               step={0.05}
               onChange={(v) => s.set('topkRatio', v)}
               format={(v) => `${Math.round(v * 100)}%`}
-            />
-          )}
-          {s.view === 'topk' && (
-            <Slider
-              label="Edge threshold"
-              value={s.edgeThreshold}
-              min={0}
-              max={1}
-              step={0.05}
-              onChange={(v) => s.set('edgeThreshold', v)}
-              format={(v) => v.toFixed(2)}
             />
           )}
           <Toggle checked={s.showEdgeLabels} onChange={(v) => s.set('showEdgeLabels', v)} label="Show edge labels" />
@@ -220,24 +204,29 @@ export function ControlStudio() {
       )}
 
       <Group title="Explanation detail">
-        <Field label="Depth">
-          <Tabs<ExplanationDepth>
-            value={s.depth}
-            onChange={(d) => s.set('depth', d)}
-            options={[
-              { value: 'brief', label: 'Brief' },
-              { value: 'standard', label: 'Standard' },
-              { value: 'technical', label: 'Technical' },
-            ]}
-            size="sm"
-            wrap
-          />
-        </Field>
         <Toggle checked={s.showFormulas} onChange={(v) => s.set('showFormulas', v)} label="Show formulas" />
         <Toggle checked={s.showAssumptions} onChange={(v) => s.set('showAssumptions', v)} label="Show assumptions" />
         <Toggle checked={s.showCaveats} onChange={(v) => s.set('showCaveats', v)} label="Show caveats" />
         <Toggle checked={s.showEvidence} onChange={(v) => s.set('showEvidence', v)} label="Show evidence cards" />
       </Group>
+
+      {s.view === 'narrative' && (
+        <Group title="Report depth">
+          <Field label="Depth">
+            <Tabs<ExplanationDepth>
+              value={s.depth}
+              onChange={(d) => s.set('depth', d)}
+              options={[
+                { value: 'brief', label: 'Brief' },
+                { value: 'standard', label: 'Standard' },
+                { value: 'technical', label: 'Technical' },
+              ]}
+              size="sm"
+              wrap
+            />
+          </Field>
+        </Group>
+      )}
 
       <Group title="Comparison">
         <Field label="Baseline">

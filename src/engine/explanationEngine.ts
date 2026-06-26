@@ -1,6 +1,6 @@
 import type { GraphEdge, SampleData, ScaleId, ViewMode } from '@/types/demo';
 import type { Explanation, ExplanationDepth } from '@/types/explanation';
-import { classifyNodeRole, edgeStabilityAcrossWindows, nodeDegree } from './graphAnalysis';
+import { classifyNodeRole, edgeStabilityAcrossWindows, nodeDegree, recomputeTopK } from './graphAnalysis';
 import { attentionConcentration, getScale, headMatrix, patchRange } from './attentionAnalysis';
 import { diagnose, horizonErrorGrowth, targetMetrics } from './errorDiagnosis';
 
@@ -314,6 +314,59 @@ export function buildAblationExplanation(
   };
 }
 
+export function buildTopKExplanation(ctx: Ctx, topkRatio: number): Explanation {
+  const { sample, windowIdx, target, depth } = ctx;
+  const win = sample.windows[windowIdx];
+  const v = sample.variables[target];
+
+  // recompute kept/filtered according to current ratio
+  const ratedEdges = recomputeTopK(win.edges, topkRatio);
+  const allTargetEdges = ratedEdges.filter((e) => e.source === target || e.target === target);
+  const keptTarget = allTargetEdges.filter((e) => e.kept);
+  const filteredTarget = allTargetEdges.filter((e) => !e.kept);
+  const keptRatio = allTargetEdges.length > 0 ? Math.round((keptTarget.length / allTargetEdges.length) * 100) : 0;
+
+  // strongest edge touching target (by weight)
+  const sorted = [...allTargetEdges].sort((a, b) => b.weight - a.weight);
+  const strongest = sorted[0];
+  const strongPartner = strongest
+    ? sample.variables[strongest.source === target ? strongest.target : strongest.source]
+    : null;
+
+  const summary =
+    `Top-K focusing retains the strongest ${Math.round(topkRatio * 100)}% of edges per window, ` +
+    `sparsifying the dynamic graph from ${win.edges.length} edges down to ${Math.round(win.edges.length * topkRatio)}. ` +
+    `For ${v}, ${keptTarget.length} of ${allTargetEdges.length} connections are kept (${keptRatio}%), ` +
+    (strongest
+      ? `and its strongest link is to ${strongPartner} (weight ${strongest.weight.toFixed(2)}, rank ${strongest.rank}).`
+      : `and it has no edges in this window.`);
+
+  return {
+    id: newId(),
+    title: `Top-K focusing for ${v}`,
+    mode: 'topk',
+    selectionLabel: `${sample.dataset} · window ${windowIdx + 1} · ${v}`,
+    summary: trim(summary, depth),
+    evidence: [
+      { label: 'Target variable', value: v },
+      { label: 'Edges touching target', value: String(allTargetEdges.length) },
+      { label: 'Kept', value: String(keptTarget.length), tone: 'kept' },
+      { label: 'Filtered', value: String(filteredTarget.length), tone: 'filtered' },
+      { label: 'Keep ratio (target)', value: `${keptRatio}%` },
+      { label: 'Strongest partner', value: strongPartner ?? 'none' },
+      { label: 'Window sparsity', value: `${Math.round(win.sparsity_ratio * 100)}%` },
+      { label: 'Global keep ratio', value: `${Math.round(topkRatio * 100)}%` },
+    ],
+    formula: '\\tilde{E}_w = M_w \\odot E_w, \\quad M_w = \\text{top-}K_e(\\text{vec}(E_w))',
+    assumption: `Top-K ratio ${Math.round(topkRatio * 100)}% means only the top ${Math.round(topkRatio * 100)}% of edges by weight are retained per window; all others are masked to zero.`,
+    caveat: keptTarget.length === 0
+      ? `${v} has no edges surviving Top-K in this window — it may be weakly correlated with other variables here, or correlations are distributed across many weak edges.`
+      : `Edge counts reflect the sparsified graph after Top-K. A kept edge means the model found this correlation useful; it does not imply causality.`,
+    nextStep: 'Click a kept edge to see why it was retained, or a filtered one to understand why it was dropped.',
+    quality: { evidence: 0.82, specificity: 0.85, mechanism: 0.78, uncertainty: 0.75 },
+  };
+}
+
 export function buildDefaultForView(ctx: Ctx, view: ViewMode): Explanation {
   switch (view) {
     case 'forecast':
@@ -321,7 +374,7 @@ export function buildDefaultForView(ctx: Ctx, view: ViewMode): Explanation {
     case 'graph':
       return buildWindowExplanation(ctx);
     case 'topk':
-      return buildWindowExplanation(ctx);
+      return buildTopKExplanation(ctx, 0.4);
     case 'attention':
       return buildPatchExplanation(ctx, 0, 0);
     case 'error':
