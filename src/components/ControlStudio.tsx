@@ -90,7 +90,6 @@ export function ControlStudio() {
           options={[
             { value: 'forecast', label: 'Forecast' },
             { value: 'graph', label: 'Dynamic graph' },
-            { value: 'topk', label: 'Top-K' },
             { value: 'attention', label: 'Attention' },
             { value: 'error', label: 'Error' },
             { value: 'ablation', label: 'Ablation' },
@@ -102,7 +101,7 @@ export function ControlStudio() {
         />
       </Group>
 
-      {(s.view === 'graph' || s.view === 'topk') && (
+      {s.view === 'graph' && (
         <Group title="Graph">
           <div className="flex items-center gap-2">
             <Button
@@ -143,7 +142,7 @@ export function ControlStudio() {
               />
             </Field>
           )}
-          {s.view === 'topk' && (
+          {(
             <>
               <Slider
                 label="Top-K keep ratio"
@@ -187,8 +186,8 @@ export function ControlStudio() {
             <Slider
               label="3D layer spacing"
               value={s.graph3DSpacing}
-              min={2.2}
-              max={5}
+              min={3.4}
+              max={6.4}
               step={0.2}
               onChange={(v) => s.set('graph3DSpacing', v)}
               format={(v) => v.toFixed(1)}

@@ -121,7 +121,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   showEdgeLabels: false,
   highlightTarget: true,
   graphLayout: 'matrix',
-  graph3DSpacing: 3.2,
+  graph3DSpacing: 4.4,
 
   scale: 1,
   head: 0,
@@ -208,7 +208,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
       edgeThreshold: 0.2,
       showFiltered: true,
       graphLayout: 'matrix',
-      graph3DSpacing: 3.2,
+      graph3DSpacing: 4.4,
       scale: 1,
       head: 0,
       selectedEdge: null,

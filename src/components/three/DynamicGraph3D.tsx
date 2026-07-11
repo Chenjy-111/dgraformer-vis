@@ -6,6 +6,7 @@ import type { GraphEdge } from '@/types/demo';
 
 interface Props {
   variables: string[]; windows: GraphEdge[][]; activeWindow: number; target: number;
+  dynamicWindows: GraphEdge[][]; keepRatio: number;
   threshold: number; spacing: number; selectedNode: number | null;
   selectedEdge: { source: number; target: number } | null;
   onSelectWindow: (index: number) => void; onSelectNode: (index: number) => void;
@@ -15,6 +16,7 @@ type CameraMode = 'focus' | 'overview';
 
 export function DynamicGraph3D(props: Props) {
   const [cameraMode, setCameraMode] = useState<CameraMode>('focus');
+  const [detailMode, setDetailMode] = useState(false);
   const current = props.windows[props.activeWindow] ?? [];
   const visible = current.filter((e) => Math.abs(e.weight) >= props.threshold);
   const retained = visible.filter((e) => e.kept);
@@ -28,8 +30,11 @@ export function DynamicGraph3D(props: Props) {
           <div className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#718096]">Dynamic correlation laboratory</div>
           <div className="mt-1 flex items-baseline gap-2"><span className="text-lg font-semibold text-[#233047]">Window {props.activeWindow + 1}</span><span className="text-[11px] text-[#7b879a]">{retained.length} essential edges · μ {mean.toFixed(3)}</span></div>
         </div>
+        <div className="flex items-center gap-2">
+          <button onClick={() => setDetailMode((v) => !v)} className={`rounded-lg border px-3 py-1.5 text-[11px] font-semibold shadow-sm transition ${detailMode ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#b9c7d5] bg-white/90 text-[#40516a] hover:border-[#16827f]'}`}>{detailMode ? 'Exit pruning detail' : 'Expand pruning process'}</button>
         <div className="flex rounded-lg border border-[#d6dde7] bg-white/90 p-0.5 shadow-sm backdrop-blur">
           {(['focus', 'overview'] as CameraMode[]).map((mode) => <button key={mode} onClick={() => setCameraMode(mode)} className={`rounded-md px-3 py-1.5 text-[11px] font-medium capitalize transition ${cameraMode === mode ? 'bg-[#263b59] text-white shadow-sm' : 'text-[#66748a] hover:bg-[#edf1f6]'}`}>{mode}</button>)}
+        </div>
         </div>
       </div>
 
@@ -60,8 +65,8 @@ export function DynamicGraph3D(props: Props) {
         <ambientLight intensity={1.15} />
         <directionalLight position={[4, 7, 8]} intensity={1.5} />
         <pointLight position={[-4, 2, 4]} color="#9dd8d5" intensity={1.4} />
-        <CameraRig activeWindow={props.activeWindow} count={props.windows.length} spacing={props.spacing} mode={cameraMode} />
-        <GraphLaboratory {...props} />
+        <CameraRig activeWindow={detailMode ? 0 : props.activeWindow} count={detailMode ? 1 : props.windows.length} spacing={props.spacing} mode={detailMode ? 'overview' : cameraMode} />
+        {detailMode ? <PruningDetail {...props} /> : <GraphLaboratory {...props} />}
         <OrbitControls makeDefault enableDamping dampingFactor={0.07} minDistance={6} maxDistance={24} enablePan={false} />
       </Canvas>
     </div>
@@ -98,15 +103,41 @@ function GraphLaboratory(props: Props) {
   </group>;
 }
 
-function WindowGraph({ edges, windowIndex, active, positionX, positions, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[] }) {
+function PruningDetail(props: Props) {
+  const radius = 2.15;
+  const positions = useMemo(() => props.variables.map((_, i) => {
+    const a = i / props.variables.length * Math.PI * 2 - Math.PI / 2;
+    return new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0);
+  }), [props.variables]);
+  const dynamic = props.dynamicWindows[props.activeWindow] ?? [];
+  const sparse = props.windows[props.activeWindow] ?? [];
+  return <group position={[0, -.15, 0]}>
+    <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel="DYNAMIC  Eₓ" filteredVisible />
+    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel="SPARSE  Ẽₓ" />
+    <Billboard position={[0, .4, .8]}><Html center distanceFactor={8}><div className="w-[190px] rounded-xl border border-[#c9d4df] bg-white/95 p-4 text-center shadow-xl backdrop-blur">
+      <div className="text-[9px] font-semibold uppercase tracking-[.16em] text-[#77869a]">Essential correlation focusing</div>
+      <div className="my-2 font-serif text-[18px] text-[#26364d]">Ẽ<sub>w</sub> = M<sub>w</sub> ⊙ E<sub>w</sub></div>
+      <div className="h-2 overflow-hidden rounded-full bg-[#e5eaf0]"><div className="h-full bg-[#16827f] transition-all duration-500" style={{ width: `${props.keepRatio * 100}%` }} /></div>
+      <div className="mt-1.5 text-[10px] text-[#6f7d90]">Top {Math.round(props.keepRatio * 100)}% weights retained</div>
+      <div className="mt-3 flex items-center justify-center gap-1 text-[10px] font-semibold text-[#16827f]"><span>rank</span><span>→</span><span>mask</span><span>→</span><span>propagate</span></div>
+    </div></Html></Billboard>
+    {positions.map((p, i) => <Line key={i} points={[[-3.8 + p.x, p.y, -.05], [3.8 + p.x, p.y, -.05]]} color={i === props.target ? '#cf503d' : '#b9c5d2'} lineWidth={i === props.target ? 1 : .45} dashed dashSize={.08} gapSize={.1} transparent opacity={i === props.target ? .28 : .1} />)}
+  </group>;
+}
+
+function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, filteredVisible = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; filteredVisible?: boolean }) {
   const [hoverNode, setHoverNode] = useState<number | null>(null);
-  const visible = edges.filter((e) => Math.abs(e.weight) >= props.threshold && (active || e.kept));
-  return <group position={[positionX, 0, active ? .25 : -.3]} scale={active ? 1.08 : .78}>
+  const visible = edges.filter((e) => Math.abs(e.weight) >= props.threshold && (filteredVisible || e.kept));
+  return <group
+    position={[positionX, 0, active ? .35 : -.4]}
+    rotation={[THREE.MathUtils.degToRad(-4), THREE.MathUtils.degToRad(-27), THREE.MathUtils.degToRad(-1.5)]}
+    scale={active ? 1.04 : .76}
+  >
     <mesh onClick={(e) => { e.stopPropagation(); props.onSelectWindow(windowIndex); }}>
       <circleGeometry args={[2.65, 72]} /><meshPhysicalMaterial color={active ? '#f7ffff' : '#ffffff'} transparent opacity={active ? .82 : .28} roughness={.82} transmission={active ? .08 : 0} depthWrite={false} />
     </mesh>
     <Ring args={[2.61, 2.66, 72]} position={[0, 0, .015]}><meshBasicMaterial color={active ? '#16827f' : '#b8c2cf'} transparent opacity={active ? .8 : .25} /></Ring>
-    <Billboard position={[0, 2.92, .1]}><Html center distanceFactor={8} style={{ pointerEvents: 'none' }}><div className={`whitespace-nowrap rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wide shadow-sm ${active ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#d5dbe4] bg-white/80 text-[#7b8797]'}`}>WINDOW {windowIndex + 1}</div></Html></Billboard>
+    <Billboard position={[0, 2.92, .1]}><Html center distanceFactor={8} style={{ pointerEvents: 'none' }}><div className={`whitespace-nowrap rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wide shadow-sm ${active ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#d5dbe4] bg-white/80 text-[#7b8797]'}`}>{stageLabel ?? `WINDOW ${windowIndex + 1}`}</div></Html></Billboard>
     {visible.map((edge, i) => <CorrelationEdge key={`${edge.source}-${edge.target}-${i}`} edge={edge} active={active} selected={active && props.selectedEdge?.source === edge.source && props.selectedEdge?.target === edge.target} dimmed={props.selectedNode != null && edge.source !== props.selectedNode && edge.target !== props.selectedNode} a={positions[edge.source]} b={positions[edge.target]} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectEdge(edge, windowIndex); }} />)}
     {positions.map((p, ni) => <Node key={ni} p={p} name={props.variables[ni]} active={active} target={ni === props.target} selected={ni === props.selectedNode} hovered={ni === hoverNode} onHover={(v) => setHoverNode(v ? ni : null)} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectNode(ni); }} />)}
   </group>;
