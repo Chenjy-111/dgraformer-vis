@@ -1,4 +1,4 @@
-import type { GraphEdge, GraphLayout } from '@/types/demo';
+import type { GraphEdge } from '@/types/demo';
 
 export function GraphNetwork({
   variables,
@@ -17,7 +17,7 @@ export function GraphNetwork({
 }: {
   variables: string[];
   edges: GraphEdge[];
-  layout: GraphLayout;
+  layout: 'circular' | 'force';
   showLabels: boolean;
   threshold: number;
   target: number;

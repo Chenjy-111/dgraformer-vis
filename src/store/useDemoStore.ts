@@ -43,6 +43,7 @@ interface DemoState {
   showEdgeLabels: boolean;
   highlightTarget: boolean;
   graphLayout: GraphLayout;
+  graph3DSpacing: number;
 
   // attention controls
   scale: ScaleId;
@@ -120,6 +121,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   showEdgeLabels: false,
   highlightTarget: true,
   graphLayout: 'matrix',
+  graph3DSpacing: 3.2,
 
   scale: 1,
   head: 0,
@@ -206,6 +208,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
       edgeThreshold: 0.2,
       showFiltered: true,
       graphLayout: 'matrix',
+      graph3DSpacing: 3.2,
       scale: 1,
       head: 0,
       selectedEdge: null,

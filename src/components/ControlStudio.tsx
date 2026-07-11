@@ -176,11 +176,23 @@ export function ControlStudio() {
                   { value: 'matrix', label: 'Matrix' },
                   { value: 'sidebyside', label: 'Side' },
                   { value: 'circular', label: 'Circular' },
+                  { value: '3d-timeline', label: '3D timeline' },
                 ]}
                 size="sm"
                 wrap
               />
             </Field>
+          )}
+          {s.view === 'graph' && s.graphLayout === '3d-timeline' && (
+            <Slider
+              label="3D layer spacing"
+              value={s.graph3DSpacing}
+              min={2.2}
+              max={5}
+              step={0.2}
+              onChange={(v) => s.set('graph3DSpacing', v)}
+              format={(v) => v.toFixed(1)}
+            />
           )}
         </Group>
       )}

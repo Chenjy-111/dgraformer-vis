@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import type { GraphEdge, GraphLayout } from '@/types/demo';
+import type { GraphEdge } from '@/types/demo';
 
 interface Props {
   variables: string[];
   edges: GraphEdge[]; // already kept/filtered flagged
-  layout: Exclude<GraphLayout, 'matrix' | 'sidebyside'>;
+  layout: 'circular' | 'force';
   showFiltered: boolean;
   showLabels: boolean;
   threshold: number;

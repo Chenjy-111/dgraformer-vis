@@ -5,6 +5,7 @@ import { GraphMatrix } from './charts/GraphMatrix';
 import { activeMatrix, computePriorC, recomputeTopK } from '@/engine/graphAnalysis';
 import { buildEdgeExplanation, buildNodeExplanation, buildWindowExplanation } from '@/engine/explanationEngine';
 import type { GraphEdge } from '@/types/demo';
+import { DynamicGraph3D } from './three/DynamicGraph3D';
 
 function edgesFromMatrix(m: number[][], keepRatio: number): GraphEdge[] {
   const N = m.length;
@@ -52,7 +53,14 @@ export function DynamicGraphView() {
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
   const isMatrix = s.graphLayout === 'matrix';
   const isSide = s.graphLayout === 'sidebyside';
+  const is3D = s.graphLayout === '3d-timeline';
   const netLayout = 'circular';
+  const timelineEdges = useMemo(() => sample.windows.map((window) => {
+    if (s.graphSource === 'static') return edgesFromMatrix(priorC ?? window.static_graph, 1);
+    if (s.graphSource === 'dynamic') return recomputeTopK(window.edges, 1);
+    if (s.graphSource === 'sparse') return edgesFromMatrix(window.sparse_graph, 1);
+    return edgesFromMatrix(activeMatrix(window, 'difference', priorC ?? undefined), 1);
+  }), [sample, s.graphSource, priorC]);
 
   return (
     <div>
@@ -65,7 +73,36 @@ export function DynamicGraphView() {
         </span>
       </div>
 
-      {isSide ? (
+      {is3D ? (
+        <DynamicGraph3D
+          variables={sample.variables}
+          windows={timelineEdges}
+          activeWindow={s.windowIdx}
+          target={s.target}
+          threshold={s.edgeThreshold}
+          spacing={s.graph3DSpacing}
+          selectedNode={s.selectedNode}
+          selectedEdge={s.selectedEdge}
+          onSelectWindow={(index) => {
+            s.set('windowIdx', index);
+            s.log('Select 3D window', undefined, `window ${index + 1}`);
+            s.setExplanation(buildWindowExplanation({ sample, windowIdx: index, target: s.target, depth: s.depth, scale: s.scale, head: s.head }));
+          }}
+          onSelectNode={(node) => {
+            const windowIdx = useDemoStore.getState().windowIdx;
+            s.set('selectedNode', node);
+            s.set('selectedEdge', null);
+            s.log('Click 3D node', undefined, sample.variables[node]);
+            s.setExplanation(buildNodeExplanation({ ...ctx, windowIdx }, node));
+          }}
+          onSelectEdge={(edge, windowIdx) => {
+            s.set('selectedEdge', { source: edge.source, target: edge.target });
+            s.set('selectedNode', null);
+            s.log('Click 3D edge', undefined, `${sample.variables[edge.source]} → ${sample.variables[edge.target]}`);
+            s.setExplanation(buildEdgeExplanation({ ...ctx, windowIdx }, edge));
+          }}
+        />
+      ) : isSide ? (
         <div className="grid gap-4 lg:grid-cols-2">
           <Panel caption="Dynamic graph Ew (all weights)">
             <GraphMatrix variables={sample.variables} matrix={win.dynamic_graph} target={s.target} />
