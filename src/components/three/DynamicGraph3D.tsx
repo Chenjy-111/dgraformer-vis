@@ -111,6 +111,8 @@ function PruningDetail(props: Props) {
   }), [props.variables]);
   const dynamic = props.dynamicWindows[props.activeWindow] ?? [];
   const sparse = props.windows[props.activeWindow] ?? [];
+  const candidates = dynamic.length;
+  const retained = sparse.filter((e) => e.kept).length;
   return <group position={[0, -.15, 0]}>
     <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel="DYNAMIC  Eₓ" filteredVisible />
     <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel="SPARSE  Ẽₓ" />
@@ -119,6 +121,7 @@ function PruningDetail(props: Props) {
       <div className="my-2 font-serif text-[18px] text-[#26364d]">Ẽ<sub>w</sub> = M<sub>w</sub> ⊙ E<sub>w</sub></div>
       <div className="h-2 overflow-hidden rounded-full bg-[#e5eaf0]"><div className="h-full bg-[#16827f] transition-all duration-500" style={{ width: `${props.keepRatio * 100}%` }} /></div>
       <div className="mt-1.5 text-[10px] text-[#6f7d90]">Top {Math.round(props.keepRatio * 100)}% weights retained</div>
+      <div className="mt-2 grid grid-cols-3 gap-1 border-t border-[#e3e8ee] pt-2 text-[9px]"><span><b className="block text-[#344158]">{candidates}</b>candidate</span><span><b className="block text-[#a06052]">{candidates - retained}</b>pruned</span><span><b className="block text-[#16827f]">{retained}</b>retained</span></div>
       <div className="mt-3 flex items-center justify-center gap-1 text-[10px] font-semibold text-[#16827f]"><span>rank</span><span>→</span><span>mask</span><span>→</span><span>propagate</span></div>
     </div></Html></Billboard>
     {positions.map((p, i) => <Line key={i} points={[[-3.8 + p.x, p.y, -.05], [3.8 + p.x, p.y, -.05]]} color={i === props.target ? '#cf503d' : '#b9c5d2'} lineWidth={i === props.target ? 1 : .45} dashed dashSize={.08} gapSize={.1} transparent opacity={i === props.target ? .28 : .1} />)}
@@ -127,7 +130,9 @@ function PruningDetail(props: Props) {
 
 function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, filteredVisible = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; filteredVisible?: boolean }) {
   const [hoverNode, setHoverNode] = useState<number | null>(null);
-  const visible = edges.filter((e) => Math.abs(e.weight) >= props.threshold && (filteredVisible || e.kept));
+  const visible = filteredVisible
+    ? edges.filter((e) => Math.abs(e.weight) >= Math.min(props.threshold, 0.03))
+    : edges.filter((e) => Math.abs(e.weight) >= props.threshold && e.kept);
   return <group
     position={[positionX, 0, active ? .35 : -.4]}
     rotation={[THREE.MathUtils.degToRad(-4), THREE.MathUtils.degToRad(-27), THREE.MathUtils.degToRad(-1.5)]}
@@ -138,12 +143,12 @@ function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLa
     </mesh>
     <Ring args={[2.61, 2.66, 72]} position={[0, 0, .015]}><meshBasicMaterial color={active ? '#16827f' : '#b8c2cf'} transparent opacity={active ? .8 : .25} /></Ring>
     <Billboard position={[0, 2.92, .1]}><Html center distanceFactor={8} style={{ pointerEvents: 'none' }}><div className={`whitespace-nowrap rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wide shadow-sm ${active ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#d5dbe4] bg-white/80 text-[#7b8797]'}`}>{stageLabel ?? `WINDOW ${windowIndex + 1}`}</div></Html></Billboard>
-    {visible.map((edge, i) => <CorrelationEdge key={`${edge.source}-${edge.target}-${i}`} edge={edge} active={active} selected={active && props.selectedEdge?.source === edge.source && props.selectedEdge?.target === edge.target} dimmed={props.selectedNode != null && edge.source !== props.selectedNode && edge.target !== props.selectedNode} a={positions[edge.source]} b={positions[edge.target]} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectEdge(edge, windowIndex); }} />)}
+    {visible.map((edge, i) => <CorrelationEdge key={`${edge.source}-${edge.target}-${i}`} edge={edge} active={active} revealPruned={filteredVisible} selected={active && props.selectedEdge?.source === edge.source && props.selectedEdge?.target === edge.target} dimmed={props.selectedNode != null && edge.source !== props.selectedNode && edge.target !== props.selectedNode} a={positions[edge.source]} b={positions[edge.target]} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectEdge(edge, windowIndex); }} />)}
     {positions.map((p, ni) => <Node key={ni} p={p} name={props.variables[ni]} active={active} target={ni === props.target} selected={ni === props.selectedNode} hovered={ni === hoverNode} onHover={(v) => setHoverNode(v ? ni : null)} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectNode(ni); }} />)}
   </group>;
 }
 
-function CorrelationEdge({ edge, active, selected, dimmed, a, b, onClick }: { edge: GraphEdge; active: boolean; selected: boolean; dimmed: boolean; a: THREE.Vector3; b: THREE.Vector3; onClick: () => void }) {
+function CorrelationEdge({ edge, active, revealPruned = false, selected, dimmed, a, b, onClick }: { edge: GraphEdge; active: boolean; revealPruned?: boolean; selected: boolean; dimmed: boolean; a: THREE.Vector3; b: THREE.Vector3; onClick: () => void }) {
   const particle = useRef<THREE.Mesh>(null);
   const bend = new THREE.Vector3((a.x + b.x) / 2, (a.y + b.y) / 2, .22 + a.distanceTo(b) * .12);
   useFrame(({ clock }) => {
@@ -151,8 +156,8 @@ function CorrelationEdge({ edge, active, selected, dimmed, a, b, onClick }: { ed
     const t = (clock.elapsedTime * (.18 + Math.abs(edge.weight) * .25) + edge.source * .13) % 1;
     const p = new THREE.QuadraticBezierCurve3(a, bend, b).getPoint(t); particle.current.position.copy(p);
   });
-  const color = selected ? '#cf503d' : edge.kept ? '#16827f' : '#aeb8c6';
-  const opacity = dimmed ? .05 : selected ? 1 : active ? edge.kept ? .78 : .16 : .14;
+  const color = selected ? '#cf503d' : edge.kept ? '#16827f' : revealPruned ? '#b47a6c' : '#aeb8c6';
+  const opacity = dimmed ? .05 : selected ? 1 : active ? edge.kept ? .82 : revealPruned ? .48 : .16 : .14;
   return <group onClick={(e) => { e.stopPropagation(); onClick(); }}>
     <QuadraticBezierLine start={a} end={b} mid={bend} color={color} lineWidth={selected ? 4.2 : edge.kept ? 1.1 + Math.abs(edge.weight) * 2.5 : .55} dashed={!edge.kept} dashSize={.06} gapSize={.045} transparent opacity={opacity} />
     {active && edge.kept && !dimmed && <mesh ref={particle}><sphereGeometry args={[selected ? .055 : .035, 10, 10]} /><meshBasicMaterial color={selected ? '#ef8a72' : '#63c8c2'} transparent opacity={.9} /></mesh>}
