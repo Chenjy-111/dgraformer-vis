@@ -8,6 +8,7 @@ import type { AblationRow, AblationTable, DatasetId, Horizon } from '@/types/dem
 import { DATASET_IDS } from '@/data/datasets';
 import { HORIZONS } from '@/data/paperMetrics';
 import { oursMetric } from '@/data/paperMetrics';
+import { Network, Scissors, TimerReset, Layers3, ArrowRight } from 'lucide-react';
 
 const ABLATION = [
   { variant: 'Full' as const, label: 'Full DGraFormer', mse: 1.0, mae: 1.0, note: 'All components active: dynamic windows, dynamic graph, Top-K focusing, multi-scale Transformer.' },
@@ -65,6 +66,17 @@ export function AblationView() {
     highlight: r.variant === 'Full',
     note: r.note,
   }));
+  const components = [
+    { variant: 'w/o DTW', name: 'Dynamic windows', short: 'DTW', icon: TimerReset },
+    { variant: 'w/o DGL', name: 'Dynamic graph', short: 'DGL', icon: Network },
+    { variant: 'w/o ECF', name: 'Top-K focusing', short: 'ECF', icon: Scissors },
+    { variant: 'w/o MTE', name: 'Multi-scale encoding', short: 'MTE', icon: Layers3 },
+  ] as const;
+  const disabled = selectedRow?.variant === 'Full' ? null : selectedRow?.variant;
+  const selectVariant = (variant: typeof components[number]['variant']) => {
+    const next = disabled === variant ? table.rows.find((r) => r.variant === 'Full')! : table.rows.find((r) => r.variant === variant)!;
+    setPicked(next.label);
+  };
 
   return (
     <div>
@@ -95,6 +107,22 @@ export function AblationView() {
         </div>
       </div>
 
+      <div className="mb-5 rounded-xl border border-line bg-gradient-to-b from-[#f8fafc] to-white p-4">
+        <div className="mb-3 flex items-center justify-between"><div><div className="eyebrow">Interactive model ablation</div><div className="mt-1 text-[12px] text-ink-400">Toggle one component off to reproduce the corresponding paper variant.</div></div><div className={`rounded-full px-3 py-1 text-[10px] font-semibold ${disabled ? 'bg-[#fbe9e7] text-[#a64f3d]' : 'bg-[#e5f4f2] text-[#167a77]'}`}>{disabled ? 'ABLATION ACTIVE' : 'FULL MODEL'}</div></div>
+        <div className="flex items-stretch gap-2 overflow-x-auto pb-2">
+          <div className="flex min-w-[125px] items-center justify-center rounded-lg border border-line bg-white px-3 text-center text-[11px] font-semibold text-ink-700">Input features</div>
+          <ArrowRight className="my-auto h-4 w-4 shrink-0 text-ink-400" />
+          {components.map((component, index) => {
+            const Icon = component.icon;
+            const off = disabled === component.variant;
+            return <div key={component.variant} className="flex items-center gap-2"><button onClick={() => selectVariant(component.variant)} className={`min-w-[145px] rounded-lg border p-3 text-left transition ${off ? 'border-[#d78674] bg-[#fff1ed] opacity-65' : 'border-[#b9d8d5] bg-white hover:-translate-y-0.5 hover:shadow-md'}`}><div className="flex items-center justify-between"><Icon className={`h-4 w-4 ${off ? 'text-[#b65d49]' : 'text-[#16827f]'}`} /><span className={`rounded-full px-2 py-0.5 text-[8px] font-bold ${off ? 'bg-[#f4cfc6] text-[#9c4635]' : 'bg-[#dff2ef] text-[#167a77]'}`}>{off ? 'OFF' : 'ON'}</span></div><div className={`mt-2 text-[11px] font-semibold ${off ? 'line-through text-ink-400' : 'text-ink-700'}`}>{component.name}</div><div className="mt-0.5 font-mono text-[9px] text-ink-400">{component.short}</div></button>{index < components.length - 1 && <ArrowRight className="h-4 w-4 shrink-0 text-ink-400" />}</div>;
+          })}
+          <ArrowRight className="my-auto h-4 w-4 shrink-0 text-ink-400" />
+          <div className="flex min-w-[110px] items-center justify-center rounded-lg border border-line bg-white px-3 text-center text-[11px] font-semibold text-ink-700">Forecast</div>
+        </div>
+        {selectedRow && <div className="mt-2 grid grid-cols-3 gap-2 text-center"><Impact label="MSE" value={selectedRow.mse.toFixed(3)} delta={selectedRow.variant === 'Full' ? 'reference' : metricDelta(selectedRow, full, 'mse')} /><Impact label="MAE" value={selectedRow.mae.toFixed(3)} delta={selectedRow.variant === 'Full' ? 'reference' : metricDelta(selectedRow, full, 'mae')} /><Impact label="Configuration" value={selectedRow.variant === 'Full' ? 'Full' : selectedRow.variant} delta={`${dataset} · h${horizon}`} /></div>}
+      </div>
+
       <MetricBarChart
         bars={bars}
         metricLabel={metric.toUpperCase()}
@@ -119,6 +147,10 @@ export function AblationView() {
       </div>
     </div>
   );
+}
+
+function Impact({ label, value, delta }: { label: string; value: string; delta: string }) {
+  return <div className="rounded-lg border border-line bg-white p-2"><div className="text-[9px] uppercase tracking-wide text-ink-400">{label}</div><div className="mt-1 font-mono text-[14px] font-semibold text-ink-700">{value}</div><div className="text-[9px] text-ink-400">{delta}</div></div>;
 }
 
 function metricDelta(row: AblationRow, full: AblationRow, metric: 'mse' | 'mae'): string {

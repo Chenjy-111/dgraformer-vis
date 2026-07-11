@@ -9,13 +9,14 @@ interface Props {
   onPickStep?: (futureStep: number) => void;
   onPickWindow?: (windowIdx: number) => void;
   highlightPatches?: [number, number] | null; // [patchStart, patchEnd] in look-back steps
+  selectedFutureStep?: number | null;
 }
 
 const W = 760;
 const H = 300;
 const PAD = { l: 44, r: 16, t: 18, b: 28 };
 
-export function ForecastChart({ sample, variable, windowIdx, showPatchBoundary, onPickStep, onPickWindow, highlightPatches }: Props) {
+export function ForecastChart({ sample, variable, windowIdx, showPatchBoundary, onPickStep, onPickWindow, highlightPatches, selectedFutureStep }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [hover, setHover] = useState<{ x: number; idx: number; future: boolean } | null>(null);
 
@@ -156,6 +157,12 @@ export function ForecastChart({ sample, variable, windowIdx, showPatchBoundary, 
         <path d={line(pred, T)} fill="none" stroke="#D6453B" strokeWidth={1.8} strokeDasharray="5 3" />
 
         {/* hover marker */}
+        {selectedFutureStep != null && (
+          <g>
+            <line x1={xAt(T + selectedFutureStep)} x2={xAt(T + selectedFutureStep)} y1={PAD.t} y2={H - PAD.b} stroke="#D6453B" strokeWidth={1.2} />
+            <circle cx={xAt(T + selectedFutureStep)} cy={yAt(pred[selectedFutureStep] ?? 0)} r={4} fill="#D6453B" stroke="white" strokeWidth={1.5} />
+          </g>
+        )}
         {hover && (
           <line x1={hover.x} x2={hover.x} y1={PAD.t} y2={H - PAD.b} stroke="#33415C" strokeWidth={0.8} opacity={0.5} />
         )}
