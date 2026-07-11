@@ -114,8 +114,8 @@ function PruningDetail(props: Props) {
   const candidates = dynamic.length;
   const retained = sparse.filter((e) => e.kept).length;
   return <group position={[0, -.15, 0]}>
-    <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel="DYNAMIC  Eₓ" filteredVisible />
-    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel="SPARSE  Ẽₓ" />
+    <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel={`BEFORE · ${candidates} candidate edges`} stageTone="before" filteredVisible />
+    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel={`AFTER · ${retained} retained edges`} stageTone="after" />
     <Billboard position={[0, .4, .8]}><Html center distanceFactor={8}><div className="w-[190px] rounded-xl border border-[#c9d4df] bg-white/95 p-4 text-center shadow-xl backdrop-blur">
       <div className="text-[9px] font-semibold uppercase tracking-[.16em] text-[#77869a]">Essential correlation focusing</div>
       <div className="my-2 font-serif text-[18px] text-[#26364d]">Ẽ<sub>w</sub> = M<sub>w</sub> ⊙ E<sub>w</sub></div>
@@ -128,7 +128,7 @@ function PruningDetail(props: Props) {
   </group>;
 }
 
-function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, filteredVisible = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; filteredVisible?: boolean }) {
+function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, stageTone = 'normal', filteredVisible = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; stageTone?: 'normal' | 'before' | 'after'; filteredVisible?: boolean }) {
   const [hoverNode, setHoverNode] = useState<number | null>(null);
   const visible = filteredVisible
     ? edges.filter((e) => Math.abs(e.weight) >= Math.min(props.threshold, 0.03))
@@ -139,28 +139,35 @@ function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLa
     scale={active ? 1.04 : .76}
   >
     <mesh onClick={(e) => { e.stopPropagation(); props.onSelectWindow(windowIndex); }}>
-      <circleGeometry args={[2.65, 72]} /><meshPhysicalMaterial color={active ? '#f7ffff' : '#ffffff'} transparent opacity={active ? .82 : .28} roughness={.82} transmission={active ? .08 : 0} depthWrite={false} />
+      <circleGeometry args={[2.65, 72]} /><meshPhysicalMaterial color={stageTone === 'before' ? '#fff7f3' : stageTone === 'after' ? '#f2fbf8' : active ? '#f7ffff' : '#ffffff'} transparent opacity={active ? .9 : .28} roughness={.82} transmission={active ? .05 : 0} depthWrite={false} />
     </mesh>
-    <Ring args={[2.61, 2.66, 72]} position={[0, 0, .015]}><meshBasicMaterial color={active ? '#16827f' : '#b8c2cf'} transparent opacity={active ? .8 : .25} /></Ring>
+    <Ring args={[2.61, 2.66, 72]} position={[0, 0, .015]}><meshBasicMaterial color={stageTone === 'before' ? '#b86754' : active ? '#16827f' : '#b8c2cf'} transparent opacity={active ? .9 : .25} /></Ring>
     <Billboard position={[0, 2.92, .1]}><Html center distanceFactor={8} style={{ pointerEvents: 'none' }}><div className={`whitespace-nowrap rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wide shadow-sm ${active ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#d5dbe4] bg-white/80 text-[#7b8797]'}`}>{stageLabel ?? `WINDOW ${windowIndex + 1}`}</div></Html></Billboard>
-    {visible.map((edge, i) => <CorrelationEdge key={`${edge.source}-${edge.target}-${i}`} edge={edge} active={active} revealPruned={filteredVisible} selected={active && props.selectedEdge?.source === edge.source && props.selectedEdge?.target === edge.target} dimmed={props.selectedNode != null && edge.source !== props.selectedNode && edge.target !== props.selectedNode} a={positions[edge.source]} b={positions[edge.target]} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectEdge(edge, windowIndex); }} />)}
+    {visible.map((edge, i) => <CorrelationEdge key={`${edge.source}-${edge.target}-${i}`} edge={edge} variables={props.variables} active={active} revealPruned={filteredVisible} selected={active && props.selectedEdge?.source === edge.source && props.selectedEdge?.target === edge.target} dimmed={props.selectedNode != null && edge.source !== props.selectedNode && edge.target !== props.selectedNode} a={positions[edge.source]} b={positions[edge.target]} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectEdge(edge, windowIndex); }} />)}
     {positions.map((p, ni) => <Node key={ni} p={p} name={props.variables[ni]} active={active} target={ni === props.target} selected={ni === props.selectedNode} hovered={ni === hoverNode} onHover={(v) => setHoverNode(v ? ni : null)} onClick={() => { props.onSelectWindow(windowIndex); props.onSelectNode(ni); }} />)}
   </group>;
 }
 
-function CorrelationEdge({ edge, active, revealPruned = false, selected, dimmed, a, b, onClick }: { edge: GraphEdge; active: boolean; revealPruned?: boolean; selected: boolean; dimmed: boolean; a: THREE.Vector3; b: THREE.Vector3; onClick: () => void }) {
+function CorrelationEdge({ edge, variables, active, revealPruned = false, selected, dimmed, a, b, onClick }: { edge: GraphEdge; variables: string[]; active: boolean; revealPruned?: boolean; selected: boolean; dimmed: boolean; a: THREE.Vector3; b: THREE.Vector3; onClick: () => void }) {
   const particle = useRef<THREE.Mesh>(null);
+  const [hovered, setHovered] = useState(false);
   const bend = new THREE.Vector3((a.x + b.x) / 2, (a.y + b.y) / 2, .22 + a.distanceTo(b) * .12);
   useFrame(({ clock }) => {
     if (!particle.current || !active || !edge.kept) return;
     const t = (clock.elapsedTime * (.18 + Math.abs(edge.weight) * .25) + edge.source * .13) % 1;
     const p = new THREE.QuadraticBezierCurve3(a, bend, b).getPoint(t); particle.current.position.copy(p);
   });
-  const color = selected ? '#cf503d' : edge.kept ? '#16827f' : revealPruned ? '#b47a6c' : '#aeb8c6';
-  const opacity = dimmed ? .05 : selected ? 1 : active ? edge.kept ? .82 : revealPruned ? .48 : .16 : .14;
-  return <group onClick={(e) => { e.stopPropagation(); onClick(); }}>
-    <QuadraticBezierLine start={a} end={b} mid={bend} color={color} lineWidth={selected ? 4.2 : edge.kept ? 1.1 + Math.abs(edge.weight) * 2.5 : .55} dashed={!edge.kept} dashSize={.06} gapSize={.045} transparent opacity={opacity} />
+  const color = selected ? '#cf503d' : edge.kept ? '#16827f' : revealPruned ? '#b45d49' : '#aeb8c6';
+  const opacity = dimmed ? .05 : hovered || selected ? 1 : active ? edge.kept ? .88 : revealPruned ? .72 : .16 : .14;
+  return <group onClick={(e) => { e.stopPropagation(); onClick(); }} onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }} onPointerOut={() => { setHovered(false); document.body.style.cursor = 'default'; }}>
+    <QuadraticBezierLine start={a} end={b} mid={bend} color={color} lineWidth={hovered ? 4 : selected ? 4.2 : edge.kept ? 1.25 + Math.abs(edge.weight) * 2.7 : revealPruned ? 1.25 : .55} dashed={!edge.kept} dashSize={.06} gapSize={.045} transparent opacity={opacity} />
     {active && edge.kept && !dimmed && <mesh ref={particle}><sphereGeometry args={[selected ? .055 : .035, 10, 10]} /><meshBasicMaterial color={selected ? '#ef8a72' : '#63c8c2'} transparent opacity={.9} /></mesh>}
+    {hovered && <Billboard position={bend}><Html center distanceFactor={8} style={{ pointerEvents: 'none' }}><div className="min-w-[150px] rounded-lg border border-[#cfd7e2] bg-white/95 p-2.5 text-[10px] shadow-xl backdrop-blur">
+      <div className="font-semibold text-[#26364d]">{variables[edge.source]} → {variables[edge.target]}</div>
+      <div className="mt-1 flex justify-between gap-4 text-[#6f7d90]"><span>Correlation</span><b className="font-mono text-[#26364d]">{edge.weight.toFixed(4)}</b></div>
+      <div className="flex justify-between gap-4 text-[#6f7d90]"><span>Weight rank</span><b className="text-[#26364d]">#{edge.rank}</b></div>
+      <div className={`mt-1.5 rounded px-1.5 py-1 text-center font-semibold ${edge.kept ? 'bg-[#e4f4f1] text-[#167a77]' : 'bg-[#faeae6] text-[#a64f3d]'}`}>{edge.kept ? 'Retained for message passing' : 'Pruned as non-essential'}</div>
+    </div></Html></Billboard>}
   </group>;
 }
 
