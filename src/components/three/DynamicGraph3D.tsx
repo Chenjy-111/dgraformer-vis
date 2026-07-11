@@ -22,8 +22,8 @@ export function DynamicGraph3D(props: Props) {
   const strongest = [...retained].sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight))[0];
 
   return (
-    <div className="relative h-[610px] overflow-hidden rounded-xl border border-[#d7dee8] bg-[#f4f7fb] shadow-[inset_0_1px_0_rgba(255,255,255,.9)]">
-      <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between bg-gradient-to-b from-white/95 to-transparent p-4 pb-10">
+    <div className="relative h-[920px] w-full overflow-hidden bg-[#eef3f8]">
+      <div className="absolute left-[330px] right-[370px] top-20 z-10 flex items-start justify-between rounded-xl border border-white/70 bg-white/70 p-4 shadow-sm backdrop-blur-md">
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#718096]">Dynamic correlation laboratory</div>
           <div className="mt-1 flex items-baseline gap-2"><span className="text-lg font-semibold text-[#233047]">Window {props.activeWindow + 1}</span><span className="text-[11px] text-[#7b879a]">{retained.length} essential edges · μ {mean.toFixed(3)}</span></div>
@@ -33,16 +33,25 @@ export function DynamicGraph3D(props: Props) {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-4 left-4 z-10 w-[210px] rounded-lg border border-white/80 bg-white/88 p-3 shadow-[0_8px_28px_rgba(42,55,78,.12)] backdrop-blur-md">
+      <div className="pointer-events-none absolute bottom-20 left-[330px] z-10 w-[230px] rounded-lg border border-white/80 bg-white/88 p-3 shadow-[0_8px_28px_rgba(42,55,78,.12)] backdrop-blur-md">
         <div className="mb-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[#758196]">Current graph evidence</div>
         <Metric label="Retained / visible" value={`${retained.length} / ${visible.length}`} />
         <Metric label="Retention rate" value={`${visible.length ? Math.round(retained.length / visible.length * 100) : 0}%`} />
         <Metric label="Strongest relation" value={strongest ? `${props.variables[strongest.source]} → ${props.variables[strongest.target]}` : '—'} accent />
       </div>
-      <div className="pointer-events-none absolute bottom-4 right-4 z-10 rounded-lg border border-white/80 bg-white/85 px-3 py-2 text-[10.5px] leading-5 text-[#718096] shadow-sm backdrop-blur">
+      <div className="pointer-events-none absolute bottom-20 right-[370px] z-10 rounded-lg border border-white/80 bg-white/85 px-3 py-2 text-[10.5px] leading-5 text-[#718096] shadow-sm backdrop-blur">
         <div><i className="mr-2 inline-block h-1.5 w-5 rounded bg-[#16827f]" />essential correlation</div>
         <div><i className="mr-2 inline-block h-px w-5 bg-[#aeb8c6]" />filtered correlation</div>
         <div className="mt-1 border-t border-[#e5e9ef] pt-1">Drag to orbit · wheel to zoom · select graph elements</div>
+      </div>
+
+      <div className="absolute bottom-6 left-[330px] right-[370px] z-20">
+        <div className="relative flex items-center justify-between px-2">
+          <div className="absolute left-3 right-3 top-1/2 h-px -translate-y-1/2 bg-[#bfc9d6]" />
+          <div className="absolute left-3 top-1/2 h-[2px] -translate-y-1/2 bg-[#16827f] transition-all duration-700" style={{ width: `calc(${props.windows.length > 1 ? props.activeWindow / (props.windows.length - 1) * 100 : 0}% - 12px)` }} />
+          {props.windows.map((_, i) => <button key={i} onClick={() => props.onSelectWindow(i)} aria-label={`Select window ${i + 1}`} className={`relative flex h-7 w-7 items-center justify-center rounded-full border text-[9px] font-semibold shadow-sm transition-all duration-300 ${i === props.activeWindow ? 'scale-110 border-[#16827f] bg-[#16827f] text-white' : i < props.activeWindow ? 'border-[#62aaa7] bg-[#e7f4f3] text-[#167a77]' : 'border-[#c9d1dc] bg-white text-[#718096] hover:border-[#16827f]'}`}>{i + 1}</button>)}
+        </div>
+        <div className="mt-2 flex justify-between px-1 text-[9px] font-medium uppercase tracking-[.12em] text-[#8793a5]"><span>earlier context</span><span>dynamic correlation evolution</span><span>latest context</span></div>
       </div>
 
       <Canvas camera={{ position: [0, 4.8, 10.5], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true }}>

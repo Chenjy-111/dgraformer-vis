@@ -63,8 +63,8 @@ export function DynamicGraphView() {
   }), [sample, s.graphSource, priorC]);
 
   return (
-    <div>
-      <div className="mb-3 flex items-baseline justify-between">
+    <div className={is3D ? 'h-full' : ''}>
+      <div className={is3D ? 'pointer-events-none absolute left-[330px] right-[370px] top-7 z-20 flex items-baseline justify-between' : 'mb-3 flex items-baseline justify-between'}>
         <h3 className="text-[15px] font-semibold">
           {sourceLabel(s.graphSource)} · window {s.windowIdx + 1}/{sample.windows.length}
         </h3>
@@ -149,7 +149,7 @@ export function DynamicGraphView() {
         </div>
       )}
 
-      <p className="mt-3 text-[12.5px] leading-relaxed text-ink-400">
+      <p className={is3D ? 'pointer-events-none absolute bottom-6 left-[330px] right-[370px] z-20 text-center text-[12px] leading-relaxed text-ink-400' : 'mt-3 text-[12.5px] leading-relaxed text-ink-400'}>
         {s.graphSource === 'difference'
           ? 'Difference view: red cells are stronger in the dynamic graph than the prior, blue cells weaker — i.e. what this window learned beyond C.'
           : 'Hover a node to highlight its edges; click a node for its role, or an edge for why it was kept or filtered. Use the window slider to watch the graph evolve.'}
