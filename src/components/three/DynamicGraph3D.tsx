@@ -20,8 +20,11 @@ export function DynamicGraph3D(props: Props) {
   const [cameraMode, setCameraMode] = useState<CameraMode>('focus');
   const [detailMode, setDetailMode] = useState(false);
   const current = props.windows[props.activeWindow] ?? [];
-  const visible = current.filter((e) => Math.abs(e.weight) >= props.threshold);
-  const retained = visible.filter((e) => e.kept);
+  // In the paper, the Top-K mask is the pruning decision. The edge threshold is
+  // only a display aid for the dense/before graph and must not prune E-tilde_w
+  // a second time.
+  const candidates = current.filter((e) => e.weight > 0);
+  const retained = candidates.filter((e) => e.kept);
   const mean = retained.length ? retained.reduce((n, e) => n + Math.abs(e.weight), 0) / retained.length : 0;
   const strongest = [...retained].sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight))[0];
 
@@ -42,8 +45,8 @@ export function DynamicGraph3D(props: Props) {
 
       <div className="pointer-events-none absolute bottom-20 left-[330px] z-10 w-[230px] rounded-lg border border-white/80 bg-white/88 p-3 shadow-[0_8px_28px_rgba(42,55,78,.12)] backdrop-blur-md">
         <div className="mb-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[#758196]">Current graph evidence</div>
-        <Metric label="Retained / visible" value={`${retained.length} / ${visible.length}`} />
-        <Metric label="Retention rate" value={`${visible.length ? Math.round(retained.length / visible.length * 100) : 0}%`} />
+        <Metric label="Retained / candidate" value={`${retained.length} / ${candidates.length}`} />
+        <Metric label="Retention rate" value={`${candidates.length ? Math.round(retained.length / candidates.length * 100) : 0}%`} />
         <Metric label="Strongest relation" value={strongest ? `${props.variables[strongest.source]} → ${props.variables[strongest.target]}` : '—'} accent />
       </div>
       <div className={`pointer-events-none absolute bottom-20 z-10 rounded-lg border border-white/80 bg-white/85 px-3 py-2 text-[10.5px] leading-5 text-[#718096] shadow-sm backdrop-blur transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
@@ -113,11 +116,11 @@ function PruningDetail(props: Props) {
   }), [props.variables]);
   const dynamic = props.dynamicWindows[props.activeWindow] ?? [];
   const sparse = props.windows[props.activeWindow] ?? [];
-  const candidates = dynamic.length;
-  const retained = sparse.filter((e) => e.kept).length;
+  const candidates = dynamic.filter((e) => e.weight > 0).length;
+  const retained = sparse.filter((e) => e.weight > 0 && e.kept).length;
   return <group position={[0, -.15, 0]}>
     <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel={`BEFORE · ${candidates} candidate edges`} stageTone="before" filteredVisible />
-    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel={`AFTER · ${retained} retained edges`} stageTone="after" />
+    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel={`AFTER · ${retained} retained edges`} stageTone="after" retainedOnly />
     <Billboard position={[0, .4, .8]}><Html center distanceFactor={8}><div className="w-[190px] rounded-xl border border-[#c9d4df] bg-white/95 p-4 text-center shadow-xl backdrop-blur">
       <div className="text-[9px] font-semibold uppercase tracking-[.16em] text-[#77869a]">Essential correlation focusing</div>
       <div className="my-2 font-serif text-[18px] text-[#26364d]">Ẽ<sub>w</sub> = M<sub>w</sub> ⊙ E<sub>w</sub></div>
@@ -130,11 +133,13 @@ function PruningDetail(props: Props) {
   </group>;
 }
 
-function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, stageTone = 'normal', filteredVisible = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; stageTone?: 'normal' | 'before' | 'after'; filteredVisible?: boolean }) {
+function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, stageTone = 'normal', filteredVisible = false, retainedOnly = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; stageTone?: 'normal' | 'before' | 'after'; filteredVisible?: boolean; retainedOnly?: boolean }) {
   const [hoverNode, setHoverNode] = useState<number | null>(null);
   const visible = filteredVisible
-    ? edges.filter((e) => Math.abs(e.weight) >= Math.min(props.threshold, 0.03))
-    : edges.filter((e) => Math.abs(e.weight) >= props.threshold && e.kept);
+    ? edges.filter((e) => e.weight > 0 && Math.abs(e.weight) >= props.threshold)
+    : retainedOnly
+      ? edges.filter((e) => e.weight > 0 && e.kept)
+      : edges.filter((e) => Math.abs(e.weight) >= props.threshold && e.kept);
   return <group
     position={[positionX, 0, active ? .35 : -.4]}
     rotation={[THREE.MathUtils.degToRad(-4), THREE.MathUtils.degToRad(-27), THREE.MathUtils.degToRad(-1.5)]}
