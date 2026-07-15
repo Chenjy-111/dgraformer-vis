@@ -187,80 +187,20 @@
     720
   ],
   "defaultSample": {
-    "dataset": "ETTh1",
+    "dataset": "ETTh2",
     "sampleId": 0,
     "horizon": 96
   },
   "samples": [
     {
       "dataset": "ETTh1",
-      "sampleId": 0,
-      "horizons": [
-        96
-      ],
-      "sampleIds": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ]
+      "horizons": [96],
+      "sampleIds": [0, 1, 2, 3, 4]
     },
     {
-      "dataset": "ETTh1",
-      "sampleId": 1,
-      "horizons": [
-        96
-      ],
-      "sampleIds": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ]
-    },
-    {
-      "dataset": "ETTh1",
-      "sampleId": 2,
-      "horizons": [
-        96
-      ],
-      "sampleIds": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ]
-    },
-    {
-      "dataset": "ETTh1",
-      "sampleId": 3,
-      "horizons": [
-        96
-      ],
-      "sampleIds": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ]
-    },
-    {
-      "dataset": "ETTh1",
-      "sampleId": 4,
-      "horizons": [
-        96
-      ],
-      "sampleIds": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ]
+      "dataset": "ETTh2",
+      "horizons": [96],
+      "sampleIds": [0, 1, 2, 3, 4]
     }
   ]
 }
