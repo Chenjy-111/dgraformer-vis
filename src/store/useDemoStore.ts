@@ -121,7 +121,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   showFiltered: true,
   showEdgeLabels: false,
   highlightTarget: true,
-  graphLayout: 'matrix',
+  graphLayout: '3d-timeline',
   graph3DSpacing: 4.4,
   inspectorCollapsed: false,
 
@@ -209,7 +209,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
       topkRatio: 0.4,
       edgeThreshold: 0.2,
       showFiltered: true,
-      graphLayout: 'matrix',
+      graphLayout: '3d-timeline',
       graph3DSpacing: 4.4,
       scale: 1,
       head: 0,
