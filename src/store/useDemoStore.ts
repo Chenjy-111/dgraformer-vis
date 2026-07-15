@@ -44,6 +44,7 @@ interface DemoState {
   highlightTarget: boolean;
   graphLayout: GraphLayout;
   graph3DSpacing: number;
+  inspectorCollapsed: boolean;
 
   // attention controls
   scale: ScaleId;
@@ -122,6 +123,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   highlightTarget: true,
   graphLayout: 'matrix',
   graph3DSpacing: 4.4,
+  inspectorCollapsed: false,
 
   scale: 1,
   head: 0,

@@ -24,6 +24,16 @@ export function ForecastView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sample?.dataset, sample?.sample_id, sample?.horizon, s.target]);
 
+  useEffect(() => {
+    if (!sample) return;
+    const firstPeak = topErrorPeaks(sample, s.target, 1)[0];
+    if (!firstPeak) return;
+    const nearest = Math.min(sample.windows.length - 1, Math.floor((firstPeak.step / sample.horizon) * sample.windows.length));
+    s.set('selectedErrorStep', firstPeak.step);
+    s.set('windowIdx', nearest);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sample?.dataset, sample?.sample_id, sample?.horizon, s.target]);
+
   if (!sample) return null;
 
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
@@ -45,7 +55,7 @@ export function ForecastView() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="mb-3 flex items-baseline justify-between">
         <h3 className="text-[15px] font-semibold">
           Forecast · {sample.variables[s.target]} <span className="text-ink-400">({sample.dataset})</span>
@@ -55,6 +65,7 @@ export function ForecastView() {
         </span>
       </div>
 
+      <div className="order-2 mt-5 border-t border-line pt-5">
       <ForecastChart
         sample={sample}
         variable={s.target}
@@ -81,8 +92,9 @@ export function ForecastView() {
         Click inside the forecast region to inspect a step's error; click a look-back window band to load its
         dynamic graph. Patch boundaries mark the {sample.patchLen}-step patches used by the transformer.
       </p>
+      </div>
 
-      <div className="mt-6 border-t border-line pt-5">
+      <div className="order-1 mt-2 rounded-xl border border-line bg-gradient-to-b from-[#f8fafc] to-white p-4">
         <div className="mb-3 flex items-baseline justify-between"><div><div className="eyebrow">Prediction diagnostics</div><h4 className="mt-1 text-[14px] font-semibold">Residual timeline and evidence links</h4></div><span className="font-mono text-[11px] text-ink-400">early {growth.early} → late {growth.late}</span></div>
         <ErrorTimeline error={err} onPick={pickStep} selected={selectedStep} peaks={peaks.map((p) => p.step)} />
         <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1.15fr]">

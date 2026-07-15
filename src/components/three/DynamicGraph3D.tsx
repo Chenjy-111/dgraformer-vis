@@ -3,6 +3,7 @@ import { Billboard, Html, Line, OrbitControls, QuadraticBezierLine, Ring } from 
 import { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { GraphEdge } from '@/types/demo';
+import { useDemoStore } from '@/store/useDemoStore';
 
 interface Props {
   variables: string[]; windows: GraphEdge[][]; activeWindow: number; target: number;
@@ -15,6 +16,7 @@ interface Props {
 type CameraMode = 'focus' | 'overview';
 
 export function DynamicGraph3D(props: Props) {
+  const inspectorCollapsed = useDemoStore((s) => s.inspectorCollapsed);
   const [cameraMode, setCameraMode] = useState<CameraMode>('focus');
   const [detailMode, setDetailMode] = useState(false);
   const current = props.windows[props.activeWindow] ?? [];
@@ -25,7 +27,7 @@ export function DynamicGraph3D(props: Props) {
 
   return (
     <div className="relative h-[920px] w-full overflow-hidden bg-[#eef3f8]">
-      <div className="absolute left-[330px] right-[370px] top-20 z-10 flex items-start justify-between rounded-xl border border-white/70 bg-white/70 p-4 shadow-sm backdrop-blur-md">
+      <div className={`absolute left-[330px] top-20 z-10 flex items-start justify-between rounded-xl border border-white/70 bg-white/70 p-4 shadow-sm backdrop-blur-md transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#718096]">Dynamic correlation laboratory</div>
           <div className="mt-1 flex items-baseline gap-2"><span className="text-lg font-semibold text-[#233047]">Window {props.activeWindow + 1}</span><span className="text-[11px] text-[#7b879a]">{retained.length} essential edges · μ {mean.toFixed(3)}</span></div>
@@ -44,13 +46,13 @@ export function DynamicGraph3D(props: Props) {
         <Metric label="Retention rate" value={`${visible.length ? Math.round(retained.length / visible.length * 100) : 0}%`} />
         <Metric label="Strongest relation" value={strongest ? `${props.variables[strongest.source]} → ${props.variables[strongest.target]}` : '—'} accent />
       </div>
-      <div className="pointer-events-none absolute bottom-20 right-[370px] z-10 rounded-lg border border-white/80 bg-white/85 px-3 py-2 text-[10.5px] leading-5 text-[#718096] shadow-sm backdrop-blur">
+      <div className={`pointer-events-none absolute bottom-20 z-10 rounded-lg border border-white/80 bg-white/85 px-3 py-2 text-[10.5px] leading-5 text-[#718096] shadow-sm backdrop-blur transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
         <div><i className="mr-2 inline-block h-1.5 w-5 rounded bg-[#16827f]" />essential correlation</div>
         <div><i className="mr-2 inline-block h-px w-5 bg-[#aeb8c6]" />filtered correlation</div>
         <div className="mt-1 border-t border-[#e5e9ef] pt-1">Drag to orbit · wheel to zoom · select graph elements</div>
       </div>
 
-      <div className="absolute bottom-6 left-[330px] right-[370px] z-20">
+      <div className={`absolute bottom-6 left-[330px] z-20 transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
         <div className="relative flex items-center justify-between px-2">
           <div className="absolute left-3 right-3 top-1/2 h-px -translate-y-1/2 bg-[#bfc9d6]" />
           <div className="absolute left-3 top-1/2 h-[2px] -translate-y-1/2 bg-[#16827f] transition-all duration-700" style={{ width: `calc(${props.windows.length > 1 ? props.activeWindow / (props.windows.length - 1) * 100 : 0}% - 12px)` }} />
