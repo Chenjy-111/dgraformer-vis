@@ -17,7 +17,10 @@ export function AttentionHeatmap({
 }) {
   const rows = matrix.length;
   const cols = matrix[0]?.length ?? 0;
-  const maxVal = Math.max(...matrix.flat(), 0.001);
+  const flat = matrix.flat();
+  const maxVal = Math.max(...flat, 0.001);
+  const minVal = Math.min(...flat);
+  const range = maxVal - minVal || 1;
   const cellSize = Math.max(12, Math.floor((size - 40) / Math.max(rows, cols)));
 
   return (
@@ -36,7 +39,7 @@ export function AttentionHeatmap({
                     style={{
                       width: cellSize,
                       height: cellSize,
-                      backgroundColor: `rgba(200,80,49,${(val / maxVal).toFixed(2)})`,
+                      backgroundColor: `rgba(200,80,49,${((val - minVal) / range).toFixed(3)})`,
                     }}
                     onMouseEnter={() => onHoverCell?.(qi, ki)}
                     onClick={() => onClickCell?.(qi, ki)}
