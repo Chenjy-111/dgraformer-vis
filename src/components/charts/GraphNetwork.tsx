@@ -35,7 +35,9 @@ export function GraphNetwork({
   const cy = size / 2;
 
   const kept = edges.filter((e) => e.kept);
-  const visible = kept.filter((e) => e.weight >= threshold);
+  // A zero in the adjacency matrix means no edge. Never render it, including
+  // when the UI threshold is set to zero.
+  const visible = kept.filter((e) => e.weight > 0 && e.weight >= threshold);
 
   function nodePos(i: number) {
     const angle = (2 * Math.PI * i) / N - Math.PI / 2;

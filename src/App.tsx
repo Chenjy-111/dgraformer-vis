@@ -38,17 +38,32 @@ export default function App() {
           <ControlStudio />
           </div>
           <VisualizationCanvas />
-          <button
-            onClick={() => setStore('inspectorCollapsed', !inspectorCollapsed)}
-            title={inspectorCollapsed ? 'Show explanation panel' : 'Hide explanation panel and enlarge visualization'}
-            className={`absolute top-1/2 z-40 flex h-11 w-7 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f] ${immersive3D ? (inspectorCollapsed ? 'right-0' : 'right-[340px]') : (inspectorCollapsed ? 'right-0' : 'right-[326px]')}`}
-          >
-            {inspectorCollapsed ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            <span className="sr-only">{inspectorCollapsed ? 'Show explanation panel' : 'Hide explanation panel'}</span>
-          </button>
-          {!inspectorCollapsed && <div className={immersive3D ? 'absolute right-5 top-24 z-30 max-h-[760px] w-[320px] overflow-y-auto rounded-xl border border-white/80 bg-white/90 p-4 shadow-[0_18px_55px_rgba(35,48,71,.16)] backdrop-blur-xl' : ''}>
-          <ExplanationInspector />
-          </div>}
+          {inspectorCollapsed ? (
+            <button
+              onClick={() => setStore('inspectorCollapsed', false)}
+              title="Show explanation panel"
+              className={`absolute right-0 z-40 flex h-11 w-7 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f] ${immersive3D ? 'top-24' : 'top-14'}`}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Show explanation panel</span>
+            </button>
+          ) : (
+            <div className={immersive3D
+              ? 'absolute right-5 top-24 z-30 max-h-[760px] w-[320px] overflow-visible rounded-xl border border-white/80 bg-white/90 p-4 shadow-[0_18px_55px_rgba(35,48,71,.16)] backdrop-blur-xl'
+              : 'relative'}>
+              <button
+                onClick={() => setStore('inspectorCollapsed', true)}
+                title="Hide explanation panel and enlarge visualization"
+                className={`absolute -left-7 z-40 flex h-11 w-7 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f] ${immersive3D ? 'top-4' : 'top-0'}`}
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span className="sr-only">Hide explanation panel</span>
+              </button>
+              <div className={immersive3D ? 'max-h-[728px] overflow-y-auto' : ''}>
+                <ExplanationInspector />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <ExplanationModeGallery />

@@ -19,13 +19,15 @@ export function TopKFocusingView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sample?.sample_id, s.windowIdx, s.target, s.topkRatio]);
 
-  const rawEdges = useMemo(() => (win ? win.edges.map((e) => ({ ...e, kept: true })) : []), [win]);
-  const edges = useMemo(() => (win ? recomputeTopK(win.edges, s.topkRatio) : []), [win, s.topkRatio]);
+  const candidateEdges = useMemo(() => (win ? win.edges.filter((e) => e.weight > 0) : []), [win]);
+  const rawEdges = useMemo(() => candidateEdges.map((e) => ({ ...e, kept: true })), [candidateEdges]);
+  const edges = useMemo(() => recomputeTopK(candidateEdges, s.topkRatio), [candidateEdges, s.topkRatio]);
   const globalWeightRange = useMemo((): [number, number] => {
     if (!win) return [0, 1];
-    const ws = win.edges.map((e) => e.weight);
+    const ws = candidateEdges.map((e) => e.weight);
+    if (ws.length === 0) return [0, 1];
     return [Math.min(...ws), Math.max(...ws)];
-  }, [win]);
+  }, [win, candidateEdges]);
   if (!sample || !win) return null;
 
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };

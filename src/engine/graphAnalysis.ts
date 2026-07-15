@@ -40,8 +40,20 @@ export function computePriorC(history: number[][]): number[][] {
 
 /** Recompute kept/filtered split for a custom keep ratio (UI slider). */
 export function recomputeTopK(edges: GraphEdge[], keepRatio: number): GraphEdge[] {
-  const k = Math.max(1, Math.round(edges.length * keepRatio));
-  return edges.map((e) => ({ ...e, kept: e.rank <= k }));
+  // Zero entries are absent correlations, not candidate edges. Including them in
+  // K makes every positive edge survive in sparse windows and can even mark
+  // zero-weight entries as "kept".
+  const candidates = edges
+    .filter((e) => e.weight > 0)
+    .sort((a, b) => b.weight - a.weight);
+  const k = candidates.length === 0
+    ? 0
+    : Math.max(1, Math.round(candidates.length * keepRatio));
+  const kept = new Set(candidates.slice(0, k).map((e) => `${e.source}-${e.target}`));
+  return edges.map((e) => ({
+    ...e,
+    kept: e.weight > 0 && kept.has(`${e.source}-${e.target}`),
+  }));
 }
 
 export function edgesForThreshold(edges: GraphEdge[], threshold: number): GraphEdge[] {
