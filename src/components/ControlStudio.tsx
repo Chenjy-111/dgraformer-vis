@@ -53,14 +53,6 @@ export function ControlStudio() {
             ariaLabel="Dataset"
           />
         </Field>
-        <Field label="Sample">
-          <Select<number>
-            value={s.sampleId}
-            onChange={(n) => s.setCase({ sampleId: n })}
-            options={[0, 1, 2, 3, 4].map((n) => ({ value: n, label: `sample ${n}` }))}
-            ariaLabel="Sample"
-          />
-        </Field>
         <Field label="Target variable">
           <Select<number>
             value={s.target}

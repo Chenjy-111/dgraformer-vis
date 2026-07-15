@@ -4,6 +4,7 @@ import { buildForecastExplanation, buildWindowExplanation, buildErrorExplanation
 import { targetMetrics, topErrorPeaks, meanErrorSeries, horizonErrorGrowth } from '@/engine/errorDiagnosis';
 import { useEffect, useMemo } from 'react';
 import { ErrorTimeline } from './charts/ErrorTimeline';
+import { Select } from './ui/Select';
 
 export function ForecastView() {
   const s = useDemoStore();
@@ -56,11 +57,19 @@ export function ForecastView() {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-3 flex items-baseline justify-between">
-        <h3 className="text-[15px] font-semibold">
-          Forecast · {sample.variables[s.target]} <span className="text-ink-400">({sample.dataset})</span>
-        </h3>
-        <span className="data-num text-[12px] text-ink-400">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <h3 className="text-[15px] font-semibold whitespace-nowrap">
+            Forecast · {sample.variables[s.target]} <span className="text-ink-400">({sample.dataset})</span>
+          </h3>
+          <Select<number>
+            value={s.sampleId}
+            onChange={(n) => s.setCase({ sampleId: n })}
+            options={[0, 1, 2, 3, 4].map((n) => ({ value: n, label: `sample ${n}` }))}
+            ariaLabel="Sample"
+          />
+        </div>
+        <span className="data-num text-[12px] text-ink-400 whitespace-nowrap">
           MSE {tm.mse} · MAE {tm.mae}
         </span>
       </div>
