@@ -39,20 +39,38 @@ export function GraphMatrix({
 
   return (
     <div className="overflow-auto text-[10px]">
-      <div className="inline-block">
+      <div
+        key={target ?? 'no-target'}
+        className="graph-matrix inline-block overflow-hidden rounded-xl border border-slate-200/80 bg-white p-1.5 shadow-[0_12px_34px_-24px_rgba(34,52,79,0.55)]"
+        role="grid"
+        aria-label={target === undefined ? 'Variable relationship matrix' : `Variable relationship matrix; ${variables[target]} row and column highlighted`}
+      >
         {Array.from({ length: N }).map((_, i) => (
           <div key={i} className="flex">
             {Array.from({ length: N }).map((_, j) => {
               const val = matrix[i]?.[j] ?? 0;
-              const isTarget = target !== undefined && (i === target || j === target);
+              const isTargetRow = target !== undefined && i === target;
+              const isTargetColumn = target !== undefined && j === target;
+              const isTargetIntersection = isTargetRow && isTargetColumn;
+              const targetDistance = target === undefined ? 0 : Math.min(Math.abs(i - target), Math.abs(j - target));
               const label = `${variables[i]} → ${variables[j]}: ${val.toFixed(4)}`;
               return (
                 <div
                   key={j}
-                  className="flex items-center justify-center"
+                  role="gridcell"
+                  aria-label={label}
+                  className={`graph-matrix-cell flex items-center justify-center ${
+                    isTargetIntersection
+                      ? 'graph-matrix-target-core'
+                      : isTargetRow
+                        ? 'graph-matrix-target-row'
+                        : isTargetColumn
+                          ? 'graph-matrix-target-column'
+                          : ''
+                  }`}
                   style={{
                     width: cellSize, height: cellSize, backgroundColor: color(val),
-                    ...(isTarget ? { outline: '2px solid rgba(200,80,49,0.55)', outlineOffset: '-1px', position: 'relative', zIndex: 1 } : {}),
+                    animationDelay: `${targetDistance * 28}ms`,
                   }}
                   onMouseEnter={(e) => show(e, label)}
                   onMouseMove={move}
