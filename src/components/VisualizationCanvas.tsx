@@ -4,7 +4,6 @@ import { DynamicGraphView } from './DynamicGraphView';
 import { TopKFocusingView } from './TopKFocusingView';
 import { MultiScaleAttentionView } from './MultiScaleAttentionView';
 import { ErrorDiagnosisView } from './ErrorDiagnosisView';
-import { AblationView } from './AblationView';
 import { ParameterSensitivityView } from './ParameterSensitivityView';
 import { NarrativeReportView } from './NarrativeReportView';
 
@@ -25,7 +24,6 @@ export function VisualizationCanvas() {
       {view === 'topk' && <TopKFocusingView />}
       {view === 'attention' && <MultiScaleAttentionView />}
       {view === 'error' && <ErrorDiagnosisView />}
-      {view === 'ablation' && <AblationView />}
       {view === 'sensitivity' && <ParameterSensitivityView />}
       {view === 'narrative' && <NarrativeReportView />}
     </div>

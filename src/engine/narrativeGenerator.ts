@@ -109,8 +109,7 @@ export function generateNarrative(
       ? topkBody +
         `\n\nEssential Correlation Focusing (ECF) applies a binary mask M_w derived from top-K_e ranking of ` +
         `flattened edge weights. K_e = ⌈w_ratio × N(N−1)⌉. Discarded edges are treated as noise; ` +
-        `only retained edges participate in graph message passing (DCGL). This denoising step is critical: ` +
-        `the ablation study shows removing ECF causes moderate degradation.`
+        `only retained edges participate in graph message passing (DCGL).`
       : topkBody,
   });
 
@@ -194,10 +193,7 @@ export function generateNarrative(
       (es.kept.length === 0
         ? `this variable is isolated here, relying on its own history via the Transformer rather than graph aggregation.`
         : `the strongest being ${es.partner} at weight ${es.strongest?.weight.toFixed(3)}.`) +
-      (tech
-        ? `\n\nAll design choices were validated through ablation: removing DTW causes the largest degradation, ` +
-          `followed by DGL, then ECF and MTE with moderate impact. Full results in DGraFormer (IJCAI-25) Table 1.`
-        : ''),
+      '',
   });
 
   return { title: `Report — ${sample.dataset} / ${v}`, sections };

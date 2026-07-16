@@ -100,25 +100,6 @@ export interface SampleData {
   narrative: string;
 }
 
-export interface AblationRow {
-  variant:
-    | 'Full'
-    | 'w/o DTW'
-    | 'w/o DGL'
-    | 'w/o ECF'
-    | 'w/o MTE';
-  label: string;
-  mse: number;
-  mae: number;
-  note: string;
-}
-
-export interface AblationTable {
-  dataset: DatasetId;
-  horizon: Horizon;
-  rows: AblationRow[];
-}
-
 export interface SensitivityCurve {
   param: 'm' | 'Ke' | 'alpha';
   dataset: DatasetId;

@@ -83,7 +83,6 @@ export function ControlStudio() {
             { value: 'forecast', label: 'Forecast' },
             { value: 'graph', label: 'Dynamic graph' },
             { value: 'attention', label: 'Attention' },
-            { value: 'ablation', label: 'Ablation' },
             { value: 'sensitivity', label: 'Sensitivity' },
             { value: 'narrative', label: 'Report' },
           ]}

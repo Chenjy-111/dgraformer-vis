@@ -1,7 +1,7 @@
 import { Section } from './layout/Section';
 import { useDemoStore } from '@/store/useDemoStore';
 import type { ViewMode } from '@/types/demo';
-import { Activity, GitGraph, Filter, Grid3x3, AlertTriangle, BarChart3, LineChart, FileText } from 'lucide-react';
+import { Activity, GitGraph, Filter, Grid3x3, AlertTriangle, LineChart, FileText } from 'lucide-react';
 
 const MODES: { view: ViewMode; label: string; blurb: string; Icon: typeof Activity }[] = [
   { view: 'forecast', label: 'Forecast', blurb: 'History, ground truth and prediction with error band and window overlays.', Icon: Activity },
@@ -9,7 +9,6 @@ const MODES: { view: ViewMode; label: string; blurb: string; Icon: typeof Activi
   { view: 'topk', label: 'Top-K focusing', blurb: 'Before/after sparsification with kept vs filtered edges and the noise-reduction story.', Icon: Filter },
   { view: 'attention', label: 'Multi-scale attention', blurb: 'Patch-to-patch attention at three scales and four heads, linked to the forecast.', Icon: Grid3x3 },
   { view: 'error', label: 'Error diagnosis', blurb: 'Error over the horizon with diagnostic clues tied to graph and attention signals.', Icon: AlertTriangle },
-  { view: 'ablation', label: 'Ablation', blurb: 'Component removal study — how much each part of DGraFormer contributes.', Icon: BarChart3 },
   { view: 'sensitivity', label: 'Parameter sensitivity', blurb: 'How window size m, focusing ratio Ke and prior weight α affect accuracy.', Icon: LineChart },
   { view: 'narrative', label: 'Narrative report', blurb: 'An auto-generated, exportable explanation report for the current selection.', Icon: FileText },
 ];
@@ -24,7 +23,7 @@ export function ExplanationModeGallery() {
     <Section
       id="modes"
       eyebrow="Explanation modes"
-      title="Eight ways to interrogate the model"
+      title="Seven ways to interrogate the model"
       intro="Each mode answers a different question. Pick one to jump straight into the workspace with that view active."
     >
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

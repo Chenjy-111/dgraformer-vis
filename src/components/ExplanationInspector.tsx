@@ -13,7 +13,6 @@ const MODE_LABEL: Record<string, string> = {
   topk: 'Top-K focusing',
   attention: 'Multi-scale attention',
   error: 'Error diagnosis',
-  ablation: 'Ablation',
   sensitivity: 'Sensitivity',
   narrative: 'Narrative',
 };
