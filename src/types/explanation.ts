@@ -27,7 +27,7 @@ export interface Explanation {
   caveat?: string;
   whatChanged?: string;
   nextStep?: string;
-  quality: ExplanationQuality;
+  quality?: ExplanationQuality;
 }
 
 export interface InteractionEvent {

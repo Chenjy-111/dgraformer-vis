@@ -92,15 +92,17 @@ export function ExplanationInspector() {
           {s.showCaveats && e.caveat && <Note label="Caveat" tone="warn">{e.caveat}</Note>}
           {e.nextStep && <Note label="Suggested next step" tone="accent">{e.nextStep}</Note>}
 
-          <div className="card p-3">
-            <div className="eyebrow mb-2">Explanation quality</div>
-            <div className="space-y-2">
-              <Meter label="Evidence coverage" value={e.quality.evidence} />
-              <Meter label="Local specificity" value={e.quality.specificity} />
-              <Meter label="Mechanism clarity" value={e.quality.mechanism} />
-              <Meter label="Uncertainty awareness" value={e.quality.uncertainty} />
+          {e.quality && (
+            <div className="card p-3">
+              <div className="eyebrow mb-2">Explanation quality</div>
+              <div className="space-y-2">
+                <Meter label="Evidence coverage" value={e.quality.evidence} />
+                <Meter label="Local specificity" value={e.quality.specificity} />
+                <Meter label="Mechanism clarity" value={e.quality.mechanism} />
+                <Meter label="Uncertainty awareness" value={e.quality.uncertainty} />
+              </div>
             </div>
-          </div>
+          )}
 
           {s.pinned.length > 0 && (
             <div className="card p-3">

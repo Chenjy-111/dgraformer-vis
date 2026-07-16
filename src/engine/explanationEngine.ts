@@ -38,32 +38,32 @@ function trim(summary: string, depth: ExplanationDepth): string {
 }
 
 export function buildForecastExplanation(ctx: Ctx): Explanation {
-  const { sample, target, depth } = ctx;
+  const { sample, target } = ctx;
   const v = sample.variables[target];
   const growth = horizonErrorGrowth(sample, target);
   const tm = targetMetrics(sample, target);
+  const firstHalfEnd = Math.floor(sample.horizon / 2);
+  const secondHalfStart = firstHalfEnd + 1;
   const summary =
-    `The forecast for ${v} on ${sample.dataset} (horizon ${sample.horizon}) follows the ground truth closely in the ` +
-    `near term and drifts gradually further out. Mean absolute error rises from ${growth.early} early in the horizon ` +
-    `to ${growth.late} late, reflecting information decay and error accumulation over longer horizons.`;
+    `For ${sample.dataset} sample ${sample.sample_id}, the ${v} forecast has MAE ${tm.mae} and MSE ${tm.mse} ` +
+    `over ${sample.horizon} forecast steps. Mean absolute error is ${growth.early} for steps 1–${firstHalfEnd} ` +
+    `and ${growth.late} for steps ${secondHalfStart}–${sample.horizon}.`;
   return {
     id: newId(),
     title: `Forecast for ${v}`,
     mode: 'forecast',
     selectionLabel: `${sample.dataset} · sample ${sample.sample_id} · h${sample.horizon} · ${v}`,
-    summary: trim(summary, depth),
+    summary,
     evidence: [
       { label: `MSE (${v})`, value: String(tm.mse) },
       { label: `MAE (${v})`, value: String(tm.mae) },
-      { label: 'Early-horizon error', value: String(growth.early) },
-      { label: 'Late-horizon error', value: String(growth.late), tone: 'warn' },
-      { label: 'Look-back windows', value: String(sample.windows.length) },
+      { label: `Mean absolute error (steps 1–${firstHalfEnd})`, value: String(growth.early) },
+      { label: `Mean absolute error (steps ${secondHalfStart}–${sample.horizon})`, value: String(growth.late) },
+      { label: 'Forecast steps', value: String(sample.horizon) },
     ],
     formula: F.forecast,
-    assumption: 'The displayed curves are precomputed model outputs; the demo does not run inference in the browser.',
-    caveat: 'Per-sample numbers are deterministic mock values calibrated to the reported dataset-level metrics, not exact paper outputs.',
-    nextStep: 'Click a high-error segment to jump to its look-back window and inspect the dynamic graph there.',
-    quality: { evidence: 0.7, specificity: 0.6, mechanism: 0.5, uncertainty: 0.8 },
+    assumption: 'The displayed curves are precomputed per-sample model outputs; the demo does not run inference in the browser.',
+    caveat: 'Absolute error is computed as |ground truth − prediction| for each displayed forecast step.',
   };
 }
 
