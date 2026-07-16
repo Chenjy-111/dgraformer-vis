@@ -13,8 +13,6 @@ const MODE_LABEL: Record<string, string> = {
   topk: 'Top-K focusing',
   attention: 'Multi-scale attention',
   error: 'Error diagnosis',
-  sensitivity: 'Sensitivity',
-  narrative: 'Narrative',
 };
 
 export function ExplanationInspector() {

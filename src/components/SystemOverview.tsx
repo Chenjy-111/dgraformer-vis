@@ -93,7 +93,7 @@ const STAGES: Stage[] = [
     label: 'Interactive explanation',
     does: 'Surfaces evidence, formulas, assumptions and caveats tied to whatever you select.',
     input: 'Any selection: window, edge, node, patch, error step.',
-    output: 'A structured explanation in the inspector and the narrative report.',
+    output: 'A structured explanation in the inspector.',
     why: 'Turns model internals into inspectable, attributable evidence for the demo audience.',
     viz: 'The right-hand Explanation Inspector, always visible in the workspace.',
   },

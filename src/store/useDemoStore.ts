@@ -69,8 +69,6 @@ interface DemoState {
   selectedNode: number | null;
   hoveredPatch: { q: number; k: number } | null;
   selectedErrorStep: number | null;
-  sensitivityParam: 'm' | 'Ke' | 'alpha';
-  sensitivityDataset: DatasetId;
 
   // explanation + history
   explanation: Explanation | null;
@@ -144,8 +142,6 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   selectedNode: null,
   hoveredPatch: null,
   selectedErrorStep: null,
-  sensitivityParam: 'm',
-  sensitivityDataset: 'ETTh1',
 
   explanation: null,
   pinned: [],
@@ -164,10 +160,6 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   setView: (v) => {
     const prev = get().view;
     set({ view: v });
-    // Views without their own explanation: clear stale inspector content
-    if (['sensitivity', 'narrative'].includes(v)) {
-      set({ explanation: null });
-    }
     get().log('Switch view', prev, v);
   },
 

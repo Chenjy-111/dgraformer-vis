@@ -10,7 +10,6 @@ const CHAIN = [
   'Message passing',
   'Multi-scale attention',
   'Error',
-  'Report',
 ];
 
 export function Hero() {

@@ -7,14 +7,13 @@ import { Slider } from './ui/Slider';
 import { Toggle } from './ui/Toggle';
 import { Tabs } from './ui/Tabs';
 import { Button } from './ui/Button';
-import { reportToMarkdown, generateNarrative, explanationToMarkdown, download, copyText } from '@/engine/narrativeGenerator';
+import { explanationToMarkdown, download, copyText } from '@/engine/narrativeGenerator';
 import type {
   BaselineId,
   DatasetId,
   GraphLayout,
   GraphSource,
   Horizon,
-  ExplanationDepth,
   ScaleId,
   ViewMode,
 } from '@/types/demo';
@@ -83,8 +82,6 @@ export function ControlStudio() {
             { value: 'forecast', label: 'Forecast' },
             { value: 'graph', label: 'Dynamic graph' },
             { value: 'attention', label: 'Attention' },
-            { value: 'sensitivity', label: 'Sensitivity' },
-            { value: 'narrative', label: 'Report' },
           ]}
           size="sm"
           wrap
@@ -221,24 +218,6 @@ export function ControlStudio() {
         <Toggle checked={s.showEvidence} onChange={(v) => s.set('showEvidence', v)} label="Show evidence cards" />
       </Group>
 
-      {s.view === 'narrative' && (
-        <Group title="Report depth">
-          <Field label="Depth">
-            <Tabs<ExplanationDepth>
-              value={s.depth}
-              onChange={(d) => s.set('depth', d)}
-              options={[
-                { value: 'brief', label: 'Brief' },
-                { value: 'standard', label: 'Standard' },
-                { value: 'technical', label: 'Technical' },
-              ]}
-              size="sm"
-              wrap
-            />
-          </Field>
-        </Group>
-      )}
-
       <Group title="Comparison">
         <Field label="Baseline">
           <Select<BaselineId>
@@ -275,18 +254,6 @@ export function ControlStudio() {
           </Button>
           <Button size="sm" variant="outline" icon={<RotateCcw className="h-3.5 w-3.5" />} onClick={() => { s.reset(); s.log('Reset view'); }}>
             Reset
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            icon={<FileDown className="h-3.5 w-3.5" />}
-            onClick={() => {
-              if (!sample) return;
-              const md = reportToMarkdown(generateNarrative(sample, s.windowIdx, s.target, s.depth));
-              download(`${sample.dataset}_report.md`, md, 'text/markdown');
-            }}
-          >
-            Export MD
           </Button>
           <Button
             size="sm"

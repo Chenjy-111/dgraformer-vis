@@ -4,8 +4,6 @@ import { DynamicGraphView } from './DynamicGraphView';
 import { TopKFocusingView } from './TopKFocusingView';
 import { MultiScaleAttentionView } from './MultiScaleAttentionView';
 import { ErrorDiagnosisView } from './ErrorDiagnosisView';
-import { ParameterSensitivityView } from './ParameterSensitivityView';
-import { NarrativeReportView } from './NarrativeReportView';
 
 export function VisualizationCanvas() {
   const view = useDemoStore((s) => s.view);
@@ -24,8 +22,6 @@ export function VisualizationCanvas() {
       {view === 'topk' && <TopKFocusingView />}
       {view === 'attention' && <MultiScaleAttentionView />}
       {view === 'error' && <ErrorDiagnosisView />}
-      {view === 'sensitivity' && <ParameterSensitivityView />}
-      {view === 'narrative' && <NarrativeReportView />}
     </div>
   );
 }

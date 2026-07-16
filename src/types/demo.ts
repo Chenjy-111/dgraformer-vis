@@ -28,9 +28,7 @@ export type ViewMode =
   | 'topk'
   | 'attention'
   | 'error'
-  | 'ablation'
-  | 'sensitivity'
-  | 'narrative';
+  | 'ablation';
 
 export type GraphLayout = 'matrix' | 'sidebyside' | '3d-timeline';
 export type GraphSource = 'static' | 'dynamic' | 'sparse' | 'difference';
@@ -99,16 +97,6 @@ export interface SampleData {
   baseline_predictions?: Partial<Record<BaselineId, number[][]>>;
   baseline_metrics?: Partial<Record<BaselineId, { mse: number; mae: number }>>;
   narrative: string;
-}
-
-export interface SensitivityCurve {
-  param: 'm' | 'Ke' | 'alpha';
-  dataset: DatasetId;
-  x: number[];
-  mse: number[];
-  mae: number[];
-  best: number;
-  note: string;
 }
 
 export interface DatasetIndexEntry {
