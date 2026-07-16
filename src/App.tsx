@@ -42,7 +42,7 @@ export default function App() {
             <button
               onClick={() => setStore('inspectorCollapsed', false)}
               title="Show explanation panel"
-              className={`absolute right-0 z-40 flex h-11 w-7 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f] ${immersive3D ? 'top-24' : 'top-14'}`}
+              className="absolute right-0 top-1/2 z-40 flex h-11 w-7 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f]"
             >
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Show explanation panel</span>
@@ -54,7 +54,7 @@ export default function App() {
               <button
                 onClick={() => setStore('inspectorCollapsed', true)}
                 title="Hide explanation panel and enlarge visualization"
-                className={`absolute -left-7 z-40 flex h-11 w-7 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f] ${immersive3D ? 'top-4' : 'top-0'}`}
+                className="absolute -left-7 top-1/2 z-40 flex h-11 w-7 -translate-y-1/2 items-center justify-center rounded-l-lg border border-r-0 border-[#cbd4df] bg-white text-[#56657b] shadow-md transition hover:bg-[#edf4f4] hover:text-[#16827f]"
               >
                 <ChevronRight className="h-4 w-4" />
                 <span className="sr-only">Hide explanation panel</span>

@@ -5,39 +5,60 @@ import { MetricBarChart } from './charts/MetricBarChart';
 import { Tabs } from './ui/Tabs';
 import { Select } from './ui/Select';
 import type { AblationRow, AblationTable, DatasetId, Horizon } from '@/types/demo';
-import { DATASET_IDS } from '@/data/datasets';
-import { HORIZONS } from '@/data/paperMetrics';
-import { oursMetric } from '@/data/paperMetrics';
 import { Network, Scissors, TimerReset, Layers3, ArrowRight } from 'lucide-react';
 
-const ABLATION = [
-  { variant: 'Full' as const, label: 'Full DGraFormer', mse: 1.0, mae: 1.0, note: 'All components active: dynamic windows, dynamic graph, Top-K focusing, multi-scale Transformer.' },
-  { variant: 'w/o DTW' as const, label: 'w/o Dynamic Time Windows', mse: 1.13, mae: 1.10, note: 'A single graph spans all time steps, so the model cannot track correlations that change between windows. This causes the largest accuracy drop.' },
-  { variant: 'w/o DGL' as const, label: 'w/o Dynamic Graph Learning', mse: 1.085, mae: 1.07, note: 'Only the static seasonal prior C is used. The model loses the ability to adaptively learn window-specific correlations.' },
-  { variant: 'w/o ECF' as const, label: 'w/o Essential Correlation Focusing', mse: 1.06, mae: 1.05, note: 'All positive edges propagate, so weak and spurious correlations inject noise into message passing.' },
-  { variant: 'w/o MTE' as const, label: 'w/o Multi-scale Transformer Encoding', mse: 1.07, mae: 1.055, note: 'A single fixed patch size is used; patterns at other temporal resolutions are missed.' },
-];
+const ABLATION_DATASET_IDS: DatasetId[] = ['Solar', 'Electricity', 'AirQualityUCI'];
+const ABLATION_HORIZON: Horizon = 96;
+
+const NOTES = {
+  Full: 'All components active: dynamic windows, dynamic graph, Top-K focusing, multi-scale Transformer.',
+  'w/o DTW': 'A single graph spans all time steps, so the model cannot track correlations that change between windows. This causes the largest accuracy drop.',
+  'w/o DGL': 'Only the static seasonal prior C is used. The model loses the ability to adaptively learn window-specific correlations.',
+  'w/o ECF': 'All positive edges propagate, so weak and spurious correlations inject noise into message passing.',
+  'w/o MTE': 'A single fixed patch size is used; patterns at other temporal resolutions are missed.',
+} as const;
+
+// Values digitized from Figure 3 of the DGraFormer IJCAI-25 paper. The full-model
+// bars agree with Table 1 at horizon 96, which establishes the figure's horizon.
+const PAPER_ABLATION: Record<string, Array<Omit<AblationRow, 'note'>>> = {
+  Solar: [
+    { variant: 'Full', label: 'Full DGraFormer', mse: 0.184, mae: 0.219 },
+    { variant: 'w/o DTW', label: 'w/o Dynamic Time Windows', mse: 0.205, mae: 0.229 },
+    { variant: 'w/o DGL', label: 'w/o Dynamic Graph Learning', mse: 0.200, mae: 0.222 },
+    { variant: 'w/o ECF', label: 'w/o Essential Correlation Focusing', mse: 0.198, mae: 0.230 },
+    { variant: 'w/o MTE', label: 'w/o Multi-scale Encoding', mse: 0.187, mae: 0.221 },
+  ],
+  Electricity: [
+    { variant: 'Full', label: 'Full DGraFormer', mse: 0.136, mae: 0.229 },
+    { variant: 'w/o DTW', label: 'w/o Dynamic Time Windows', mse: 0.152, mae: 0.239 },
+    { variant: 'w/o DGL', label: 'w/o Dynamic Graph Learning', mse: 0.155, mae: 0.241 },
+    { variant: 'w/o ECF', label: 'w/o Essential Correlation Focusing', mse: 0.138, mae: 0.230 },
+    { variant: 'w/o MTE', label: 'w/o Multi-scale Encoding', mse: 0.141, mae: 0.233 },
+  ],
+  AirQualityUCI: [
+    { variant: 'Full', label: 'Full DGraFormer', mse: 1.147, mae: 0.580 },
+    { variant: 'w/o DTW', label: 'w/o Dynamic Time Windows', mse: 1.175, mae: 0.587 },
+    { variant: 'w/o DGL', label: 'w/o Dynamic Graph Learning', mse: 1.160, mae: 0.582 },
+    { variant: 'w/o ECF', label: 'w/o Essential Correlation Focusing', mse: 1.156, mae: 0.589 },
+    { variant: 'w/o MTE', label: 'w/o Multi-scale Encoding', mse: 1.186, mae: 0.600 },
+  ],
+};
 
 function generateAblation(dataset: DatasetId, horizon: Horizon): AblationTable {
-  const base = oursMetric(dataset, horizon);
   return {
     dataset,
     horizon,
-    rows: ABLATION.map((a) => ({
-      variant: a.variant,
-      label: a.label,
-      mse: Math.round(base.mse * a.mse * 1000) / 1000,
-      mae: Math.round(base.mae * a.mae * 1000) / 1000,
-      note: a.note,
-    })),
+    rows: PAPER_ABLATION[dataset].map((row) => ({ ...row, note: NOTES[row.variant] })),
   };
 }
 
 export function AblationView() {
   const s = useDemoStore();
   const [metric, setMetric] = useState<'mse' | 'mae'>('mse');
-  const [dataset, setDataset] = useState<DatasetId>(s.dataset);
-  const [horizon, setHorizon] = useState<Horizon>(s.horizon);
+  const [dataset, setDataset] = useState<DatasetId>(
+    ABLATION_DATASET_IDS.includes(s.dataset) ? s.dataset : 'Solar'
+  );
+  const horizon = ABLATION_HORIZON;
   const [picked, setPicked] = useState<string | null>('Full DGraFormer');
 
   const table = useMemo(() => generateAblation(dataset, horizon), [dataset, horizon]);
@@ -86,15 +107,10 @@ export function AblationView() {
           <Select<DatasetId>
             value={dataset}
             onChange={setDataset}
-            options={DATASET_IDS.map((d) => ({ value: d, label: d }))}
+            options={ABLATION_DATASET_IDS.map((d) => ({ value: d, label: d }))}
             ariaLabel="Ablation dataset"
           />
-          <Select<Horizon>
-            value={horizon}
-            onChange={setHorizon}
-            options={HORIZONS.map((h) => ({ value: h, label: `h${h}` }))}
-            ariaLabel="Ablation horizon"
-          />
+          <span className="rounded-md border border-line bg-white px-2.5 py-1.5 text-[11px] text-ink-400">h96 (paper)</span>
           <Tabs<'mse' | 'mae'>
             value={metric}
             onChange={setMetric}
