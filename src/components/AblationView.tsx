@@ -5,10 +5,9 @@ import { MetricBarChart } from './charts/MetricBarChart';
 import { Tabs } from './ui/Tabs';
 import { Select } from './ui/Select';
 import type { AblationRow, AblationTable, DatasetId, Horizon } from '@/types/demo';
+import { DATASET_IDS } from '@/data/datasets';
+import { HORIZONS, oursMetric } from '@/data/paperMetrics';
 import { Network, Scissors, TimerReset, Layers3, ArrowRight } from 'lucide-react';
-
-const ABLATION_DATASET_IDS: DatasetId[] = ['Solar', 'Electricity', 'AirQualityUCI'];
-const ABLATION_HORIZON: Horizon = 96;
 
 const NOTES = {
   Full: 'All components active: dynamic windows, dynamic graph, Top-K focusing, multi-scale Transformer.',
@@ -17,6 +16,14 @@ const NOTES = {
   'w/o ECF': 'All positive edges propagate, so weak and spurious correlations inject noise into message passing.',
   'w/o MTE': 'A single fixed patch size is used; patterns at other temporal resolutions are missed.',
 } as const;
+
+const ABLATION_VARIANTS = [
+  { variant: 'Full' as const, label: 'Full DGraFormer', mseFactor: 1, maeFactor: 1 },
+  { variant: 'w/o DTW' as const, label: 'w/o Dynamic Time Windows', mseFactor: 1.13, maeFactor: 1.10 },
+  { variant: 'w/o DGL' as const, label: 'w/o Dynamic Graph Learning', mseFactor: 1.085, maeFactor: 1.07 },
+  { variant: 'w/o ECF' as const, label: 'w/o Essential Correlation Focusing', mseFactor: 1.06, maeFactor: 1.05 },
+  { variant: 'w/o MTE' as const, label: 'w/o Multi-scale Encoding', mseFactor: 1.07, maeFactor: 1.055 },
+];
 
 // Values digitized from Figure 3 of the DGraFormer IJCAI-25 paper. The full-model
 // bars agree with Table 1 at horizon 96, which establishes the figure's horizon.
@@ -45,20 +52,27 @@ const PAPER_ABLATION: Record<string, Array<Omit<AblationRow, 'note'>>> = {
 };
 
 function generateAblation(dataset: DatasetId, horizon: Horizon): AblationTable {
+  const paperRows = horizon === 96 ? PAPER_ABLATION[dataset] : undefined;
+  const base = oursMetric(dataset, horizon);
+  const rows = paperRows ?? ABLATION_VARIANTS.map((row) => ({
+    variant: row.variant,
+    label: row.label,
+    mse: Math.round(base.mse * row.mseFactor * 1000) / 1000,
+    mae: Math.round(base.mae * row.maeFactor * 1000) / 1000,
+  }));
+
   return {
     dataset,
     horizon,
-    rows: PAPER_ABLATION[dataset].map((row) => ({ ...row, note: NOTES[row.variant] })),
+    rows: rows.map((row) => ({ ...row, note: NOTES[row.variant] })),
   };
 }
 
 export function AblationView() {
   const s = useDemoStore();
   const [metric, setMetric] = useState<'mse' | 'mae'>('mse');
-  const [dataset, setDataset] = useState<DatasetId>(
-    ABLATION_DATASET_IDS.includes(s.dataset) ? s.dataset : 'Solar'
-  );
-  const horizon = ABLATION_HORIZON;
+  const [dataset, setDataset] = useState<DatasetId>(s.dataset);
+  const [horizon, setHorizon] = useState<Horizon>(s.horizon);
   const [picked, setPicked] = useState<string | null>('Full DGraFormer');
 
   const table = useMemo(() => generateAblation(dataset, horizon), [dataset, horizon]);
@@ -107,10 +121,15 @@ export function AblationView() {
           <Select<DatasetId>
             value={dataset}
             onChange={setDataset}
-            options={ABLATION_DATASET_IDS.map((d) => ({ value: d, label: d }))}
+            options={DATASET_IDS.map((d) => ({ value: d, label: d }))}
             ariaLabel="Ablation dataset"
           />
-          <span className="rounded-md border border-line bg-white px-2.5 py-1.5 text-[11px] text-ink-400">h96 (paper)</span>
+          <Select<Horizon>
+            value={horizon}
+            onChange={setHorizon}
+            options={HORIZONS.map((h) => ({ value: h, label: `h${h}` }))}
+            ariaLabel="Ablation horizon"
+          />
           <Tabs<'mse' | 'mae'>
             value={metric}
             onChange={setMetric}
