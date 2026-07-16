@@ -1,6 +1,6 @@
 import { useDemoStore } from '@/store/useDemoStore';
 import { ForecastChart } from './ForecastChart';
-import { buildForecastExplanation, buildWindowExplanation, buildErrorExplanation } from '@/engine/explanationEngine';
+import { buildForecastExplanation, buildForecastStepExplanation, buildWindowExplanation } from '@/engine/explanationEngine';
 import { targetMetrics, topErrorPeaks, meanErrorSeries, horizonErrorGrowth } from '@/engine/errorDiagnosis';
 import { useEffect, useMemo } from 'react';
 import { ErrorTimeline } from './charts/ErrorTimeline';
@@ -52,7 +52,7 @@ export function ForecastView() {
     s.set('selectedErrorStep', step);
     s.set('windowIdx', nearest);
     s.log('Pick forecast diagnostic step', undefined, `step ${step}`);
-    s.setExplanation(buildErrorExplanation({ ...ctx, windowIdx: nearest }, step));
+    s.setExplanation(buildForecastStepExplanation({ ...ctx, windowIdx: nearest }, step));
   };
 
   return (

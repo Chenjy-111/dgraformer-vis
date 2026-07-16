@@ -67,6 +67,32 @@ export function buildForecastExplanation(ctx: Ctx): Explanation {
   };
 }
 
+export function buildForecastStepExplanation(ctx: Ctx, step: number): Explanation {
+  const { sample, target } = ctx;
+  const variable = sample.variables[target];
+  const groundTruth = sample.ground_truth[target]?.[step];
+  const prediction = sample.prediction[target]?.[step];
+  const absoluteError = sample.error[target]?.[step];
+  const displayStep = step + 1;
+
+  return {
+    id: newId(),
+    title: `Forecast step ${displayStep} for ${variable}`,
+    mode: 'forecast',
+    selectionLabel: `${sample.dataset} · sample ${sample.sample_id} · ${variable} · step ${displayStep}`,
+    summary:
+      `At forecast step ${displayStep}, the ground truth is ${groundTruth.toFixed(3)}, ` +
+      `the prediction is ${prediction.toFixed(3)}, and the absolute error is ${absoluteError.toFixed(3)}.`,
+    evidence: [
+      { label: 'Ground truth', value: groundTruth.toFixed(3) },
+      { label: 'Prediction', value: prediction.toFixed(3) },
+      { label: 'Absolute error', value: absoluteError.toFixed(3), tone: 'warn' },
+      { label: 'Forecast step', value: `${displayStep} / ${sample.horizon}` },
+    ],
+    caveat: 'Absolute error is computed as |ground truth − prediction| from the displayed precomputed output.',
+  };
+}
+
 export function buildEdgeExplanation(ctx: Ctx, edge: GraphEdge): Explanation {
   const { sample, windowIdx, target, depth } = ctx;
   const win = sample.windows[windowIdx];
