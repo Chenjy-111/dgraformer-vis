@@ -161,7 +161,9 @@ export const useDemoStore = create<DemoState>((set, get) => ({
 
   setView: (v) => {
     const prev = get().view;
-    set({ view: v });
+    const { dataset } = get();
+    const isEttDataset = dataset === 'ETTh1' || dataset === 'ETTh2' || dataset === 'ETTm1' || dataset === 'ETTm2';
+    set({ view: v, ...(v === 'forecast' && isEttDataset ? { target: 0 } : {}) });
     get().log('Switch view', prev, v);
   },
 
@@ -215,9 +217,10 @@ export const useDemoStore = create<DemoState>((set, get) => ({
     set({ loading: true });
     const data = await loadSample(dataset, sampleId, horizon);
     const keepCurrentTarget = currentSample?.dataset === data.dataset && target >= 0 && target < data.variables.length;
+    const isEttDataset = data.dataset === 'ETTh1' || data.dataset === 'ETTh2' || data.dataset === 'ETTm1' || data.dataset === 'ETTm2';
     set({
       sample: data,
-      target: keepCurrentTarget ? target : data.targetDefault,
+      target: keepCurrentTarget ? target : isEttDataset ? 0 : data.targetDefault,
       loading: false,
       windowIdx: Math.min(get().windowIdx, data.windows.length - 1),
     });
