@@ -157,10 +157,6 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   set: (key, value) => set({ [key]: value } as Partial<DemoState>),
 
   setCase: (patch) => {
-    const prev = get();
-    if (patch.dataset && patch.dataset !== prev.dataset) {
-      patch.target = DATASETS[patch.dataset].variables.length - 1;
-    }
     set({ ...patch, windowIdx: 0, selectedEdge: null, selectedNode: null });
     void get().loadCurrent();
   },
@@ -223,7 +219,12 @@ export const useDemoStore = create<DemoState>((set, get) => ({
     const { dataset, sampleId, horizon } = get();
     set({ loading: true });
     const data = await loadSample(dataset, sampleId, horizon);
-    set({ sample: data, loading: false, windowIdx: Math.min(get().windowIdx, data.windows.length - 1) });
+    set({
+      sample: data,
+      target: data.targetDefault,
+      loading: false,
+      windowIdx: Math.min(get().windowIdx, data.windows.length - 1),
+    });
   },
 
   startTour: () => set({ tourActive: true, tourStep: 0 }),

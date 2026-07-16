@@ -5,7 +5,7 @@ import { ForecastChart } from './ForecastChart';
 import { getScale, headMatrix, patchRange, attentionConcentration, strongestLink } from '@/engine/attentionAnalysis';
 import { buildPatchExplanation } from '@/engine/explanationEngine';
 import type { ScaleId } from '@/types/demo';
-import { ChevronDown, Merge, MousePointer2 } from 'lucide-react';
+import { AlertCircle, ChevronDown, Merge, MousePointer2 } from 'lucide-react';
 
 const SCALE_NOTE: Record<ScaleId, string> = {
   1: 'Scale 1 — short-term local fluctuation (fine patches).',
@@ -20,12 +20,12 @@ export function MultiScaleAttentionView() {
   useEffect(() => {
     if (sample) s.setExplanation(buildPatchExplanation({ sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head }, 0, 0));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sample?.sample_id, s.scale, s.head]);
+  }, [sample, s.target, s.scale, s.head, s.depth]);
 
   if (!sample) return null;
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
   const sc = getScale(sample, s.scale);
-  const mat = headMatrix(sc, s.head);
+  const mat = headMatrix(sc, s.head, s.target);
   const conc = attentionConcentration(mat);
   const strong = strongestLink(mat);
 
@@ -41,11 +41,21 @@ export function MultiScaleAttentionView() {
     <div>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h3 className="text-[15px] font-semibold">
-          Multi-scale attention · scale {s.scale} · head {s.head}
+          Multi-scale attention · {sample.variables[s.target]} · scale {s.scale} · head {s.head}
         </h3>
         <span className="data-num text-[12px] text-ink-400">
           {sc.patchSteps}-step patches · {sc.nPatches} patches · concentration {conc}
         </span>
+      </div>
+
+      <div className="mb-4 flex gap-3 rounded-lg border border-amber-200 bg-amber-50 px-3.5 py-3 text-[12.5px] leading-relaxed text-amber-950" role="note">
+        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" aria-hidden="true" />
+        <p>
+          <span className="font-semibold">Variable-averaged attention.</span>{' '}
+          This heatmap averages attention across all variables in the current sample. Changing the target variable
+          to <span className="font-semibold">{sample.variables[s.target]}</span> updates the linked forecast and labels,
+          but the attention heatmap remains the same.
+        </p>
       </div>
 
       <div className="mb-6 rounded-xl border border-line bg-gradient-to-b from-[#f8fafc] to-white p-4">

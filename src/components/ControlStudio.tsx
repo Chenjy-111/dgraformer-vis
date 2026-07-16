@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
-import { DATASETS, DATASET_IDS } from '@/data/datasets';
+import { DATASETS, SAMPLE_DATASET_IDS } from '@/data/datasets';
 import { HORIZONS } from '@/data/paperMetrics';
 import { Select } from './ui/Select';
 import { Slider } from './ui/Slider';
@@ -49,7 +49,7 @@ export function ControlStudio() {
           <Select<DatasetId>
             value={s.dataset}
             onChange={(d) => s.setCase({ dataset: d })}
-            options={DATASET_IDS.map((d) => ({ value: d, label: `${d} · ${DATASETS[d].variables.length} vars` }))}
+            options={SAMPLE_DATASET_IDS.map((d) => ({ value: d, label: `${d} · ${DATASETS[d].variables.length} vars` }))}
             ariaLabel="Dataset"
           />
         </Field>
@@ -68,7 +68,7 @@ export function ControlStudio() {
           <Tabs<Horizon>
             value={s.horizon}
             onChange={(h) => s.setCase({ horizon: h })}
-            options={HORIZONS.map((h) => ({ value: h, label: String(h) }))}
+            options={HORIZONS.filter((h) => h === 96).map((h) => ({ value: h, label: String(h) }))}
             size="sm"
             wrap
           />
@@ -164,7 +164,6 @@ export function ControlStudio() {
                 options={[
                   { value: 'matrix', label: 'Matrix' },
                   { value: 'sidebyside', label: 'Side' },
-                  { value: 'circular', label: 'Circular' },
                   { value: '3d-timeline', label: '3D timeline' },
                 ]}
                 size="sm"

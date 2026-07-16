@@ -32,7 +32,7 @@ export type ViewMode =
   | 'sensitivity'
   | 'narrative';
 
-export type GraphLayout = 'circular' | 'matrix' | 'sidebyside' | '3d-timeline';
+export type GraphLayout = 'matrix' | 'sidebyside' | '3d-timeline';
 export type GraphSource = 'static' | 'dynamic' | 'sparse' | 'difference';
 export type ScaleId = 1 | 2 | 3;
 export type ExplanationDepth = 'brief' | 'standard' | 'technical';
@@ -73,6 +73,7 @@ export interface AttentionScale {
   nPatches: number;
   heads: number[][][]; // [head][query][key]
   mean: number[][]; // averaged over heads
+  variableHeads?: number[][][][]; // [variable][head][query][key]
   semantic: string;
 }
 

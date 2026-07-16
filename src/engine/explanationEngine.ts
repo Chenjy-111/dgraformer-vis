@@ -1,6 +1,6 @@
 import type { GraphEdge, SampleData, ScaleId, ViewMode } from '@/types/demo';
 import type { Explanation, ExplanationDepth } from '@/types/explanation';
-import { classifyNodeRole, edgeStabilityAcrossWindows, nodeDegree, recomputeTopK } from './graphAnalysis';
+import { edgeStabilityAcrossWindows, recomputeTopK } from './graphAnalysis';
 import { attentionConcentration, getScale, headMatrix, patchRange } from './attentionAnalysis';
 import { diagnose, horizonErrorGrowth, targetMetrics } from './errorDiagnosis';
 import { prender } from '@/utils/katexPrender';
@@ -74,35 +74,29 @@ export function buildEdgeExplanation(ctx: Ctx, edge: GraphEdge): Explanation {
   const t = sample.variables[edge.target];
   const stability = edgeStabilityAcrossWindows(sample, edge.source, edge.target);
   const relatedTarget = edge.source === target || edge.target === target;
-  const kept = win.kept_edges.some((e) => e.source === edge.source && e.target === edge.target);
-
-  const summary = kept
-    ? `${s} \u2192 ${t} is among the top-ranked dynamic correlations in window ${windowIdx + 1} ` +
-      `(rank ${edge.rank} of ${win.edges.length}, weight ${edge.weight.toFixed(2)}). DGraFormer keeps it after Top-K ` +
-      `focusing, so information from ${s} is propagated to ${t} during graph message passing.`
-    : `${s} \u2192 ${t} is a lower-ranked correlation in window ${windowIdx + 1} ` +
-      `(rank ${edge.rank} of ${win.edges.length}, weight ${edge.weight.toFixed(2)}). Top-K focusing filters it out, ` +
-      `treating it as a weak or possibly spurious relationship that would otherwise inject noise into message passing.`;
+  const weight = win.dynamic_graph[edge.source]?.[edge.target] ?? edge.weight;
+  const ranked = win.edges.find((e) => e.source === edge.source && e.target === edge.target);
+  const rank = ranked?.rank ?? edge.rank;
+  const summary =
+    `${s} \u2192 ${t} has learned weight ${weight.toFixed(3)} in the real dynamic adjacency matrix for ` +
+    `window ${windowIdx + 1}. Its rank among ${win.edges.length} directed off-diagonal entries is ${rank}. ` +
+    `This is a model-learned association strength, not evidence of causality.`;
 
   return {
     id: newId(),
-    title: kept ? `Why is ${s} \u2192 ${t} retained in this window?` : `Why is ${s} \u2192 ${t} filtered in this window?`,
-    mode: 'topk',
+    title: `${s} \u2192 ${t} in window ${windowIdx + 1}`,
+    mode: 'graph',
     selectionLabel: `Window ${windowIdx + 1} · edge ${s} \u2192 ${t}`,
     summary: trim(summary, depth),
     evidence: [
-      { label: 'Edge weight', value: edge.weight.toFixed(2), tone: kept ? 'kept' : 'filtered' },
-      { label: 'Rank in window', value: `${edge.rank} / ${win.edges.length}` },
-      { label: 'Status', value: kept ? 'Kept (essential)' : 'Filtered (noise)', tone: kept ? 'kept' : 'filtered' },
+      { label: 'Dynamic edge weight', value: weight.toFixed(3) },
+      { label: 'Rank in current matrix', value: `${rank} / ${win.edges.length}` },
       { label: 'Stability across windows', value: `${Math.round(stability * 100)}% of windows` },
       { label: 'Related to target', value: relatedTarget ? `yes (${sample.variables[target]})` : 'no' },
       { label: 'Window mean error', value: String(win.mean_error) },
     ],
-    formula: kept ? F.edgeKept : F.edgeFiltered,
     assumption: 'Edge weight is interpreted as learned correlation strength used for representation aggregation, not causal influence.',
-    caveat: kept
-      ? 'A retained edge does not prove that ' + s + ' causes ' + t + '. It indicates the model found this relationship useful.'
-      : 'A filtered edge is not guaranteed to be noise; Top-K trades a small risk of dropping useful edges for noise reduction.',
+    caveat: 'The rank is computed directly from the exported dynamic matrix; it does not by itself imply that an edge was retained by a training-time mask.',
     nextStep: 'Compare this edge across adjacent windows to see whether the relationship is stable or temporary.',
     quality: { evidence: 0.85, specificity: 0.9, mechanism: 0.8, uncertainty: 0.85 },
   };
@@ -112,27 +106,38 @@ export function buildNodeExplanation(ctx: Ctx, node: number): Explanation {
   const { sample, windowIdx, depth } = ctx;
   const win = sample.windows[windowIdx];
   const v = sample.variables[node];
-  const deg = nodeDegree(win.kept_edges, node);
-  const role = classifyNodeRole(win.kept_edges, node, sample.variables.length);
+  const outgoing = win.dynamic_graph[node]
+    .map((weight, target) => ({ target, weight }))
+    .filter((item) => item.target !== node)
+    .sort((a, b) => b.weight - a.weight);
+  const incoming = win.dynamic_graph
+    .map((row, source) => ({ source, weight: row[node] }))
+    .filter((item) => item.source !== node)
+    .sort((a, b) => b.weight - a.weight);
+  const strongestOut = outgoing[0];
+  const strongestIn = incoming[0];
+  const meanOut = outgoing.reduce((sum, item) => sum + item.weight, 0) / Math.max(1, outgoing.length);
   const summary =
-    `In window ${windowIdx + 1}, ${v} acts as a ${role}. After Top-K focusing it has ${deg.out} outgoing and ` +
-    `${deg.in} incoming retained correlations, with total outgoing strength ${deg.strength}. These retained ` +
-    `neighbours are the variables whose features are aggregated toward (or from) ${v}.`;
+    `For ${v} in window ${windowIdx + 1}, the strongest outgoing association is ` +
+    `${sample.variables[strongestOut.target]} (${strongestOut.weight.toFixed(3)}), and the strongest incoming ` +
+    `association is ${sample.variables[strongestIn.source]} (${strongestIn.weight.toFixed(3)}). ` +
+    `These values come directly from the exported dynamic adjacency matrix.`;
   return {
     id: newId(),
-    title: `Role of ${v} in window ${windowIdx + 1}`,
+    title: `${v} in the dynamic graph`,
     mode: 'graph',
     selectionLabel: `Window ${windowIdx + 1} · node ${v}`,
     summary: trim(summary, depth),
     evidence: [
       { label: 'Variable', value: v },
-      { label: 'Outgoing retained edges', value: String(deg.out), tone: 'kept' },
-      { label: 'Incoming retained edges', value: String(deg.in) },
-      { label: 'Outgoing strength', value: String(deg.strength) },
-      { label: 'Role', value: role },
+      { label: 'Strongest outgoing', value: sample.variables[strongestOut.target] },
+      { label: 'Outgoing weight', value: strongestOut.weight.toFixed(3) },
+      { label: 'Strongest incoming', value: sample.variables[strongestIn.source] },
+      { label: 'Incoming weight', value: strongestIn.weight.toFixed(3) },
+      { label: 'Mean outgoing weight', value: meanOut.toFixed(3) },
     ],
-    assumption: 'Roles are derived from the sparsified graph of the current window only.',
-    caveat: 'An isolated node in one window may still be correlated in others; inspect the window evolution.',
+    assumption: 'Weights are read from the current window\u2019s exported dynamic graph.',
+    caveat: 'Learned graph weights describe model associations, not causal relationships between variables.',
     nextStep: 'Play the window evolution to see how this variable\u2019s connectivity changes over time.',
     quality: { evidence: 0.78, specificity: 0.82, mechanism: 0.7, uncertainty: 0.7 },
   };
@@ -141,10 +146,15 @@ export function buildNodeExplanation(ctx: Ctx, node: number): Explanation {
 export function buildWindowExplanation(ctx: Ctx): Explanation {
   const { sample, windowIdx, depth } = ctx;
   const win = sample.windows[windowIdx];
+  const weights = win.dynamic_graph.flatMap((row, source) =>
+    row.filter((_, target) => source !== target)
+  );
+  const meanWeight = weights.reduce((sum, weight) => sum + weight, 0) / Math.max(1, weights.length);
+  const maxWeight = Math.max(...weights);
   const summary =
-    win.explanation +
-    ` The window spans look-back steps ${win.start}\u2013${win.end}. Sparsity after focusing is ` +
-    `${Math.round(win.sparsity_ratio * 100)}% and the window mean error is ${win.mean_error}.`;
+    `Window ${windowIdx + 1} spans look-back steps ${win.start}\u2013${win.end}. Its exported dynamic graph ` +
+    `contains ${weights.length} directed off-diagonal weights with mean ${meanWeight.toFixed(3)} and maximum ` +
+    `${maxWeight.toFixed(3)}. The mean absolute forecast error over the corresponding interval is ${win.mean_error}.`;
   return {
     id: newId(),
     title: `Window ${windowIdx + 1} dynamic graph`,
@@ -153,16 +163,16 @@ export function buildWindowExplanation(ctx: Ctx): Explanation {
     summary: trim(summary, depth),
     evidence: [
       { label: 'Window span', value: `${win.start}\u2013${win.end}` },
-      { label: 'Directed edges', value: String(win.edges.length) },
-      { label: 'Kept edges', value: String(win.kept_edges.length), tone: 'kept' },
-      { label: 'Filtered edges', value: String(win.filtered_edges.length), tone: 'filtered' },
-      { label: 'Sparsity', value: `${Math.round(win.sparsity_ratio * 100)}%` },
+      { label: 'Variables', value: String(sample.variables.length) },
+      { label: 'Directed matrix entries', value: String(weights.length) },
+      { label: 'Mean dynamic weight', value: meanWeight.toFixed(3) },
+      { label: 'Maximum dynamic weight', value: maxWeight.toFixed(3) },
       { label: 'Window mean error', value: String(win.mean_error) },
     ],
     formula: F.window,
-    assumption: 'Each window learns its own correlation graph; windows are assumed locally stable.',
-    caveat: 'Window sizing here is chosen for visualization (3\u20138 windows). In the paper, m equals one day for the dataset.',
-    nextStep: 'Switch to the Top-K Focusing view to see which edges survive sparsification.',
+    assumption: 'Values are read from the exported dynamic graph for this window.',
+    caveat: 'Dynamic graph weights are learned associations and should not be interpreted as causal effects.',
+    nextStep: 'Select a variable or edge to inspect its exact weights in this window.',
     quality: { evidence: 0.8, specificity: 0.78, mechanism: 0.82, uncertainty: 0.7 },
   };
 }
@@ -170,7 +180,7 @@ export function buildWindowExplanation(ctx: Ctx): Explanation {
 export function buildPatchExplanation(ctx: Ctx, q: number, k: number): Explanation {
   const { sample, scale, head, depth, target } = ctx;
   const s = getScale(sample, scale);
-  const mat = headMatrix(s, head);
+  const mat = headMatrix(s, head, target);
   const w = mat[q]?.[k] ?? 0;
   const [qs, qe] = patchRange(s, q);
   const [ks, ke] = patchRange(s, k);

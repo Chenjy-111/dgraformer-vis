@@ -3,7 +3,7 @@ import { Section } from './layout/Section';
 const ITEMS = [
   {
     h: 'Precomputed, not live',
-    b: 'The demo loads exported artifacts; it does not run DGraFormer in the browser. The bundled examples are deterministic mocks calibrated to the paper\u2019s dataset-level metrics, so per-sample values illustrate behavior rather than reproduce exact training outputs.',
+    b: 'The demo loads exported local DGraFormer inference artifacts; it does not run inference in the browser. These per-sample values are real bundled outputs, but they are not the paper\u2019s dataset-level aggregate metrics.',
   },
   {
     h: 'Diagnostic, not causal',

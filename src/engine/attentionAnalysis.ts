@@ -4,8 +4,18 @@ export function getScale(sample: SampleData, scale: ScaleId): AttentionScale {
   return scale === 1 ? sample.attention.scale_1 : scale === 2 ? sample.attention.scale_2 : sample.attention.scale_3;
 }
 
-export function headMatrix(s: AttentionScale, head: number): number[][] {
-  return head < 0 ? s.mean : s.heads[head] ?? s.mean;
+export function headMatrix(s: AttentionScale, head: number, variable?: number): number[][] {
+  const variableMatrices = variable === undefined ? undefined : s.variableHeads?.[variable];
+  if (!variableMatrices) return head < 0 ? s.mean : s.heads[head] ?? s.mean;
+  if (head >= 0) return variableMatrices[head] ?? s.mean;
+
+  const nHeads = variableMatrices.length;
+  const n = variableMatrices[0]?.length ?? 0;
+  return Array.from({ length: n }, (_, q) =>
+    Array.from({ length: n }, (_, k) =>
+      variableMatrices.reduce((sum, matrix) => sum + matrix[q][k], 0) / nHeads
+    )
+  );
 }
 
 /** Time-step range covered by a patch index at a given scale. */
