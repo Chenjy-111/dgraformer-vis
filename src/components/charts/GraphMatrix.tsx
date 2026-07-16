@@ -41,10 +41,32 @@ export function GraphMatrix({
     <div className="overflow-auto text-[10px]">
       <div
         key={target ?? 'no-target'}
-        className="graph-matrix inline-block overflow-hidden rounded-xl border border-slate-200/80 bg-white p-1.5 shadow-[0_12px_34px_-24px_rgba(34,52,79,0.55)]"
+        className="graph-matrix relative inline-block overflow-hidden rounded-xl border border-slate-200/80 bg-white p-1.5 shadow-[0_12px_34px_-24px_rgba(34,52,79,0.55)]"
         role="grid"
         aria-label={target === undefined ? 'Variable relationship matrix' : `Variable relationship matrix; ${variables[target]} row and column highlighted`}
       >
+        {target !== undefined && (
+          <>
+            <div
+              className="graph-matrix-lift-band graph-matrix-lift-row"
+              style={{
+                left: '0.375rem',
+                top: `calc(0.375rem + ${target * cellSize}px)`,
+                width: N * cellSize,
+                height: cellSize,
+              }}
+            />
+            <div
+              className="graph-matrix-lift-band graph-matrix-lift-column"
+              style={{
+                left: `calc(0.375rem + ${target * cellSize}px)`,
+                top: '0.375rem',
+                width: cellSize,
+                height: N * cellSize,
+              }}
+            />
+          </>
+        )}
         {Array.from({ length: N }).map((_, i) => (
           <div key={i} className="flex">
             {Array.from({ length: N }).map((_, j) => {
@@ -60,13 +82,9 @@ export function GraphMatrix({
                   role="gridcell"
                   aria-label={label}
                   className={`graph-matrix-cell flex items-center justify-center ${
-                    isTargetIntersection
-                      ? 'graph-matrix-target-core'
-                      : isTargetRow
-                        ? 'graph-matrix-target-row'
-                        : isTargetColumn
-                          ? 'graph-matrix-target-column'
-                          : ''
+                    isTargetRow ? 'graph-matrix-target-row' : ''
+                  } ${isTargetColumn ? 'graph-matrix-target-column' : ''} ${
+                    isTargetIntersection ? 'graph-matrix-target-core' : ''
                   }`}
                   style={{
                     width: cellSize, height: cellSize, backgroundColor: color(val),
@@ -76,7 +94,9 @@ export function GraphMatrix({
                   onMouseMove={move}
                   onMouseLeave={hide}
                 >
-                  {cellSize >= 26 && Math.abs(val) > 0.15 ? val.toFixed(2) : ''}
+                  <span className="relative z-[1]">
+                    {cellSize >= 26 && Math.abs(val) > 0.15 ? val.toFixed(2) : ''}
+                  </span>
                 </div>
               );
             })}
