@@ -110,13 +110,17 @@ export function DynamicGraphView() {
           </Panel>
         </div>
       ) : (
-        <div className="flex justify-center">
+        <div className="flex max-w-full justify-center overflow-auto pb-2">
           <GraphMatrix
             variables={sample.variables}
             matrix={activeMatrix(win, s.graphSource, priorC ?? undefined)}
             diverging={s.graphSource === 'difference'}
             target={s.target}
-            size={Math.min(420, 60 + sample.variables.length * 44)}
+            size={
+              sample.variables.length > 12
+                ? Math.min(720, 80 + sample.variables.length * 30)
+                : Math.min(420, 60 + sample.variables.length * 44)
+            }
           />
         </div>
       )}

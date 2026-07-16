@@ -44,6 +44,7 @@ interface DemoState {
   highlightTarget: boolean;
   graphLayout: GraphLayout;
   graph3DSpacing: number;
+  pruningDetail: boolean;
   inspectorCollapsed: boolean;
 
   // attention controls
@@ -121,6 +122,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
   highlightTarget: true,
   graphLayout: '3d-timeline',
   graph3DSpacing: 4.4,
+  pruningDetail: false,
   inspectorCollapsed: false,
 
   scale: 1,
@@ -199,6 +201,7 @@ export const useDemoStore = create<DemoState>((set, get) => ({
       showFiltered: true,
       graphLayout: '3d-timeline',
       graph3DSpacing: 4.4,
+      pruningDetail: false,
       scale: 1,
       head: 0,
       selectedEdge: null,

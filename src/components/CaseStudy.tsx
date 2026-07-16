@@ -12,6 +12,7 @@ interface Case {
   sampleId: number;
   horizon: Horizon;
   view: ViewMode;
+  pruningDetail?: boolean;
 }
 
 const CASES: Case[] = [
@@ -31,31 +32,25 @@ const CASES: Case[] = [
     title: 'What does Top-K focusing actually remove?',
     question: 'Noise reduction',
     body:
-      'On Solar, open the Top-K view. The before graph is dense; after focusing only a fraction of edges survive. ' +
-      'Click a filtered edge to see why it reads as weak/spurious, and a kept edge to see why it carries signal.',
-    dataset: 'Solar',
+      'Open the Dynamic Graph pruning detail to compare the dense candidate graph with the essential correlations ' +
+      'that remain after Top-K focusing.',
+    dataset: 'ETTh1',
     sampleId: 0,
     horizon: 96,
-    view: 'topk',
-  },
-  {
-    title: 'Where does the forecast go wrong, and why?',
-    question: 'Error diagnosis',
-    body:
-      'On Weather, open Error Diagnosis. Click the largest error peak: the demo jumps to the nearest window and ' +
-      'surfaces diagnostic clues — unstable edges, over-filtering, or low attention concentration — as correlational hints.',
-    dataset: 'Weather',
-    sampleId: 0,
-    horizon: 96,
-    view: 'error',
+    view: 'graph',
+    pruningDetail: true,
   },
 ];
 
 export function CaseStudy() {
   const setCase = useDemoStore((s) => s.setCase);
   const setView = useDemoStore((s) => s.setView);
+  const set = useDemoStore((s) => s.set);
 
   function run(c: Case) {
+    set('graphLayout', '3d-timeline');
+    set('graphSource', 'dynamic');
+    set('pruningDetail', Boolean(c.pruningDetail));
     setCase({ dataset: c.dataset, sampleId: c.sampleId, horizon: c.horizon });
     setView(c.view);
     document.getElementById('workspace')?.scrollIntoView({ behavior: 'smooth' });
@@ -68,7 +63,7 @@ export function CaseStudy() {
       title="Guided scenarios for the demo audience"
       intro="Each scenario loads a specific case and view so you can reproduce a finding in one click."
     >
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {CASES.map((c) => (
           <div key={c.title} className="card flex flex-col p-5">
             <div className="eyebrow mb-1">{c.question}</div>

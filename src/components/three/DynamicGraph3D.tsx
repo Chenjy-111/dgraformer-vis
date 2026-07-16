@@ -17,8 +17,9 @@ type CameraMode = 'focus' | 'overview';
 
 export function DynamicGraph3D(props: Props) {
   const inspectorCollapsed = useDemoStore((s) => s.inspectorCollapsed);
+  const detailMode = useDemoStore((s) => s.pruningDetail);
+  const setPruningDetail = useDemoStore((s) => s.set);
   const [cameraMode, setCameraMode] = useState<CameraMode>('focus');
-  const [detailMode, setDetailMode] = useState(false);
   const current = props.windows[props.activeWindow] ?? [];
   // The threshold is a shared visibility condition for both sides of the
   // comparison. Zero-weight entries are absent edges and are never rendered.
@@ -35,7 +36,7 @@ export function DynamicGraph3D(props: Props) {
           <div className="mt-1 flex items-baseline gap-2"><span className="text-lg font-semibold text-[#233047]">Window {props.activeWindow + 1}</span><span className="text-[11px] text-[#7b879a]">{retained.length} essential edges · μ {mean.toFixed(3)}</span></div>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={() => setDetailMode((v) => !v)} className={`rounded-lg border px-3 py-1.5 text-[11px] font-semibold shadow-sm transition ${detailMode ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#b9c7d5] bg-white/90 text-[#40516a] hover:border-[#16827f]'}`}>{detailMode ? 'Exit pruning detail' : 'Expand pruning process'}</button>
+          <button onClick={() => setPruningDetail('pruningDetail', !detailMode)} className={`rounded-lg border px-3 py-1.5 text-[11px] font-semibold shadow-sm transition ${detailMode ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#b9c7d5] bg-white/90 text-[#40516a] hover:border-[#16827f]'}`}>{detailMode ? 'Exit pruning detail' : 'Expand pruning process'}</button>
         <div className="flex rounded-lg border border-[#d6dde7] bg-white/90 p-0.5 shadow-sm backdrop-blur">
           {(['focus', 'overview'] as CameraMode[]).map((mode) => <button key={mode} onClick={() => setCameraMode(mode)} className={`rounded-md px-3 py-1.5 text-[11px] font-medium capitalize transition ${cameraMode === mode ? 'bg-[#263b59] text-white shadow-sm' : 'text-[#66748a] hover:bg-[#edf1f6]'}`}>{mode}</button>)}
         </div>

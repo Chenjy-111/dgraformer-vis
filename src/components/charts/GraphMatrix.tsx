@@ -76,7 +76,7 @@ export function GraphMatrix({
                   onMouseMove={move}
                   onMouseLeave={hide}
                 >
-                  {Math.abs(val) > 0.15 ? val.toFixed(2) : ''}
+                  {cellSize >= 26 && Math.abs(val) > 0.15 ? val.toFixed(2) : ''}
                 </div>
               );
             })}
