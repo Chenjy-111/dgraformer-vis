@@ -1,7 +1,6 @@
 import { useDemoStore } from '@/store/useDemoStore';
 import { Badge } from './ui/Badge';
 import { KatexSpan } from './KatexSpan';
-import { Meter } from './ui/Meter';
 import { Button } from './ui/Button';
 import { Pin, Copy } from 'lucide-react';
 import { explanationToMarkdown, copyText } from '@/engine/narrativeGenerator';
@@ -89,18 +88,6 @@ export function ExplanationInspector() {
           {s.showAssumptions && e.assumption && <Note label="Assumption">{e.assumption}</Note>}
           {s.showCaveats && e.caveat && <Note label="Caveat" tone="warn">{e.caveat}</Note>}
           {e.nextStep && <Note label="Suggested next step" tone="accent">{e.nextStep}</Note>}
-
-          {e.quality && (
-            <div className="card p-3">
-              <div className="eyebrow mb-2">Explanation quality</div>
-              <div className="space-y-2">
-                <Meter label="Evidence coverage" value={e.quality.evidence} />
-                <Meter label="Local specificity" value={e.quality.specificity} />
-                <Meter label="Mechanism clarity" value={e.quality.mechanism} />
-                <Meter label="Uncertainty awareness" value={e.quality.uncertainty} />
-              </div>
-            </div>
-          )}
 
           {s.pinned.length > 0 && (
             <div className="card p-3">

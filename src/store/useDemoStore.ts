@@ -211,12 +211,13 @@ export const useDemoStore = create<DemoState>((set, get) => ({
     }),
 
   loadCurrent: async () => {
-    const { dataset, sampleId, horizon } = get();
+    const { dataset, sampleId, horizon, target, sample: currentSample } = get();
     set({ loading: true });
     const data = await loadSample(dataset, sampleId, horizon);
+    const keepCurrentTarget = currentSample?.dataset === data.dataset && target >= 0 && target < data.variables.length;
     set({
       sample: data,
-      target: data.targetDefault,
+      target: keepCurrentTarget ? target : data.targetDefault,
       loading: false,
       windowIdx: Math.min(get().windowIdx, data.windows.length - 1),
     });
