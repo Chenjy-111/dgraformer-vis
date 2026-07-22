@@ -48,17 +48,15 @@ export function DynamicGraphView() {
   const is3D = s.graphLayout === '3d-timeline';
   const displayedSource = is3D ? 'sparse' : s.graphSource;
   const timelineEdges = useMemo(() => sample.windows.map((window) => {
-    // Exported adjacencies are already masked by the model's w_ratio=0.5.
-    // Keep every positive exported edge instead of applying a second UI mask.
-    if (is3D) return recomputeTopK(window.edges, 1, 0);
+    if (is3D) return recomputeTopK(window.edges, s.topkRatio, s.edgeThreshold);
     if (s.graphSource === 'static') return edgesFromMatrix(priorC ?? window.static_graph, 1);
     if (s.graphSource === 'dynamic') return recomputeTopK(window.edges, 1);
     if (s.graphSource === 'sparse') return edgesFromMatrix(window.dynamic_graph, 1);
     return edgesFromMatrix(activeMatrix(window, 'difference', priorC ?? undefined), 1);
   }), [sample, s.graphSource, s.topkRatio, s.edgeThreshold, priorC, is3D]);
   const dynamicTimelineEdges = useMemo(
-    () => sample.windows.map((window) => recomputeTopK(window.edges, 1, 0)),
-    [sample]
+    () => sample.windows.map((window) => recomputeTopK(window.edges, s.topkRatio, s.edgeThreshold)),
+    [sample, s.topkRatio, s.edgeThreshold]
   );
 
   return (

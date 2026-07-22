@@ -25,6 +25,7 @@ export function MultiScaleAttentionView() {
   if (!sample) return null;
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
   const sc = getScale(sample, s.scale);
+  const scaleSpan = s.scale === 3 ? (sample.history[0]?.length ?? 96) : sc.patchSteps;
   const mat = headMatrix(sc, s.head, s.target);
   const conc = attentionConcentration(mat);
   const strong = strongestLink(mat);
@@ -44,7 +45,7 @@ export function MultiScaleAttentionView() {
           Multi-scale attention · {sample.variables[s.target]} · scale {s.scale} · head {s.head}
         </h3>
         <span className="data-num text-[12px] text-ink-400">
-          {sc.patchSteps}-step patches · {sc.nPatches} patches · concentration {conc}
+          {s.scale === 3 ? `${scaleSpan}-step context` : `${scaleSpan}-step patches`} · {sc.nPatches} patches · concentration {conc}
         </span>
       </div>
 
@@ -66,15 +67,16 @@ export function MultiScaleAttentionView() {
         <div className="space-y-2">
           {([1, 2, 3] as ScaleId[]).map((scaleId, index) => {
             const level = getScale(sample, scaleId);
+            const levelSpan = scaleId === 3 ? (sample.history[0]?.length ?? 96) : level.patchSteps;
             const active = s.scale === scaleId;
             const visibleCount = Math.min(level.nPatches, 24);
             return <div key={scaleId}>
               <button onClick={() => s.set('scale', scaleId)} className={`grid w-full grid-cols-[125px_1fr_125px] items-center gap-3 rounded-lg border p-3 text-left transition ${active ? 'border-[#596bb4] bg-[#f0f2fb] shadow-sm' : 'border-line bg-white hover:border-[#9ba7d4]'}`}>
                 <div><div className={`text-[12px] font-semibold ${active ? 'text-[#4858a8]' : 'text-ink-700'}`}>Scale {scaleId}</div><div className="mt-0.5 text-[10px] text-ink-400">{scaleId === 1 ? 'local fluctuations' : scaleId === 2 ? 'periodic patterns' : 'long-range trend'}</div></div>
                 <div className="flex items-center gap-1 overflow-hidden">
-                  {Array.from({ length: visibleCount }, (_, i) => <span key={i} className={`h-7 min-w-[6px] flex-1 rounded-sm border transition ${active && s.hoveredPatch && (i === s.hoveredPatch.q || i === s.hoveredPatch.k) ? 'border-[#d6453b] bg-[#f7d9d6]' : active ? 'border-[#7f8bc3] bg-[#cdd3ef]' : 'border-[#cbd3de] bg-[#e7ebf0]'}`} title={`Patch ${i + 1}: ${level.patchSteps} steps`} />)}
+                  {Array.from({ length: visibleCount }, (_, i) => <span key={i} className={`h-7 min-w-[6px] flex-1 rounded-sm border transition ${active && s.hoveredPatch && (i === s.hoveredPatch.q || i === s.hoveredPatch.k) ? 'border-[#d6453b] bg-[#f7d9d6]' : active ? 'border-[#7f8bc3] bg-[#cdd3ef]' : 'border-[#cbd3de] bg-[#e7ebf0]'}`} title={scaleId === 3 ? `Scale 3 covers the full ${levelSpan}-step context` : `Patch ${i + 1}: ${levelSpan} steps`} />)}
                 </div>
-                <div className="text-right font-mono text-[10px] text-ink-400">{level.nPatches} patches<br />{level.patchSteps} steps/token</div>
+                <div className="text-right font-mono text-[10px] text-ink-400">{level.nPatches} patches<br />{scaleId === 3 ? `${levelSpan} steps covered` : `${levelSpan} steps/token`}</div>
               </button>
               {index < 2 && <div className="flex h-7 items-center justify-center gap-2 text-[9px] font-semibold uppercase tracking-[.12em] text-[#758196]"><ChevronDown className="h-3.5 w-3.5" /><Merge className="h-3.5 w-3.5" /> pairwise patch combination</div>}
             </div>;

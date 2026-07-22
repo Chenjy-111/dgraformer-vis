@@ -212,8 +212,11 @@ export function buildPatchExplanation(ctx: Ctx, q: number, k: number): Explanati
   const [ks, ke] = patchRange(s, k);
   const conc = attentionConcentration(mat);
   const semantic = s.semantic;
+  const scaleDescription = scale === 3
+    ? `${sample.history[0]?.length ?? 96}-step context`
+    : `${s.patchSteps}-step patches`;
   const summary =
-    `At scale ${scale} (${s.patchSteps}-step patches), query patch P${q + 1} (steps ${qs}\u2013${qe}) attends to ` +
+    `At scale ${scale} (${scaleDescription}), query patch P${q + 1} (steps ${qs}\u2013${qe}) attends to ` +
     `key patch P${k + 1} (steps ${ks}\u2013${ke}) with weight ${w.toFixed(3)}. ${semantic} ` +
     `The head\u2019s overall self-attention concentration is ${conc}.`;
   return {
@@ -312,7 +315,7 @@ const ABLATION_META: Record<string, {
   'w/o MTE': {
     whatItDoes:
       'Multi-scale Transformer Encoding processes patches at three temporal resolutions: ' +
-      'fine (single-patch, e.g. 8 steps), medium (merged-patch, 16 steps), and coarse (merged-again, 32 steps). ' +
+      'fine (single-patch, e.g. 8 steps), medium (merged-patch, 16 steps), and coarse (full 96-step context). ' +
       'Without MTE, only a single fixed patch size is used, missing patterns at other scales.',
     whyItHurts:
       'Moderate degradation — single-scale Transformers still work reasonably well, ' +

@@ -129,9 +129,32 @@ export function ControlStudio() {
               />
             </Field>
           )}
-          <div className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] leading-relaxed text-ink-400">
-            Model-fixed focusing: Top-K 50% <span aria-hidden="true">·</span> edge threshold 0
-          </div>
+          {s.graphLayout === '3d-timeline' ? (
+            <>
+              <Slider
+                label="Top-K keep ratio"
+                value={s.topkRatio}
+                min={0.05}
+                max={1}
+                step={0.05}
+                onChange={(v) => s.set('topkRatio', v)}
+                format={(v) => `${Math.round(v * 100)}%`}
+              />
+              <Slider
+                label="Edge threshold"
+                value={s.edgeThreshold}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) => s.set('edgeThreshold', v)}
+                format={(v) => v.toFixed(2)}
+              />
+            </>
+          ) : (
+            <div className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] leading-relaxed text-ink-400">
+              Model-fixed focusing: Top-K 50% <span aria-hidden="true">·</span> edge threshold 0
+            </div>
+          )}
           {s.view === 'graph' && (
             <Field label="Layout">
               <Tabs<GraphLayout>

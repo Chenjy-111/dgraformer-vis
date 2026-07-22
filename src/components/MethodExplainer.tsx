@@ -62,7 +62,7 @@ export function MethodExplainer() {
           <div className="mt-5 grid grid-cols-3 gap-2 text-center text-[12px]">
             <ScaleChip n="Scale 1" sub="8-step patches" note="local fluctuation" />
             <ScaleChip n="Scale 2" sub="16-step patches" note="periodic pattern" />
-            <ScaleChip n="Scale 3" sub="32-step patches" note="long-range trend" />
+            <ScaleChip n="Scale 3" sub="96-step context" note="long-range trend" />
           </div>
         </div>
       </div>
