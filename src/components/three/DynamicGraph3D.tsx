@@ -12,6 +12,7 @@ interface Props {
   selectedEdge: { source: number; target: number } | null;
   onSelectWindow: (index: number) => void; onSelectNode: (index: number) => void;
   onSelectEdge: (edge: GraphEdge, windowIndex: number) => void;
+  onClearSelection: (windowIndex: number) => void;
 }
 type CameraMode = 'focus' | 'overview';
 
@@ -64,7 +65,12 @@ export function DynamicGraph3D(props: Props) {
         <div className="mt-2 flex justify-between px-1 text-[9px] font-medium uppercase tracking-[.12em] text-[#8793a5]"><span>earlier context</span><span>dynamic correlation evolution</span><span>latest context</span></div>
       </div>
 
-      <Canvas camera={{ position: [0, 4.8, 10.5], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true }}>
+      <Canvas
+        camera={{ position: [0, 4.8, 10.5], fov: 40 }}
+        dpr={[1, 1.75]}
+        gl={{ antialias: true }}
+        onPointerMissed={() => props.onClearSelection(props.activeWindow)}
+      >
         <color attach="background" args={['#f4f7fb']} />
         <fog attach="fog" args={['#f4f7fb', 13, 28]} />
         <ambientLight intensity={1.15} />
@@ -143,7 +149,7 @@ function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLa
     rotation={[THREE.MathUtils.degToRad(-4), THREE.MathUtils.degToRad(-27), THREE.MathUtils.degToRad(-1.5)]}
     scale={active ? 1.04 : .76}
   >
-    <mesh onClick={(e) => { e.stopPropagation(); props.onSelectWindow(windowIndex); }}>
+    <mesh onClick={(e) => { e.stopPropagation(); props.onClearSelection(windowIndex); }}>
       <circleGeometry args={[2.65, 72]} /><meshPhysicalMaterial color={stageTone === 'before' ? '#fff7f3' : stageTone === 'after' ? '#f2fbf8' : active ? '#f7ffff' : '#ffffff'} transparent opacity={active ? .9 : .28} roughness={.82} transmission={active ? .05 : 0} depthWrite={false} />
     </mesh>
     <Ring args={[2.61, 2.66, 72]} position={[0, 0, .015]}><meshBasicMaterial color={stageTone === 'before' ? '#b86754' : active ? '#16827f' : '#b8c2cf'} transparent opacity={active ? .9 : .25} /></Ring>

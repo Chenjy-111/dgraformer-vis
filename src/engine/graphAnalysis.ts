@@ -6,7 +6,10 @@ export function activeMatrix(
   priorC?: number[][]
 ): number[][] {
   if (source === 'static') return priorC ?? win.static_graph;
-  if (source === 'sparse') return win.sparse_graph;
+  // The exported model adjacency is already the post-Top-K graph returned by
+  // Graph_constructor. The legacy sparse_graph field applies a second,
+  // demo-only 40% mask and is therefore not the paper/model output.
+  if (source === 'sparse') return win.dynamic_graph;
   if (source === 'difference') {
     const base = priorC ?? win.static_graph;
     const N = win.dynamic_graph.length;

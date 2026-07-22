@@ -46,23 +46,26 @@ export function DynamicGraphView() {
   const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
   const isSide = s.graphLayout === 'sidebyside';
   const is3D = s.graphLayout === '3d-timeline';
+  const displayedSource = is3D ? 'sparse' : s.graphSource;
   const timelineEdges = useMemo(() => sample.windows.map((window) => {
-    if (is3D) return recomputeTopK(window.edges, s.topkRatio, s.edgeThreshold);
+    // Exported adjacencies are already masked by the model's w_ratio=0.5.
+    // Keep every positive exported edge instead of applying a second UI mask.
+    if (is3D) return recomputeTopK(window.edges, 1, 0);
     if (s.graphSource === 'static') return edgesFromMatrix(priorC ?? window.static_graph, 1);
     if (s.graphSource === 'dynamic') return recomputeTopK(window.edges, 1);
-    if (s.graphSource === 'sparse') return edgesFromMatrix(window.sparse_graph, 1);
+    if (s.graphSource === 'sparse') return edgesFromMatrix(window.dynamic_graph, 1);
     return edgesFromMatrix(activeMatrix(window, 'difference', priorC ?? undefined), 1);
   }), [sample, s.graphSource, s.topkRatio, s.edgeThreshold, priorC, is3D]);
   const dynamicTimelineEdges = useMemo(
-    () => sample.windows.map((window) => recomputeTopK(window.edges, s.topkRatio, s.edgeThreshold)),
-    [sample, s.topkRatio, s.edgeThreshold]
+    () => sample.windows.map((window) => recomputeTopK(window.edges, 1, 0)),
+    [sample]
   );
 
   return (
     <div className={is3D ? 'h-full' : ''}>
       <div className={is3D ? `pointer-events-none absolute left-[330px] top-7 z-20 flex items-baseline justify-between transition-all ${s.inspectorCollapsed ? 'right-12' : 'right-[370px]'}` : 'mb-3 flex items-baseline justify-between'}>
         <h3 className="text-[15px] font-semibold">
-          {sourceLabel(s.graphSource)} · window {s.windowIdx + 1}/{sample.windows.length}
+          {isSide ? 'Dynamic vs sparse graph' : sourceLabel(displayedSource)} · window {s.windowIdx + 1}/{sample.windows.length}
         </h3>
         <span className="data-num text-[12px] text-ink-400">
           steps {win.start}–{win.end} · kept {win.kept_edges.length}/{win.edges.length}
@@ -86,6 +89,13 @@ export function DynamicGraphView() {
             s.log('Select 3D window', undefined, `window ${index + 1}`);
             s.setExplanation(buildWindowExplanation({ sample, windowIdx: index, target: s.target, depth: s.depth, scale: s.scale, head: s.head }));
           }}
+          onClearSelection={(index) => {
+            s.set('windowIdx', index);
+            s.set('selectedNode', null);
+            s.set('selectedEdge', null);
+            s.log('Clear 3D selection', undefined, `window ${index + 1}`);
+            s.setExplanation(buildWindowExplanation({ sample, windowIdx: index, target: s.target, depth: s.depth, scale: s.scale, head: s.head }));
+          }}
           onSelectNode={(node) => {
             const windowIdx = useDemoStore.getState().windowIdx;
             s.set('selectedNode', node);
@@ -105,8 +115,8 @@ export function DynamicGraphView() {
           <Panel caption="Dynamic graph Ew (all weights)">
             <GraphMatrix variables={sample.variables} matrix={win.dynamic_graph} target={s.target} />
           </Panel>
-          <Panel caption="Sparse graph Ẽw (Top-K)">
-            <GraphMatrix variables={sample.variables} matrix={win.sparse_graph} target={s.target} />
+          <Panel caption="Sparse model graph Ẽw (w_ratio = 0.5)">
+            <GraphMatrix variables={sample.variables} matrix={win.dynamic_graph} target={s.target} />
           </Panel>
         </div>
       ) : (
@@ -125,11 +135,11 @@ export function DynamicGraphView() {
         </div>
       )}
 
-      <p className={is3D ? `pointer-events-none absolute bottom-6 left-[330px] z-20 text-center text-[12px] leading-relaxed text-ink-400 transition-all ${s.inspectorCollapsed ? 'right-12' : 'right-[370px]'}` : 'mt-3 text-[12.5px] leading-relaxed text-ink-400'}>
+      {!is3D && <p className="mt-3 text-[12.5px] leading-relaxed text-ink-400">
         {s.graphSource === 'difference'
           ? 'Difference view: red cells are stronger in the dynamic graph than the prior, blue cells weaker — i.e. what this window learned beyond C.'
           : 'Hover a node to highlight its edges; click a node for its role, or an edge for why it was kept or filtered. Use the window slider to watch the graph evolve.'}
-      </p>
+      </p>}
     </div>
   );
 }
