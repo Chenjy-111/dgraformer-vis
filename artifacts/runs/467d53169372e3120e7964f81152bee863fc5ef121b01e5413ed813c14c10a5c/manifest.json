@@ -1,0 +1,78 @@
+{
+  "run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "status": "complete",
+  "claim_label": "Candidate Pattern",
+  "upstream_run_id": "bc60c5a9f09c46d5e176a2e014bb7b516c7c562270f86c31bb382ee48342175b",
+  "datasets": [
+    {
+      "dataset": "ETTh1",
+      "status": "complete",
+      "counts": {
+        "persistent_edges": 0,
+        "window_specific_edges": 12,
+        "high_weight_low_frequency_edges": 3,
+        "high_frequency_low_weight_edges": 3,
+        "sender_roles": 2,
+        "receiver_roles": 3,
+        "repeated_local_edge_sets": 25
+      },
+      "pattern_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\runs\\467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c\\patterns\\ETTh1.json"
+    },
+    {
+      "dataset": "ETTh2",
+      "status": "complete",
+      "counts": {
+        "persistent_edges": 0,
+        "window_specific_edges": 14,
+        "high_weight_low_frequency_edges": 4,
+        "high_frequency_low_weight_edges": 3,
+        "sender_roles": 2,
+        "receiver_roles": 2,
+        "repeated_local_edge_sets": 25
+      },
+      "pattern_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\runs\\467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c\\patterns\\ETTh2.json"
+    },
+    {
+      "dataset": "ETTm1",
+      "status": "complete",
+      "counts": {
+        "persistent_edges": 0,
+        "window_specific_edges": 11,
+        "high_weight_low_frequency_edges": 3,
+        "high_frequency_low_weight_edges": 0,
+        "sender_roles": 2,
+        "receiver_roles": 2,
+        "repeated_local_edge_sets": 25
+      },
+      "pattern_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\runs\\467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c\\patterns\\ETTm1.json"
+    },
+    {
+      "dataset": "ETTm2",
+      "status": "complete",
+      "counts": {
+        "persistent_edges": 0,
+        "window_specific_edges": 16,
+        "high_weight_low_frequency_edges": 7,
+        "high_frequency_low_weight_edges": 6,
+        "sender_roles": 2,
+        "receiver_roles": 2,
+        "repeated_local_edge_sets": 25
+      },
+      "pattern_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\runs\\467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c\\patterns\\ETTm2.json"
+    },
+    {
+      "dataset": "Weather",
+      "status": "complete",
+      "counts": {
+        "persistent_edges": 0,
+        "window_specific_edges": 144,
+        "high_weight_low_frequency_edges": 55,
+        "high_frequency_low_weight_edges": 40,
+        "sender_roles": 6,
+        "receiver_roles": 6,
+        "repeated_local_edge_sets": 25
+      },
+      "pattern_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\runs\\467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c\\patterns\\Weather.json"
+    }
+  ]
+}

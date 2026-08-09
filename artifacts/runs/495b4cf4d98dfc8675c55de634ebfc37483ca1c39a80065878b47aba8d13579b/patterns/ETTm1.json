@@ -1,0 +1,4430 @@
+{
+  "dataset": "ETTm1",
+  "status": "complete",
+  "claim_level": "structural_candidate",
+  "window_count": 7,
+  "variable_names": [
+    "HUFL",
+    "HULL",
+    "MUFL",
+    "MULL",
+    "LUFL",
+    "LULL",
+    "OT"
+  ],
+  "thresholds": {
+    "frequency_q1": 0.14285714285714285,
+    "frequency_q3": 0.42857142857142855,
+    "mean_retained_score_q1": 0.5914716795086861,
+    "mean_retained_score_q3": 0.9318542182445526,
+    "sender_occurrence_q3": 14.5,
+    "receiver_occurrence_q3": 14.0
+  },
+  "definitions": {
+    "persistent_edge": "retained in exactly 7 windows",
+    "window_specific_edge": "retained in exactly 1 window",
+    "high_weight_low_frequency_edge": "mean retained score >= empirical Q3 and frequency <= empirical Q1",
+    "high_frequency_low_weight_edge": "frequency >= empirical Q3 and mean retained score <= empirical Q1",
+    "sender_receiver_role": "retained outgoing/incoming occurrence count >= empirical Q3",
+    "repeated_local_edge_set": "two-edge set co-occurs in at least 2 windows"
+  },
+  "all_retained_edge_statistics": [
+    {
+      "source": 0,
+      "target": 1,
+      "source_name": "HUFL",
+      "target_name": "HULL",
+      "edge_id": "0->1",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        3,
+        4
+      ],
+      "mean_retained_score": 0.9691654443740845,
+      "mean_all_window_score": 0.27690441267830984,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 12,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 16,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 11,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.9661570191383362,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9661570191383362
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9721738696098328,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9721738696098328
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 14,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 13,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 0,
+      "target": 2,
+      "source_name": "HUFL",
+      "target_name": "MUFL",
+      "edge_id": "0->2",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        3
+      ],
+      "mean_retained_score": 0.9934765696525574,
+      "mean_all_window_score": 0.14192522423607962,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 13,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 17,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 12,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.9934765696525574,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9934765696525574
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 15,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 15,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 14,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 0,
+      "target": 3,
+      "source_name": "HUFL",
+      "target_name": "MULL",
+      "edge_id": "0->3",
+      "retained_window_count": 3,
+      "frequency": 0.42857142857142855,
+      "windows": [
+        1,
+        4,
+        5
+      ],
+      "mean_retained_score": 0.7483282387256622,
+      "mean_all_window_score": 0.3207121023109981,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 14,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.31223419308662415,
+          "retained": true,
+          "global_slot_rank": 12,
+          "off_diagonal_rank": 12,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.31223419308662415
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 13,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 11,
+          "off_diagonal_rank": 42,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9900109767913818,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9900109767913818
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.9427395462989807,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9427395462989807
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 15,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "source_name": "HUFL",
+      "target_name": "LUFL",
+      "edge_id": "0->4",
+      "retained_window_count": 3,
+      "frequency": 0.42857142857142855,
+      "windows": [
+        1,
+        4,
+        6
+      ],
+      "mean_retained_score": 0.6934088667233785,
+      "mean_all_window_score": 0.29717522859573364,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 15,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.4501602053642273,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.4501602053642273
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 14,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 12,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9993653297424316,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9993653297424316
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 16,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.6307010650634766,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.6307010650634766
+        }
+      ]
+    },
+    {
+      "source": 0,
+      "target": 5,
+      "source_name": "HUFL",
+      "target_name": "LULL",
+      "edge_id": "0->5",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        0,
+        2
+      ],
+      "mean_retained_score": 0.9840882420539856,
+      "mean_all_window_score": 0.2811680691582816,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.9688241481781006,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9688241481781006
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 18,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.9993523359298706,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9993523359298706
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 13,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 16,
+          "off_diagonal_rank": 41,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 17,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 16,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 0,
+      "target": 6,
+      "source_name": "HUFL",
+      "target_name": "OT",
+      "edge_id": "0->6",
+      "retained_window_count": 6,
+      "frequency": 0.8571428571428571,
+      "windows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "mean_retained_score": 0.8991243739922842,
+      "mean_all_window_score": 0.7706780348505292,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 16,
+          "off_diagonal_rank": 38,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.9831273555755615,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9831273555755615
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.9271056056022644,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9271056056022644
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.970637857913971,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.970637857913971
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.7745293974876404,
+          "retained": true,
+          "global_slot_rank": 11,
+          "off_diagonal_rank": 11,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.7745293974876404
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.9830659627914429,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9830659627914429
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.7562800645828247,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.7562800645828247
+        }
+      ]
+    },
+    {
+      "source": 1,
+      "target": 0,
+      "source_name": "HULL",
+      "target_name": "HUFL",
+      "edge_id": "1->0",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        1,
+        5
+      ],
+      "mean_retained_score": 0.11775649571791291,
+      "mean_all_window_score": 0.033644713062260835,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 17,
+          "off_diagonal_rank": 37,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.004610885865986347,
+          "retained": true,
+          "global_slot_rank": 14,
+          "off_diagonal_rank": 14,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.004610885865986347
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 15,
+          "off_diagonal_rank": 38,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 14,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 17,
+          "off_diagonal_rank": 40,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.23090210556983948,
+          "retained": true,
+          "global_slot_rank": 10,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.23090210556983948
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 17,
+          "off_diagonal_rank": 38,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "source_name": "HULL",
+      "target_name": "MUFL",
+      "edge_id": "1->2",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        2
+      ],
+      "mean_retained_score": 0.927132248878479,
+      "mean_all_window_score": 0.132447464125497,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 19,
+          "off_diagonal_rank": 36,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 20,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.927132248878479,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.927132248878479
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 16,
+          "off_diagonal_rank": 38,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 19,
+          "off_diagonal_rank": 39,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 19,
+          "off_diagonal_rank": 38,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 19,
+          "off_diagonal_rank": 37,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "source_name": "HULL",
+      "target_name": "LUFL",
+      "edge_id": "1->4",
+      "retained_window_count": 3,
+      "frequency": 0.42857142857142855,
+      "windows": [
+        1,
+        3,
+        6
+      ],
+      "mean_retained_score": 0.9684758385022482,
+      "mean_all_window_score": 0.4150610736438206,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 21,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.9414496421813965,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9414496421813965
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 18,
+          "off_diagonal_rank": 36,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.9761329889297485,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9761329889297485
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 21,
+          "off_diagonal_rank": 37,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 21,
+          "off_diagonal_rank": 36,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.9878448843955994,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9878448843955994
+        }
+      ]
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "source_name": "HULL",
+      "target_name": "LULL",
+      "edge_id": "1->5",
+      "retained_window_count": 5,
+      "frequency": 0.7142857142857143,
+      "windows": [
+        0,
+        1,
+        3,
+        4,
+        5
+      ],
+      "mean_retained_score": 0.8225011110305787,
+      "mean_all_window_score": 0.5875007935932705,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.9859697222709656,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9859697222709656
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.8607140183448792,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.8607140183448792
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 19,
+          "off_diagonal_rank": 35,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.897983193397522,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.897983193397522
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9893862009048462,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9893862009048462
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.3784524202346802,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.3784524202346802
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 21,
+          "off_diagonal_rank": 35,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 1,
+      "target": 6,
+      "source_name": "HULL",
+      "target_name": "OT",
+      "edge_id": "1->6",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        2
+      ],
+      "mean_retained_score": 0.9571691751480103,
+      "mean_all_window_score": 0.1367384535925729,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 37,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.9571691751480103,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9571691751480103
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 18,
+          "off_diagonal_rank": 36,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 36,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 35,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 2,
+      "target": 0,
+      "source_name": "MUFL",
+      "target_name": "HUFL",
+      "edge_id": "2->0",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        5,
+        6
+      ],
+      "mean_retained_score": 0.7086646854877472,
+      "mean_all_window_score": 0.20247562442507064,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 36,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 20,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 19,
+          "off_diagonal_rank": 35,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 35,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.5476155281066895,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.5476155281066895
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.8697138428688049,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.8697138428688049
+        }
+      ]
+    },
+    {
+      "source": 2,
+      "target": 1,
+      "source_name": "MUFL",
+      "target_name": "HULL",
+      "edge_id": "2->1",
+      "retained_window_count": 4,
+      "frequency": 0.5714285714285714,
+      "windows": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "mean_retained_score": 0.8156358599662781,
+      "mean_all_window_score": 0.4660776342664446,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 24,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.9458729028701782,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9458729028701782
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.4192485213279724,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.4192485213279724
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.9882453083992004,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9882453083992004
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9091767072677612,
+          "retained": true,
+          "global_slot_rank": 10,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9091767072677612
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "source_name": "MUFL",
+      "target_name": "MULL",
+      "edge_id": "2->3",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        4
+      ],
+      "mean_retained_score": 0.9906821250915527,
+      "mean_all_window_score": 0.14152601787022182,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 26,
+          "off_diagonal_rank": 30,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 25,
+          "off_diagonal_rank": 35,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 21,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9906821250915527,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9906821250915527
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 25,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 25,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "source_name": "MUFL",
+      "target_name": "LUFL",
+      "edge_id": "2->4",
+      "retained_window_count": 5,
+      "frequency": 0.7142857142857143,
+      "windows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "mean_retained_score": 0.9460201263427734,
+      "mean_all_window_score": 0.6757286616734096,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 27,
+          "off_diagonal_rank": 29,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 26,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.9930921196937561,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9930921196937561
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.9844723343849182,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9844723343849182
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9891754984855652,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9891754984855652
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.9948207139968872,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9948207139968872
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.7685399651527405,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.7685399651527405
+        }
+      ]
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "source_name": "MUFL",
+      "target_name": "LULL",
+      "edge_id": "2->5",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        0,
+        4
+      ],
+      "mean_retained_score": 0.4101145379245281,
+      "mean_all_window_score": 0.1171755822641509,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.7491308450698853,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.7491308450698853
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 27,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 22,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.07109823077917099,
+          "retained": true,
+          "global_slot_rank": 13,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.07109823077917099
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 26,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 26,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 2,
+      "target": 6,
+      "source_name": "MUFL",
+      "target_name": "OT",
+      "edge_id": "2->6",
+      "retained_window_count": 3,
+      "frequency": 0.42857142857142855,
+      "windows": [
+        1,
+        3,
+        6
+      ],
+      "mean_retained_score": 0.8426411549250284,
+      "mean_all_window_score": 0.3611319235392979,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 28,
+          "off_diagonal_rank": 28,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.9958794116973877,
+          "retained": true,
+          "global_slot_rank": 2,
+          "off_diagonal_rank": 2,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9958794116973877
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 24,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.9995846152305603,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9995846152305603
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 25,
+          "off_diagonal_rank": 34,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 27,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.5324594378471375,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.5324594378471375
+        }
+      ]
+    },
+    {
+      "source": 3,
+      "target": 0,
+      "source_name": "MULL",
+      "target_name": "HUFL",
+      "edge_id": "3->0",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        5
+      ],
+      "mean_retained_score": 0.18338535726070404,
+      "mean_all_window_score": 0.026197908180100576,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 29,
+          "off_diagonal_rank": 27,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 28,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 25,
+          "off_diagonal_rank": 30,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 23,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 26,
+          "off_diagonal_rank": 33,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.18338535726070404,
+          "retained": true,
+          "global_slot_rank": 11,
+          "off_diagonal_rank": 11,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.18338535726070404
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 27,
+          "off_diagonal_rank": 30,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 3,
+      "target": 1,
+      "source_name": "MULL",
+      "target_name": "HULL",
+      "edge_id": "3->1",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        5
+      ],
+      "mean_retained_score": 0.8611768484115601,
+      "mean_all_window_score": 0.1230252640587943,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 30,
+          "off_diagonal_rank": 26,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 29,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 26,
+          "off_diagonal_rank": 29,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 24,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 27,
+          "off_diagonal_rank": 32,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.8611768484115601,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.8611768484115601
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 28,
+          "off_diagonal_rank": 29,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 3,
+      "target": 2,
+      "source_name": "MULL",
+      "target_name": "MUFL",
+      "edge_id": "3->2",
+      "retained_window_count": 3,
+      "frequency": 0.42857142857142855,
+      "windows": [
+        1,
+        2,
+        3
+      ],
+      "mean_retained_score": 0.60816157857577,
+      "mean_all_window_score": 0.26064067653247286,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 31,
+          "off_diagonal_rank": 25,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.3068595230579376,
+          "retained": true,
+          "global_slot_rank": 13,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.3068595230579376
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.9806854724884033,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9806854724884033
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.5369397401809692,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.5369397401809692
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 28,
+          "off_diagonal_rank": 31,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 28,
+          "off_diagonal_rank": 30,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 29,
+          "off_diagonal_rank": 28,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "source_name": "MULL",
+      "target_name": "LULL",
+      "edge_id": "3->5",
+      "retained_window_count": 5,
+      "frequency": 0.7142857142857143,
+      "windows": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "mean_retained_score": 0.8213765799999238,
+      "mean_all_window_score": 0.5866975571428027,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 34,
+          "off_diagonal_rank": 23,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.8462263345718384,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.8462263345718384
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.9918732643127441,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9918732643127441
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 27,
+          "off_diagonal_rank": 29,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9472987055778503,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9472987055778503
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.928699254989624,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.928699254989624
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.39278534054756165,
+          "retained": true,
+          "global_slot_rank": 10,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.39278534054756165
+        }
+      ]
+    },
+    {
+      "source": 4,
+      "target": 0,
+      "source_name": "LUFL",
+      "target_name": "HUFL",
+      "edge_id": "4->0",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        1
+      ],
+      "mean_retained_score": 0.4465733468532562,
+      "mean_all_window_score": 0.06379619240760803,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 36,
+          "off_diagonal_rank": 21,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.4465733468532562,
+          "retained": true,
+          "global_slot_rank": 10,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.4465733468532562
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 30,
+          "off_diagonal_rank": 26,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 29,
+          "off_diagonal_rank": 27,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 32,
+          "off_diagonal_rank": 28,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 32,
+          "off_diagonal_rank": 27,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 33,
+          "off_diagonal_rank": 25,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "source_name": "LUFL",
+      "target_name": "LULL",
+      "edge_id": "4->5",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        6
+      ],
+      "mean_retained_score": 0.6629025936126709,
+      "mean_all_window_score": 0.09470037051609584,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 41,
+          "off_diagonal_rank": 17,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 37,
+          "off_diagonal_rank": 25,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 35,
+          "off_diagonal_rank": 22,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 34,
+          "off_diagonal_rank": 23,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 37,
+          "off_diagonal_rank": 24,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 37,
+          "off_diagonal_rank": 23,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.6629025936126709,
+          "retained": true,
+          "global_slot_rank": 7,
+          "off_diagonal_rank": 7,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.6629025936126709
+        }
+      ]
+    },
+    {
+      "source": 5,
+      "target": 0,
+      "source_name": "LULL",
+      "target_name": "HUFL",
+      "edge_id": "5->0",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        0,
+        6
+      ],
+      "mean_retained_score": 0.3823704421520233,
+      "mean_all_window_score": 0.10924869775772095,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.41878440976142883,
+          "retained": true,
+          "global_slot_rank": 10,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.41878440976142883
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 39,
+          "off_diagonal_rank": 23,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 37,
+          "off_diagonal_rank": 20,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 36,
+          "off_diagonal_rank": 21,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 39,
+          "off_diagonal_rank": 22,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 39,
+          "off_diagonal_rank": 21,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.3459564745426178,
+          "retained": true,
+          "global_slot_rank": 11,
+          "off_diagonal_rank": 11,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.3459564745426178
+        }
+      ]
+    },
+    {
+      "source": 5,
+      "target": 1,
+      "source_name": "LULL",
+      "target_name": "HULL",
+      "edge_id": "5->1",
+      "retained_window_count": 4,
+      "frequency": 0.5714285714285714,
+      "windows": [
+        0,
+        1,
+        4,
+        6
+      ],
+      "mean_retained_score": 0.7592174261808395,
+      "mean_all_window_score": 0.43383852924619404,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.6119095683097839,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.6119095683097839
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.5199748873710632,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.5199748873710632
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 38,
+          "off_diagonal_rank": 19,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 37,
+          "off_diagonal_rank": 20,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9267147779464722,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9267147779464722
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 40,
+          "off_diagonal_rank": 20,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.9782704710960388,
+          "retained": true,
+          "global_slot_rank": 3,
+          "off_diagonal_rank": 3,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9782704710960388
+        }
+      ]
+    },
+    {
+      "source": 5,
+      "target": 4,
+      "source_name": "LULL",
+      "target_name": "LUFL",
+      "edge_id": "5->4",
+      "retained_window_count": 4,
+      "frequency": 0.5714285714285714,
+      "windows": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "mean_retained_score": 0.6085134856402874,
+      "mean_all_window_score": 0.34772199179444996,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.8883827924728394,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.8883827924728394
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.4027538001537323,
+          "retained": true,
+          "global_slot_rank": 11,
+          "off_diagonal_rank": 11,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.4027538001537323
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 41,
+          "off_diagonal_rank": 16,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 40,
+          "off_diagonal_rank": 17,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.9761038422584534,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9761038422584534
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.16681350767612457,
+          "retained": true,
+          "global_slot_rank": 12,
+          "off_diagonal_rank": 12,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.16681350767612457
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 41,
+          "off_diagonal_rank": 18,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "source_name": "LULL",
+      "target_name": "OT",
+      "edge_id": "5->6",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        0
+      ],
+      "mean_retained_score": 0.5414019823074341,
+      "mean_all_window_score": 0.07734314032963344,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.5414019823074341,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.5414019823074341
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 43,
+          "off_diagonal_rank": 20,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 43,
+          "off_diagonal_rank": 15,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 42,
+          "off_diagonal_rank": 16,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 43,
+          "off_diagonal_rank": 19,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 44,
+          "off_diagonal_rank": 17,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 43,
+          "off_diagonal_rank": 17,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 6,
+      "target": 0,
+      "source_name": "OT",
+      "target_name": "HUFL",
+      "edge_id": "6->0",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        5
+      ],
+      "mean_retained_score": 0.26751089096069336,
+      "mean_all_window_score": 0.038215841565813334,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 44,
+          "off_diagonal_rank": 19,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 44,
+          "off_diagonal_rank": 14,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 43,
+          "off_diagonal_rank": 15,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 44,
+          "off_diagonal_rank": 18,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.26751089096069336,
+          "retained": true,
+          "global_slot_rank": 9,
+          "off_diagonal_rank": 9,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.26751089096069336
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 44,
+          "off_diagonal_rank": 16,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 6,
+      "target": 1,
+      "source_name": "OT",
+      "target_name": "HULL",
+      "edge_id": "6->1",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        0,
+        5
+      ],
+      "mean_retained_score": 0.7918763160705566,
+      "mean_all_window_score": 0.22625037602015904,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.9548336267471313,
+          "retained": true,
+          "global_slot_rank": 4,
+          "off_diagonal_rank": 4,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9548336267471313
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 45,
+          "off_diagonal_rank": 18,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 45,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 44,
+          "off_diagonal_rank": 14,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 45,
+          "off_diagonal_rank": 17,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.6289190053939819,
+          "retained": true,
+          "global_slot_rank": 6,
+          "off_diagonal_rank": 6,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.6289190053939819
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 45,
+          "off_diagonal_rank": 15,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 6,
+      "target": 2,
+      "source_name": "OT",
+      "target_name": "MUFL",
+      "edge_id": "6->2",
+      "retained_window_count": 2,
+      "frequency": 0.2857142857142857,
+      "windows": [
+        0,
+        4
+      ],
+      "mean_retained_score": 0.6161029785871506,
+      "mean_all_window_score": 0.17602942245347158,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.9376100897789001,
+          "retained": true,
+          "global_slot_rank": 5,
+          "off_diagonal_rank": 5,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9376100897789001
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 17,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 12,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 45,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.294595867395401,
+          "retained": true,
+          "global_slot_rank": 12,
+          "off_diagonal_rank": 12,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.294595867395401
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 45,
+          "off_diagonal_rank": 16,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 14,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 6,
+      "target": 3,
+      "source_name": "OT",
+      "target_name": "MULL",
+      "edge_id": "6->3",
+      "retained_window_count": 1,
+      "frequency": 0.14285714285714285,
+      "windows": [
+        2
+      ],
+      "mean_retained_score": 0.43626394867897034,
+      "mean_all_window_score": 0.062323421239852905,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 47,
+          "off_diagonal_rank": 12,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 47,
+          "off_diagonal_rank": 16,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.43626394867897034,
+          "retained": true,
+          "global_slot_rank": 8,
+          "off_diagonal_rank": 8,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.43626394867897034
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 12,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 16,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 46,
+          "off_diagonal_rank": 15,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 47,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        }
+      ]
+    },
+    {
+      "source": 6,
+      "target": 5,
+      "source_name": "OT",
+      "target_name": "LULL",
+      "edge_id": "6->5",
+      "retained_window_count": 3,
+      "frequency": 0.42857142857142855,
+      "windows": [
+        0,
+        1,
+        6
+      ],
+      "mean_retained_score": 0.9993627270062765,
+      "mean_all_window_score": 0.42829831157411846,
+      "evidence": [
+        {
+          "window": 0,
+          "score_before_topk": 0.9987698197364807,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9987698197364807
+        },
+        {
+          "window": 1,
+          "score_before_topk": 0.9998000860214233,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9998000860214233
+        },
+        {
+          "window": 2,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 48,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 3,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 48,
+          "off_diagonal_rank": 10,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 4,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 48,
+          "off_diagonal_rank": 14,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 5,
+          "score_before_topk": 0.0,
+          "retained": false,
+          "global_slot_rank": 48,
+          "off_diagonal_rank": 13,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.0
+        },
+        {
+          "window": 6,
+          "score_before_topk": 0.9995182752609253,
+          "retained": true,
+          "global_slot_rank": 1,
+          "off_diagonal_rank": 1,
+          "topk_boundary_score": 0.0,
+          "score_minus_topk_boundary": 0.9995182752609253
+        }
+      ]
+    }
+  ],
+  "candidate_patterns": {
+    "persistent_edges": [],
+    "window_specific_edges": [
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 0,
+        "target": 2,
+        "source_name": "HUFL",
+        "target_name": "MUFL",
+        "edge_id": "0->2",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          3
+        ],
+        "mean_retained_score": 0.9934765696525574,
+        "mean_all_window_score": 0.14192522423607962,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 13,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 17,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 12,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.9934765696525574,
+            "retained": true,
+            "global_slot_rank": 2,
+            "off_diagonal_rank": 2,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.9934765696525574
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 15,
+            "off_diagonal_rank": 42,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 15,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 14,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 1,
+        "target": 2,
+        "source_name": "HULL",
+        "target_name": "MUFL",
+        "edge_id": "1->2",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          2
+        ],
+        "mean_retained_score": 0.927132248878479,
+        "mean_all_window_score": 0.132447464125497,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 19,
+            "off_diagonal_rank": 36,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 20,
+            "off_diagonal_rank": 39,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.927132248878479,
+            "retained": true,
+            "global_slot_rank": 6,
+            "off_diagonal_rank": 6,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.927132248878479
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 16,
+            "off_diagonal_rank": 38,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 19,
+            "off_diagonal_rank": 39,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 19,
+            "off_diagonal_rank": 38,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 19,
+            "off_diagonal_rank": 37,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 1,
+        "target": 6,
+        "source_name": "HULL",
+        "target_name": "OT",
+        "edge_id": "1->6",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          2
+        ],
+        "mean_retained_score": 0.9571691751480103,
+        "mean_all_window_score": 0.1367384535925729,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 37,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.9571691751480103,
+            "retained": true,
+            "global_slot_rank": 5,
+            "off_diagonal_rank": 5,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.9571691751480103
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 18,
+            "off_diagonal_rank": 36,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 36,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 35,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 34,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 2,
+        "target": 3,
+        "source_name": "MUFL",
+        "target_name": "MULL",
+        "edge_id": "2->3",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          4
+        ],
+        "mean_retained_score": 0.9906821250915527,
+        "mean_all_window_score": 0.14152601787022182,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 26,
+            "off_diagonal_rank": 30,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 35,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 21,
+            "off_diagonal_rank": 34,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.9906821250915527,
+            "retained": true,
+            "global_slot_rank": 2,
+            "off_diagonal_rank": 2,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.9906821250915527
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 32,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 3,
+        "target": 0,
+        "source_name": "MULL",
+        "target_name": "HUFL",
+        "edge_id": "3->0",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          5
+        ],
+        "mean_retained_score": 0.18338535726070404,
+        "mean_all_window_score": 0.026197908180100576,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 29,
+            "off_diagonal_rank": 27,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 28,
+            "off_diagonal_rank": 32,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 30,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 23,
+            "off_diagonal_rank": 32,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 26,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.18338535726070404,
+            "retained": true,
+            "global_slot_rank": 11,
+            "off_diagonal_rank": 11,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.18338535726070404
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 27,
+            "off_diagonal_rank": 30,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 3,
+        "target": 1,
+        "source_name": "MULL",
+        "target_name": "HULL",
+        "edge_id": "3->1",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          5
+        ],
+        "mean_retained_score": 0.8611768484115601,
+        "mean_all_window_score": 0.1230252640587943,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 30,
+            "off_diagonal_rank": 26,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 29,
+            "off_diagonal_rank": 31,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 26,
+            "off_diagonal_rank": 29,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 24,
+            "off_diagonal_rank": 31,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 27,
+            "off_diagonal_rank": 32,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.8611768484115601,
+            "retained": true,
+            "global_slot_rank": 5,
+            "off_diagonal_rank": 5,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.8611768484115601
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 28,
+            "off_diagonal_rank": 29,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 4,
+        "target": 0,
+        "source_name": "LUFL",
+        "target_name": "HUFL",
+        "edge_id": "4->0",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          1
+        ],
+        "mean_retained_score": 0.4465733468532562,
+        "mean_all_window_score": 0.06379619240760803,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 36,
+            "off_diagonal_rank": 21,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.4465733468532562,
+            "retained": true,
+            "global_slot_rank": 10,
+            "off_diagonal_rank": 10,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.4465733468532562
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 30,
+            "off_diagonal_rank": 26,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 29,
+            "off_diagonal_rank": 27,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 32,
+            "off_diagonal_rank": 28,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 32,
+            "off_diagonal_rank": 27,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 33,
+            "off_diagonal_rank": 25,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 4,
+        "target": 5,
+        "source_name": "LUFL",
+        "target_name": "LULL",
+        "edge_id": "4->5",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          6
+        ],
+        "mean_retained_score": 0.6629025936126709,
+        "mean_all_window_score": 0.09470037051609584,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 41,
+            "off_diagonal_rank": 17,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 37,
+            "off_diagonal_rank": 25,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 35,
+            "off_diagonal_rank": 22,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 34,
+            "off_diagonal_rank": 23,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 37,
+            "off_diagonal_rank": 24,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 37,
+            "off_diagonal_rank": 23,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.6629025936126709,
+            "retained": true,
+            "global_slot_rank": 7,
+            "off_diagonal_rank": 7,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.6629025936126709
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 5,
+        "target": 6,
+        "source_name": "LULL",
+        "target_name": "OT",
+        "edge_id": "5->6",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          0
+        ],
+        "mean_retained_score": 0.5414019823074341,
+        "mean_all_window_score": 0.07734314032963344,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.5414019823074341,
+            "retained": true,
+            "global_slot_rank": 9,
+            "off_diagonal_rank": 9,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.5414019823074341
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 43,
+            "off_diagonal_rank": 20,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 43,
+            "off_diagonal_rank": 15,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 42,
+            "off_diagonal_rank": 16,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 43,
+            "off_diagonal_rank": 19,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 44,
+            "off_diagonal_rank": 17,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 43,
+            "off_diagonal_rank": 17,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 6,
+        "target": 0,
+        "source_name": "OT",
+        "target_name": "HUFL",
+        "edge_id": "6->0",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          5
+        ],
+        "mean_retained_score": 0.26751089096069336,
+        "mean_all_window_score": 0.038215841565813334,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 46,
+            "off_diagonal_rank": 13,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 44,
+            "off_diagonal_rank": 19,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 44,
+            "off_diagonal_rank": 14,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 43,
+            "off_diagonal_rank": 15,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 44,
+            "off_diagonal_rank": 18,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.26751089096069336,
+            "retained": true,
+            "global_slot_rank": 9,
+            "off_diagonal_rank": 9,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.26751089096069336
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 44,
+            "off_diagonal_rank": 16,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "window_specific_edge",
+        "source": 6,
+        "target": 3,
+        "source_name": "OT",
+        "target_name": "MULL",
+        "edge_id": "6->3",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          2
+        ],
+        "mean_retained_score": 0.43626394867897034,
+        "mean_all_window_score": 0.062323421239852905,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 47,
+            "off_diagonal_rank": 12,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 47,
+            "off_diagonal_rank": 16,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.43626394867897034,
+            "retained": true,
+            "global_slot_rank": 8,
+            "off_diagonal_rank": 8,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.43626394867897034
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 46,
+            "off_diagonal_rank": 12,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 46,
+            "off_diagonal_rank": 16,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 46,
+            "off_diagonal_rank": 15,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 47,
+            "off_diagonal_rank": 13,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      }
+    ],
+    "high_weight_low_frequency_edges": [
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "high_weight_low_frequency_edge",
+        "source": 0,
+        "target": 2,
+        "source_name": "HUFL",
+        "target_name": "MUFL",
+        "edge_id": "0->2",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          3
+        ],
+        "mean_retained_score": 0.9934765696525574,
+        "mean_all_window_score": 0.14192522423607962,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 13,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 17,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 12,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.9934765696525574,
+            "retained": true,
+            "global_slot_rank": 2,
+            "off_diagonal_rank": 2,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.9934765696525574
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 15,
+            "off_diagonal_rank": 42,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 15,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 14,
+            "off_diagonal_rank": 41,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "high_weight_low_frequency_edge",
+        "source": 1,
+        "target": 6,
+        "source_name": "HULL",
+        "target_name": "OT",
+        "edge_id": "1->6",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          2
+        ],
+        "mean_retained_score": 0.9571691751480103,
+        "mean_all_window_score": 0.1367384535925729,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 37,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.9571691751480103,
+            "retained": true,
+            "global_slot_rank": 5,
+            "off_diagonal_rank": 5,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.9571691751480103
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 18,
+            "off_diagonal_rank": 36,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 36,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 35,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 34,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "high_weight_low_frequency_edge",
+        "source": 2,
+        "target": 3,
+        "source_name": "MUFL",
+        "target_name": "MULL",
+        "edge_id": "2->3",
+        "retained_window_count": 1,
+        "frequency": 0.14285714285714285,
+        "windows": [
+          4
+        ],
+        "mean_retained_score": 0.9906821250915527,
+        "mean_all_window_score": 0.14152601787022182,
+        "evidence": [
+          {
+            "window": 0,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 26,
+            "off_diagonal_rank": 30,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 1,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 35,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 2,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 22,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 3,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 21,
+            "off_diagonal_rank": 34,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 4,
+            "score_before_topk": 0.9906821250915527,
+            "retained": true,
+            "global_slot_rank": 2,
+            "off_diagonal_rank": 2,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.9906821250915527
+          },
+          {
+            "window": 5,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 33,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          },
+          {
+            "window": 6,
+            "score_before_topk": 0.0,
+            "retained": false,
+            "global_slot_rank": 25,
+            "off_diagonal_rank": 32,
+            "topk_boundary_score": 0.0,
+            "score_minus_topk_boundary": 0.0
+          }
+        ]
+      }
+    ],
+    "high_frequency_low_weight_edges": [],
+    "sender_roles": [
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "sender_role",
+        "variable": 0,
+        "variable_name": "HUFL",
+        "retained_outgoing_occurrences": 17,
+        "threshold": 14.5
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "sender_role",
+        "variable": 2,
+        "variable_name": "MUFL",
+        "retained_outgoing_occurrences": 17,
+        "threshold": 14.5
+      }
+    ],
+    "receiver_roles": [
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "receiver_role",
+        "variable": 4,
+        "variable_name": "LUFL",
+        "retained_incoming_occurrences": 15,
+        "threshold": 14.0
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "receiver_role",
+        "variable": 5,
+        "variable_name": "LULL",
+        "retained_incoming_occurrences": 18,
+        "threshold": 14.0
+      }
+    ],
+    "repeated_local_edge_sets": [
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 2,
+            "target": 4,
+            "source_name": "MUFL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 5,
+        "frequency": 0.7142857142857143,
+        "windows": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "source_name": "MULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 5,
+        "frequency": 0.7142857142857143,
+        "windows": [
+          1,
+          2,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 4,
+        "frequency": 0.5714285714285714,
+        "windows": [
+          1,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 2,
+            "target": 1,
+            "source_name": "MUFL",
+            "target_name": "HULL"
+          }
+        ],
+        "cooccurrence_count": 4,
+        "frequency": 0.5714285714285714,
+        "windows": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          },
+          {
+            "source": 5,
+            "target": 4,
+            "source_name": "LULL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 4,
+        "frequency": 0.5714285714285714,
+        "windows": [
+          0,
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 2,
+            "target": 4,
+            "source_name": "MUFL",
+            "target_name": "LUFL"
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "source_name": "MULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 4,
+        "frequency": 0.5714285714285714,
+        "windows": [
+          2,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 3,
+            "source_name": "HUFL",
+            "target_name": "MULL"
+          },
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 3,
+            "source_name": "HUFL",
+            "target_name": "MULL"
+          },
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 3,
+            "source_name": "HUFL",
+            "target_name": "MULL"
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "source_name": "MULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 3,
+            "source_name": "HUFL",
+            "target_name": "MULL"
+          },
+          {
+            "source": 5,
+            "target": 4,
+            "source_name": "LULL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 4,
+            "source_name": "HUFL",
+            "target_name": "LUFL"
+          },
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 4,
+            "source_name": "HUFL",
+            "target_name": "LUFL"
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "source_name": "MULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 4,
+            "source_name": "HUFL",
+            "target_name": "LUFL"
+          },
+          {
+            "source": 5,
+            "target": 1,
+            "source_name": "LULL",
+            "target_name": "HULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 1,
+            "target": 4,
+            "source_name": "HULL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          3,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 2,
+            "target": 6,
+            "source_name": "MUFL",
+            "target_name": "OT"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          3,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 3,
+            "target": 2,
+            "source_name": "MULL",
+            "target_name": "MUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 5,
+            "target": 1,
+            "source_name": "LULL",
+            "target_name": "HULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 0,
+            "target": 6,
+            "source_name": "HUFL",
+            "target_name": "OT"
+          },
+          {
+            "source": 5,
+            "target": 4,
+            "source_name": "LULL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 1,
+            "target": 4,
+            "source_name": "HULL",
+            "target_name": "LUFL"
+          },
+          {
+            "source": 2,
+            "target": 6,
+            "source_name": "MUFL",
+            "target_name": "OT"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          3,
+          6
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          },
+          {
+            "source": 2,
+            "target": 1,
+            "source_name": "MUFL",
+            "target_name": "HULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          3,
+          4
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          },
+          {
+            "source": 2,
+            "target": 4,
+            "source_name": "MUFL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          },
+          {
+            "source": 3,
+            "target": 5,
+            "source_name": "MULL",
+            "target_name": "LULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 1,
+            "target": 5,
+            "source_name": "HULL",
+            "target_name": "LULL"
+          },
+          {
+            "source": 5,
+            "target": 1,
+            "source_name": "LULL",
+            "target_name": "HULL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          0,
+          1,
+          4
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 2,
+            "target": 1,
+            "source_name": "MUFL",
+            "target_name": "HULL"
+          },
+          {
+            "source": 2,
+            "target": 4,
+            "source_name": "MUFL",
+            "target_name": "LUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "label": "Candidate Pattern",
+        "pattern_type": "repeated_local_edge_set",
+        "edges": [
+          {
+            "source": 2,
+            "target": 1,
+            "source_name": "MUFL",
+            "target_name": "HULL"
+          },
+          {
+            "source": 3,
+            "target": 2,
+            "source_name": "MULL",
+            "target_name": "MUFL"
+          }
+        ],
+        "cooccurrence_count": 3,
+        "frequency": 0.42857142857142855,
+        "windows": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "cross_run_repeated_patterns": {
+      "status": "missing",
+      "reason": "Only one checkpoint is available for this dataset."
+    }
+  },
+  "limitations": [
+    "Candidate Pattern is a structural description of this checkpoint only.",
+    "It is not an importance, intervention, causal, or real-world relation claim."
+  ],
+  "upstream_graph_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\runs\\99fb2e21e7a4f234a5b3331af84808ce148ef7d8ed435a930a8fd3286eb647d3\\graphs\\ETTm1.json",
+  "upstream_graph_sha256": "3155daef61418ec4d0c5d743fbe922ffbb33e7203d6ac51d1dde1acdd90ae326"
+}

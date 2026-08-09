@@ -1,0 +1,17 @@
+{
+  "dataset": "ETTh2",
+  "web_sample_id": 0,
+  "test_sample_index": 0,
+  "current_epoch": 5,
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "protocols": [
+    "structural_edge_removal",
+    "normalized_channel_mask",
+    "variable_outgoing_removal",
+    "variable_incoming_removal",
+    "variable_associated_removal",
+    "input_variable_mask",
+    "edge_set_removal",
+    "edge_set_keep_only"
+  ]
+}

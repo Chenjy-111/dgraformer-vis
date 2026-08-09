@@ -1,0 +1,93 @@
+{
+  "phase": "Phase 0 - authenticity and provenance audit",
+  "audit_status": "complete",
+  "phase_1_gate": "passed",
+  "audited_at": "2026-08-07T00:00:00+08:00",
+  "source_root": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main",
+  "source_code": {
+    "git_commit": null,
+    "git_status": "missing_repository_metadata",
+    "model_file": {"path": "models/DGraFormer.py", "sha256": "dbfd103577e6f54109642f0f3ce884ede54aab16c6bcef634f2b763f3257b35d"},
+    "graph_file": {"path": "layers/DGraFormer_framework.py", "sha256": "68ce6d05c68aa2fd901298297220b6d97b41e66b6812c124317ef77c763f36c4"},
+    "data_loader": {"path": "data_provider/data_loader.py", "sha256": "b763e649dbdf4b1b2e3da625b0186bc9ae66744755faf07719c18103a9e25c02"},
+    "run_config": {"path": "run.py", "sha256": "12bc3c127a54fc0d4bb774a3ba15b660f6dbfd519724d9b1a5a6fc81ccfc832d"},
+    "exporter": {"path": "export_demo_json.py", "sha256": "954d595ee40ff543339ba6c2d4b3083af961e3b4dd89d1f576525abb3187ee8f"}
+  },
+  "configuration": {
+    "source": "run.py and dataset-specific setting directory names; no immutable standalone config file",
+    "random_seed": 202501,
+    "input_length": 96,
+    "label_length": 48,
+    "forecast_length": 96,
+    "graph_window_size": 24,
+    "graph_window_bias": 0,
+    "graph_window_count": 7,
+    "d_graph": 30,
+    "d_gcn": 1,
+    "w_ratio": 0.5,
+    "message_passing_layers": 2,
+    "patch_length": 8,
+    "stride": 8,
+    "d_model": 16,
+    "n_heads": 4,
+    "encoder_layers": 1,
+    "d_ff": 128,
+    "canonical_schedule_state": "final",
+    "canonical_current_epoch_equivalent": 5,
+    "canonical_static_weight": 0.1,
+    "canonical_learned_weight": 0.9,
+    "legacy_current_epoch_used_for_saved_graphs": 71,
+    "ke": "floor(n_vars * n_vars * 0.5), including diagonal before self-loop replacement"
+  },
+  "datasets": [
+    {"name":"ETTh1","path":"data_provider/data/ETT/ETTh1.csv","sha256":"f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066","rows":17420,"split":"fixed 12/4/4 months","test_border1":11424,"checkpoint_sha256":"f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f","result_count":2688,"web_to_test_index":[0,537,1074,1611,2148]},
+    {"name":"ETTh2","path":"data_provider/data/ETT/ETTh2.csv","sha256":"a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b","rows":17420,"split":"fixed 12/4/4 months","test_border1":11424,"checkpoint_sha256":"0aaeacc61e1fee9d63f32280c23a4e9ab63133d3c61a3e13a34a7c6fcc5e913e","result_count":2688,"web_to_test_index":[0,537,1074,1611,2148]},
+    {"name":"ETTm1","path":"data_provider/data/ETT/ETTm1.csv","sha256":"6ce1759b1a18e3328421d5d75fadcb316c449fcd7cec32820c8dafda71986c9e","rows":69680,"split":"fixed 12/4/4 months","test_border1":45984,"checkpoint_sha256":"b065f4048f05fb2544070ef5652c382f501fb2f070bb0e352f30e46dddaa55fa","result_count":11392,"web_to_test_index":[0,2278,4556,6834,9112]},
+    {"name":"ETTm2","path":"data_provider/data/ETT/ETTm2.csv","sha256":"db973ca252c6410a30d0469b13d696cf919648d0f3fd588c60f03fdbdbadd1fd","rows":69680,"split":"fixed 12/4/4 months","test_border1":45984,"checkpoint_sha256":"c02b9e45475d23d82f5bf78e2436f636e992e775e1df6ff5cdb3f08863bf873f","result_count":11392,"web_to_test_index":[0,2278,4556,6834,9112]},
+    {"name":"Weather","path":"data_provider/data/weather.csv","sha256":"34ee981d07313e51da2a50bb600072c8ae4a69cb4b0651f4cb93a069d7a2ba63","rows":52696,"split":"70%/10%/20% chronological","test_border1":42061,"checkpoint_sha256":"3fda08db93fffeb41808056fb6fe1ae93994ce29c1791f96407e0478039d5503","result_count":10368,"web_to_test_index":[0,2073,4146,6219,8292]}
+  ],
+  "web_artifact_verification": {
+    "sample_file_count": 25,
+    "prediction_max_abs_difference": 0.0,
+    "ground_truth_max_abs_difference": 0.0,
+    "input_max_abs_difference": 0.0,
+    "dynamic_graph_max_abs_difference": 0.0000005067,
+    "attention_mean_max_abs_difference": 0.0000000373,
+    "status": "all 25 web samples matched source NPY arrays; graph differences are six-decimal JSON rounding"
+  },
+  "phase_gate": {
+    "real_checkpoint_files_present": true,
+    "real_dataset_files_present": true,
+    "real_saved_outputs_present": true,
+    "web_outputs_traceable_to_saved_arrays": true,
+    "checkpoint_forward_reexecution_verified": true,
+    "can_enter_phase_1": true,
+    "phase_1_completed": true,
+    "canonical_export_run_id": "d40384ae455ec45e642761902f354b38649411e45cdbd5f3f98d1b3811fa5ca9",
+    "baseline_run_id": "f654f2ab710e4e51f3e7086736b32b9f064ff84f1e4ae8a0053bfdc448b36de9",
+    "phase_2_completed": true,
+    "graph_extraction_run_id": "bc60c5a9f09c46d5e176a2e014bb7b516c7c562270f86c31bb382ee48342175b",
+    "phase_3_completed": true,
+    "pattern_discovery_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+    "phase_4_completed": true,
+    "intervention_run_id": "0ce6faf89f74cf6e4bc67a109bd47ef190f2cd8299ec03a3eb431a88728664d0",
+    "phase_5_completed": true,
+    "evidence_validation_run_id": "9b3eeeeb8ef2967cc7fe44a09ac41f214ce9442a890b74d112341cbec0c6f708",
+    "phase_6_status": "missing_not_evaluated_deferred",
+    "phase_6_status_path": "artifacts/cross_run/status.json",
+    "phase_7_main_narrative_completed": true,
+    "superseded_run_ids": [
+      "f8f594bf5a8584f663cb2d33420fa6a9718903d4d33cbaeff4f9a0b9764f4680",
+      "99fb2e21e7a4f234a5b3331af84808ce148ef7d8ed435a930a8fd3286eb647d3",
+      "495b4cf4d98dfc8675c55de634ebfc37483ca1c39a80065878b47aba8d13579b",
+      "c23ba360139e3b7026c08981a0de244256d91ce64a07302c4733ddcd539459ea",
+      "fbd8d79dec8f1afba1fec60aabb085df65f7c0b23008b211fea106ead191142e"
+    ],
+    "blockers": [
+      "No Git metadata or immutable source commit is present.",
+      "No standalone configuration file exists; configuration is reconstructed from mutable scripts and directory names.",
+      "Legacy exporter artifacts mixed epoch-equivalent states and are retained only as superseded audit evidence.",
+      "Phase 6 requires at least three real checkpoints trained with different random seeds under the same protocol."
+    ]
+  }
+}

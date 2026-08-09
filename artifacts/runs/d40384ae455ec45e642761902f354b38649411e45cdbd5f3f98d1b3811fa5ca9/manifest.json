@@ -1,0 +1,254 @@
+{
+  "run_id": "d40384ae455ec45e642761902f354b38649411e45cdbd5f3f98d1b3811fa5ca9",
+  "status": "complete",
+  "schedule": {
+    "state": "final",
+    "current_epoch_equivalent": 5,
+    "static_weight": 0.1,
+    "learned_weight": 0.9
+  },
+  "registry_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\phase1_registry.json",
+  "registry_sha256": "b1621af0e6a84389c479576b06e854e96c307cbc675f38ce5fa4c3f80895ac1f",
+  "datasets": [
+    {
+      "dataset": "ETTh1",
+      "checkpoint_sha256": "f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f",
+      "data_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+      "graph_sha256": "0ab3b7179829c12e9d1e93971a00a43133fff82fca098fcca7fc05c814d6a898",
+      "samples": [
+        {
+          "web_sample_id": 0,
+          "test_sample_index": 0,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh1_000_h96.json",
+          "web_sha256": "605de6de7c38044b0898f43b0f3e66b760ba7f8afb98762142541282c0c9715e",
+          "mse": 0.27209848165512085,
+          "mae": 0.3520420789718628
+        },
+        {
+          "web_sample_id": 1,
+          "test_sample_index": 537,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh1_001_h96.json",
+          "web_sha256": "ef6f1943b15a63fae152d71f9ec3a4e3f25148000fbe97277f5c184279c9a1c2",
+          "mse": 0.19485729932785034,
+          "mae": 0.3312170207500458
+        },
+        {
+          "web_sample_id": 2,
+          "test_sample_index": 1074,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh1_002_h96.json",
+          "web_sha256": "1bab56094d57360d1fe0bac6d8dca5ea2371bde016af198d9a6956224348f00e",
+          "mse": 0.42598846554756165,
+          "mae": 0.3890860378742218
+        },
+        {
+          "web_sample_id": 3,
+          "test_sample_index": 1611,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh1_003_h96.json",
+          "web_sha256": "4261e3a90d2ba2b70f5ccee69d97ef37a88b0f6ff72f6e3d9869f9e9472b2593",
+          "mse": 0.42569828033447266,
+          "mae": 0.449505478143692
+        },
+        {
+          "web_sample_id": 4,
+          "test_sample_index": 2148,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh1_004_h96.json",
+          "web_sha256": "d323eef389b7a619e11c23e0e9f17d3a1e2ce6dd52c7631509f9cee674020c8e",
+          "mse": 0.3005238473415375,
+          "mae": 0.39199596643447876
+        }
+      ]
+    },
+    {
+      "dataset": "ETTh2",
+      "checkpoint_sha256": "0aaeacc61e1fee9d63f32280c23a4e9ab63133d3c61a3e13a34a7c6fcc5e913e",
+      "data_sha256": "a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b",
+      "graph_sha256": "46d57dc22ec66e0efac5ee267c1df84880d17a23e4d70f9e52dd59d5dab3e1c1",
+      "samples": [
+        {
+          "web_sample_id": 0,
+          "test_sample_index": 0,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh2_000_h96.json",
+          "web_sha256": "e9cc55e8e37a288a23c99ac5bcb13f37b143fd06b2e95f62d053f89d3459a06f",
+          "mse": 0.1141003668308258,
+          "mae": 0.2701793611049652
+        },
+        {
+          "web_sample_id": 1,
+          "test_sample_index": 537,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh2_001_h96.json",
+          "web_sha256": "ac0a3506e221b6d00670decf40ade72d3551d2164f86558ada6f614edfd64fdb",
+          "mse": 0.08663716167211533,
+          "mae": 0.19744180142879486
+        },
+        {
+          "web_sample_id": 2,
+          "test_sample_index": 1074,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh2_002_h96.json",
+          "web_sha256": "951cd0c28aa19696af44dfe6504823f6eef340f91bbb2af73d70f4c195d8265c",
+          "mse": 0.5316066145896912,
+          "mae": 0.49276793003082275
+        },
+        {
+          "web_sample_id": 3,
+          "test_sample_index": 1611,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh2_003_h96.json",
+          "web_sha256": "8f6ac5695bce9748f637b922f4981e982e41f6b9632d6dc9282ecbe656a01909",
+          "mse": 0.057454925030469894,
+          "mae": 0.18199531733989716
+        },
+        {
+          "web_sample_id": 4,
+          "test_sample_index": 2148,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTh2_004_h96.json",
+          "web_sha256": "a23da55b17fddfcee65166952384888cdc6056c01f3fa8097dea4e33aee431a4",
+          "mse": 0.5992691516876221,
+          "mae": 0.5436312556266785
+        }
+      ]
+    },
+    {
+      "dataset": "ETTm1",
+      "checkpoint_sha256": "b065f4048f05fb2544070ef5652c382f501fb2f070bb0e352f30e46dddaa55fa",
+      "data_sha256": "6ce1759b1a18e3328421d5d75fadcb316c449fcd7cec32820c8dafda71986c9e",
+      "graph_sha256": "2a3d88ea72d5f9e56ddc874e349b7954d0ce5c656590e8e20544ed330787a26f",
+      "samples": [
+        {
+          "web_sample_id": 0,
+          "test_sample_index": 0,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm1_000_h96.json",
+          "web_sha256": "505bd87e65b07ca0cbaeefe53a2519c6c22ef7875868a96015fb606980184791",
+          "mse": 0.4145168960094452,
+          "mae": 0.41411980986595154
+        },
+        {
+          "web_sample_id": 1,
+          "test_sample_index": 2278,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm1_001_h96.json",
+          "web_sha256": "f34a6a52696e7d5a82dbb780fff309460b2ea50d0b54bd535590bb06db7ce3f8",
+          "mse": 0.05442293360829353,
+          "mae": 0.17491309344768524
+        },
+        {
+          "web_sample_id": 2,
+          "test_sample_index": 4556,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm1_002_h96.json",
+          "web_sha256": "a049f048c86795c4509170871764133a1febd630d9bdd9c513a01bc211148b44",
+          "mse": 0.5057284832000732,
+          "mae": 0.47953715920448303
+        },
+        {
+          "web_sample_id": 3,
+          "test_sample_index": 6834,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm1_003_h96.json",
+          "web_sha256": "1c03e377a994e87b2924d77ab8fd32e4df917cea6a078a426b0dc2bff35ae002",
+          "mse": 0.14425857365131378,
+          "mae": 0.2936461865901947
+        },
+        {
+          "web_sample_id": 4,
+          "test_sample_index": 9112,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm1_004_h96.json",
+          "web_sha256": "f28c9f64abdd2032077b43544849b32fef5b75dece2d01e544a9bd3b973ce207",
+          "mse": 0.12255789339542389,
+          "mae": 0.2548559606075287
+        }
+      ]
+    },
+    {
+      "dataset": "ETTm2",
+      "checkpoint_sha256": "c02b9e45475d23d82f5bf78e2436f636e992e775e1df6ff5cdb3f08863bf873f",
+      "data_sha256": "db973ca252c6410a30d0469b13d696cf919648d0f3fd588c60f03fdbdbadd1fd",
+      "graph_sha256": "ac3d2a76d2fbafeedaf01360b4a2d20239ff61af92e424bd72c2cf0f290e61f8",
+      "samples": [
+        {
+          "web_sample_id": 0,
+          "test_sample_index": 0,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm2_000_h96.json",
+          "web_sha256": "c4d0bb13870e01cc63e4ed5c57b7ddf2206007641efe767a9149ecd884daa3f4",
+          "mse": 0.09102314710617065,
+          "mae": 0.23483535647392273
+        },
+        {
+          "web_sample_id": 1,
+          "test_sample_index": 2278,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm2_001_h96.json",
+          "web_sha256": "033b96d2ad701730a6509f4478fb03b6a1a64808f02a1a2420e9e142f28550df",
+          "mse": 0.05789818614721298,
+          "mae": 0.13629262149333954
+        },
+        {
+          "web_sample_id": 2,
+          "test_sample_index": 4556,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm2_002_h96.json",
+          "web_sha256": "5cc612dea053c1d44737c3877450cfecb4482eebee8e71d38e0b9b6e7fbec3dc",
+          "mse": 0.09948517382144928,
+          "mae": 0.20944954454898834
+        },
+        {
+          "web_sample_id": 3,
+          "test_sample_index": 6834,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm2_003_h96.json",
+          "web_sha256": "c62a354199e6c8206b4787942339f7dc1b23ba4025aec6372e42915d7ca8fe98",
+          "mse": 0.30726495385169983,
+          "mae": 0.37660449743270874
+        },
+        {
+          "web_sample_id": 4,
+          "test_sample_index": 9112,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\ETTm2_004_h96.json",
+          "web_sha256": "69c84a5aa26612b74118653a9a628777bb2dc02db841abd3afebcf3d3c7c0e7e",
+          "mse": 0.12915007770061493,
+          "mae": 0.22465184330940247
+        }
+      ]
+    },
+    {
+      "dataset": "Weather",
+      "checkpoint_sha256": "3fda08db93fffeb41808056fb6fe1ae93994ce29c1791f96407e0478039d5503",
+      "data_sha256": "34ee981d07313e51da2a50bb600072c8ae4a69cb4b0651f4cb93a069d7a2ba63",
+      "graph_sha256": "6b85bf4dc130b13aae6fd58b9289410c4be5b31a073447f2323356fa8b5727bf",
+      "samples": [
+        {
+          "web_sample_id": 0,
+          "test_sample_index": 0,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\Weather_000_h96.json",
+          "web_sha256": "0440fe7b85b8d8beb333c2b725d458c8804ddee8deaf71b976d8e4c02dca9f58",
+          "mse": 0.10828153043985367,
+          "mae": 0.21394939720630646
+        },
+        {
+          "web_sample_id": 1,
+          "test_sample_index": 2073,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\Weather_001_h96.json",
+          "web_sha256": "4924c564a0aa0c24255cf9986270e5a0fd69e98086af32ad87ac7a89183db27b",
+          "mse": 0.11952225118875504,
+          "mae": 0.25157201290130615
+        },
+        {
+          "web_sample_id": 2,
+          "test_sample_index": 4146,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\Weather_002_h96.json",
+          "web_sha256": "0a3ceb1c6501237131d21b86d59b889c7657b8070ac31f1d926913c563a68ad7",
+          "mse": 0.03696947172284126,
+          "mae": 0.10128503292798996
+        },
+        {
+          "web_sample_id": 3,
+          "test_sample_index": 6219,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\Weather_003_h96.json",
+          "web_sha256": "684e1e449172f5adb94b341ada4a926ae40a1cf65cae930e0ed8cb36d4da4ea9",
+          "mse": 0.13243873417377472,
+          "mae": 0.14516988396644592
+        },
+        {
+          "web_sample_id": 4,
+          "test_sample_index": 8292,
+          "web_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\public\\data\\samples\\Weather_004_h96.json",
+          "web_sha256": "5f6e79c1967d456c6a12a5ebefe6f47683bcdeb48829e0d2100e9014bb75f397",
+          "mse": 0.05648089200258255,
+          "mae": 0.13976407051086426
+        }
+      ]
+    }
+  ]
+}

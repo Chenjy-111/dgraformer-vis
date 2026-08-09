@@ -1,0 +1,203 @@
+{
+  "run_id": "0ce6faf89f74cf6e4bc67a109bd47ef190f2cd8299ec03a3eb431a88728664d0",
+  "status": "complete",
+  "dataset": "ETTh2",
+  "checkpoint_path": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\checkpoints\\ETTh2_96_DGraFormer_ETTh2.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0\\checkpoint.pth",
+  "checkpoint_sha256": "0aaeacc61e1fee9d63f32280c23a4e9ab63133d3c61a3e13a34a7c6fcc5e913e",
+  "data_path": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\data_provider\\data\\ETT\\ETTh2.csv",
+  "data_sha256": "a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b",
+  "config_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\intervention.json",
+  "config_sha256": "365d8a3a704937c28c3b866f6c34e7927d65cc1a36ad7f50bd99721c033585d8",
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "identity_override_max_absolute_difference": 0.0,
+  "identity_override_exact": true,
+  "results": [
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "structural_edge_removal",
+        "window": 0,
+        "source": 1,
+        "target": 5
+      },
+      "renormalized": true,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.27039116621017456,
+        "mse": 0.11428651213645935
+      },
+      "prediction_delta_mean_abs": 0.0016103379894047976,
+      "prediction_delta_max_abs": 0.01217353343963623,
+      "error_delta_mae": 0.00021180510520935059,
+      "error_delta_mse": 0.00018614530563354492
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "normalized_channel_mask",
+        "window": 0,
+        "source": 1,
+        "target": 5
+      },
+      "renormalized": false,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.27042481303215027,
+        "mse": 0.11433137208223343
+      },
+      "prediction_delta_mean_abs": 0.0010855093132704496,
+      "prediction_delta_max_abs": 0.01217353343963623,
+      "error_delta_mae": 0.0002454519271850586,
+      "error_delta_mse": 0.0002310052514076233
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "variable_outgoing_removal",
+        "window": 0,
+        "variable": 2
+      },
+      "renormalized": true,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.2661231756210327,
+        "mse": 0.11236550658941269
+      },
+      "prediction_delta_mean_abs": 0.01025389228016138,
+      "prediction_delta_max_abs": 0.11471399664878845,
+      "error_delta_mae": -0.004056185483932495,
+      "error_delta_mse": -0.0017348602414131165
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "variable_incoming_removal",
+        "window": 0,
+        "variable": 2
+      },
+      "renormalized": true,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.27050071954727173,
+        "mse": 0.11433867365121841
+      },
+      "prediction_delta_mean_abs": 0.004080754239112139,
+      "prediction_delta_max_abs": 0.025532633066177368,
+      "error_delta_mae": 0.00032135844230651855,
+      "error_delta_mse": 0.00023830682039260864
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "variable_associated_removal",
+        "window": 0,
+        "variable": 2
+      },
+      "renormalized": true,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.2688135802745819,
+        "mse": 0.11353909224271774
+      },
+      "prediction_delta_mean_abs": 0.005488050170242786,
+      "prediction_delta_max_abs": 0.04143229126930237,
+      "error_delta_mae": -0.0013657808303833008,
+      "error_delta_mse": -0.0005612745881080627
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "input_variable_mask",
+        "variable": 2
+      },
+      "renormalized": false,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.28302881121635437,
+        "mse": 0.1223689392209053
+      },
+      "prediction_delta_mean_abs": 0.09368547797203064,
+      "prediction_delta_max_abs": 0.814433753490448,
+      "error_delta_mae": 0.01284945011138916,
+      "error_delta_mse": 0.008268572390079498
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "edge_set_removal",
+        "window": 2,
+        "edges": [
+          [
+            2,
+            1
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      "renormalized": true,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.26890960335731506,
+        "mse": 0.11283354461193085
+      },
+      "prediction_delta_mean_abs": 0.0052077206782996655,
+      "prediction_delta_max_abs": 0.04895830154418945,
+      "error_delta_mae": -0.0012697577476501465,
+      "error_delta_mse": -0.0012668222188949585
+    },
+    {
+      "status": "complete",
+      "protocol": {
+        "type": "edge_set_keep_only",
+        "window": 2,
+        "edges": [
+          [
+            2,
+            1
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      "renormalized": true,
+      "baseline_metrics": {
+        "mae": 0.2701793611049652,
+        "mse": 0.1141003668308258
+      },
+      "intervention_metrics": {
+        "mae": 0.27300354838371277,
+        "mse": 0.1169431060552597
+      },
+      "prediction_delta_mean_abs": 0.01038593240082264,
+      "prediction_delta_max_abs": 0.1085735559463501,
+      "error_delta_mae": 0.0028241872787475586,
+      "error_delta_mse": 0.002842739224433899
+    }
+  ]
+}

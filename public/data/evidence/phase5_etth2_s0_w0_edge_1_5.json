@@ -1,0 +1,37 @@
+{
+  "status": "complete",
+  "conclusion_id": "phase5_etth2_s0_w0_edge_1_5",
+  "claim_level": "interventional_model_evidence",
+  "run_id": "9b3eeeeb8ef2967cc7fe44a09ac41f214ce9442a890b74d112341cbec0c6f708",
+  "dataset": "ETTh2",
+  "sample_index": 0,
+  "window": 0,
+  "edge": {"source": 1, "target": 5, "source_name": "HULL", "target_name": "LULL", "topk_score": 0.9909594058990479, "normalized_weight": 0.2519385814666748, "retained_edge_rank": 2},
+  "schedule": {"state": "final", "current_epoch_equivalent": 5, "static_weight": 0.1, "learned_weight": 0.9},
+  "focal_metrics": {"baseline_mae": 0.2701793611049652, "intervention_mae": 0.27039116621017456, "prediction_delta_abs": 0.0016103379894047976, "prediction_delta_rel": 0.0011957044852604335, "error_delta_mae": 0.00021180510520935059, "error_delta_mse": 0.00018614530563354492},
+  "weight_impact": {"edge_count": 18, "spearman_rho": -0.013415892672858616, "spearman_p": 0.9578637574487228, "k": 5, "overlap_at_k": 0.2},
+  "controls": {"repetitions": 100, "random_seed": 20260807, "control_mean_prediction_delta_abs": 0.002282499800203368, "control_percentile": 25.0, "empirical_p": 0.7524752475247525, "bh_adjusted_p": 0.7524752475247525, "standardized_effect_size": -0.7096858525007002, "confidence_level": 0.95, "effect_difference_bootstrap_ci": [-0.0008535043674564805, -0.0004853464539628475]},
+  "identity_override_max_absolute_difference": 0.0,
+  "provenance": {"data_sha256": "a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b", "checkpoint_sha256": "0aaeacc61e1fee9d63f32280c23a4e9ab63133d3c61a3e13a34a7c6fcc5e913e", "config_sha256": "c6e1298d9cb2d829f663086de08eeb1e614283aa5fec476c501823bd2ba07dcd", "test_input_time": ["2017-06-26 00:00:00", "2017-06-29 23:00:00"], "forecast_time": ["2017-06-30 00:00:00", "2017-07-03 23:00:00"]},
+  "reproduction": {
+    "command": "python -m dgraudit.cli.validate_pattern --config configs/evidence_validation.json --registry configs/phase1_registry.json --output-root artifacts/runs",
+    "manifest": "artifacts/runs/9b3eeeeb8ef2967cc7fe44a09ac41f214ce9442a890b74d112341cbec0c6f708/manifest.json",
+    "environment": "artifacts/runs/9b3eeeeb8ef2967cc7fe44a09ac41f214ce9442a890b74d112341cbec0c6f708/environment.json",
+    "stdout": "artifacts/runs/9b3eeeeb8ef2967cc7fe44a09ac41f214ce9442a890b74d112341cbec0c6f708/stdout.log",
+    "stderr": "artifacts/runs/9b3eeeeb8ef2967cc7fe44a09ac41f214ce9442a890b74d112341cbec0c6f708/stderr.log",
+    "raw_operands": [
+      "predictions/baseline.npy",
+      "predictions/focal_intervention.npy",
+      "predictions/all_retained_edge_interventions.npy",
+      "controls/matched_controls.json",
+      "controls/matched_control_predictions.npy",
+      "metrics/weight_impact.json",
+      "metrics/control_statistics.json",
+      "graphs/window_0.json"
+    ],
+    "formula_ids": ["prediction_delta_abs", "error_delta_mae", "spearman_rho", "overlap_at_k", "empirical_p_plus_one", "benjamini_hochberg", "bootstrap_ci", "standardized_effect_size"],
+    "code_references": ["dgraudit/cli/validate_pattern.py", "dgraudit/adapters.py"]
+  },
+  "conclusion": "The selected edge produced a measurable prediction change, but its effect was below the matched-control mean and at the 25th control percentile. This run does not support treating high graph weight as high functional impact.",
+  "limitations": ["This evidence is specific to one checkpoint, sample and graph window.", "It does not represent a real-world causal relationship.", "Cross-run reproducibility is not evaluated because only one checkpoint is available."]
+}

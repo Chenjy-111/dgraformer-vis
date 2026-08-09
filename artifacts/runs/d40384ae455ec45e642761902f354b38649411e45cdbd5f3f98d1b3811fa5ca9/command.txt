@@ -1,0 +1,1 @@
+python -m dgraudit.cli.rebuild_canonical --registry configs/phase1_registry.json --output-root artifacts/runs --web-output public/data/samples

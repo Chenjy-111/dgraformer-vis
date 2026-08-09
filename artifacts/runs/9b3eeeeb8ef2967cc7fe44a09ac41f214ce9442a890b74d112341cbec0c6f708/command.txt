@@ -1,0 +1,1 @@
+python -m dgraudit.cli.validate_pattern --config configs/evidence_validation.json --registry configs/phase1_registry.json --output-root artifacts/runs

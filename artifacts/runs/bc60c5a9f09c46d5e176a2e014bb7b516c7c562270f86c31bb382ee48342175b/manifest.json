@@ -1,0 +1,55 @@
+{
+  "run_id": "bc60c5a9f09c46d5e176a2e014bb7b516c7c562270f86c31bb382ee48342175b",
+  "status": "complete",
+  "config_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\phase1_registry.json",
+  "config_sha256": "b1621af0e6a84389c479576b06e854e96c307cbc675f38ce5fa4c3f80895ac1f",
+  "graph_code_path": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\layers\\DGraFormer_framework.py",
+  "graph_code_sha256": "68ce6d05c68aa2fd901298297220b6d97b41e66b6812c124317ef77c763f36c4",
+  "datasets": [
+    {
+      "dataset": "ETTh1",
+      "status": "complete",
+      "checkpoint_sha256": "f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f",
+      "data_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+      "reference_adjs_sha256": "7cd69be2d1fa5721c393695e507755638b3bc0a121add242606160560c9e9aec",
+      "current_epoch": 5,
+      "final_matrix_max_absolute_difference": 5.960464477539063e-08
+    },
+    {
+      "dataset": "ETTh2",
+      "status": "complete",
+      "checkpoint_sha256": "0aaeacc61e1fee9d63f32280c23a4e9ab63133d3c61a3e13a34a7c6fcc5e913e",
+      "data_sha256": "a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b",
+      "reference_adjs_sha256": "c8e01466f55a5538abf7e8464c645827dfb54b59481c80e96a4bd09bfb7045b6",
+      "current_epoch": 5,
+      "final_matrix_max_absolute_difference": 0.0
+    },
+    {
+      "dataset": "ETTm1",
+      "status": "complete",
+      "checkpoint_sha256": "b065f4048f05fb2544070ef5652c382f501fb2f070bb0e352f30e46dddaa55fa",
+      "data_sha256": "6ce1759b1a18e3328421d5d75fadcb316c449fcd7cec32820c8dafda71986c9e",
+      "reference_adjs_sha256": "b59667a953b5f0af7e77d170937c12b6c11005a22ecaa53fe3c59af8d8e0c943",
+      "current_epoch": 5,
+      "final_matrix_max_absolute_difference": 0.0
+    },
+    {
+      "dataset": "ETTm2",
+      "status": "complete",
+      "checkpoint_sha256": "c02b9e45475d23d82f5bf78e2436f636e992e775e1df6ff5cdb3f08863bf873f",
+      "data_sha256": "db973ca252c6410a30d0469b13d696cf919648d0f3fd588c60f03fdbdbadd1fd",
+      "reference_adjs_sha256": "9b68e5ec99ea61fbfde64a9a8e0289a99d1d71fea91dfca7e0e41f50f1c78968",
+      "current_epoch": 5,
+      "final_matrix_max_absolute_difference": 0.0
+    },
+    {
+      "dataset": "Weather",
+      "status": "complete",
+      "checkpoint_sha256": "3fda08db93fffeb41808056fb6fe1ae93994ce29c1791f96407e0478039d5503",
+      "data_sha256": "34ee981d07313e51da2a50bb600072c8ae4a69cb4b0651f4cb93a069d7a2ba63",
+      "reference_adjs_sha256": "1278a73b64c9cf41f6c83bfbe8b2e4cfad797c50482353d08dc137a6f4dc80e8",
+      "current_epoch": 5,
+      "final_matrix_max_absolute_difference": 0.0
+    }
+  ]
+}

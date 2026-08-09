@@ -61,7 +61,8 @@ export interface WindowData {
   filtered_edges: GraphEdge[];
   top_edges: GraphEdge[]; // top ranked overall
   sparsity_ratio: number; // fraction filtered
-  mean_error: number; // mean abs error of points inside window
+  mean_error: number | null; // null: graph-id windows are input-side, not forecast-error intervals
+  active_input_steps?: number[];
   explanation: string;
 }
 
@@ -97,6 +98,16 @@ export interface SampleData {
   baseline_predictions?: Partial<Record<BaselineId, number[][]>>;
   baseline_metrics?: Partial<Record<BaselineId, { mse: number; mae: number }>>;
   narrative: string;
+  provenance?: {
+    scheduleState: string;
+    currentEpochEquivalent: number;
+    staticWeight: number;
+    learnedWeight: number;
+    testSampleIndex: number;
+    checkpointSha256: string;
+    dataSha256: string;
+    runId: string;
+  };
 }
 
 export interface DatasetIndexEntry {

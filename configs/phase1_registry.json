@@ -1,0 +1,47 @@
+{
+  "source_root": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main",
+  "random_seed": 202501,
+  "baseline_atol": 1e-6,
+  "baseline_rtol": 1e-5,
+  "schedule": {
+    "state": "final",
+    "current_epoch_equivalent": 5,
+    "static_weight": 0.1,
+    "learned_weight": 0.9
+  },
+  "common": {
+    "seq_len": 96, "label_len": 48, "pred_len": 96,
+    "numpoint_win": 24, "w_bias": 0, "d_graph": 30, "d_gcn": 1,
+    "w_ratio": 0.5, "mp_layers": 2, "predictor_dropout": 0.0,
+    "patch_len": 8, "stride": 8, "revin": 1, "affine": 0,
+    "subtract_last": 0, "d_model": 16, "n_heads": 4, "e_layers": 1,
+    "d_ff": 128, "dropout": 0.05, "embed": "timeF", "activation": "gelu"
+  },
+  "datasets": {
+    "ETTh1": {
+      "data": "ETTh1", "root_path": "data_provider/data/ETT", "data_path": "ETTh1.csv", "freq": "h", "n_vars": 7,
+      "setting": "test_DGraFormer_ETTh1.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0",
+      "web_sample_indices": [0, 537, 1074, 1611, 2148]
+    },
+    "ETTh2": {
+      "data": "ETTh2", "root_path": "data_provider/data/ETT", "data_path": "ETTh2.csv", "freq": "h", "n_vars": 7,
+      "setting": "ETTh2_96_DGraFormer_ETTh2.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0",
+      "web_sample_indices": [0, 537, 1074, 1611, 2148]
+    },
+    "ETTm1": {
+      "data": "ETTm1", "root_path": "data_provider/data/ETT", "data_path": "ETTm1.csv", "freq": "t", "n_vars": 7,
+      "setting": "ETTm1_96_DGraFormer_ETTm1.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0",
+      "web_sample_indices": [0, 2278, 4556, 6834, 9112]
+    },
+    "ETTm2": {
+      "data": "ETTm2", "root_path": "data_provider/data/ETT", "data_path": "ETTm2.csv", "freq": "t", "n_vars": 7,
+      "setting": "ETTm2_96_DGraFormer_ETTm2.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0",
+      "web_sample_indices": [0, 2278, 4556, 6834, 9112]
+    },
+    "Weather": {
+      "data": "custom", "root_path": "data_provider/data", "data_path": "weather.csv", "freq": "10min", "n_vars": 21,
+      "setting": "Weather_96_DGraFormer_weather.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0",
+      "web_sample_indices": [0, 2073, 4146, 6219, 8292]
+    }
+  }
+}
