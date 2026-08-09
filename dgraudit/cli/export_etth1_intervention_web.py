@@ -2,9 +2,21 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 import numpy as np
+
+
+def json_safe(value):
+    """Preserve undefined numeric results as JSON null, never non-standard NaN."""
+    if isinstance(value, dict):
+        return {key: json_safe(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [json_safe(item) for item in value]
+    if isinstance(value, (float, np.floating)) and not math.isfinite(float(value)):
+        return None
+    return value
 
 
 def main() -> int:
@@ -96,7 +108,10 @@ def main() -> int:
     }
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    output_path.write_text(
+        json.dumps(json_safe(output), ensure_ascii=False, separators=(",", ":"), allow_nan=False),
+        encoding="utf-8",
+    )
     print(json.dumps({"output": str(output_path), "cases": len(cases), "edges": len(edges)}, indent=2))
     return 0
 
