@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .journey-button {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-[#c8d3de] bg-white px-3 py-2 text-[11px] font-semibold text-ink-600 transition hover:border-[#16827f] hover:text-[#16827f];
+  }
+}
+
 :root {
   --att-lo: 251 238 220;
   --att-hi: 168 52 31;

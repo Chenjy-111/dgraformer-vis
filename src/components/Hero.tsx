@@ -19,10 +19,10 @@ export function Hero() {
         <div className="mt-7 flex flex-wrap gap-2.5">
           <Button variant="primary" icon={<ArrowRight size={15}/>} onClick={() => { setView('forecast'); scrollTo('workspace'); }}>Explore real sample</Button>
           <Button variant="outline" icon={<Compass size={15}/>} onClick={startTour}>Start guided tour</Button>
-          <Button variant="outline" icon={<Workflow size={15}/>} onClick={() => scrollTo('evidence')}>View validated evidence</Button>
-          <Button variant="outline" icon={<Network size={15}/>} onClick={() => scrollTo('workflow')}>See research workflow</Button>
+          <Button variant="outline" icon={<Workflow size={15}/>} onClick={() => scrollTo('intervention-lab')}>Run precomputed intervention</Button>
+          <Button variant="outline" icon={<Network size={15}/>} onClick={() => scrollTo('intervention-lab')}>Watch evidence unfold</Button>
         </div>
-        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-[12.5px] text-ink-500"><Stat k="5" v="real datasets loaded"/><Stat k="25" v="checkpoint-replayed samples"/><Stat k="100" v="real-edge controls"/><Stat k="0.0" v="identity replay Δmax"/></div>
+        <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-[12.5px] text-ink-500"><Stat k="1" v="supported dataset · ETTh1"/><Stat k="5" v="checkpoint-replayed samples"/><Stat k="4,000" v="real-edge control records"/><Stat k="0.0" v="identity replay Δmax"/></div>
       </div>
       <div className="card flex flex-col justify-center p-6">
         <div className="eyebrow mb-4">The evidence chain</div>

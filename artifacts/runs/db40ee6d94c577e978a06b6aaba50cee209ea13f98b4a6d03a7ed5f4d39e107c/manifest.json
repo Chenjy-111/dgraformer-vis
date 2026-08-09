@@ -1,0 +1,32 @@
+{
+  "run_id": "db40ee6d94c577e978a06b6aaba50cee209ea13f98b4a6d03a7ed5f4d39e107c",
+  "status": "complete",
+  "phase": "Phase 4 - Predeclared ETTh1 Candidate Intervention Catalog",
+  "schedule": {
+    "state": "final",
+    "current_epoch_equivalent": 5,
+    "static_weight": 0.1,
+    "learned_weight": 0.9
+  },
+  "selection_config": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\precomputed_intervention_catalog.json",
+  "selection_config_sha256": "472024173bf38099ebfd471e4924d07535a3caf9cdae1db9dd6ff3fbcdd8ea38",
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "datasets": [
+    {
+      "dataset": "ETTh1",
+      "status": "complete",
+      "record_count": 80,
+      "catalog": "catalog\\ETTh1.json",
+      "catalog_sha256": "9f045b068561413b287ac6f57748f931d57aad76f93f688fc89d1ca57fb8e687",
+      "predictions": "predictions\\ETTh1.npz",
+      "predictions_sha256": "91e75bd86549e25e4e261b69f9f775f56f9ab488fdd241eeb67b38077efd8612",
+      "checkpoint_sha256": "f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f",
+      "data_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066"
+    }
+  ],
+  "total_real_forward_count": 85,
+  "statistical_validation": {
+    "status": "separate",
+    "reason": "Catalog entries are Phase 4 interventions. They must not be labeled statistically validated unless a Phase 5 evidence artifact exists."
+  }
+}

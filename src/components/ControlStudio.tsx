@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
-import { DATASETS, SAMPLE_DATASET_IDS } from '@/data/datasets';
+import { DATASETS } from '@/data/datasets';
 import { HORIZONS } from '@/data/paperMetrics';
 import { Select } from './ui/Select';
 import { Slider } from './ui/Slider';
@@ -48,7 +48,7 @@ export function ControlStudio() {
           <Select<DatasetId>
             value={s.dataset}
             onChange={(d) => s.setCase({ dataset: d })}
-            options={SAMPLE_DATASET_IDS.map((d) => ({ value: d, label: `${d} · ${DATASETS[d].variables.length} vars` }))}
+            options={(['ETTh1'] as DatasetId[]).map((d) => ({ value: d, label: `${d} · ${DATASETS[d].variables.length} vars` }))}
             ariaLabel="Dataset"
           />
         </Field>

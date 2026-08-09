@@ -9,7 +9,7 @@ import { CaseStudy } from './components/CaseStudy';
 import { ResearchMotivation } from './components/ResearchMotivation';
 import { Limitations } from './components/Limitations';
 import { CitationSection } from './components/CitationSection';
-import { EvidenceValidation } from './components/EvidenceValidation';
+import { InterventionJourney } from './components/InterventionJourney';
 import { useDemoStore } from './store/useDemoStore';
 import { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -67,13 +67,13 @@ export default function App() {
           )}
         </div>
       </div>
-      <EvidenceValidation />
+      <InterventionJourney />
       <ExplanationModeGallery />
       <CaseStudy />
       <Limitations />
       <CitationSection />
       <footer className="border-t border-line bg-white px-5 py-8 text-center text-[12px] text-ink-400">
-        DGraFormer-Vis · IJCAI-25 Demo Track · Interactive Explanation System for Dynamic Graph Learning
+        DGraInsight · ETTh1 audited precomputed evidence · No browser-generated scientific values
       </footer>
     </div>
   );

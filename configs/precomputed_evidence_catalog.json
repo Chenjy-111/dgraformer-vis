@@ -1,0 +1,21 @@
+{
+  "status": "predeclared",
+  "dataset": "ETTh1",
+  "intervention_catalog_run_id": "db40ee6d94c577e978a06b6aaba50cee209ea13f98b4a6d03a7ed5f4d39e107c",
+  "case_scope": "every structural_edge_removal entry in the predeclared ETTh1 intervention catalog",
+  "current_epoch": 5,
+  "overlap_k": 5,
+  "control_experiment": {
+    "repetitions": 100,
+    "random_seed": 20260809,
+    "bootstrap_repetitions": 10000,
+    "confidence_level": 0.95,
+    "matching": {
+      "same_window": true,
+      "same_edge_count": true,
+      "exclude_self_loops": true,
+      "exclude_focal_edge": true
+    }
+  },
+  "multiple_comparison_correction": "Benjamini-Hochberg across every case in this catalog"
+}

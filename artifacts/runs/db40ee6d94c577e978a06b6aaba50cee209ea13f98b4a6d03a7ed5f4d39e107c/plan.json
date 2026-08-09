@@ -1,0 +1,89 @@
+{
+  "run_id": "db40ee6d94c577e978a06b6aaba50cee209ea13f98b4a6d03a7ed5f4d39e107c",
+  "status": "running",
+  "phase": "Phase 4 - Predeclared ETTh1 Candidate Intervention Catalog",
+  "schedule": {
+    "state": "final",
+    "current_epoch_equivalent": 5,
+    "static_weight": 0.1,
+    "learned_weight": 0.9
+  },
+  "selection_config": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\precomputed_intervention_catalog.json",
+  "selection_config_sha256": "472024173bf38099ebfd471e4924d07535a3caf9cdae1db9dd6ff3fbcdd8ea38",
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "datasets": [
+    {
+      "dataset": "ETTh1",
+      "web_sample_indices": [
+        0,
+        537,
+        1074,
+        1611,
+        2148
+      ],
+      "selected_candidate_edges": [
+        {
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "windows": [
+            0
+          ],
+          "categories": [
+            "high_weight_low_frequency_edges",
+            "window_specific_edges"
+          ]
+        },
+        {
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "windows": [
+            1
+          ],
+          "categories": [
+            "high_weight_low_frequency_edges",
+            "window_specific_edges"
+          ]
+        },
+        {
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "windows": [
+            0,
+            1,
+            6
+          ],
+          "categories": [
+            "high_frequency_low_weight_edges"
+          ]
+        },
+        {
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "windows": [
+            1,
+            2,
+            4
+          ],
+          "categories": [
+            "high_frequency_low_weight_edges"
+          ]
+        }
+      ],
+      "operation_templates_per_sample": 16,
+      "real_forward_count": 85
+    }
+  ],
+  "total_real_forward_count": 85,
+  "statistical_validation": {
+    "status": "separate",
+    "reason": "Catalog entries are Phase 4 interventions. They must not be labeled statistically validated unless a Phase 5 evidence artifact exists."
+  }
+}
