@@ -201,10 +201,23 @@ class DGraFormerAdapter(DynamicGraphForecastAdapter):
 
         stages = self.extract_graph_stages({"current_epoch": epoch})
         graphs = torch.stack([window["normalized"] for window in stages["windows"]]).to(self.device)
-        window = int(protocol["window"])
-        before = graphs[window].clone()
-        after = apply_graph_intervention(before, protocol)
-        graphs[window] = after
+        if protocol["type"] == "global_structural_edge_removal":
+            affected = []
+            before = graphs.clone()
+            for window in range(graphs.shape[0]):
+                if float(graphs[window, protocol["source"], protocol["target"]]) > 0:
+                    graphs[window] = apply_graph_intervention(graphs[window], {
+                        "type": "structural_edge_removal", "source": protocol["source"],
+                        "target": protocol["target"],
+                    })
+                    affected.append(window)
+            after = graphs.clone()
+            protocol["affected_windows"] = affected
+        else:
+            window = int(protocol["window"])
+            before = graphs[window].clone()
+            after = apply_graph_intervention(before, protocol)
+            graphs[window] = after
         gc = self.model.model.gc
         original_forward = gc.forward
 

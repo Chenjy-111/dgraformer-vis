@@ -1,0 +1,19 @@
+{
+  "status": "predeclared",
+  "dataset": "ETTh1",
+  "current_epoch": 5,
+  "samples": [0, 537, 1074, 1611, 2148, 2685],
+  "candidate_edges": [[0, 2], [0, 3], [0, 4], [5, 4]],
+  "protocol": "global_structural_edge_removal",
+  "window_rule": "remove the directed edge in every final-schedule window where its normalized weight is positive; renormalize each affected row",
+  "control_matching": {
+    "pool": "all other real directed non-self relations retained in at least one final-schedule window",
+    "distance": "absolute retained-window-count difference, then absolute mean-normalized-weight difference, then source-target order",
+    "nearest_relations": 10,
+    "repetitions": 100,
+    "random_seed": 20260830
+  },
+  "bootstrap_repetitions": 10000,
+  "confidence_level": 0.95,
+  "multiple_comparison_correction": "Benjamini-Hochberg across all 24 focal cases"
+}

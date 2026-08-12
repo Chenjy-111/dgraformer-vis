@@ -11,6 +11,7 @@ import { Limitations } from './components/Limitations';
 import { CitationSection } from './components/CitationSection';
 import { InterventionJourney } from './components/InterventionJourney';
 import { InterventionErrorBoundary } from './components/InterventionErrorBoundary';
+import { GlobalInterventionJourney } from './components/GlobalInterventionJourney';
 import { useDemoStore } from './store/useDemoStore';
 import { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -69,6 +70,7 @@ export default function App() {
         </div>
       </div>
       <InterventionErrorBoundary><InterventionJourney /></InterventionErrorBoundary>
+      <InterventionErrorBoundary><GlobalInterventionJourney /></InterventionErrorBoundary>
       <ExplanationModeGallery />
       <CaseStudy />
       <Limitations />
