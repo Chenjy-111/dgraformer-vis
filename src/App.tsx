@@ -9,9 +9,8 @@ import { CaseStudy } from './components/CaseStudy';
 import { ResearchMotivation } from './components/ResearchMotivation';
 import { Limitations } from './components/Limitations';
 import { CitationSection } from './components/CitationSection';
-import { InterventionJourney } from './components/InterventionJourney';
 import { InterventionErrorBoundary } from './components/InterventionErrorBoundary';
-import { GlobalInterventionJourney } from './components/GlobalInterventionJourney';
+import { CombinedInterventionLab } from './components/CombinedInterventionLab';
 import { useDemoStore } from './store/useDemoStore';
 import { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -69,8 +68,7 @@ export default function App() {
           )}
         </div>
       </div>
-      <InterventionErrorBoundary><InterventionJourney /></InterventionErrorBoundary>
-      <InterventionErrorBoundary><GlobalInterventionJourney /></InterventionErrorBoundary>
+      <InterventionErrorBoundary><CombinedInterventionLab /></InterventionErrorBoundary>
       <ExplanationModeGallery />
       <CaseStudy />
       <Limitations />
