@@ -143,6 +143,8 @@ def main() -> int:
     plans: dict[str, tuple[dict, list[dict]]] = {}
     scoped_datasets = {name: registry["datasets"][name] for name in config["dataset_scope"]}
     for dataset_name, ds in scoped_datasets.items():
+        ds = {**ds, "web_sample_indices": config.get("sample_indices_override", {}).get(dataset_name, ds["web_sample_indices"])}
+        scoped_datasets[dataset_name] = ds
         pattern_path = candidate_dir / f"{dataset_name}.json"
         patterns = json.loads(pattern_path.read_text(encoding="utf-8"))
         operations = operation_matrix(patterns, config, patterns["window_count"])

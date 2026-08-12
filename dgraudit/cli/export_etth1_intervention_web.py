@@ -60,6 +60,13 @@ def diagnostic_localization(absolute_delta, baseline_absolute_error, interventio
     }
 
 
+def etth1_window_exposure(sample_index, seq_len=96, test_border=11424, numpoint_win=24, window_count=7):
+    """Reproduce Dataset_ETT_hour time_index and DGraFormer modulo window selection."""
+    indices = (np.arange(test_border + sample_index, test_border + sample_index + seq_len) // numpoint_win) % window_count
+    values, counts = np.unique(indices, return_counts=True)
+    return {int(window): int(count) for window, count in zip(values, counts)}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--evidence-run", required=True)
@@ -102,10 +109,14 @@ def main() -> int:
             absolute_delta, baseline_absolute_error, intervention_absolute_error,
             ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"],
         )
+        exposure_counts = etth1_window_exposure(sample)
         cases.append({
             "conclusion_id": case["conclusion_id"],
             "sample_index": sample,
             "window": window,
+            "window_active": window in exposure_counts,
+            "window_exposure_count": exposure_counts.get(window, 0),
+            "active_windows": sorted(exposure_counts),
             "edge": {
                 "source": source, "target": target,
                 "source_name": case["graph"]["source_name"],

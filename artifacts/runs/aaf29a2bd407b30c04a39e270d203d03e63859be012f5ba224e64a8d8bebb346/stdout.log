@@ -1,0 +1,233 @@
+{
+  "run_id": "aaf29a2bd407b30c04a39e270d203d03e63859be012f5ba224e64a8d8bebb346",
+  "status": "complete",
+  "phase": "Phase 5 - ETTh1 Precomputed Evidence Catalog",
+  "dataset": "ETTh1",
+  "case_count": 48,
+  "real_forward_groups": 30,
+  "config_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\precomputed_evidence_catalog_etth1_replace_1074.json",
+  "config_sha256": "a7458af761763cbfd0e0adad3a7393ba6413673f4e661470abae186776916c81",
+  "registry_sha256": "b1621af0e6a84389c479576b06e854e96c307cbc675f38ce5fa4c3f80895ac1f",
+  "checkpoint_sha256": "f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f",
+  "data_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+  "intervention_catalog_run_id": "d02d6c321a593712104449450400a20558127177e0cd1f7ac7cbd5774ed66753",
+  "evidence_catalog": "evidence_catalog.json",
+  "evidence_catalog_sha256": "cbeb1b70656d74048b71ee05226c4606195167d68444b6788609b97a5108ff5f",
+  "raw_prediction_groups": [
+    {
+      "sample_index": 0,
+      "window": 0,
+      "prediction_file": "predictions\\sample_0_window_0.npz",
+      "prediction_sha256": "4dd0ffd30e304179dcdc6309ab379aad6f4f6b4cdaac577aba9299f92957bb23",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 0,
+      "window": 1,
+      "prediction_file": "predictions\\sample_0_window_1.npz",
+      "prediction_sha256": "26abc3ac100d0d524983bce924980464e9141538547e35cfd4133d6599f0746e",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 0,
+      "window": 2,
+      "prediction_file": "predictions\\sample_0_window_2.npz",
+      "prediction_sha256": "4ccb22684744b2367ec87872b0bdb095d276857cbb6af051960c728d759ccc0d",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 0,
+      "window": 4,
+      "prediction_file": "predictions\\sample_0_window_4.npz",
+      "prediction_sha256": "b352943e22a41cf3c96fa560957f58008c6f4058ab641851a12135b74db0359e",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 0,
+      "window": 6,
+      "prediction_file": "predictions\\sample_0_window_6.npz",
+      "prediction_sha256": "3c6dd876440ffbdb1a5dc100eeee218331554a868090fa5462509e163a751471",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 537,
+      "window": 0,
+      "prediction_file": "predictions\\sample_537_window_0.npz",
+      "prediction_sha256": "c04eed76abda2edcb69d3cf9322bcb821eb6f5c492a31c87744e8e5fc25684bb",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 537,
+      "window": 1,
+      "prediction_file": "predictions\\sample_537_window_1.npz",
+      "prediction_sha256": "0a091e33faaabcd142632059cae91eae96c1444f99e9f6b607d9f2f591cf9676",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 537,
+      "window": 2,
+      "prediction_file": "predictions\\sample_537_window_2.npz",
+      "prediction_sha256": "24c4a45b4b9243f0618251432f1b52b4359b7b9f24842cb4b19f56b790915701",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 537,
+      "window": 4,
+      "prediction_file": "predictions\\sample_537_window_4.npz",
+      "prediction_sha256": "b943fd2a6c24480a670f39bea2afcd52c935a093da572e9a4a6352ec0789b198",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 537,
+      "window": 6,
+      "prediction_file": "predictions\\sample_537_window_6.npz",
+      "prediction_sha256": "65554ff4985d4fce3d8bf92a5116154a33a87cdf28dccef675b73dddd638cdeb",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1074,
+      "window": 0,
+      "prediction_file": "predictions\\sample_1074_window_0.npz",
+      "prediction_sha256": "80ba5d2f20f8439185c3697d52d2b559d617089a2fbc4f4896d3e73778de512c",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1074,
+      "window": 1,
+      "prediction_file": "predictions\\sample_1074_window_1.npz",
+      "prediction_sha256": "bb1a168c0cf7cdd7872ae18303a9b7726b51a3389b311a14c2001603cf7ff8ab",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1074,
+      "window": 2,
+      "prediction_file": "predictions\\sample_1074_window_2.npz",
+      "prediction_sha256": "8937ec9a7abfdb35ae8c7dc99aa9ada16a59cdaa0a0f549bab6befdb9e3ca610",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1074,
+      "window": 4,
+      "prediction_file": "predictions\\sample_1074_window_4.npz",
+      "prediction_sha256": "ce1aaa96af749a028c6e351aaf18395dcceb61711dd9b951b9afdc35597e2112",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1074,
+      "window": 6,
+      "prediction_file": "predictions\\sample_1074_window_6.npz",
+      "prediction_sha256": "2d4631e19ded4f710be53a38e2f0a951e8dece4740c3c497b5b4c3a1eaea3744",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1611,
+      "window": 0,
+      "prediction_file": "predictions\\sample_1611_window_0.npz",
+      "prediction_sha256": "cbc91563ac39b3161965b9e11daeccc9cbbd519989f9a1ed105b4c4f037609f1",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1611,
+      "window": 1,
+      "prediction_file": "predictions\\sample_1611_window_1.npz",
+      "prediction_sha256": "87af0f2b2585455546df5a82990858a584d928217c9301aff2132053dfea5b1a",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1611,
+      "window": 2,
+      "prediction_file": "predictions\\sample_1611_window_2.npz",
+      "prediction_sha256": "e7e8c8d969a9a3ce9b0dd35eeea7c5fe8a97433ec6bc6ff510d2e487de26efa2",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1611,
+      "window": 4,
+      "prediction_file": "predictions\\sample_1611_window_4.npz",
+      "prediction_sha256": "f07b390e43f9633fcaf1044744b18e03016ecb73c61b54fbc0b05cdeed13fee0",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 1611,
+      "window": 6,
+      "prediction_file": "predictions\\sample_1611_window_6.npz",
+      "prediction_sha256": "d44a5133e6cf20b49234ab610a8f06b2d81050f3a9b1a151daa8e07391bf59f9",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2148,
+      "window": 0,
+      "prediction_file": "predictions\\sample_2148_window_0.npz",
+      "prediction_sha256": "385c5df7e6b474a1912f157f8e8ee5192da8d6ce7bcc50bc9642a76a459be849",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2148,
+      "window": 1,
+      "prediction_file": "predictions\\sample_2148_window_1.npz",
+      "prediction_sha256": "2a9c7fd4e6b05446f98520c17e872543648dd4ac31f8cf99aef8195951ca1df5",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2148,
+      "window": 2,
+      "prediction_file": "predictions\\sample_2148_window_2.npz",
+      "prediction_sha256": "56e2ad57d71b4963e2381a8dfaa62140a7eb0d76f2ca860d3cb509413951e351",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2148,
+      "window": 4,
+      "prediction_file": "predictions\\sample_2148_window_4.npz",
+      "prediction_sha256": "557dc055bcf027b9b4b74f5ac4339e7b5b323e41bd5fb931f1ac4febfb44ea19",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2148,
+      "window": 6,
+      "prediction_file": "predictions\\sample_2148_window_6.npz",
+      "prediction_sha256": "2d1f41942afabdaf509317a2f9aa8e4c11527bfed6c8dfcbfcae39020e9d0101",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2685,
+      "window": 0,
+      "prediction_file": "predictions\\sample_2685_window_0.npz",
+      "prediction_sha256": "de1072400b8cf1433eda45af582ca183a2345c387e45ca261b24d1d46c01fa30",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2685,
+      "window": 1,
+      "prediction_file": "predictions\\sample_2685_window_1.npz",
+      "prediction_sha256": "5eb9aed8783794381a29b8a183d74c050d193c3e764a3e12a997803f1231f055",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2685,
+      "window": 2,
+      "prediction_file": "predictions\\sample_2685_window_2.npz",
+      "prediction_sha256": "18dba79503f1abf48c8ace7635b9e085f95d0af558b422d338e62db2042f3dfd",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2685,
+      "window": 4,
+      "prediction_file": "predictions\\sample_2685_window_4.npz",
+      "prediction_sha256": "e651926d570d6d93ef600a1ab6b7d1dc09e951a1f8c9458cb7f07c6410aed5ca",
+      "identity_delta": 0.0
+    },
+    {
+      "sample_index": 2685,
+      "window": 6,
+      "prediction_file": "predictions\\sample_2685_window_6.npz",
+      "prediction_sha256": "07eba7ef35e6f7ca3455cca1bb61afd34b86b0b79bcbfe2d80388927bd7c4353",
+      "identity_delta": 0.0
+    }
+  ],
+  "cross_run": {
+    "status": "missing",
+    "metrics": null,
+    "reason": "Only one real ETTh1 checkpoint is available."
+  }
+}
