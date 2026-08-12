@@ -10,6 +10,7 @@ import { ResearchMotivation } from './components/ResearchMotivation';
 import { Limitations } from './components/Limitations';
 import { CitationSection } from './components/CitationSection';
 import { InterventionJourney } from './components/InterventionJourney';
+import { InterventionErrorBoundary } from './components/InterventionErrorBoundary';
 import { useDemoStore } from './store/useDemoStore';
 import { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -67,7 +68,7 @@ export default function App() {
           )}
         </div>
       </div>
-      <InterventionJourney />
+      <InterventionErrorBoundary><InterventionJourney /></InterventionErrorBoundary>
       <ExplanationModeGallery />
       <CaseStudy />
       <Limitations />
