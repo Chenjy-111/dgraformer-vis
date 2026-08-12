@@ -1,0 +1,167 @@
+{
+  "source_run": "a256ec935997909c43d29acee22fdfccb8650d1db77dadf335c92d8ad63b0f43",
+  "status": "complete",
+  "analysis_level": "exploratory edge-level aggregation across predeclared test samples",
+  "multiple_comparison_families": "BH separately across four edges for each prespecified test/correlation",
+  "edges": [
+    {
+      "edge": [
+        0,
+        2
+      ],
+      "audited_cases": 40,
+      "exposed_cases": 28,
+      "nonzero_prediction_cases": 28,
+      "mae_increased": 15,
+      "mae_decreased": 13,
+      "median_prediction_delta_abs": 0.002715892274864018,
+      "median_mae_delta": 5.938112735748291e-05,
+      "median_focal_minus_control": 0.0012881295557599514,
+      "tests": {
+        "mae_delta_wilcoxon_p": 0.831373319029808,
+        "mae_direction_binomial_p": 0.8505540192127228,
+        "focal_minus_control_wilcoxon_p": 0.000244140625,
+        "mae_delta_wilcoxon_bh": 0.973184622824192,
+        "mae_direction_binomial_bh": 1.0,
+        "focal_minus_control_wilcoxon_bh": 0.00048828125
+      },
+      "correlations": {
+        "mae_delta_vs_baseline_mae": {
+          "rho": -0.11877394636015325,
+          "p": 0.5471904868827373,
+          "bh_adjusted_p": 0.8335332025809923
+        },
+        "mae_delta_vs_prediction_delta": {
+          "rho": 0.0963327859879584,
+          "p": 0.6258037616535672,
+          "bh_adjusted_p": 0.7197550538335662
+        },
+        "mae_delta_vs_affected_window_count": {
+          "rho": null,
+          "p": null
+        }
+      }
+    },
+    {
+      "edge": [
+        0,
+        3
+      ],
+      "audited_cases": 40,
+      "exposed_cases": 28,
+      "nonzero_prediction_cases": 28,
+      "mae_increased": 13,
+      "mae_decreased": 15,
+      "median_prediction_delta_abs": 0.001761579536832869,
+      "median_mae_delta": -1.3321638107299805e-05,
+      "median_focal_minus_control": 0.00020913637068588277,
+      "tests": {
+        "mae_delta_wilcoxon_p": 0.973184622824192,
+        "mae_direction_binomial_p": 0.8505540192127228,
+        "focal_minus_control_wilcoxon_p": 0.5979221016168594,
+        "mae_delta_wilcoxon_bh": 0.973184622824192,
+        "mae_direction_binomial_bh": 1.0,
+        "focal_minus_control_wilcoxon_bh": 0.5979221016168594
+      },
+      "correlations": {
+        "mae_delta_vs_baseline_mae": {
+          "rho": 0.04159824849480022,
+          "p": 0.8335332025809923,
+          "bh_adjusted_p": 0.8335332025809923
+        },
+        "mae_delta_vs_prediction_delta": {
+          "rho": -0.18664477285166942,
+          "p": 0.34160653989320666,
+          "bh_adjusted_p": 0.6832130797864133
+        },
+        "mae_delta_vs_affected_window_count": {
+          "rho": null,
+          "p": null
+        }
+      }
+    },
+    {
+      "edge": [
+        0,
+        4
+      ],
+      "audited_cases": 40,
+      "exposed_cases": 40,
+      "nonzero_prediction_cases": 40,
+      "mae_increased": 23,
+      "mae_decreased": 17,
+      "median_prediction_delta_abs": 0.0030650224070996046,
+      "median_mae_delta": 8.514523506164551e-05,
+      "median_focal_minus_control": -0.0006061385438079015,
+      "tests": {
+        "mae_delta_wilcoxon_p": 0.8680334030395898,
+        "mae_direction_binomial_p": 0.42959050784338615,
+        "focal_minus_control_wilcoxon_p": 0.008263762760179816,
+        "mae_delta_wilcoxon_bh": 0.973184622824192,
+        "mae_direction_binomial_bh": 1.0,
+        "focal_minus_control_wilcoxon_bh": 0.011018350346906422
+      },
+      "correlations": {
+        "mae_delta_vs_baseline_mae": {
+          "rho": 0.0427767354596623,
+          "p": 0.7932560661588647,
+          "bh_adjusted_p": 0.8335332025809923
+        },
+        "mae_delta_vs_prediction_delta": {
+          "rho": -0.17429643527204505,
+          "p": 0.28208292595114187,
+          "bh_adjusted_p": 0.6832130797864133
+        },
+        "mae_delta_vs_affected_window_count": {
+          "rho": -0.09346490998075323,
+          "p": 0.5662130970472832,
+          "bh_adjusted_p": 0.5662130970472832
+        }
+      }
+    },
+    {
+      "edge": [
+        5,
+        4
+      ],
+      "audited_cases": 40,
+      "exposed_cases": 40,
+      "nonzero_prediction_cases": 40,
+      "mae_increased": 20,
+      "mae_decreased": 20,
+      "median_prediction_delta_abs": 0.002808595192618668,
+      "median_mae_delta": -3.6016106605529785e-05,
+      "median_focal_minus_control": -0.0017652078130049632,
+      "tests": {
+        "mae_delta_wilcoxon_p": 0.9100459608780511,
+        "mae_direction_binomial_p": 1.0,
+        "focal_minus_control_wilcoxon_p": 1.430089287168812e-05,
+        "mae_delta_wilcoxon_bh": 0.973184622824192,
+        "mae_direction_binomial_bh": 1.0,
+        "focal_minus_control_wilcoxon_bh": 5.720357148675248e-05
+      },
+      "correlations": {
+        "mae_delta_vs_baseline_mae": {
+          "rho": 0.05891181988742965,
+          "p": 0.7180321029679881,
+          "bh_adjusted_p": 0.8335332025809923
+        },
+        "mae_delta_vs_prediction_delta": {
+          "rho": 0.05853658536585367,
+          "p": 0.7197550538335662,
+          "bh_adjusted_p": 0.7197550538335662
+        },
+        "mae_delta_vs_affected_window_count": {
+          "rho": 0.3319910810889547,
+          "p": 0.036359479734926516,
+          "bh_adjusted_p": 0.07271895946985303
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Exploratory supplement; does not replace the 160-case family.",
+    "Associations are descriptive model-internal relationships, not causal explanations.",
+    "Mean edge weight is constant within each edge and was not tested as a within-edge correlate."
+  ]
+}

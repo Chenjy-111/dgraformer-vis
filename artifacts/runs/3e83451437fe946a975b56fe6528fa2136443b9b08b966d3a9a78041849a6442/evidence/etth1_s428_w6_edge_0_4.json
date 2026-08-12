@@ -1,0 +1,246 @@
+{
+  "conclusion_id": "etth1_s428_w6_edge_0_4",
+  "status": "complete",
+  "claim_level": "interventional_model_evidence",
+  "dataset": {
+    "name": "ETTh1",
+    "path": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\data_provider\\data\\ETT\\ETTh1.csv",
+    "sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066"
+  },
+  "sample": {
+    "split": "test",
+    "original_index": 428,
+    "input_start": "2017-07-13 20:00:00",
+    "input_end": "2017-07-17 19:00:00",
+    "forecast_start": "2017-07-17 20:00:00",
+    "forecast_end": "2017-07-21 19:00:00"
+  },
+  "model": {
+    "checkpoint_path": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\checkpoints\\test_DGraFormer_ETTh1.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0\\checkpoint.pth",
+    "checkpoint_sha256": "f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f",
+    "seed": 202501,
+    "config_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\phase1_registry.json",
+    "config_sha256": "b1621af0e6a84389c479576b06e854e96c307cbc675f38ce5fa4c3f80895ac1f",
+    "schedule": {
+      "state": "final",
+      "current_epoch_equivalent": 5,
+      "static_weight": 0.1,
+      "learned_weight": 0.9
+    }
+  },
+  "graph": {
+    "window": 6,
+    "source": 0,
+    "target": 4,
+    "source_name": "HUFL",
+    "target_name": "LUFL",
+    "topk_score": 0.9423916339874268,
+    "normalized_weight": 0.48517075181007385,
+    "retained_edge_rank": 5.0
+  },
+  "intervention": {
+    "type": "structural_edge_removal",
+    "renormalized": true,
+    "implementation_file": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\dgraudit\\adapters.py",
+    "implementation_function": "DGraFormerAdapter.predict_with_graph_override"
+  },
+  "metrics": {
+    "baseline_mae": 0.3096376955509186,
+    "baseline_mse": 0.22831586003303528,
+    "intervention_mae": 0.3063895106315613,
+    "intervention_mse": 0.22173213958740234,
+    "prediction_delta_abs": 0.006375779863446951,
+    "prediction_delta_rel": 0.010917713349296717,
+    "error_delta_mae": -0.0032481849193573,
+    "error_delta_mse": -0.006583720445632935,
+    "control_mean_prediction_delta_abs": 0.002149767946684733,
+    "control_standard_deviation": 0.001334650240108444,
+    "control_percentile": 92.0,
+    "empirical_p": 0.0891089108910891,
+    "bh_adjusted_p": 1.0,
+    "standardized_effect_size": 3.1663815655694507,
+    "effect_difference_bootstrap_ci": [
+      0.003950604042882333,
+      0.004472584596689558
+    ],
+    "weight_impact_spearman_rho": 0.09523809523809526,
+    "weight_impact_spearman_p": 0.8225054302036114,
+    "overlap_at_k": 0.8
+  },
+  "metric_status": {
+    "standardized_effect_size": {
+      "status": "complete",
+      "reason": null
+    }
+  },
+  "controls": {
+    "repetitions": 100,
+    "random_seed": 20260864,
+    "records": "controls\\s428_w6_e0_4.json",
+    "records_sha256": "7af94402752a9afdad250bea8adb830027cfe0147c01578ffd072b8191c86119"
+  },
+  "raw_operands": {
+    "predictions": "predictions\\sample_428_window_6.npz",
+    "focal_prediction_row": 0,
+    "graph": "graphs\\window_6.json",
+    "weight_impact": {
+      "edge_count": 8,
+      "tie_method": "average ranks for Spearman; stable source-target order for Overlap@K",
+      "spearman_rho": 0.09523809523809526,
+      "spearman_p": 0.8225054302036114,
+      "k": 5,
+      "overlap_at_k": 0.8,
+      "raw_weights": [
+        0.9423916339874268,
+        0.9893785119056702,
+        0.9347706437110901,
+        0.586176872253418,
+        0.9864813685417175,
+        0.9814473986625671,
+        0.5620478391647339,
+        0.9814485907554626
+      ],
+      "raw_impacts": [
+        0.006375779863446951,
+        0.001484495005570352,
+        0.0063925376161932945,
+        0.0016578570939600468,
+        0.002537877531722188,
+        0.0019300977000966668,
+        0.0009164786897599697,
+        0.001901196432299912
+      ],
+      "edges": [
+        {
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.3063895106315613,
+          "intervention_mse": 0.22173213958740234,
+          "prediction_delta_abs": 0.006375779863446951,
+          "prediction_delta_rel": 0.010917713349296717,
+          "error_delta_mae": -0.0032481849193573,
+          "error_delta_mse": -0.006583720445632935
+        },
+        {
+          "source": 1,
+          "target": 4,
+          "source_name": "HULL",
+          "target_name": "LUFL",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.3097781538963318,
+          "intervention_mse": 0.2283206731081009,
+          "prediction_delta_abs": 0.001484495005570352,
+          "prediction_delta_rel": 0.0025420091794884454,
+          "error_delta_mae": 0.000140458345413208,
+          "error_delta_mse": 4.813075065612793e-06
+        },
+        {
+          "source": 2,
+          "target": 3,
+          "source_name": "MUFL",
+          "target_name": "MULL",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.30649158358573914,
+          "intervention_mse": 0.2223290205001831,
+          "prediction_delta_abs": 0.0063925376161932945,
+          "prediction_delta_rel": 0.010946408872790537,
+          "error_delta_mae": -0.0031461119651794434,
+          "error_delta_mse": -0.005986839532852173
+        },
+        {
+          "source": 4,
+          "target": 1,
+          "source_name": "LUFL",
+          "target_name": "HULL",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.3094343841075897,
+          "intervention_mse": 0.22809383273124695,
+          "prediction_delta_abs": 0.0016578570939600468,
+          "prediction_delta_rel": 0.002838869740425514,
+          "error_delta_mae": -0.00020331144332885742,
+          "error_delta_mse": -0.00022202730178833008
+        },
+        {
+          "source": 4,
+          "target": 6,
+          "source_name": "LUFL",
+          "target_name": "OT",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.30927497148513794,
+          "intervention_mse": 0.22783616185188293,
+          "prediction_delta_abs": 0.002537877531722188,
+          "prediction_delta_rel": 0.004345792985390779,
+          "error_delta_mae": -0.00036272406578063965,
+          "error_delta_mse": -0.00047969818115234375
+        },
+        {
+          "source": 5,
+          "target": 1,
+          "source_name": "LULL",
+          "target_name": "HULL",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.309662789106369,
+          "intervention_mse": 0.2283022105693817,
+          "prediction_delta_abs": 0.0019300977000966668,
+          "prediction_delta_rel": 0.003305047206319312,
+          "error_delta_mae": 2.5093555450439453e-05,
+          "error_delta_mse": -1.3649463653564453e-05
+        },
+        {
+          "source": 5,
+          "target": 6,
+          "source_name": "LULL",
+          "target_name": "OT",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.3093346059322357,
+          "intervention_mse": 0.22816678881645203,
+          "prediction_delta_abs": 0.0009164786897599697,
+          "prediction_delta_rel": 0.001569353371640548,
+          "error_delta_mae": -0.00030308961868286133,
+          "error_delta_mse": -0.00014907121658325195
+        },
+        {
+          "source": 6,
+          "target": 5,
+          "source_name": "OT",
+          "target_name": "LULL",
+          "baseline_mae": 0.3096376955509186,
+          "baseline_mse": 0.22831586003303528,
+          "intervention_mae": 0.3103325664997101,
+          "intervention_mse": 0.2287416160106659,
+          "prediction_delta_abs": 0.001901196432299912,
+          "prediction_delta_rel": 0.0032555574554191547,
+          "error_delta_mae": 0.0006948709487915039,
+          "error_delta_mse": 0.00042575597763061523
+        }
+      ]
+    }
+  },
+  "formulas": [
+    "mae",
+    "mse",
+    "prediction_delta_abs",
+    "prediction_delta_rel",
+    "spearman_rho",
+    "overlap_at_k",
+    "empirical_p_plus_one",
+    "benjamini_hochberg",
+    "bootstrap_ci",
+    "standardized_effect_size"
+  ],
+  "limitations": [
+    "仅描述指定模型、数据、样本和图窗口条件下的模型内部行为。",
+    "不代表现实变量间因果关系。",
+    "跨训练复核尚未执行。"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "etth1_global_s2570_edge_0_2",
+  "sample": 2570,
+  "edge": [
+    0,
+    2
+  ],
+  "retained_windows": [
+    0
+  ],
+  "exposed_windows": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "affected_exposed_windows": [],
+  "mean_weight": 0.39268794655799866,
+  "metrics": {
+    "baseline_mae": 0.4001998007297516,
+    "baseline_mse": 0.30763164162635803,
+    "intervention_mae": 0.4001998007297516,
+    "intervention_mse": 0.30763164162635803,
+    "prediction_delta_abs": 0.0,
+    "prediction_delta_rel": 0.0,
+    "error_delta_mae": 0.0,
+    "error_delta_mse": 0.0,
+    "control_mean_prediction_delta_abs": 0.0022974817093927413,
+    "control_percentile_midrank": 13.0,
+    "empirical_p": 1.0,
+    "bh_adjusted_p": 1.0,
+    "effect_difference_bootstrap_ci": [
+      -0.0026733557050174564,
+      -0.0019295158199674916
+    ]
+  },
+  "prediction_file": "predictions\\s2570_e0_2.npz",
+  "controls_file": "controls\\s2570_e0_2.json",
+  "control_seed": 20260974
+}

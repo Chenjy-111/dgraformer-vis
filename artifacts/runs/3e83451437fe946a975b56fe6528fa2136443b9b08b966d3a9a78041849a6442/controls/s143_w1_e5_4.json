@@ -1,0 +1,1802 @@
+[
+  {
+    "repetition": 0,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 1,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 2,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 2,
+    "source": 1,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37123924493789673,
+      "intervention_mse": 0.3832813501358032,
+      "prediction_delta_abs": 0.006154061295092106,
+      "prediction_delta_rel": 0.009248730290630237,
+      "error_delta_mae": -0.00181540846824646,
+      "error_delta_mse": -0.002170860767364502
+    }
+  },
+  {
+    "repetition": 3,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 4,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 5,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 5,
+    "source": 2,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37111085653305054,
+      "intervention_mse": 0.3826654851436615,
+      "prediction_delta_abs": 0.005788176320493221,
+      "prediction_delta_rel": 0.008698854154336647,
+      "error_delta_mae": -0.0019437968730926514,
+      "error_delta_mse": -0.0027867257595062256
+    }
+  },
+  {
+    "repetition": 6,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 7,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 9,
+    "source": 5,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37483930587768555,
+      "intervention_mse": 0.3880068361759186,
+      "prediction_delta_abs": 0.005115675739943981,
+      "prediction_delta_rel": 0.007688175808517686,
+      "error_delta_mae": 0.0017846524715423584,
+      "error_delta_mse": 0.0025546252727508545
+    }
+  },
+  {
+    "repetition": 8,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 9,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 9,
+    "source": 5,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37483930587768555,
+      "intervention_mse": 0.3880068361759186,
+      "prediction_delta_abs": 0.005115675739943981,
+      "prediction_delta_rel": 0.007688175808517686,
+      "error_delta_mae": 0.0017846524715423584,
+      "error_delta_mse": 0.0025546252727508545
+    }
+  },
+  {
+    "repetition": 10,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 11,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 5,
+    "source": 2,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37111085653305054,
+      "intervention_mse": 0.3826654851436615,
+      "prediction_delta_abs": 0.005788176320493221,
+      "prediction_delta_rel": 0.008698854154336647,
+      "error_delta_mae": -0.0019437968730926514,
+      "error_delta_mse": -0.0027867257595062256
+    }
+  },
+  {
+    "repetition": 12,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 5,
+    "source": 2,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37111085653305054,
+      "intervention_mse": 0.3826654851436615,
+      "prediction_delta_abs": 0.005788176320493221,
+      "prediction_delta_rel": 0.008698854154336647,
+      "error_delta_mae": -0.0019437968730926514,
+      "error_delta_mse": -0.0027867257595062256
+    }
+  },
+  {
+    "repetition": 13,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  },
+  {
+    "repetition": 14,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 15,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 16,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 17,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 5,
+    "source": 2,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37111085653305054,
+      "intervention_mse": 0.3826654851436615,
+      "prediction_delta_abs": 0.005788176320493221,
+      "prediction_delta_rel": 0.008698854154336647,
+      "error_delta_mae": -0.0019437968730926514,
+      "error_delta_mse": -0.0027867257595062256
+    }
+  },
+  {
+    "repetition": 18,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 9,
+    "source": 5,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37483930587768555,
+      "intervention_mse": 0.3880068361759186,
+      "prediction_delta_abs": 0.005115675739943981,
+      "prediction_delta_rel": 0.007688175808517686,
+      "error_delta_mae": 0.0017846524715423584,
+      "error_delta_mse": 0.0025546252727508545
+    }
+  },
+  {
+    "repetition": 19,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  },
+  {
+    "repetition": 20,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 21,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 1,
+    "source": 0,
+    "target": 4,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37288087606430054,
+      "intervention_mse": 0.38516324758529663,
+      "prediction_delta_abs": 0.0034519678447395563,
+      "prediction_delta_rel": 0.00518784556035958,
+      "error_delta_mae": -0.00017377734184265137,
+      "error_delta_mse": -0.00028896331787109375
+    }
+  },
+  {
+    "repetition": 22,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 23,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 24,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 1,
+    "source": 0,
+    "target": 4,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37288087606430054,
+      "intervention_mse": 0.38516324758529663,
+      "prediction_delta_abs": 0.0034519678447395563,
+      "prediction_delta_rel": 0.00518784556035958,
+      "error_delta_mae": -0.00017377734184265137,
+      "error_delta_mse": -0.00028896331787109375
+    }
+  },
+  {
+    "repetition": 25,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 26,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 27,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 28,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 7,
+    "source": 4,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3728571832180023,
+      "intervention_mse": 0.38514190912246704,
+      "prediction_delta_abs": 0.000725392485037446,
+      "prediction_delta_rel": 0.0010901677976967495,
+      "error_delta_mae": -0.00019747018814086914,
+      "error_delta_mse": -0.0003103017807006836
+    }
+  },
+  {
+    "repetition": 29,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 1,
+    "source": 0,
+    "target": 4,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37288087606430054,
+      "intervention_mse": 0.38516324758529663,
+      "prediction_delta_abs": 0.0034519678447395563,
+      "prediction_delta_rel": 0.00518784556035958,
+      "error_delta_mae": -0.00017377734184265137,
+      "error_delta_mse": -0.00028896331787109375
+    }
+  },
+  {
+    "repetition": 30,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 31,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 4,
+    "source": 1,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37362581491470337,
+      "intervention_mse": 0.3862866759300232,
+      "prediction_delta_abs": 0.0038161587435752153,
+      "prediction_delta_rel": 0.0057351757275646825,
+      "error_delta_mae": 0.0005711615085601807,
+      "error_delta_mse": 0.0008344650268554688
+    }
+  },
+  {
+    "repetition": 32,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 9,
+    "source": 5,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37483930587768555,
+      "intervention_mse": 0.3880068361759186,
+      "prediction_delta_abs": 0.005115675739943981,
+      "prediction_delta_rel": 0.007688175808517686,
+      "error_delta_mae": 0.0017846524715423584,
+      "error_delta_mse": 0.0025546252727508545
+    }
+  },
+  {
+    "repetition": 33,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 34,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 35,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 36,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 37,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 38,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 39,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 4,
+    "source": 1,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37362581491470337,
+      "intervention_mse": 0.3862866759300232,
+      "prediction_delta_abs": 0.0038161587435752153,
+      "prediction_delta_rel": 0.0057351757275646825,
+      "error_delta_mae": 0.0005711615085601807,
+      "error_delta_mse": 0.0008344650268554688
+    }
+  },
+  {
+    "repetition": 40,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 4,
+    "source": 1,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37362581491470337,
+      "intervention_mse": 0.3862866759300232,
+      "prediction_delta_abs": 0.0038161587435752153,
+      "prediction_delta_rel": 0.0057351757275646825,
+      "error_delta_mae": 0.0005711615085601807,
+      "error_delta_mse": 0.0008344650268554688
+    }
+  },
+  {
+    "repetition": 41,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 42,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 43,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 44,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 45,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 7,
+    "source": 4,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3728571832180023,
+      "intervention_mse": 0.38514190912246704,
+      "prediction_delta_abs": 0.000725392485037446,
+      "prediction_delta_rel": 0.0010901677976967495,
+      "error_delta_mae": -0.00019747018814086914,
+      "error_delta_mse": -0.0003103017807006836
+    }
+  },
+  {
+    "repetition": 46,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 47,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 48,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 4,
+    "source": 1,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37362581491470337,
+      "intervention_mse": 0.3862866759300232,
+      "prediction_delta_abs": 0.0038161587435752153,
+      "prediction_delta_rel": 0.0057351757275646825,
+      "error_delta_mae": 0.0005711615085601807,
+      "error_delta_mse": 0.0008344650268554688
+    }
+  },
+  {
+    "repetition": 49,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 50,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 2,
+    "source": 1,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37123924493789673,
+      "intervention_mse": 0.3832813501358032,
+      "prediction_delta_abs": 0.006154061295092106,
+      "prediction_delta_rel": 0.009248730290630237,
+      "error_delta_mae": -0.00181540846824646,
+      "error_delta_mse": -0.002170860767364502
+    }
+  },
+  {
+    "repetition": 51,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 9,
+    "source": 5,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37483930587768555,
+      "intervention_mse": 0.3880068361759186,
+      "prediction_delta_abs": 0.005115675739943981,
+      "prediction_delta_rel": 0.007688175808517686,
+      "error_delta_mae": 0.0017846524715423584,
+      "error_delta_mse": 0.0025546252727508545
+    }
+  },
+  {
+    "repetition": 52,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 53,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 54,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 4,
+    "source": 1,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37362581491470337,
+      "intervention_mse": 0.3862866759300232,
+      "prediction_delta_abs": 0.0038161587435752153,
+      "prediction_delta_rel": 0.0057351757275646825,
+      "error_delta_mae": 0.0005711615085601807,
+      "error_delta_mse": 0.0008344650268554688
+    }
+  },
+  {
+    "repetition": 55,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 56,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 57,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 58,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 59,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 60,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 61,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  },
+  {
+    "repetition": 62,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 1,
+    "source": 0,
+    "target": 4,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37288087606430054,
+      "intervention_mse": 0.38516324758529663,
+      "prediction_delta_abs": 0.0034519678447395563,
+      "prediction_delta_rel": 0.00518784556035958,
+      "error_delta_mae": -0.00017377734184265137,
+      "error_delta_mse": -0.00028896331787109375
+    }
+  },
+  {
+    "repetition": 63,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 64,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  },
+  {
+    "repetition": 65,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 66,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 7,
+    "source": 4,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3728571832180023,
+      "intervention_mse": 0.38514190912246704,
+      "prediction_delta_abs": 0.000725392485037446,
+      "prediction_delta_rel": 0.0010901677976967495,
+      "error_delta_mae": -0.00019747018814086914,
+      "error_delta_mse": -0.0003103017807006836
+    }
+  },
+  {
+    "repetition": 67,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 5,
+    "source": 2,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37111085653305054,
+      "intervention_mse": 0.3826654851436615,
+      "prediction_delta_abs": 0.005788176320493221,
+      "prediction_delta_rel": 0.008698854154336647,
+      "error_delta_mae": -0.0019437968730926514,
+      "error_delta_mse": -0.0027867257595062256
+    }
+  },
+  {
+    "repetition": 68,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 69,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 1,
+    "source": 0,
+    "target": 4,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37288087606430054,
+      "intervention_mse": 0.38516324758529663,
+      "prediction_delta_abs": 0.0034519678447395563,
+      "prediction_delta_rel": 0.00518784556035958,
+      "error_delta_mae": -0.00017377734184265137,
+      "error_delta_mse": -0.00028896331787109375
+    }
+  },
+  {
+    "repetition": 70,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 4,
+    "source": 1,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37362581491470337,
+      "intervention_mse": 0.3862866759300232,
+      "prediction_delta_abs": 0.0038161587435752153,
+      "prediction_delta_rel": 0.0057351757275646825,
+      "error_delta_mae": 0.0005711615085601807,
+      "error_delta_mse": 0.0008344650268554688
+    }
+  },
+  {
+    "repetition": 71,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 72,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 73,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 74,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  },
+  {
+    "repetition": 75,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 5,
+    "source": 2,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37111085653305054,
+      "intervention_mse": 0.3826654851436615,
+      "prediction_delta_abs": 0.005788176320493221,
+      "prediction_delta_rel": 0.008698854154336647,
+      "error_delta_mae": -0.0019437968730926514,
+      "error_delta_mse": -0.0027867257595062256
+    }
+  },
+  {
+    "repetition": 76,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 77,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 78,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 79,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 80,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  },
+  {
+    "repetition": 81,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 82,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 83,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 84,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 85,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 7,
+    "source": 4,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3728571832180023,
+      "intervention_mse": 0.38514190912246704,
+      "prediction_delta_abs": 0.000725392485037446,
+      "prediction_delta_rel": 0.0010901677976967495,
+      "error_delta_mae": -0.00019747018814086914,
+      "error_delta_mse": -0.0003103017807006836
+    }
+  },
+  {
+    "repetition": 86,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 8,
+    "source": 4,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37398698925971985,
+      "intervention_mse": 0.38649317622184753,
+      "prediction_delta_abs": 0.003675977000966668,
+      "prediction_delta_rel": 0.005524501334365029,
+      "error_delta_mae": 0.0009323358535766602,
+      "error_delta_mse": 0.0010409653186798096
+    }
+  },
+  {
+    "repetition": 87,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 88,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 89,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 90,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 91,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 7,
+    "source": 4,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3728571832180023,
+      "intervention_mse": 0.38514190912246704,
+      "prediction_delta_abs": 0.000725392485037446,
+      "prediction_delta_rel": 0.0010901677976967495,
+      "error_delta_mae": -0.00019747018814086914,
+      "error_delta_mse": -0.0003103017807006836
+    }
+  },
+  {
+    "repetition": 92,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 9,
+    "source": 5,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37483930587768555,
+      "intervention_mse": 0.3880068361759186,
+      "prediction_delta_abs": 0.005115675739943981,
+      "prediction_delta_rel": 0.007688175808517686,
+      "error_delta_mae": 0.0017846524715423584,
+      "error_delta_mse": 0.0025546252727508545
+    }
+  },
+  {
+    "repetition": 93,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 6,
+    "source": 3,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37372449040412903,
+      "intervention_mse": 0.38584527373313904,
+      "prediction_delta_abs": 0.006256855558604002,
+      "prediction_delta_rel": 0.009403216307759072,
+      "error_delta_mae": 0.0006698369979858398,
+      "error_delta_mse": 0.0003930628299713135
+    }
+  },
+  {
+    "repetition": 94,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 7,
+    "source": 4,
+    "target": 0,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3728571832180023,
+      "intervention_mse": 0.38514190912246704,
+      "prediction_delta_abs": 0.000725392485037446,
+      "prediction_delta_rel": 0.0010901677976967495,
+      "error_delta_mae": -0.00019747018814086914,
+      "error_delta_mse": -0.0003103017807006836
+    }
+  },
+  {
+    "repetition": 95,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 0,
+    "source": 0,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37221723794937134,
+      "intervention_mse": 0.38429492712020874,
+      "prediction_delta_abs": 0.0028623449616134167,
+      "prediction_delta_rel": 0.00430172129904186,
+      "error_delta_mae": -0.0008374154567718506,
+      "error_delta_mse": -0.0011572837829589844
+    }
+  },
+  {
+    "repetition": 96,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 13,
+    "source": 6,
+    "target": 5,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3732079863548279,
+      "intervention_mse": 0.38537535071372986,
+      "prediction_delta_abs": 0.00286437151953578,
+      "prediction_delta_rel": 0.0043047669443065945,
+      "error_delta_mae": 0.00015333294868469238,
+      "error_delta_mse": -7.686018943786621e-05
+    }
+  },
+  {
+    "repetition": 97,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 10,
+    "source": 5,
+    "target": 1,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.3721330165863037,
+      "intervention_mse": 0.38402697443962097,
+      "prediction_delta_abs": 0.003964369650930166,
+      "prediction_delta_rel": 0.005957916880524715,
+      "error_delta_mae": -0.0009216368198394775,
+      "error_delta_mse": -0.001425236463546753
+    }
+  },
+  {
+    "repetition": 98,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 3,
+    "source": 1,
+    "target": 2,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37147602438926697,
+      "intervention_mse": 0.38293012976646423,
+      "prediction_delta_abs": 0.00612257793545723,
+      "prediction_delta_rel": 0.00920141501573395,
+      "error_delta_mae": -0.0015786290168762207,
+      "error_delta_mse": -0.002522081136703491
+    }
+  },
+  {
+    "repetition": 99,
+    "seed": 20260829,
+    "sampling": "uniform from real retained same-window non-self edges excluding focal edge",
+    "retained_edge_prediction_row": 11,
+    "source": 5,
+    "target": 3,
+    "metrics": {
+      "baseline_mae": 0.3730546534061432,
+      "baseline_mse": 0.3854522109031677,
+      "intervention_mae": 0.37278369069099426,
+      "intervention_mse": 0.3848244845867157,
+      "prediction_delta_abs": 0.0038436094764620066,
+      "prediction_delta_rel": 0.005776430504300907,
+      "error_delta_mae": -0.0002709627151489258,
+      "error_delta_mse": -0.0006277263164520264
+    }
+  }
+]

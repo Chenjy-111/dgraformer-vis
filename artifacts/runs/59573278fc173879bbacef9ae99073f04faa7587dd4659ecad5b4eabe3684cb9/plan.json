@@ -1,0 +1,124 @@
+{
+  "run_id": "59573278fc173879bbacef9ae99073f04faa7587dd4659ecad5b4eabe3684cb9",
+  "status": "running",
+  "phase": "Phase 4 - Predeclared ETTh1 Candidate Intervention Catalog",
+  "schedule": {
+    "state": "final",
+    "current_epoch_equivalent": 5,
+    "static_weight": 0.1,
+    "learned_weight": 0.9
+  },
+  "selection_config": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\precomputed_intervention_catalog_etth1_40_grid.json",
+  "selection_config_sha256": "8fdb78f4a4d1af1d1375239042c83be9b554ea43e701fff21599a0756bdc5edc",
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "datasets": [
+    {
+      "dataset": "ETTh1",
+      "web_sample_indices": [
+        0,
+        71,
+        143,
+        214,
+        286,
+        357,
+        428,
+        500,
+        571,
+        642,
+        714,
+        785,
+        857,
+        928,
+        999,
+        1071,
+        1142,
+        1214,
+        1285,
+        1356,
+        1428,
+        1499,
+        1570,
+        1642,
+        1713,
+        1785,
+        1856,
+        1927,
+        1999,
+        2070,
+        2142,
+        2213,
+        2284,
+        2356,
+        2427,
+        2498,
+        2570,
+        2641,
+        2713,
+        2784
+      ],
+      "selected_candidate_edges": [
+        {
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "windows": [
+            0
+          ],
+          "categories": [
+            "high_weight_low_frequency_edges",
+            "window_specific_edges"
+          ]
+        },
+        {
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "windows": [
+            1
+          ],
+          "categories": [
+            "high_weight_low_frequency_edges",
+            "window_specific_edges"
+          ]
+        },
+        {
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "windows": [
+            0,
+            1,
+            6
+          ],
+          "categories": [
+            "high_frequency_low_weight_edges"
+          ]
+        },
+        {
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "windows": [
+            1,
+            2,
+            4
+          ],
+          "categories": [
+            "high_frequency_low_weight_edges"
+          ]
+        }
+      ],
+      "operation_templates_per_sample": 16,
+      "real_forward_count": 680
+    }
+  ],
+  "total_real_forward_count": 680,
+  "statistical_validation": {
+    "status": "separate",
+    "reason": "Phase 5 is recomputed across the complete 320-case structural family."
+  }
+}
