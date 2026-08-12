@@ -19,6 +19,47 @@ def json_safe(value):
     return value
 
 
+def diagnostic_localization(absolute_delta, baseline_absolute_error, intervention_absolute_error, variables):
+    step_impact = absolute_delta.mean(axis=1)
+    positive = step_impact[step_impact > 0]
+    threshold = float(np.quantile(positive, 0.75)) if positive.size else None
+    marked = (step_impact >= threshold) if threshold is not None else np.zeros_like(step_impact, dtype=bool)
+    intervals = []
+    start = None
+    for index, active in enumerate(np.append(marked, False)):
+        if active and start is None:
+            start = index
+        elif not active and start is not None:
+            segment = step_impact[start:index]
+            intervals.append({
+                "start_step": start + 1,
+                "end_step": index,
+                "peak_step": start + int(np.argmax(segment)) + 1,
+                "peak_impact": float(segment.max()),
+                "share_of_total_impact": float(segment.sum() / step_impact.sum()) if step_impact.sum() else 0.0,
+            })
+            start = None
+    variable_rows = []
+    for variable_index, variable in enumerate(variables):
+        variable_delta = absolute_delta[:, variable_index]
+        error_delta = intervention_absolute_error[:, variable_index] - baseline_absolute_error[:, variable_index]
+        variable_rows.append({
+            "variable": variable,
+            "mean_absolute_prediction_delta": float(variable_delta.mean()),
+            "max_absolute_prediction_delta": float(variable_delta.max()),
+            "peak_step": int(np.argmax(variable_delta)) + 1,
+            "mean_absolute_error_delta": float(error_delta.mean()),
+        })
+    variable_rows.sort(key=lambda row: (-row["mean_absolute_prediction_delta"], row["variable"]))
+    intervals.sort(key=lambda row: (-row["share_of_total_impact"], row["start_step"]))
+    return {
+        "response_interval_rule": "contiguous forecast steps at or above the within-case 75th percentile of positive mean absolute prediction response",
+        "response_threshold": threshold,
+        "variable_ranking": variable_rows,
+        "response_intervals": intervals,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--evidence-run", required=True)
@@ -57,6 +98,10 @@ def main() -> int:
         baseline_absolute_error = np.abs(baseline - truth)
         intervention_absolute_error = np.abs(intervention_prediction - truth)
         key = (sample, window, source, target)
+        localization = diagnostic_localization(
+            absolute_delta, baseline_absolute_error, intervention_absolute_error,
+            ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"],
+        )
         cases.append({
             "conclusion_id": case["conclusion_id"],
             "sample_index": sample,
@@ -77,6 +122,7 @@ def main() -> int:
             "step_impact": absolute_delta.mean(axis=1).tolist(),
             "step_error_delta": (intervention_absolute_error.mean(axis=1) - baseline_absolute_error.mean(axis=1)).tolist(),
             "variable_impact": absolute_delta.mean(axis=0).tolist(),
+            "diagnostic_localization": localization,
             "baseline_prediction": baseline.tolist(),
             "intervention_prediction": intervention_prediction.tolist(),
             "ground_truth": truth.tolist(),
