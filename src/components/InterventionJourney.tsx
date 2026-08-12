@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowDown, CheckCircle2, CircleDashed, Pause, Play, RotateCcw } from 'lucide-react';
 import { Section } from './layout/Section';
+import { CrossSampleProfile } from './CrossSampleProfile';
 
 interface EdgeOption { edge_id:string;source:number;target:number;source_name:string;target_name:string;windows:number[];topk_score:number;normalized_weight:number;retained_edge_rank:number }
 interface Metrics { baseline_mae:number;intervention_mae:number;prediction_delta_abs:number;prediction_delta_rel:number;error_delta_mae:number;control_mean_prediction_delta_abs:number;control_percentile:number;empirical_p:number;bh_adjusted_p:number;standardized_effect_size:number|null;effect_difference_bootstrap_ci:[number,number] }
@@ -39,6 +40,7 @@ export function InterventionJourney(){
           {revealed>=5&&<Connector key="c4"/>}{revealed>=5&&<Stage key="s5" index={5} title="The response is compared with 100 real-edge controls"><Comparison observed={current.structural_metrics.prediction_delta_abs} control={current.structural_metrics.control_mean_prediction_delta_abs}/><div className="mt-4 grid gap-3 sm:grid-cols-4"><Mini label="Control percentile" value={`${current.structural_metrics.control_percentile.toFixed(0)}th`}/><Mini label="Empirical p" value={current.structural_metrics.empirical_p.toFixed(3)}/><Mini label="BH adjusted p" value={current.structural_metrics.bh_adjusted_p.toFixed(3)}/><Mini label="95% bootstrap CI" value={`[${fmt(current.structural_metrics.effect_difference_bootstrap_ci[0])}, ${fmt(current.structural_metrics.effect_difference_bootstrap_ci[1])}]`}/></div></Stage>}
           {revealed>=6&&<Connector key="c5"/>}{revealed>=6&&<Stage key="s6" index={6} title="Three-dimensional diagnostic summary"><DiagnosticSummary record={current}/><div className="mt-4 flex items-center justify-between gap-4 text-[11px] text-ink-400"><span className="font-mono">{current.conclusion_id}</span><span className="rounded-lg border border-dashed px-3 py-2"><CircleDashed className="mr-1 inline" size={13}/>Cross-run: missing / null</span></div></Stage>}
         </AnimatePresence></div></div>
+      <CrossSampleProfile cases={catalog.cases.filter(c=>c.window===windowId&&`${c.edge.source}->${c.edge.target}`===edgeId)} selectedSample={sample} onSelect={setSample}/>
       <div className="flex items-start gap-2 rounded-lg border border-[#d6e3ec] bg-white px-4 py-3 text-[11.5px] text-ink-500"><CheckCircle2 size={15} className="shrink-0 text-accent"/>{catalog.notice}</div>
     </div>}
   </Section>
