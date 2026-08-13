@@ -34,6 +34,19 @@ export interface MsgnetSample {
   edge_impacts: MsgnetEdgeImpact[];
 }
 
+export interface MsgnetVariableEvidence {
+  mse: number;
+  mae: number;
+  truth: number[];
+  prediction: number[];
+  absolute_error: number[];
+}
+
+export interface MsgnetEvidenceIndex {
+  variables: Record<string, MsgnetVariableEvidence>;
+  edge_impacts: Record<string, MsgnetEdgeImpact>;
+}
+
 export interface MsgnetCatalog {
   model: 'MSGNet';
   dataset: 'ETTh1';
@@ -47,6 +60,34 @@ export interface MsgnetCatalog {
 }
 
 let catalogPromise: Promise<MsgnetCatalog> | null = null;
+const evidenceCache = new WeakMap<MsgnetSample, MsgnetEvidenceIndex>();
+
+export function getMsgnetEvidenceIndex(sample: MsgnetSample): MsgnetEvidenceIndex {
+  const cached = evidenceCache.get(sample);
+  if (cached) return cached;
+  const variables: MsgnetEvidenceIndex['variables'] = {};
+  sample.prediction.forEach((prediction, variable) => {
+    const truth = sample.ground_truth[variable];
+    const absolute_error = prediction.map((value, step) => Math.abs(value - truth[step]));
+    const squared_error = prediction.map((value, step) => (value - truth[step]) ** 2);
+    variables[String(variable)] = {
+      mse: squared_error.reduce((sum, value) => sum + value, 0) / squared_error.length,
+      mae: absolute_error.reduce((sum, value) => sum + value, 0) / absolute_error.length,
+      truth,
+      prediction,
+      absolute_error,
+    };
+  });
+  const edge_impacts = Object.fromEntries(
+    sample.edge_impacts.map((impact) => [
+      `${impact.scale_index}:${impact.source}:${impact.target}`,
+      impact,
+    ])
+  );
+  const index = { variables, edge_impacts };
+  evidenceCache.set(sample, index);
+  return index;
+}
 
 export function loadMsgnetCatalog(): Promise<MsgnetCatalog> {
   if (!catalogPromise) {
