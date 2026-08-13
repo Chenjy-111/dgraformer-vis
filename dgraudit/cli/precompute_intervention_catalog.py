@@ -43,7 +43,7 @@ def impact_metrics(baseline: torch.Tensor, intervention: torch.Tensor, truth: to
     }
 
 
-def selected_edges(patterns: dict, selections: Iterable[dict]) -> list[dict]:
+def selected_edges(patterns: dict, selections: Iterable[dict], supplement: dict | None = None) -> list[dict]:
     merged: dict[tuple[int, int], dict] = {}
     for selection in selections:
         category = selection["category"]
@@ -63,6 +63,22 @@ def selected_edges(patterns: dict, selections: Iterable[dict]) -> list[dict]:
             })
             record["windows"].update(int(window) for window in item["windows"])
             record["categories"].add(category)
+    if supplement and len(merged) < int(supplement["minimum_unique_edges"]):
+        eligible = [item for item in patterns["all_retained_edge_statistics"]
+                    if int(item["retained_window_count"]) >= int(supplement["minimum_retained_windows"])
+                    and (int(item["source"]), int(item["target"])) not in merged]
+        eligible.sort(key=lambda item: (-int(item["retained_window_count"]),
+                                        -float(item["mean_retained_score"]),
+                                        int(item["source"]), int(item["target"])))
+        needed = int(supplement["minimum_unique_edges"]) - len(merged)
+        for item in eligible[:needed]:
+            key = (int(item["source"]), int(item["target"]))
+            merged[key] = {
+                "source": key[0], "target": key[1],
+                "source_name": item["source_name"], "target_name": item["target_name"],
+                "windows": set(int(window) for window in item["windows"]),
+                "categories": {"multi_window_supplement"},
+            }
     return [{**item, "windows": sorted(item["windows"]), "categories": sorted(item["categories"])}
             for _, item in sorted(merged.items())]
 
@@ -81,7 +97,7 @@ def unique_variables(patterns: dict, categories: Iterable[str]) -> list[dict]:
 
 def operation_matrix(patterns: dict, config: dict, window_count: int) -> list[dict]:
     operations: list[dict] = []
-    for edge in selected_edges(patterns, config["edge_candidate_selection"]):
+    for edge in selected_edges(patterns, config["edge_candidate_selection"], config.get("edge_candidate_supplement")):
         for window in edge["windows"]:
             for protocol in config["edge_protocols"]:
                 operations.append({
@@ -149,7 +165,7 @@ def main() -> int:
         patterns = json.loads(pattern_path.read_text(encoding="utf-8"))
         operations = operation_matrix(patterns, config, patterns["window_count"])
         plans[dataset_name] = (patterns, operations)
-        chosen_edges = selected_edges(patterns, config["edge_candidate_selection"])
+        chosen_edges = selected_edges(patterns, config["edge_candidate_selection"], config.get("edge_candidate_supplement"))
         dataset_plans.append({
             "dataset": dataset_name,
             "web_sample_indices": ds["web_sample_indices"],

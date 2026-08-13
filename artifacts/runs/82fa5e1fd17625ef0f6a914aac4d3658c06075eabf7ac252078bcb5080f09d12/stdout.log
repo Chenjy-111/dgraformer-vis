@@ -1,0 +1,32 @@
+{
+  "run_id": "82fa5e1fd17625ef0f6a914aac4d3658c06075eabf7ac252078bcb5080f09d12",
+  "status": "complete",
+  "phase": "Phase 4 - Predeclared Candidate Intervention Catalog",
+  "schedule": {
+    "state": "final",
+    "current_epoch_equivalent": 5,
+    "static_weight": 0.1,
+    "learned_weight": 0.9
+  },
+  "selection_config": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\precomputed_intervention_catalog_ettm1_40_grid.json",
+  "selection_config_sha256": "5f7e28f6127b6cb035d2f9259cd11d7c3f44f88b12398cf3ef0fb08f6e9856fa",
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "datasets": [
+    {
+      "dataset": "ETTm1",
+      "status": "complete",
+      "record_count": 1040,
+      "catalog": "catalog\\ETTm1.json",
+      "catalog_sha256": "2190b619472235b7f85fbb50e3e43e4698f2fa73f0ce2925f5629c0e4b8f488f",
+      "predictions": "predictions\\ETTm1.npz",
+      "predictions_sha256": "c90d482ba3ddfc3843efda1a7f26c61d76361e419fff327ca2b58a2ccf5873b0",
+      "checkpoint_sha256": "b065f4048f05fb2544070ef5652c382f501fb2f070bb0e352f30e46dddaa55fa",
+      "data_sha256": "6ce1759b1a18e3328421d5d75fadcb316c449fcd7cec32820c8dafda71986c9e"
+    }
+  ],
+  "total_real_forward_count": 1080,
+  "statistical_validation": {
+    "status": "separate",
+    "reason": "Phase 5 is recomputed across the complete ETTm1 structural family."
+  }
+}

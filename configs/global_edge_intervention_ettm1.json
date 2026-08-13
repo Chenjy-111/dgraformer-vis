@@ -4,12 +4,12 @@
   "current_epoch": 5,
   "sample_selection": {"rule": "round(linspace(0, test_split_length - 1, 40))", "test_split_length": 11425, "count": 40},
   "samples": [0,293,586,879,1172,1465,1758,2050,2343,2636,2929,3222,3515,3808,4101,4394,4687,4980,5273,5566,5858,6151,6444,6737,7030,7323,7616,7909,8202,8495,8788,9081,9374,9666,9959,10252,10545,10838,11131,11424],
-  "candidate_edges": [[0,2],[2,3]],
-  "candidate_selection": "same predeclared Phase 3 category limits and deterministic ordering as the single-window catalog; duplicates merged",
+  "candidate_edges": [[0,2],[0,6],[2,3],[2,4]],
+  "candidate_selection": "same predeclared Phase 3 category limits and deterministic ordering as the single-window catalog; duplicates merged; if fewer than 4 unique edges remain, supplement from edges retained in at least 2 windows by retained-window count descending, mean retained score descending, source-target ascending",
   "protocol": "global_structural_edge_removal",
   "window_rule": "remove the directed edge in every final-schedule window where its normalized weight is positive; renormalize each affected row",
   "control_matching": {"pool": "all other real directed non-self relations retained in at least one final-schedule window", "distance": "absolute retained-window-count difference, then absolute mean-normalized-weight difference, then source-target order", "nearest_relations": 10, "repetitions": 100, "random_seed": 20260831},
   "bootstrap_repetitions": 10000,
   "confidence_level": 0.95,
-  "multiple_comparison_correction": "Benjamini-Hochberg across all 80 focal cases"
+  "multiple_comparison_correction": "Benjamini-Hochberg across all 160 focal cases"
 }

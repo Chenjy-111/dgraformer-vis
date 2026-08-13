@@ -11,6 +11,14 @@
     {"category": "high_weight_low_frequency_edges", "limit": 2, "order": "mean_retained_score descending, source ascending, target ascending"},
     {"category": "high_frequency_low_weight_edges", "limit": 2, "order": "frequency descending, mean_retained_score descending, source ascending, target ascending"}
   ],
+  "edge_candidate_supplement": {
+    "trigger": "fewer than 4 unique edges after merging the predeclared category selections",
+    "minimum_unique_edges": 4,
+    "minimum_retained_windows": 2,
+    "pool": "all final-schedule directed non-self edges retained in at least 2 windows, excluding already selected edges",
+    "order": "retained_window_count descending, mean_retained_score descending, source ascending, target ascending",
+    "category": "multi_window_supplement"
+  },
   "edge_protocols": ["structural_edge_removal", "normalized_channel_mask"],
   "variable_candidate_categories": [], "windowed_variable_protocols": [], "windowless_variable_protocols": [],
   "edge_set_candidate_category": "repeated_local_edge_sets", "edge_set_limit": 0, "edge_set_protocols": [],
