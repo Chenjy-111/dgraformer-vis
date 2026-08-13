@@ -9,7 +9,7 @@ const dataUrl=(dataset:string)=>`${import.meta.env.BASE_URL}data/evidence/${data
 
 export function GlobalInterventionJourney({dataset='ETTh1'}:{dataset?:string}) {
   const [catalog,setCatalog]=useState<Catalog|null>(null),[sample,setSample]=useState(0),[edge,setEdge]=useState(''),[variable,setVariable]=useState(0),[error,setError]=useState(false);
-  useEffect(()=>{setCatalog(null);setError(false);fetch(dataUrl(dataset)).then(r=>{if(!r.ok)throw Error();return r.json()}).then((next:Catalog)=>{setCatalog(next);setSample(next.samples[0]);setEdge(next.edges[0].join('->'));setVariable(0)}).catch(()=>setError(true))},[dataset]);
+  useEffect(()=>{setCatalog(null);setError(false);fetch(dataUrl(dataset),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then((next:Catalog)=>{setCatalog(next);setSample(next.samples[0]);setEdge(next.edges[0].join('->'));setVariable(0)}).catch(()=>setError(true))},[dataset]);
   const current=catalog?.cases.find(c=>c.sample===sample&&c.edge.join('->')===edge),rows=catalog?.cases.filter(c=>c.edge.join('->')===edge)??[];
   return <Section id="global-intervention-lab" eyebrow={`Precomputed global-edge intervention · ${dataset}`} title="Remove one relation everywhere it is retained" intro="The selected directed edge is removed and its source row renormalized in every final-schedule graph window where that edge has positive normalized weight." className="bg-[#f5f8fb]">
     {error&&<div className="card border-red-200 p-5 text-sm text-red-700">Global intervention catalog unavailable. No substitute result was generated.</div>}

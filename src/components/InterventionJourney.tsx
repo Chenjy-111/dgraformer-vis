@@ -19,7 +19,7 @@ export function InterventionJourney({dataset='ETTh1'}:{dataset?:string}){
   const [catalog,setCatalog]=useState<Catalog|null>(null),[error,setError]=useState(false);
   const [sample,setSample]=useState(0),[edgeId,setEdgeId]=useState(''),[windowId,setWindowId]=useState(0),[variableIndex,setVariableIndex]=useState(4);
   const [revealed,setRevealed]=useState(1),[playing,setPlaying]=useState(true);
-  useEffect(()=>{setCatalog(null);setError(false);fetch(dataUrl(dataset)).then(r=>{if(!r.ok)throw new Error();return r.json()}).then((d:Catalog)=>{const preferredEdge=d.edges.find(e=>e.edge_id===DEFAULT_EDGE)??d.edges[0];setCatalog(d);setSample(d.samples.includes(DEFAULT_SAMPLE)?DEFAULT_SAMPLE:d.samples[0]);setEdgeId(preferredEdge.edge_id);setWindowId(preferredEdge.windows.includes(DEFAULT_WINDOW)?DEFAULT_WINDOW:preferredEdge.windows[0])}).catch(()=>setError(true))},[dataset]);
+  useEffect(()=>{setCatalog(null);setError(false);fetch(dataUrl(dataset),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error();return r.json()}).then((d:Catalog)=>{const preferredEdge=d.edges.find(e=>e.edge_id===DEFAULT_EDGE)??d.edges[0];setCatalog(d);setSample(d.samples.includes(DEFAULT_SAMPLE)?DEFAULT_SAMPLE:d.samples[0]);setEdgeId(preferredEdge.edge_id);setWindowId(preferredEdge.windows.includes(DEFAULT_WINDOW)?DEFAULT_WINDOW:preferredEdge.windows[0])}).catch(()=>setError(true))},[dataset]);
   const edge=catalog?.edges.find(e=>e.edge_id===edgeId);
   const current=catalog?.cases.find(c=>c.sample_index===sample&&c.window===windowId&&`${c.edge.source}->${c.edge.target}`===edgeId);
   useEffect(()=>{setRevealed(1);setPlaying(true)},[sample,edgeId,windowId]);

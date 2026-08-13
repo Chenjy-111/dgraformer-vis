@@ -34,7 +34,7 @@ export function CombinedInterventionLab(){
 function DiagnosticWorkspace({dataset,setDataset,openDetail}:{dataset:string;setDataset:(dataset:string)=>void;openDetail:(mode:Mode)=>void}){
   const [index,setIndex]=useState<EvidenceIndex|null>(null),[failed,setFailed]=useState(false);
   const [edgeId,setEdgeId]=useState('0->4'),[sample,setSample]=useState(0),[window,setWindow]=useState(0),[stage,setStage]=useState(2);
-  useEffect(()=>{setIndex(null);setFailed(false);fetch(indexUrl(dataset)).then(r=>{if(!r.ok)throw Error();return r.json()}).then((next:EvidenceIndex)=>{setIndex(next);setSample(next.samples[0]);setEdgeId(next.edges[0].edge_id);setWindow(next.edges[0].windows[0])}).catch(()=>setFailed(true))},[dataset]);
+  useEffect(()=>{setIndex(null);setFailed(false);fetch(indexUrl(dataset),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then((next:EvidenceIndex)=>{setIndex(next);setSample(next.samples[0]);setEdgeId(next.edges[0].edge_id);setWindow(next.edges[0].windows[0])}).catch(()=>setFailed(true))},[dataset]);
   const summaries=useMemo<Summary[]>(()=>!index?[]:index.edges.map(edge=>{const localCases=index.local_cases.filter(c=>`${c.edge.source}->${c.edge.target}`===edge.edge_id),globalCases=index.global_cases.filter(c=>c.edge.join('->')===edge.edge_id);return {edge,local:localCases,global:globalCases,localExposed:localCases.filter(c=>c.window_active!==false),globalExposed:globalCases.filter(c=>c.affected_exposed_windows.length>0)}}),[index]);
   const selected=summaries.find(s=>s.edge.edge_id===edgeId)??summaries[0];
   const localAt=selected?.local.find(c=>c.sample_index===sample&&c.window===window),globalAt=selected?.global.find(c=>c.sample===sample);
