@@ -12,10 +12,12 @@ import { CitationSection } from './components/CitationSection';
 import { InterventionErrorBoundary } from './components/InterventionErrorBoundary';
 import { CombinedInterventionLab } from './components/CombinedInterventionLab';
 import { useDemoStore } from './store/useDemoStore';
-import { useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight, GitBranch, Waves } from 'lucide-react';
+import { MsgnetWorkspace } from './components/MsgnetWorkspace';
 
 export default function App() {
+  const [activeModel, setActiveModel] = useState<'DGraFormer' | 'MSGNet'>('DGraFormer');
   const loadCurrent = useDemoStore((s) => s.loadCurrent);
   const immersive3D = useDemoStore((s) => s.view === 'graph' && s.graphLayout === '3d-timeline');
   const inspectorCollapsed = useDemoStore((s) => s.inspectorCollapsed);
@@ -31,7 +33,20 @@ export default function App() {
       <ResearchMotivation />
       <SystemOverview />
       <MethodExplainer />
-      <div id="workspace" className={`border-b border-line ${immersive3D ? 'bg-[#eef3f8]' : 'bg-white'}`}>
+      <div id="workspace" className="border-b border-line bg-[#f4f6f7] px-5 py-5">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="eyebrow">Model workspace</div>
+            <p className="mt-1 text-[11px] text-ink-400">Switching changes the visible workspace only. Each model keeps an independent interaction state.</p>
+          </div>
+          <div className="inline-flex w-fit rounded-xl border border-[#cbd4df] bg-white p-1 shadow-sm" role="group" aria-label="Forecast model">
+            <ModelButton active={activeModel === 'DGraFormer'} onClick={() => setActiveModel('DGraFormer')} label="DGraFormer" detail="Dynamic graph" icon={<GitBranch size={15} />} />
+            <ModelButton active={activeModel === 'MSGNet'} onClick={() => setActiveModel('MSGNet')} label="MSGNet" detail="Scale graph" icon={<Waves size={15} />} />
+          </div>
+        </div>
+      </div>
+      <div className={activeModel === 'DGraFormer' ? 'block' : 'hidden'} aria-hidden={activeModel !== 'DGraFormer'}>
+      <div className={`border-b border-line ${immersive3D ? 'bg-[#eef3f8]' : 'bg-white'}`}>
         <div className={immersive3D
           ? 'relative min-h-[920px] w-full overflow-hidden'
           : `relative mx-auto grid gap-6 px-5 py-14 transition-all ${inspectorCollapsed ? 'max-w-[1540px] lg:grid-cols-[280px_1fr]' : 'max-w-[1400px] lg:grid-cols-[280px_1fr_320px]'}`}>
@@ -69,6 +84,10 @@ export default function App() {
         </div>
       </div>
       <InterventionErrorBoundary><CombinedInterventionLab /></InterventionErrorBoundary>
+      </div>
+      <div className={activeModel === 'MSGNet' ? 'block' : 'hidden'} aria-hidden={activeModel !== 'MSGNet'}>
+        <MsgnetWorkspace />
+      </div>
       <ExplanationModeGallery />
       <CaseStudy />
       <Limitations />
@@ -78,4 +97,11 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+function ModelButton({ active, onClick, label, detail, icon }: { active: boolean; onClick: () => void; label: string; detail: string; icon: React.ReactNode }) {
+  return <button type="button" aria-pressed={active} onClick={onClick} className={`flex min-w-[145px] items-center gap-2 rounded-lg px-4 py-2 text-left transition ${active ? 'bg-[#263b59] text-white shadow-sm' : 'text-[#56657b] hover:bg-[#edf4f4]'}`}>
+    <span className={active ? 'text-[#70d0ca]' : 'text-[#16827f]'}>{icon}</span>
+    <span><span className="block text-[12px] font-semibold">{label}</span><span className={`block text-[9px] ${active ? 'text-white/55' : 'text-ink-400'}`}>{detail}</span></span>
+  </button>;
 }
