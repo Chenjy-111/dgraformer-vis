@@ -140,7 +140,7 @@ def main() -> int:
             control_path.write_text(json.dumps(control_records, indent=2), encoding="utf-8")
             timestamps = sample_timestamps(data_path, dataset_name, sample_index,
                                            registry["common"]["seq_len"], registry["common"]["pred_len"])
-            conclusion_id = f"etth1_s{sample_index}_w{window}_edge_{focal_edge[0]}_{focal_edge[1]}"
+            conclusion_id = f"{dataset_name.lower()}_s{sample_index}_w{window}_edge_{focal_edge[0]}_{focal_edge[1]}"
             evidence_records.append({
                 "conclusion_id": conclusion_id, "status": "complete", "claim_level": "interventional_model_evidence",
                 "dataset": {"name": dataset_name, "path": str(data_path), "sha256": sha256(data_path)},
@@ -181,10 +181,10 @@ def main() -> int:
         evidence_path = run_dir / "evidence" / f"{record['conclusion_id']}.json"
         evidence_path.write_text(json.dumps(record, indent=2, ensure_ascii=False), encoding="utf-8")
     catalog_path = run_dir / "evidence_catalog.json"
-    catalog = {"run_id": run_id, "status": "complete", "phase": "Phase 5 - ETTh1 Precomputed Evidence Catalog",
+    catalog = {"run_id": run_id, "status": "complete", "phase": f"Phase 5 - {dataset_name} Precomputed Evidence Catalog",
                "dataset": dataset_name, "case_count": len(evidence_records), "multiple_comparison_family_size": len(evidence_records),
                "multiple_comparison_correction": config["multiple_comparison_correction"], "cases": evidence_records,
-               "cross_run": {"status": "missing", "metrics": None, "reason": "Only one real ETTh1 checkpoint is available."}}
+               "cross_run": {"status": "missing", "metrics": None, "reason": f"Only one real {dataset_name} checkpoint is available."}}
     catalog_path.write_text(json.dumps(catalog, indent=2, ensure_ascii=False), encoding="utf-8")
     manifest = {"run_id": run_id, "status": "complete", "phase": catalog["phase"], "dataset": dataset_name,
                 "case_count": len(evidence_records), "real_forward_groups": len(grouped),

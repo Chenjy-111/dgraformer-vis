@@ -6,17 +6,18 @@ import { GlobalInterventionJourney } from './GlobalInterventionJourney';
 type Mode = 'workspace' | 'local' | 'global';
 type Edge = { source:number; target:number; source_name:string; target_name:string; normalized_weight:number; retained_edge_rank:number; windows:number[]; edge_id:string };
 type LocalCase = { conclusion_id:string; sample_index:number; window:number; window_active?:boolean; edge:Edge; structural_metrics:{ prediction_delta_abs:number; error_delta_mae:number; control_mean_prediction_delta_abs:number; empirical_p:number; bh_adjusted_p:number }; diagnostic_localization:{ variable_ranking:{variable:string;mean_absolute_prediction_delta:number}[] } };
-type EvidenceIndex = { samples:number[]; edges:Edge[]; local_cases:LocalCase[]; global_cases:GlobalCase[]; source_runs:{intervention:string;evidence:string;global:string}; schedule:{current_epoch_equivalent:number;static_weight:number;learned_weight:number}; cross_run:{status:string;metrics:null}; notice:string };
+type EvidenceIndex = { dataset:string; samples:number[]; edges:Edge[]; local_cases:LocalCase[]; global_cases:GlobalCase[]; source_runs:{intervention:string;evidence:string;global:string}; schedule:{current_epoch_equivalent:number;static_weight:number;learned_weight:number}; cross_run:{status:string;metrics:null}; notice:string };
 type GlobalCase = { sample:number; edge:[number,number]; affected_exposed_windows:number[]; metrics:{ prediction_delta_abs:number; error_delta_mae:number; empirical_p:number; bh_adjusted_p:number; control_mean_prediction_delta_abs:number }; variable_ranking:{variable:string;mean_absolute_prediction_delta:number}[] };
 type Summary = { edge:Edge; local:LocalCase[]; global:GlobalCase[]; localExposed:LocalCase[]; globalExposed:GlobalCase[] };
 
-const INDEX = `${import.meta.env.BASE_URL}data/evidence/etth1_intervention_index.json`;
+const indexUrl=(dataset:string)=>`${import.meta.env.BASE_URL}data/evidence/${dataset.toLowerCase()}_intervention_index.json`;
 const fmt = (n:number) => n.toFixed(6);
 const signed = (n:number) => `${n > 0 ? '+' : ''}${fmt(n)}`;
 const median = (xs:number[]) => { if(!xs.length) return null; const s=[...xs].sort((a,b)=>a-b),m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2 };
 
 export function CombinedInterventionLab(){
   const [mode,setMode]=useState<Mode>('workspace');
+  const [dataset,setDataset]=useState('ETTh1');
   return <div id="diagnostic-workspace" className="border-y border-line bg-[#f4f7fa]">
     <nav className="sticky top-0 z-40 border-b border-line bg-white/95 px-5 py-3 shadow-sm backdrop-blur">
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-3">
@@ -26,26 +27,26 @@ export function CombinedInterventionLab(){
         </div>
       </div>
     </nav>
-    {mode==='workspace'?<DiagnosticWorkspace openDetail={setMode}/>:mode==='local'?<InterventionJourney/>:<GlobalInterventionJourney/>}
+    {mode==='workspace'?<DiagnosticWorkspace dataset={dataset} setDataset={setDataset} openDetail={setMode}/>:mode==='local'?<InterventionJourney dataset={dataset}/>:<GlobalInterventionJourney dataset={dataset}/>}
   </div>
 }
 
-function DiagnosticWorkspace({openDetail}:{openDetail:(mode:Mode)=>void}){
+function DiagnosticWorkspace({dataset,setDataset,openDetail}:{dataset:string;setDataset:(dataset:string)=>void;openDetail:(mode:Mode)=>void}){
   const [index,setIndex]=useState<EvidenceIndex|null>(null),[failed,setFailed]=useState(false);
   const [edgeId,setEdgeId]=useState('0->4'),[sample,setSample]=useState(0),[window,setWindow]=useState(0),[stage,setStage]=useState(2);
-  useEffect(()=>{fetch(INDEX).then(r=>{if(!r.ok)throw Error();return r.json()}).then(setIndex).catch(()=>setFailed(true))},[]);
+  useEffect(()=>{setIndex(null);setFailed(false);fetch(indexUrl(dataset)).then(r=>{if(!r.ok)throw Error();return r.json()}).then((next:EvidenceIndex)=>{setIndex(next);setSample(next.samples[0]);setEdgeId(next.edges[0].edge_id);setWindow(next.edges[0].windows[0])}).catch(()=>setFailed(true))},[dataset]);
   const summaries=useMemo<Summary[]>(()=>!index?[]:index.edges.map(edge=>{const localCases=index.local_cases.filter(c=>`${c.edge.source}->${c.edge.target}`===edge.edge_id),globalCases=index.global_cases.filter(c=>c.edge.join('->')===edge.edge_id);return {edge,local:localCases,global:globalCases,localExposed:localCases.filter(c=>c.window_active!==false),globalExposed:globalCases.filter(c=>c.affected_exposed_windows.length>0)}}),[index]);
   const selected=summaries.find(s=>s.edge.edge_id===edgeId)??summaries[0];
   const localAt=selected?.local.find(c=>c.sample_index===sample&&c.window===window),globalAt=selected?.global.find(c=>c.sample===sample);
   useEffect(()=>{if(selected&&!selected.edge.windows.includes(window))setWindow(selected.edge.windows[0])},[selected?.edge.edge_id,window]);
   if(failed)return <div className="mx-auto max-w-[1240px] px-5 py-16"><div className="card border-red-200 p-6 text-red-700">Audited intervention catalogs could not be loaded. No substitute scientific result was generated.</div></div>;
-  if(!index||!selected)return <div className="px-5 py-20 text-center text-sm text-ink-400">Loading audited ETTh1 evidence index…</div>;
+  if(!index||!selected)return <div className="px-5 py-20 text-center text-sm text-ink-400">Loading audited {dataset} evidence index…</div>;
   const allLocal=index.local_cases.filter(c=>c.window_active!==false),allGlobal=index.global_cases.filter(c=>c.affected_exposed_windows.length>0),bhCount=[...allLocal,...allGlobal].filter(c=>('structural_metrics'in c?c.structural_metrics.bh_adjusted_p:c.metrics.bh_adjusted_p)<.05).length;
   return <main className="mx-auto max-w-[1240px] space-y-6 px-5 py-10">
     <Workflow stage={stage} setStage={setStage}/>
     <section className="grid gap-5 lg:grid-cols-[1fr_330px]">
       <div className="space-y-5">
-        <DataPackage index={index}/>
+        <DataPackage index={index} dataset={dataset} setDataset={setDataset}/>
         <div className="rounded-xl border border-[#cddde4] bg-[#edf6f5] px-5 py-4 text-[11px] leading-relaxed text-[#315e5b]"><b>One statistical boundary for this workspace.</b> Across the current audited local and global case families, {bhCount} cases obtained BH-adjusted support. The workspace therefore presents observed checkpoint responses descriptively; it does not infer real-world causality or cross-checkpoint stability.</div>
         <EdgePicker summaries={summaries} selected={edgeId} choose={id=>{const next=summaries.find(s=>s.edge.edge_id===id);setEdgeId(id);if(next)setWindow(next.edge.windows[0]);setStage(Math.max(stage,2))}}/>
       </div>
@@ -61,7 +62,7 @@ function DiagnosticWorkspace({openDetail}:{openDetail:(mode:Mode)=>void}){
 const steps=[['Load evidence',Database],['Select edge',GitBranch],['Inspect change',Play],['Review evidence',ShieldCheck],['Conclusion',Check]] as const;
 function Workflow({stage,setStage}:{stage:number;setStage:(n:number)=>void}){return <section className="card p-4"><div className="flex overflow-x-auto">{steps.map(([label,Icon],i)=><button key={label} onClick={()=>setStage(i)} className="flex min-w-[190px] flex-1 items-center"><span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${i<=stage?'bg-[#176e69] text-white':'bg-[#e9edf2] text-ink-400'}`}><Icon className="h-4 w-4"/></span><span className={`ml-2 text-left text-[11px] font-semibold ${i<=stage?'text-ink-800':'text-ink-400'}`}><small className="block text-[9px] font-normal uppercase tracking-wider">Step {i+1}</small>{label}</span>{i<steps.length-1&&<ChevronRight className="mx-3 h-4 w-4 shrink-0 text-ink-300"/>}</button>)}</div></section>}
 
-function DataPackage({index}:{index:EvidenceIndex}){return <section className="card overflow-hidden"><header className="flex items-center justify-between border-b border-line bg-[#fafbfd] px-5 py-4"><div><div className="text-[10px] font-semibold uppercase tracking-wider text-accent">01 · audited precomputed package</div><h2 className="mt-1 font-serif text-2xl font-semibold text-[#263b59]">ETTh1 evidence index is loaded</h2></div><span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-semibold text-emerald-700">Stored evidence loaded</span></header><div className="grid gap-3 p-5 sm:grid-cols-4"><Mini label="Audited tests" value={`${index.samples.length} equally spaced`}/><Mini label="Candidate edges" value={`${index.edges.length}`}/><Mini label="Stored cases" value={`${index.local_cases.length} local · ${index.global_cases.length} global`}/><Mini label="Final schedule" value={`${index.schedule.static_weight} static + ${index.schedule.learned_weight} learned`}/></div><div className="border-t border-line px-5 py-3 font-mono text-[9px] text-ink-400">Evidence run {index.source_runs.evidence.slice(0,16)}… · Global run {index.source_runs.global.slice(0,16)}… · Phase 6 {index.cross_run.status}/null</div></section>}
+function DataPackage({index,dataset,setDataset}:{index:EvidenceIndex;dataset:string;setDataset:(dataset:string)=>void}){return <section className="card overflow-hidden"><header className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-[#fafbfd] px-5 py-4"><div><div className="text-[10px] font-semibold uppercase tracking-wider text-accent">01 · audited precomputed package</div><h2 className="mt-1 font-serif text-2xl font-semibold text-[#263b59]">{index.dataset} evidence index is loaded</h2></div><label className="text-[10px] font-semibold uppercase tracking-wider text-ink-400">Dataset<select value={dataset} onChange={e=>setDataset(e.target.value)} className="ml-2 rounded-lg border border-line bg-white px-3 py-2 text-[12px] text-ink-700"><option>ETTh1</option><option>ETTm1</option></select></label></header><div className="grid gap-3 p-5 sm:grid-cols-4"><Mini label="Audited tests" value={`${index.samples.length} equally spaced`}/><Mini label="Candidate edges" value={`${index.edges.length}`}/><Mini label="Stored cases" value={`${index.local_cases.length} local · ${index.global_cases.length} global`}/><Mini label="Final schedule" value={`${index.schedule.static_weight} static + ${index.schedule.learned_weight} learned`}/></div><div className="border-t border-line px-5 py-3 font-mono text-[9px] text-ink-400">Evidence run {index.source_runs.evidence.slice(0,16)}… · Global run {index.source_runs.global.slice(0,16)}… · Phase 6 {index.cross_run.status}/null</div></section>}
 
 function EdgePicker({summaries,selected,choose}:{summaries:Summary[];selected:string;choose:(id:string)=>void}){return <section className="card p-5"><div className="text-[10px] font-semibold uppercase tracking-wider text-accent">02 · select a supported candidate edge</div><div className="mt-4 grid gap-3 sm:grid-cols-2">{summaries.map(s=>{const active=s.edge.edge_id===selected;return <button key={s.edge.edge_id} onClick={()=>choose(s.edge.edge_id)} className={`relative overflow-hidden rounded-xl border p-4 text-left transition ${active?'border-[#16827f] bg-[#edf7f6] shadow-sm':'border-line bg-white hover:border-[#8ebbb8]'}`}><div className="flex items-center justify-between"><span className="font-serif text-xl font-semibold text-[#263b59]">{s.edge.source_name} <span className="text-[#16827f]">→</span> {s.edge.target_name}</span><span className="rounded bg-white/80 px-2 py-1 text-[9px] font-semibold text-ink-400">rank {s.edge.retained_edge_rank}</span></div><div className="mt-3 h-1.5 rounded-full bg-[#dfe7eb]"><div className="h-full rounded-full bg-[#36a39e]" style={{width:`${Math.min(100,s.edge.normalized_weight*220)}%`}}/></div><div className="mt-2 flex justify-between text-[10px] text-ink-400"><span>weight {s.edge.normalized_weight.toFixed(4)}</span><span>windows {s.edge.windows.join(', ')}</span></div></button>})}</div><p className="mt-3 text-[10px] text-ink-400">Graph weight controls the bar length. It is not presented as intervention importance.</p></section>}
 

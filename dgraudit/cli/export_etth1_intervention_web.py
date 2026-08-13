@@ -60,7 +60,7 @@ def diagnostic_localization(absolute_delta, baseline_absolute_error, interventio
     }
 
 
-def etth1_window_exposure(sample_index, seq_len=96, test_border=11424, numpoint_win=24, window_count=7):
+def window_exposure(sample_index, test_border, seq_len=96, numpoint_win=24, window_count=7):
     """Reproduce Dataset_ETT_hour time_index and DGraFormer modulo window selection."""
     indices = (np.arange(test_border + sample_index, test_border + sample_index + seq_len) // numpoint_win) % window_count
     values, counts = np.unique(indices, return_counts=True)
@@ -71,13 +71,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--evidence-run", required=True)
     parser.add_argument("--intervention-run", required=True)
+    parser.add_argument("--dataset", default="ETTh1")
+    parser.add_argument("--test-border", type=int, default=11424)
     parser.add_argument("--output", default="public/data/evidence/etth1_intervention_catalog.json")
     args = parser.parse_args()
     root = Path("artifacts/runs")
     evidence_root = root / args.evidence_run
     intervention_root = root / args.intervention_run
     evidence = json.loads((evidence_root / "evidence_catalog.json").read_text(encoding="utf-8"))
-    intervention = json.loads((intervention_root / "catalog/ETTh1.json").read_text(encoding="utf-8"))
+    intervention = json.loads((intervention_root / f"catalog/{args.dataset}.json").read_text(encoding="utf-8"))
+    if evidence["dataset"] != args.dataset or intervention["dataset"] != args.dataset:
+        raise ValueError("Dataset argument does not match source catalogs")
 
     normalized_masks = {}
     for record in intervention["records"]:
@@ -109,7 +113,7 @@ def main() -> int:
             absolute_delta, baseline_absolute_error, intervention_absolute_error,
             ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"],
         )
-        exposure_counts = etth1_window_exposure(sample)
+        exposure_counts = window_exposure(sample, args.test_border)
         cases.append({
             "conclusion_id": case["conclusion_id"],
             "sample_index": sample,
@@ -152,7 +156,7 @@ def main() -> int:
              for key, record in sorted(unique_edges.items())]
     output = {
         "status": "complete",
-        "dataset": "ETTh1",
+        "dataset": args.dataset,
         "claim_label": "Candidate Pattern",
         "source_runs": {"intervention": args.intervention_run, "evidence": args.evidence_run},
         "schedule": {"state": "final", "current_epoch_equivalent": 5, "static_weight": 0.1, "learned_weight": 0.9},
@@ -161,7 +165,7 @@ def main() -> int:
         "edges": edges,
         "cases": cases,
         "cross_run": evidence["cross_run"],
-        "notice": "All values are precomputed from the real ETTh1 checkpoint. Selection retrieves stored evidence and does not rerun the model in the browser."
+        "notice": f"All values are precomputed from the real {args.dataset} checkpoint. Selection retrieves stored evidence and does not rerun the model in the browser."
     }
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)

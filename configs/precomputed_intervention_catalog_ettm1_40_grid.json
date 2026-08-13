@@ -1,0 +1,18 @@
+{
+  "status": "predeclared",
+  "purpose": "ETTm1 single-window catalog on a fixed 40-test equally spaced grid",
+  "dataset_scope": ["ETTm1"],
+  "sample_selection": {"rule": "round(linspace(0, test_split_length - 1, 40))", "test_split_length": 11425, "count": 40},
+  "sample_indices_override": {"ETTm1": [0,293,586,879,1172,1465,1758,2050,2343,2636,2929,3222,3515,3808,4101,4394,4687,4980,5273,5566,5858,6151,6444,6737,7030,7323,7616,7909,8202,8495,8788,9081,9374,9666,9959,10252,10545,10838,11131,11424]},
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "current_epoch": 5,
+  "edge_candidate_selection": [
+    {"category": "window_specific_edges", "limit": 2, "order": "mean_retained_score descending, source ascending, target ascending"},
+    {"category": "high_weight_low_frequency_edges", "limit": 2, "order": "mean_retained_score descending, source ascending, target ascending"},
+    {"category": "high_frequency_low_weight_edges", "limit": 2, "order": "frequency descending, mean_retained_score descending, source ascending, target ascending"}
+  ],
+  "edge_protocols": ["structural_edge_removal", "normalized_channel_mask"],
+  "variable_candidate_categories": [], "windowed_variable_protocols": [], "windowless_variable_protocols": [],
+  "edge_set_candidate_category": "repeated_local_edge_sets", "edge_set_limit": 0, "edge_set_protocols": [],
+  "statistical_validation": {"status": "separate", "reason": "Phase 5 is recomputed across the complete ETTm1 structural family."}
+}

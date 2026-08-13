@@ -160,7 +160,7 @@ def main() -> int:
 
     plan = {
         "run_id": run_id, "status": "planned" if args.plan_only else "running",
-        "phase": "Phase 4 - Predeclared ETTh1 Candidate Intervention Catalog",
+        "phase": "Phase 4 - Predeclared Candidate Intervention Catalog",
         "schedule": {"state": "final", "current_epoch_equivalent": config["current_epoch"],
                      "static_weight": 0.1, "learned_weight": 0.9},
         "selection_config": str(config_path), "selection_config_sha256": sha256(config_path),

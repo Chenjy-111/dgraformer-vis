@@ -16,6 +16,6 @@ def main():
             series=delta[:,i];ranking.append({"variable":name,"mean_absolute_prediction_delta":float(series.mean()),"max_absolute_prediction_delta":float(series.max()),"peak_step":int(series.argmax()+1)})
         ranking.sort(key=lambda x:(-x["mean_absolute_prediction_delta"],x["variable"]))
         cases.append({**c,"baseline_prediction":baseline.tolist(),"intervention_prediction":intervention.tolist(),"ground_truth":truth.tolist(),"variable_ranking":ranking})
-    output={"run_id":catalog["run_id"],"dataset":"ETTh1","protocol":catalog["protocol"],"schedule":catalog["schedule"],"variables":VARIABLES,"samples":sorted({c["sample"] for c in cases}),"edges":sorted({tuple(c["edge"]) for c in cases}),"cases":cases,"cross_run":catalog["cross_run"],"notice":"All displayed values are stored outputs from the real ETTh1 checkpoint. The browser does not rerun the model."}
+    dataset=catalog["dataset"];output={"run_id":catalog["run_id"],"dataset":dataset,"protocol":catalog["protocol"],"schedule":catalog["schedule"],"variables":VARIABLES,"samples":sorted({c["sample"] for c in cases}),"edges":sorted({tuple(c["edge"]) for c in cases}),"cases":cases,"cross_run":catalog["cross_run"],"notice":f"All displayed values are stored outputs from the real {dataset} checkpoint. The browser does not rerun the model."}
     path=Path(a.output);path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(output,separators=(",",":")),encoding="utf-8");print(json.dumps({"output":str(path),"cases":len(cases)}))
 if __name__=="__main__":main()

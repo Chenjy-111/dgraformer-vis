@@ -14,11 +14,22 @@ def main() -> int:
 
     local = json.loads(Path(args.local).read_text(encoding="utf-8"))
     global_catalog = json.loads(Path(args.global_catalog).read_text(encoding="utf-8"))
-    assert local["dataset"] == global_catalog["dataset"] == "ETTh1"
+    assert local["dataset"] == global_catalog["dataset"]
     assert local["samples"] == global_catalog["samples"]
     assert local["schedule"] == global_catalog["schedule"]
     assert local["cross_run"]["status"] == global_catalog["cross_run"]["status"] == "missing"
     assert local["cross_run"]["metrics"] is None and global_catalog["cross_run"]["metrics"] is None
+    global_exposure = {
+        (case["sample"], tuple(case["edge"])): set(case["affected_exposed_windows"])
+        for case in global_catalog["cases"]
+    }
+    for case in local["cases"]:
+        key = (case["sample_index"], (case["edge"]["source"], case["edge"]["target"]))
+        expected = case["window"] in global_exposure[key]
+        assert case["window_active"] == expected, (
+            f"Local/global exposure mismatch for sample {case['sample_index']}, "
+            f"edge {key[1]}, window {case['window']}"
+        )
 
     local_fields = (
         "prediction_delta_abs", "error_delta_mae", "control_mean_prediction_delta_abs",
@@ -27,7 +38,7 @@ def main() -> int:
     global_fields = local_fields
     index = {
         "status": "complete",
-        "dataset": "ETTh1",
+        "dataset": local["dataset"],
         "source_runs": {
             **local["source_runs"],
             "global": global_catalog["run_id"],

@@ -1,0 +1,43 @@
+{
+  "id": "ettm1_global_s9374_edge_0_2",
+  "sample": 9374,
+  "edge": [
+    0,
+    2
+  ],
+  "retained_windows": [
+    3
+  ],
+  "exposed_windows": [
+    0,
+    3,
+    4,
+    5,
+    6
+  ],
+  "affected_exposed_windows": [
+    3
+  ],
+  "mean_weight": 0.2527755796909332,
+  "metrics": {
+    "baseline_mae": 0.3696688115596771,
+    "baseline_mse": 0.31542307138442993,
+    "intervention_mae": 0.3695789873600006,
+    "intervention_mse": 0.31529855728149414,
+    "prediction_delta_abs": 0.000455540168331936,
+    "prediction_delta_rel": 0.0007163173618198271,
+    "error_delta_mae": -8.982419967651367e-05,
+    "error_delta_mse": -0.00012451410293579102,
+    "control_mean_prediction_delta_abs": 0.0014354355676914564,
+    "control_percentile_midrank": 46.0,
+    "empirical_p": 0.5445544554455446,
+    "bh_adjusted_p": 1.0,
+    "effect_difference_bootstrap_ci": [
+      -0.0015383852585364366,
+      -0.00047906444389082044
+    ]
+  },
+  "prediction_file": "predictions\\s9374_e0_2.npz",
+  "controls_file": "controls\\s9374_e0_2.json",
+  "control_seed": 20260895
+}
