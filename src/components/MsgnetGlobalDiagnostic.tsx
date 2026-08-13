@@ -35,16 +35,18 @@ export function MsgnetGlobalDiagnostic({ catalog, title = 'Remove one relation a
     <section className="grid gap-5 lg:grid-cols-[1fr_330px]">
       <div className="space-y-5">
         <section className="card p-5">
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-3">
             <Selector label="Test sample" value={String(samplePosition)} onChange={value => { setSamplePosition(Number(value)); setEdgeId('0-1'); }} options={catalog.samples.map((item, index) => [String(index), `test ${index} · source index ${item.sample_index}`])}/>
             <Selector label="Displayed variable" value={String(variable)} onChange={value => setVariable(Number(value))} options={catalog.variables.map((name, index) => [String(index), name])}/>
+            <Selector label="Directed edge" value={`${selected.source}-${selected.target}`} onChange={setEdgeId} options={impacts.map(impact => [`${impact.source}-${impact.target}`, `${impact.source_name} → ${impact.target_name}`])}/>
           </div>
           <div className="mt-5 grid gap-2 sm:grid-cols-3">
-            {impacts.map(impact => <button key={`${impact.source}-${impact.target}`} onClick={() => setEdgeId(`${impact.source}-${impact.target}`)} className={`rounded-lg border p-3 text-left ${impact === selected ? 'border-[#16827f] bg-[#edf7f6]' : 'border-line bg-white'}`}>
+            {impacts.slice(0, 12).map(impact => <button key={`${impact.source}-${impact.target}`} onClick={() => setEdgeId(`${impact.source}-${impact.target}`)} className={`rounded-lg border p-3 text-left ${impact === selected ? 'border-[#16827f] bg-[#edf7f6]' : 'border-line bg-white'}`}>
               <div className="text-[12px] font-semibold">{impact.source_name} → {impact.target_name}</div>
               <div className="mt-1 font-mono text-[9px] text-ink-400">prediction Δ {impact.prediction_delta_abs.toFixed(6)}</div>
             </button>)}
           </div>
+          <p className="mt-3 text-[10px] text-ink-400">Showing the 12 largest responses for quick access. All 42 directed edges remain available in the selector.</p>
         </section>
 
         <section className="card p-5">
