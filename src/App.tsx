@@ -60,7 +60,7 @@ export default function App() {
 
       <ModelSwitch id="diagnostic-workspace-switch" eyebrow="Edge intervention & diagnosis" description="Stored pruning responses and bounded conclusions" value={diagnosticModel} onChange={setDiagnosticModel} />
       <div className={diagnosticModel === 'DGraFormer' ? 'block' : 'hidden'} aria-hidden={diagnosticModel !== 'DGraFormer'}><InterventionErrorBoundary><CombinedInterventionLab /></InterventionErrorBoundary></div>
-      <div className={diagnosticModel === 'MSGNet' ? 'block' : 'hidden'} aria-hidden={diagnosticModel !== 'MSGNet'}><InterventionErrorBoundary><MsgnetDiagnosticWorkspace /></InterventionErrorBoundary></div>
+      <div className={diagnosticModel === 'MSGNet' ? 'block' : 'hidden'} aria-hidden={diagnosticModel !== 'MSGNet'}><InterventionErrorBoundary key={`msgnet-${diagnosticModel}`}><MsgnetDiagnosticWorkspace /></InterventionErrorBoundary></div>
       <ExplanationModeGallery />
       <CaseStudy />
       <Limitations />

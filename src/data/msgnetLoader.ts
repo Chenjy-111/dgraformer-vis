@@ -118,9 +118,16 @@ export function getMsgnetEvidenceIndex(sample: MsgnetSample): MsgnetEvidenceInde
 export function loadMsgnetCatalog(): Promise<MsgnetCatalog> {
   if (!catalogPromise) {
     const base = import.meta.env.BASE_URL ?? '/';
-    catalogPromise = fetch(`${base}data/models/msgnet/etth1/catalog.json`).then(async (response) => {
+    catalogPromise = fetch(`${base}data/models/msgnet/etth1/catalog.json?v=msgnet-global-210`, { cache: 'no-store' }).then(async (response) => {
       if (!response.ok) throw new Error(`MSGNet data could not be loaded (${response.status}).`);
-      return response.json() as Promise<MsgnetCatalog>;
+      const catalog = await response.json() as MsgnetCatalog;
+      if (!Array.isArray(catalog.samples) || catalog.samples.length !== 5) {
+        throw new Error('MSGNet catalog has an incompatible sample structure.');
+      }
+      if (catalog.global_case_count !== 210 || catalog.samples.some(sample => !Array.isArray(sample.global_edge_impacts))) {
+        throw new Error('MSGNet global intervention evidence is missing or stale.');
+      }
+      return catalog;
     });
   }
   return catalogPromise;
