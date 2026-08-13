@@ -24,6 +24,28 @@ export interface MsgnetEdgeImpact {
   };
 }
 
+export interface MsgnetGlobalEdgeImpact {
+  sample_index: number;
+  source: number;
+  target: number;
+  source_name: string;
+  target_name: string;
+  scope: 'all_scales';
+  affected_scales: number[];
+  scale_weights: number[];
+  prediction_delta_abs: number;
+  prediction_delta_max: number;
+  error_delta_mae: number;
+  error_delta_mse: number;
+  intervention_prediction: number[][];
+  statistics: MsgnetEdgeImpact['statistics'] & {
+    control_median_prediction_delta_abs: number;
+    standardized_effect_size: number;
+    candidate_minus_control_mean_bootstrap_ci_95: [number, number];
+    bootstrap_repetitions: number;
+  };
+}
+
 export interface MsgnetSample {
   sample_index: number;
   history: number[][];
@@ -32,6 +54,7 @@ export interface MsgnetSample {
   metrics: { mse: number; mae: number };
   contexts: MsgnetContext[];
   edge_impacts: MsgnetEdgeImpact[];
+  global_edge_impacts: MsgnetGlobalEdgeImpact[];
 }
 
 export interface MsgnetVariableEvidence {
@@ -55,7 +78,10 @@ export interface MsgnetCatalog {
   horizon: number;
   checkpoint_sha256: string;
   case_count: number;
-  samples: Record<string, MsgnetSample>;
+  global_case_count: number;
+  global_bh_supported_count: number;
+  global_intervention_run_id: string;
+  samples: MsgnetSample[];
   notice: string;
 }
 
