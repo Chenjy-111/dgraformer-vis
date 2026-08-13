@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import type { MsgnetCatalog, MsgnetGlobalEdgeImpact } from '@/data/msgnetLoader';
+import type { MsgnetCatalog } from '@/data/msgnetLoader';
 
 export function MsgnetGlobalDiagnostic({ catalog, title = 'Remove one relation across all scale graphs' }: { catalog: MsgnetCatalog; title?: string }) {
   const [samplePosition, setSamplePosition] = useState(0);
   const [variable, setVariable] = useState(6);
   const [edgeId, setEdgeId] = useState('0-1');
-  const sample = catalog.samples[String(samplePosition)];
+  const sample = catalog.samples[samplePosition];
   const impacts = useMemo(() => [...sample.global_edge_impacts].sort((a, b) => b.prediction_delta_abs - a.prediction_delta_abs), [sample]);
   const selected = impacts.find((impact) => `${impact.source}-${impact.target}` === edgeId) ?? impacts[0];
   const baseline = sample.prediction[variable];
