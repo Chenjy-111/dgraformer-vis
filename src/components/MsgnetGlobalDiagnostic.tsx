@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { MsgnetCatalog } from '@/data/msgnetLoader';
+import { DeltaTrajectory, EdgeMatrixFigure } from './MsgnetDiagnosticCharts';
 
 export function MsgnetGlobalDiagnostic({ catalog, title = 'Remove one relation across all scale graphs' }: { catalog: MsgnetCatalog; title?: string }) {
   const [samplePosition, setSamplePosition] = useState(0);
@@ -58,6 +59,8 @@ export function MsgnetGlobalDiagnostic({ catalog, title = 'Remove one relation a
             <path d={path(changed)} fill="none" stroke="#d45b45" strokeWidth="2" strokeDasharray="5 3"/>
           </svg>
           <div className="mt-3 flex flex-wrap gap-5 text-[10px] text-ink-500"><Key color="#202c3b" label="Ground truth"/><Key color="#2779bd" label="Baseline"/><Key color="#d45b45" label="All-scale edge removed" dashed/></div>
+          <div className="mt-6 border-t border-line pt-5"><DeltaTrajectory key={`${samplePosition}-${variable}-${selected.source}-${selected.target}`} baseline={baseline} changed={changed}/></div>
+          <div className="mt-6 border-t border-line pt-5"><div className="eyebrow mb-3">Selected relation across scale graphs</div><div className="grid gap-5 md:grid-cols-3">{sample.contexts.map((context,index)=><div key={index}><div className="mb-2 text-[10px] font-semibold text-ink-500">Scale {index+1} · period {context.period}</div><EdgeMatrixFigure matrix={context.adaptive} names={catalog.variables} source={selected.source} target={selected.target}/></div>)}</div></div>
         </section>
       </div>
 
