@@ -13,7 +13,6 @@ export type DatasetId =
   | 'AirQualityUCI';
 
 export type Horizon = 96 | 192 | 336 | 720;
-export type ModelId = 'DGraFormer' | 'MSGNet';
 
 export type BaselineId =
   | 'iTransformer'
@@ -78,7 +77,6 @@ export interface AttentionScale {
 }
 
 export interface SampleData {
-  model?: ModelId;
   dataset: DatasetId;
   sample_id: number;
   horizon: Horizon;
@@ -100,25 +98,6 @@ export interface SampleData {
   baseline_predictions?: Partial<Record<BaselineId, number[][]>>;
   baseline_metrics?: Partial<Record<BaselineId, { mse: number; mae: number }>>;
   narrative: string;
-  relationContextKind?: 'window' | 'scale';
-  msgnetContexts?: Array<{
-    scaleIndex: number;
-    period: number;
-    fftStrength: number;
-    contribution: number;
-  }>;
-  msgnetEdgeImpacts?: Array<{
-    scaleIndex: number;
-    source: number;
-    target: number;
-    graphWeight: number;
-    predictionDeltaAbs: number;
-    errorDeltaMae: number;
-    controlMean: number;
-    controlPercentile: number;
-    empiricalP: number;
-    bhAdjustedP: number;
-  }>;
   provenance?: {
     scheduleState: string;
     currentEpochEquivalent: number;

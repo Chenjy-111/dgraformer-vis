@@ -7,7 +7,6 @@ import type {
   Horizon,
   ExplanationDepth,
   SampleData,
-  ModelId,
   ScaleId,
   ViewMode,
 } from '@/types/demo';
@@ -21,7 +20,6 @@ export interface SelectedEdge {
 }
 
 interface DemoState {
-  model: ModelId;
   // case selection
   dataset: DatasetId;
   sampleId: number;
@@ -85,7 +83,6 @@ interface DemoState {
   // actions
   set: <K extends keyof DemoState>(key: K, value: DemoState[K]) => void;
   setCase: (patch: Partial<Pick<DemoState, 'dataset' | 'sampleId' | 'horizon' | 'target'>>) => void;
-  setModel: (model: ModelId) => void;
   setView: (v: ViewMode) => void;
   log: (action: string, oldVal?: string, newVal?: string) => void;
   setExplanation: (e: Explanation | null) => void;
@@ -105,7 +102,6 @@ interface DemoState {
 let evtSeq = 0;
 
 export const useDemoStore = create<DemoState>((set, get) => ({
-  model: 'DGraFormer',
   dataset: 'ETTh1',
   sampleId: 0,
   horizon: 96,
@@ -160,12 +156,6 @@ export const useDemoStore = create<DemoState>((set, get) => ({
 
   setCase: (patch) => {
     set({ ...patch, windowIdx: 0, selectedEdge: null, selectedNode: null });
-    void get().loadCurrent();
-  },
-  setModel: (model) => {
-    set({ model, dataset: 'ETTh1', horizon: 96, sampleId: 0, windowIdx: 0, selectedEdge: null,
-      selectedNode: null, graphLayout: model === 'MSGNet' ? 'matrix' : get().graphLayout,
-      view: model === 'MSGNet' && get().view === 'attention' ? 'forecast' : get().view });
     void get().loadCurrent();
   },
 
@@ -223,9 +213,9 @@ export const useDemoStore = create<DemoState>((set, get) => ({
     }),
 
   loadCurrent: async () => {
-    const { model, dataset, sampleId, horizon, target, sample: currentSample } = get();
+    const { dataset, sampleId, horizon, target, sample: currentSample } = get();
     set({ loading: true });
-    const data = await loadSample(dataset, sampleId, horizon, model);
+    const data = await loadSample(dataset, sampleId, horizon);
     const keepCurrentTarget = currentSample?.dataset === data.dataset && target >= 0 && target < data.variables.length;
     const isEttDataset = data.dataset === 'ETTh1' || data.dataset === 'ETTh2' || data.dataset === 'ETTm1' || data.dataset === 'ETTm2';
     set({

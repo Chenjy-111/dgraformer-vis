@@ -60,7 +60,7 @@ export function ForecastView() {
       <div className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h3 className="text-[15px] font-semibold whitespace-nowrap">
-            Forecast · {sample.variables[s.target]} <span className="text-ink-400">({s.model} · {sample.dataset})</span>
+            Forecast · {sample.variables[s.target]} <span className="text-ink-400">({sample.dataset})</span>
           </h3>
           <Select<number>
             value={s.sampleId}
@@ -98,7 +98,8 @@ export function ForecastView() {
         <Legend swatch="bg-errfill" label="Error band" />
       </div>
       <p className="mt-3 text-[12.5px] leading-relaxed text-ink-400">
-        {s.model === 'MSGNet' ? 'Click inside the forecast region to inspect a step error. Switch to Scale graph to inspect the corresponding adaptive relation contexts and measured edge-removal responses.' : `Click inside the forecast region to inspect a step's error; click a look-back window band to load its dynamic graph. Patch boundaries mark the ${sample.patchLen}-step patches used by the transformer.`}
+        Click inside the forecast region to inspect a step's error; click a look-back window band to load its
+        dynamic graph. Patch boundaries mark the {sample.patchLen}-step patches used by the transformer.
       </p>
       </div>
 
@@ -113,8 +114,8 @@ export function ForecastView() {
           <div className="rounded-lg border border-line bg-white p-3">
             <div className="eyebrow mb-2">Linked model evidence {selectedStep == null ? '(select a forecast point)' : `for step +${selectedStep}`}</div>
             <div className="grid gap-2 sm:grid-cols-3">
-              <Evidence label={s.model==='MSGNet'?'Relation context':'History context'} value={s.model==='MSGNet'?`Scale ${evidenceWindowIdx+1} · period ${sample.msgnetContexts?.[evidenceWindowIdx]?.period??'—'}`:`Window ${evidenceWindowIdx + 1} · steps ${evidenceWindow.start}–${evidenceWindow.end}`} />
-              <Evidence label="Temporal scale" value={s.model==='MSGNet'?`Contribution ${(sample.msgnetContexts?.[evidenceWindowIdx]?.contribution??0).toExponential(2)}`:`Scale ${s.scale} · Head ${s.head}`} />
+              <Evidence label="History context" value={`Window ${evidenceWindowIdx + 1} · steps ${evidenceWindow.start}–${evidenceWindow.end}`} />
+              <Evidence label="Temporal scale" value={`Scale ${s.scale} · Head ${s.head}`} />
               <Evidence label="Absolute error" value={selectedStep == null ? '—' : (sample.error[s.target]?.[selectedStep] ?? 0).toFixed(4)} danger />
             </div>
             <div className="mt-3 flex flex-wrap gap-1.5">{keyEdges.map((edge) => <button key={`${edge.source}-${edge.target}`} onClick={() => { s.set('selectedEdge', { source: edge.source, target: edge.target }); s.setView('graph'); }} className="rounded-full border border-[#b9d8d5] bg-[#edf7f6] px-2 py-1 text-[10px] font-medium text-[#167a77]">{sample.variables[edge.source]} → {sample.variables[edge.target]} · {edge.weight.toFixed(2)}</button>)}</div>

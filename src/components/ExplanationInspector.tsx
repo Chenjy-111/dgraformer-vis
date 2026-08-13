@@ -46,12 +46,12 @@ export function ExplanationInspector() {
       {/* current selection state */}
       <div className="card p-3 text-[12px] text-ink-500">
         <div className="data-num">
-          {sample ? `${s.model} · ${sample.dataset} · sample ${sample.sample_id} · h${sample.horizon}` : '—'}
+          {sample ? `${sample.dataset} · sample ${sample.sample_id} · h${sample.horizon}` : '—'}
         </div>
         <div className="mt-1 flex flex-wrap gap-1.5">
           <Badge tone="accent">{MODE_LABEL[s.view]}</Badge>
           {sample && <Badge>target {sample.variables[s.target]}</Badge>}
-          {(s.view === 'graph' || s.view === 'topk') && <Badge>{s.model==='MSGNet'?'scale':'win'} {s.windowIdx + 1}</Badge>}
+          {(s.view === 'graph' || s.view === 'topk') && <Badge>win {s.windowIdx + 1}</Badge>}
           {s.view === 'attention' && <Badge>scale {s.scale} · H{s.head}</Badge>}
         </div>
       </div>

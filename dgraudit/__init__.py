@@ -1,5 +1,5 @@
 """Reproducible audit utilities for DGraFormer."""
 
-from .adapters import DGraFormerAdapter, DynamicGraphForecastAdapter, MSGNetAdapter
+from .adapters import DGraFormerAdapter, DynamicGraphForecastAdapter
 
-__all__ = ["DGraFormerAdapter", "DynamicGraphForecastAdapter", "MSGNetAdapter"]
+__all__ = ["DGraFormerAdapter", "DynamicGraphForecastAdapter"]
