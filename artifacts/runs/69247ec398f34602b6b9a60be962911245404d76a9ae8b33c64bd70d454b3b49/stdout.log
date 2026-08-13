@@ -1,0 +1,51 @@
+{
+  "run_id": "69247ec398f34602b6b9a60be962911245404d76a9ae8b33c64bd70d454b3b49",
+  "status": "complete",
+  "model": "MSGNet",
+  "dataset": "ETTh1",
+  "config_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\msgnet_etth1.json",
+  "config_sha256": "371046174c5951ea7633a6d511043a9a6cc6cdf1caad4a35f51f99c2e0f4d343",
+  "checkpoint_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\msgnet_checkpoints\\ETTh1_96_96_MSGNet_ETTh1_ftM_sl96_ll48_pl96_dm32_nh8_el1_dl1_df64_fc3_ebtimeF_dtTrue_Exp_0\\checkpoint.pth",
+  "checkpoint_sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d",
+  "data_path": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main/data_provider/data/ETT/ETTh1.csv",
+  "data_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+  "environment": {
+    "python": "3.9.13",
+    "torch": "2.1.1+cu121",
+    "cuda": "12.1",
+    "device": "cuda:0"
+  },
+  "sample_count": 5,
+  "samples": [
+    {
+      "sample_index": 0,
+      "mse": 0.32429343461990356,
+      "mae": 0.3769143521785736,
+      "repeat_max_absolute_difference": 0.0
+    },
+    {
+      "sample_index": 537,
+      "mse": 0.18187613785266876,
+      "mae": 0.32287153601646423,
+      "repeat_max_absolute_difference": 0.0
+    },
+    {
+      "sample_index": 1074,
+      "mse": 0.5277768969535828,
+      "mae": 0.4388388991355896,
+      "repeat_max_absolute_difference": 0.0
+    },
+    {
+      "sample_index": 1611,
+      "mse": 0.43505892157554626,
+      "mae": 0.4453040063381195,
+      "repeat_max_absolute_difference": 0.0
+    },
+    {
+      "sample_index": 2148,
+      "mse": 0.31812307238578796,
+      "mae": 0.410483717918396,
+      "repeat_max_absolute_difference": 0.0
+    }
+  ]
+}

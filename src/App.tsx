@@ -17,7 +17,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function App() {
   const loadCurrent = useDemoStore((s) => s.loadCurrent);
-  const immersive3D = useDemoStore((s) => s.view === 'graph' && s.graphLayout === '3d-timeline');
+  const immersive3D = useDemoStore((s) => s.model === 'DGraFormer' && s.view === 'graph' && s.graphLayout === '3d-timeline');
   const inspectorCollapsed = useDemoStore((s) => s.inspectorCollapsed);
   const setStore = useDemoStore((s) => s.set);
 

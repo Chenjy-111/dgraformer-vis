@@ -9,7 +9,7 @@ export function VisualizationCanvas() {
   const view = useDemoStore((s) => s.view);
   const loading = useDemoStore((s) => s.loading);
   const sample = useDemoStore((s) => s.sample);
-  const immersive3D = useDemoStore((s) => s.view === 'graph' && s.graphLayout === '3d-timeline');
+  const immersive3D = useDemoStore((s) => s.model === 'DGraFormer' && s.view === 'graph' && s.graphLayout === '3d-timeline');
 
   if (loading) {
     return <div className="card flex h-[420px] items-center justify-center text-[13px] text-ink-400">Loading artifact…</div>;

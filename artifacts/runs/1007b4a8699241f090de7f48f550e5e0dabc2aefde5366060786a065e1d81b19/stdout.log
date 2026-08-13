@@ -1,0 +1,185 @@
+{
+  "run_id": "1007b4a8699241f090de7f48f550e5e0dabc2aefde5366060786a065e1d81b19",
+  "status": "complete",
+  "model": "MSGNet",
+  "dataset": "ETTh1",
+  "config_sha256": "371046174c5951ea7633a6d511043a9a6cc6cdf1caad4a35f51f99c2e0f4d343",
+  "checkpoint_sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d",
+  "samples": [
+    {
+      "sample_index": 0,
+      "validations": [
+        {
+          "layer": 0,
+          "scale_index": 0,
+          "period": 24,
+          "scale_contribution": 1.0,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 1,
+          "period": 12,
+          "scale_contribution": 4.2516304366024826e-10,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 2,
+          "period": 96,
+          "scale_contribution": 3.298505782747818e-12,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "sample_index": 537,
+      "validations": [
+        {
+          "layer": 0,
+          "scale_index": 0,
+          "period": 24,
+          "scale_contribution": 1.0,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 1,
+          "period": 12,
+          "scale_contribution": 9.440995728249302e-12,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 2,
+          "period": 96,
+          "scale_contribution": 9.092127888792913e-15,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "sample_index": 1074,
+      "validations": [
+        {
+          "layer": 0,
+          "scale_index": 0,
+          "period": 24,
+          "scale_contribution": 1.0,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 1,
+          "period": 96,
+          "scale_contribution": 8.543733720500768e-09,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 2,
+          "period": 12,
+          "scale_contribution": 6.640211935859952e-09,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "sample_index": 1611,
+      "validations": [
+        {
+          "layer": 0,
+          "scale_index": 0,
+          "period": 24,
+          "scale_contribution": 0.9999990463256836,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 1,
+          "period": 96,
+          "scale_contribution": 9.295775953432894e-07,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 2,
+          "period": 19,
+          "scale_contribution": 1.369542283399805e-12,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "sample_index": 2148,
+      "validations": [
+        {
+          "layer": 0,
+          "scale_index": 0,
+          "period": 24,
+          "scale_contribution": 0.9999995231628418,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 1,
+          "period": 96,
+          "scale_contribution": 4.990366733181872e-07,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        },
+        {
+          "layer": 0,
+          "scale_index": 2,
+          "period": 19,
+          "scale_contribution": 6.484158210362523e-10,
+          "adaptive_row_sum_max_error": 1.1920928955078125e-07,
+          "effective_row_sum_max_error": 1.1920928955078125e-07,
+          "identity_max_absolute_difference": 0.0,
+          "finite": true
+        }
+      ]
+    }
+  ]
+}

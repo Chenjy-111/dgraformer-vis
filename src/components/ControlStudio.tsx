@@ -14,6 +14,7 @@ import type {
   GraphLayout,
   GraphSource,
   Horizon,
+  ModelId,
   ScaleId,
   ViewMode,
 } from '@/types/demo';
@@ -44,6 +45,14 @@ export function ControlStudio() {
   return (
     <div className="space-y-5">
       <Group title="Case">
+        <Field label="Forecast model">
+          <Select<ModelId>
+            value={s.model}
+            onChange={s.setModel}
+            options={[{value:'DGraFormer',label:'DGraFormer · window graph'},{value:'MSGNet',label:'MSGNet · scale graph'}]}
+            ariaLabel="Forecast model"
+          />
+        </Field>
         <Field label="Dataset">
           <Select<DatasetId>
             value={s.dataset}
@@ -80,8 +89,8 @@ export function ControlStudio() {
           onChange={(v) => s.setView(v)}
           options={[
             { value: 'forecast', label: 'Forecast' },
-            { value: 'graph', label: 'Dynamic graph' },
-            { value: 'attention', label: 'Attention' },
+            { value: 'graph', label: s.model === 'MSGNet' ? 'Scale graph' : 'Dynamic graph' },
+            ...(s.model === 'DGraFormer' ? [{ value: 'attention' as ViewMode, label: 'Attention' }] : []),
           ]}
           size="sm"
           wrap
@@ -100,21 +109,21 @@ export function ControlStudio() {
               {s.playing ? 'Pause' : 'Play'}
             </Button>
             <span className="data-num text-[12px] text-ink-400">
-              window {s.windowIdx + 1}/{nWindows}
+              {s.model === 'MSGNet' ? 'scale' : 'window'} {s.windowIdx + 1}/{nWindows}
             </span>
           </div>
           <Slider
-            label="Window"
+            label={s.model === 'MSGNet' ? 'Scale context' : 'Window'}
             value={s.windowIdx}
             min={0}
             max={Math.max(0, nWindows - 1)}
             onChange={(v) => {
               s.set('windowIdx', v);
-              s.log('Window slider', undefined, `window ${v + 1}`);
+              s.log(s.model === 'MSGNet' ? 'Scale slider' : 'Window slider', undefined, `${s.model === 'MSGNet' ? 'scale' : 'window'} ${v + 1}`);
             }}
             format={(v) => `#${v + 1}`}
           />
-          {s.graphLayout === 'matrix' && (
+          {s.model === 'DGraFormer' && s.graphLayout === 'matrix' && (
             <Field label="Graph source">
               <Select<GraphSource>
                 value={s.graphSource}
@@ -129,7 +138,7 @@ export function ControlStudio() {
               />
             </Field>
           )}
-          {s.graphLayout === '3d-timeline' ? (
+          {s.model === 'MSGNet' ? <div className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] leading-relaxed text-ink-400">MSGNet graph construction: adaptive affinity → softmax → self-loop → MixHop normalization.</div> : s.graphLayout === '3d-timeline' ? (
             <>
               <Slider
                 label="Top-K keep ratio"
@@ -155,7 +164,7 @@ export function ControlStudio() {
               Model-fixed focusing: Top-K 50% <span aria-hidden="true">·</span> edge threshold 0
             </div>
           )}
-          {s.view === 'graph' && (
+          {s.view === 'graph' && s.model === 'DGraFormer' && (
             <Field label="Layout">
               <Tabs<GraphLayout>
                 value={s.graphLayout}
@@ -184,7 +193,7 @@ export function ControlStudio() {
         </Group>
       )}
 
-      {s.view === 'attention' && (
+      {s.model === 'DGraFormer' && s.view === 'attention' && (
         <Group title="Attention">
           <Field label="Scale">
             <Tabs<ScaleId>
@@ -220,7 +229,7 @@ export function ControlStudio() {
         <Toggle checked={s.showEvidence} onChange={(v) => s.set('showEvidence', v)} label="Show evidence cards" />
       </Group>
 
-      <Group title="Comparison">
+      {s.model === 'DGraFormer' && <Group title="Comparison">
         <Field label="Baseline">
           <Select<BaselineId>
             value={s.compareBaseline}
@@ -247,7 +256,7 @@ export function ControlStudio() {
             format={(v) => `#${v + 1}`}
           />
         </div>
-      </Group>
+      </Group>}
 
       <Group title="Utilities">
         <div className="grid grid-cols-2 gap-2">
