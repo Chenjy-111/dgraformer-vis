@@ -8,6 +8,7 @@ export interface MsgnetContext {
 }
 
 export interface MsgnetEdgeImpact {
+  sample_index: number;
   scale_index: number;
   source: number;
   target: number;

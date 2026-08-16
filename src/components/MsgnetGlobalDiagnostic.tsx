@@ -37,7 +37,7 @@ export function MsgnetGlobalDiagnostic({ catalog, title = 'Remove one relation a
       <div className="space-y-5">
         <section className="card p-5">
           <div className="grid gap-4 sm:grid-cols-3">
-            <Selector label="Test sample" value={String(samplePosition)} onChange={value => { setSamplePosition(Number(value)); setEdgeId('0-1'); }} options={catalog.samples.map((item, index) => [String(index), `test ${index} · source index ${item.sample_index}`])}/>
+            <Selector label="Test sample" value={String(samplePosition)} onChange={value => { setSamplePosition(Number(value)); setEdgeId('0-1'); }} options={catalog.samples.map((item, index) => [String(index), `test ${item.sample_index}`])}/>
             <Selector label="Displayed variable" value={String(variable)} onChange={value => setVariable(Number(value))} options={catalog.variables.map((name, index) => [String(index), name])}/>
             <Selector label="Directed edge" value={`${selected.source}-${selected.target}`} onChange={setEdgeId} options={impacts.map(impact => [`${impact.source}-${impact.target}`, `${impact.source_name} → ${impact.target_name}`])}/>
           </div>
