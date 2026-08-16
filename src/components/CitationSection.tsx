@@ -36,8 +36,8 @@ export function CitationSection() {
             </a>
           </p>
           <p className="mt-3 text-[12px] leading-relaxed text-ink-400">
-            DGraFormer-Vis is an independent, unofficial explanation/visualization demo built around the published
-            method. It is not affiliated with the original authors.
+            DGraInsight is an independent research system. DGraFormer is one supported model adapter; its published
+            architecture is credited to the original authors.
           </p>
         </div>
         <div className="card p-5">

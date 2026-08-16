@@ -1,9 +1,9 @@
 {
-  "name": "dgraformer-vis",
+  "name": "dgrainsight",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Interactive explanation system for the DGraFormer paper (IJCAI-25).",
+  "description": "Interactive evidence validation for learned graph structures in multivariate forecasting.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

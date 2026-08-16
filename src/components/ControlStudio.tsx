@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
 import { DATASETS } from '@/data/datasets';
-import { HORIZONS } from '@/data/paperMetrics';
 import { Select } from './ui/Select';
 import { Slider } from './ui/Slider';
 import { Toggle } from './ui/Toggle';
@@ -10,10 +9,8 @@ import { Button } from './ui/Button';
 import { explanationToMarkdown, download, copyText } from '@/engine/narrativeGenerator';
 import type {
   BaselineId,
-  DatasetId,
   GraphLayout,
   GraphSource,
-  Horizon,
   ScaleId,
   ViewMode,
 } from '@/types/demo';
@@ -44,14 +41,7 @@ export function ControlStudio() {
   return (
     <div className="space-y-5">
       <Group title="Case">
-        <Field label="Dataset">
-          <Select<DatasetId>
-            value={s.dataset}
-            onChange={(d) => s.setCase({ dataset: d })}
-            options={(['ETTh1'] as DatasetId[]).map((d) => ({ value: d, label: `${d} · ${DATASETS[d].variables.length} vars` }))}
-            ariaLabel="Dataset"
-          />
-        </Field>
+        <div className="text-[12px] text-ink-500">Dataset: ETTh1 · {DATASETS.ETTh1.variables.length} variables</div>
         <Field label="Target variable">
           <Select<number>
             value={s.target}
@@ -63,15 +53,7 @@ export function ControlStudio() {
             ariaLabel="Target variable"
           />
         </Field>
-        <Field label="Prediction horizon">
-          <Tabs<Horizon>
-            value={s.horizon}
-            onChange={(h) => s.setCase({ horizon: h })}
-            options={HORIZONS.filter((h) => h === 96).map((h) => ({ value: h, label: String(h) }))}
-            size="sm"
-            wrap
-          />
-        </Field>
+        <div className="text-[12px] text-ink-500">Forecast horizon: 96</div>
       </Group>
 
       <Group title="View">
@@ -132,7 +114,7 @@ export function ControlStudio() {
           {s.graphLayout === '3d-timeline' ? (
             <>
               <Slider
-                label="Top-K keep ratio"
+                label="Displayed top-K ratio"
                 value={s.topkRatio}
                 min={0.05}
                 max={1}
@@ -141,7 +123,7 @@ export function ControlStudio() {
                 format={(v) => `${Math.round(v * 100)}%`}
               />
               <Slider
-                label="Edge threshold"
+                label="Displayed weight threshold"
                 value={s.edgeThreshold}
                 min={0}
                 max={1}
@@ -149,6 +131,7 @@ export function ControlStudio() {
                 onChange={(v) => s.set('edgeThreshold', v)}
                 format={(v) => v.toFixed(2)}
               />
+              <p className="text-[10px] leading-relaxed text-ink-400">Visualization filter only. These controls affect display and do not rerun or modify the trained model.</p>
             </>
           ) : (
             <div className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] leading-relaxed text-ink-400">

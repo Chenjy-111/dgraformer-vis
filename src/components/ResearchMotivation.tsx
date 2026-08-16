@@ -1,15 +1,2 @@
 import { Section } from './layout/Section';
-import { AcademicCard } from './layout/AcademicCard';
-
-const PROBLEMS = [
-  { title: 'Too many graphs to inspect manually', body: 'Multiple datasets, samples, windows, and variable pairs create thousands of graph relationships. Researchers need a systematic way to find candidate patterns worth testing.' },
-  { title: 'Graph weight is not functional evidence', body: 'A visually strong or frequently retained edge may have little effect on the forecast. Model-internal intervention is required to measure what changes when that edge is removed.' },
-  { title: 'One intervention can be accidental', body: 'A measured change has meaning only relative to matched real-edge controls and a transparent statistical protocol. Negative results must remain visible rather than being filtered out.' },
-];
-
-export function ResearchMotivation() {
-  return <Section id="motivation" eyebrow="Problem & user value" title="Why dynamic-graph interpretation needs validation" intro="The system is built for dynamic-graph forecasting researchers who need to move from visual inspection to testable, reproducible model evidence.">
-    <div className="grid gap-4 md:grid-cols-3">{PROBLEMS.map((problem,index)=><AcademicCard key={problem.title} index={`0${index+1}`} title={problem.title}><p className="text-[14px] leading-relaxed text-ink-500">{problem.body}</p></AcademicCard>)}</div>
-    <p className="mt-6 max-w-3xl text-[14px] leading-relaxed text-ink-500">DGraInsight first discovers structural candidates, then modifies the selected graph window, reruns the real checkpoint, measures prediction and error changes, and compares them with matched controls. Its conclusions describe model behavior under specified conditions—not real-world causal relationships.</p>
-  </Section>;
-}
+export function ResearchMotivation(){return <Section id="motivation" eyebrow="The problem" title="Visual prominence is not functional evidence" intro="Graph-based forecasting models expose learned adjacency structures, but a strong-looking edge alone does not show that the trained model depends on it."><div className="grid gap-4 lg:grid-cols-[1fr_1fr]"><div className="card p-5"><div className="eyebrow">Conventional graph inspection</div><p className="mt-4 font-mono text-[13px] text-ink-600">Learned graph → visualization → “this edge looks strong”</p><p className="mt-4 text-[12px] text-ink-400">The workflow stops at a structural observation.</p></div><div className="card border-accent/40 p-5"><div className="eyebrow">DGraInsight</div><p className="mt-4 font-mono text-[13px] text-ink-700">Candidate relation → exact intervention → matched controls → bounded evidence</p><p className="mt-4 text-[12px] text-ink-500">Structural discovery and functional validation remain distinct, but connected.</p></div></div><div className="mt-4 rounded-xl border border-line bg-white px-5 py-4 text-[12px] text-ink-500"><b className="text-ink-800">Intended users.</b> Researchers developing or auditing graph-based multivariate forecasting models who want to inspect learned relations beyond raw adjacency visualization.</div></Section>}
