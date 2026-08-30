@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dgrainsight.local/schemas/dgrainsight_audit_session_v2.schema.json",
+  "title": "DGraInsight Portable Audit Session v2",
+  "type": "object",
+  "required": ["schema_version", "session", "model", "dataset", "checkpoint", "audit_plan", "samples", "relations", "case_evidence", "candidate_relations", "hypothesis_families", "cross_sample_evidence", "dependence_audit", "validation", "provenance", "limitations"],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "session": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {"status": {"enum": ["AUDIT COMPLETE", "PARTIAL AUDIT", "INPUT / ADAPTER ERROR", "MODEL VALIDATION FAILED", "STATISTICAL PROTOCOL FAILED", "FORMAL INFERENCE UNAVAILABLE"]}}
+    },
+    "model": {"type": "object", "required": ["adapter_id"]},
+    "dataset": {"type": "object"},
+    "checkpoint": {"type": "object", "required": ["sha256"]},
+    "audit_plan": {"type": "object", "required": ["audit_mode", "sample_protocol", "control_protocol", "response_metric", "inference_protocol", "multiplicity_protocol", "sensitivity_protocol"]},
+    "samples": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sample"}},
+    "relations": {"type": "array", "items": {"type": "object", "required": ["relation_id", "sample_id", "source", "target", "native_occurrences"]}},
+    "case_evidence": {"type": "array", "items": {"$ref": "#/$defs/caseEvidence"}},
+    "candidate_relations": {"type": "array", "items": {"$ref": "#/$defs/candidateRelation"}},
+    "hypothesis_families": {"type": "array", "items": {"$ref": "#/$defs/hypothesisFamily"}},
+    "cross_sample_evidence": {"type": "array", "items": {"$ref": "#/$defs/crossSampleEvidence"}},
+    "dependence_audit": {"type": "array", "items": {"$ref": "#/$defs/dependenceAudit"}},
+    "validation": {"type": "object"},
+    "provenance": {"type": "object"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "finiteNumber": {"type": "number"},
+    "nullableNumber": {"type": ["number", "null"]},
+    "tensor": {
+      "type": "object",
+      "required": ["dtype", "shape", "axis_order", "values"],
+      "properties": {
+        "dtype": {"type": "string"},
+        "shape": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+        "axis_order": {"type": "array", "items": {"type": "string"}},
+        "values": {"type": "array"}
+      }
+    },
+    "sample": {
+      "type": "object",
+      "required": ["sample_id", "display_id", "split", "sample_index", "history", "ground_truth", "baseline_prediction", "sample_metrics", "contexts", "provenance"],
+      "properties": {
+        "sample_id": {"type": "string"}, "display_id": {"type": ["number", "null"]}, "split": {"type": "string"}, "sample_index": {"type": "integer"},
+        "history": {"type": "object"}, "ground_truth": {"$ref": "#/$defs/tensor"}, "baseline_prediction": {"$ref": "#/$defs/tensor"},
+        "sample_metrics": {"type": "object"},
+        "contexts": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["context_id", "type", "index", "node_count", "graphs"], "properties": {"node_count": {"type": "integer", "minimum": 1}, "graphs": {"type": "object", "additionalProperties": {"$ref": "#/$defs/tensor"}}}}},
+        "provenance": {"type": "object"}
+      }
+    },
+    "caseEvidence": {
+      "type": "object",
+      "required": ["case_evidence_id", "candidate_id", "sample_id", "context", "scope", "status", "focal_response", "response_metric", "controls", "D", "rank", "percentile", "baseline_reference", "intervention_output_reference", "response_metrics", "graph_effect", "formal_inference", "provenance"],
+      "properties": {
+        "case_evidence_id": {"type": "string"}, "candidate_id": {"type": "string"}, "sample_id": {"type": "integer"}, "context": {"type": "object"}, "scope": {"type": "string"},
+        "status": {"enum": ["active", "inactive"]}, "focal_response": {"$ref": "#/$defs/nullableNumber"}, "response_metric": {"const": "prediction_delta_abs"},
+        "controls": {"type": "object", "required": ["protocol", "unique_count", "identities", "mean", "median"], "properties": {"protocol": {"const": "all_unique_eligible"}, "unique_count": {"type": "integer", "minimum": 0}, "identities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "responses": {"type": "array", "items": {"type": "number"}}, "mean": {"$ref": "#/$defs/nullableNumber"}, "median": {"$ref": "#/$defs/nullableNumber"}}},
+        "D": {"$ref": "#/$defs/nullableNumber"}, "rank": {"type": ["integer", "null"]}, "percentile": {"$ref": "#/$defs/nullableNumber"},
+        "baseline_reference": {"type": "object"}, "intervention_output_reference": {"type": ["object", "null"]}, "response_metrics": {"type": "object"}, "graph_effect": {"type": "object"},
+        "formal_inference": {"type": "object", "required": ["status", "raw_p", "BH_q", "reason"], "properties": {"status": {"const": "not_evaluated"}, "raw_p": {"type": "null"}, "BH_q": {"type": "null"}, "reason": {"type": "string"}}},
+        "provenance": {"type": "object"}
+      },
+      "allOf": [
+        {"not": {"anyOf": [{"required": ["case_raw_p"]}, {"required": ["case_bh_q"]}, {"required": ["case_significant"]}, {"required": ["empirical_p"]}, {"required": ["bh_adjusted_p"]}]}},
+        {"if": {"properties": {"status": {"const": "inactive"}}}, "then": {"properties": {"focal_response": {"type": "null"}, "D": {"type": "null"}}}}
+      ]
+    },
+    "candidateRelation": {
+      "type": "object",
+      "required": ["candidate_id", "source", "target", "scope", "native_context_type", "retained_contexts", "family_id", "case_evidence_ids", "cross_sample_evidence_id"],
+      "properties": {"candidate_id": {"type": "string"}, "source": {"type": "integer"}, "target": {"type": "integer"}, "scope": {"type": "string"}, "native_context_type": {"type": "string"}, "retained_contexts": {"type": "array"}, "family_id": {"type": "string"}, "case_evidence_ids": {"type": "array", "items": {"type": "string"}}, "cross_sample_evidence_id": {"type": "string"}}
+    },
+    "primaryInference": {
+      "type": "object",
+      "required": ["status", "inference_unit", "method", "null", "alternative", "observed_statistic", "raw_p", "settings", "diagnostics", "reason"],
+      "properties": {"status": {"enum": ["complete", "unavailable"]}, "inference_unit": {"type": "string"}, "method": {"type": ["string", "null"]}, "null": {"type": ["string", "null"]}, "alternative": {"const": "mean_D > 0"}, "observed_statistic": {"$ref": "#/$defs/nullableNumber"}, "raw_p": {"type": ["number", "null"], "minimum": 0, "maximum": 1}, "settings": {"type": "object"}, "diagnostics": {"type": "object"}, "reason": {"type": ["string", "null"]}}
+    },
+    "sensitivityResult": {
+      "type": "object", "required": ["name", "role", "method", "settings", "interpretation_boundary"],
+      "properties": {"name": {"type": "string"}, "role": {"const": "sensitivity"}, "method": {"type": ["string", "null"]}, "statistic": {}, "value": {}, "CI": {}, "p": {"type": ["number", "null"], "minimum": 0, "maximum": 1}, "q": {"type": ["number", "null"], "minimum": 0, "maximum": 1}, "settings": {"type": "object"}, "interpretation_boundary": {"type": "string"}}
+    },
+    "crossSampleEvidence": {
+      "type": "object",
+      "required": ["cross_sample_evidence_id", "candidate_id", "family_id", "planned_samples", "active_samples", "inactive_samples", "coverage", "D_values", "D_case_references", "effect", "primary_inference", "multiplicity", "sensitivity", "limitations"],
+      "properties": {
+        "cross_sample_evidence_id": {"type": "string"}, "candidate_id": {"type": "string"}, "family_id": {"type": "string"},
+        "planned_samples": {"type": "array", "items": {"type": "integer"}}, "active_samples": {"type": "array", "items": {"type": "integer"}}, "inactive_samples": {"type": "array", "items": {"type": "integer"}}, "coverage": {"type": "number", "minimum": 0, "maximum": 1},
+        "D_values": {"type": "array", "items": {"$ref": "#/$defs/nullableNumber"}}, "D_case_references": {"type": "array", "items": {"type": "string"}}, "effect": {"type": "object"},
+        "primary_inference": {"$ref": "#/$defs/primaryInference"},
+        "multiplicity": {"type": "object", "required": ["family_id", "method", "family_size", "valid_raw_p_count", "alpha", "adjusted_q", "supported", "reason"], "properties": {"method": {"const": "BH"}, "adjusted_q": {"type": ["number", "null"], "minimum": 0, "maximum": 1}, "supported": {"type": ["boolean", "null"]}}},
+        "sensitivity": {"type": "array", "items": {"$ref": "#/$defs/sensitivityResult"}}, "limitations": {"type": "array", "items": {"type": "string"}}
+      },
+      "not": {"anyOf": [{"required": ["empirical_p"]}, {"required": ["bh_adjusted_p"]}, {"required": ["case_raw_p"]}, {"required": ["case_bh_q"]}]}
+    },
+    "hypothesisFamily": {
+      "type": "object", "required": ["family_id", "scope", "selection_rule", "context_identity_rule", "members", "size", "selection_frozen", "multiple_testing", "family_membership_hash", "raw_p_vector_hash", "valid_raw_p_count"],
+      "properties": {"family_id": {"type": "string"}, "scope": {"type": "string"}, "members": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}, "size": {"type": "integer", "minimum": 1}, "selection_frozen": {"const": true}, "multiple_testing": {"type": "object", "properties": {"method": {"const": "BH"}, "alpha": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1}}}}
+    },
+    "dependenceAudit": {
+      "type": "object", "required": ["protocol_id", "sample_ids", "raw_span", "start_positions", "minimum_start_gap", "median_start_gap", "adjacent_overlap_count", "all_pair_overlap_count", "same_continuous_series", "classification", "derivation", "inference_engine_selected", "reason"],
+      "properties": {"classification": {"enum": ["overlapping_time_windows", "non_overlapping_time_units", "unknown_dependence"]}, "reason": {"type": ["string", "null"]}}
+    }
+  }
+}

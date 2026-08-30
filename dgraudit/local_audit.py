@@ -1,3 +1,5 @@
+# LEGACY SESSION V1 COMPATIBILITY ONLY.
+# Not used by the current Session v2 formal inference path.
 from __future__ import annotations
 
 import hashlib
@@ -26,6 +28,10 @@ from dgraudit.validation import OFFICIAL_ADAPTER_REGISTRY, render_validation_rep
 
 Progress = Callable[[str], None]
 LOCAL_AUDIT_GENERATOR_VERSION = "1.2"
+LEGACY_INFERENCE_NOTICE = (
+    "Session v1 single-case empirical p/BH is legacy descriptive compatibility data; "
+    "it is not Pipeline v2 formal cross-sample inference."
+)
 
 
 class LocalAuditError(AuditSessionError):

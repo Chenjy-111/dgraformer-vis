@@ -9,7 +9,7 @@ def main() -> int:
         description="DGraInsight supported local audit and portable-session tools.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
-    validate = subparsers.add_parser("validate", help="Run the required V01-V09 adapter preflight.")
+    validate = subparsers.add_parser("validate", help="Validate current Config v2, or run the legacy v1 V01-V09 adapter preflight.")
     validate.add_argument("--config", required=True)
     validate.add_argument("--output")
     validate.add_argument("--debug", action="store_true")
@@ -17,6 +17,12 @@ def main() -> int:
     audit.add_argument("--config", required=True)
     audit.add_argument("--output", default="dgrainsight_session.json")
     audit.add_argument("--bootstrap", type=int, default=2000)
+    audit.add_argument("--session-version", choices=("1", "2"), default="2")
+    audit.add_argument("--legacy-v1", action="store_true")
+    audit.add_argument("--no-embedded-trajectories", action="store_true")
+    validate_session = subparsers.add_parser("validate-session", help="Validate a Portable Audit Session v2.")
+    validate_session.add_argument("session")
+    validate_session.add_argument("--schema")
     edges = subparsers.add_parser("edges", help="Show native graph counts and retained edge candidates.")
     edges.add_argument("--config", required=True)
     edges.add_argument("--sample", type=int)
@@ -40,7 +46,16 @@ def main() -> int:
     wizard_scope.add_argument("--broader", action="store_true")
     wizard_scope.add_argument("--local-only", action="store_true")
     wizard.add_argument("--yes", action="store_true")
+    wizard.add_argument("--mode", choices=("auto", "quick", "formal"), default="auto")
+    wizard.add_argument("--legacy-v1", action="store_true")
     args = parser.parse_args()
+    if args.command == "validate-session":
+        from dgraudit.cli.validate_session_v2 import main as validate_session_main
+
+        forwarded = [args.session]
+        if args.schema:
+            forwarded.extend(["--schema", args.schema])
+        return validate_session_main(forwarded)
     if args.command == "validate":
         from dgraudit.cli.validate_audit import main as validate_main
 
@@ -86,14 +101,23 @@ def main() -> int:
             forwarded.append("--local-only")
         if args.yes:
             forwarded.append("--yes")
+        forwarded.extend(["--mode", args.mode])
+        if args.legacy_v1:
+            forwarded.append("--legacy-v1")
         return wizard_main(forwarded)
     from dgraudit.cli.audit import main as audit_main
 
-    return audit_main([
+    forwarded = [
         "--config", args.config,
         "--output", args.output,
         "--bootstrap", str(args.bootstrap),
-    ])
+        "--session-version", args.session_version,
+    ]
+    if args.legacy_v1:
+        forwarded.append("--legacy-v1")
+    if args.no_embedded_trajectories:
+        forwarded.append("--no-embedded-trajectories")
+    return audit_main(forwarded)
 
 
 if __name__ == "__main__":

@@ -72,7 +72,7 @@ class AuditSessionExportTests(unittest.TestCase):
 
     def test_msgnet_axis_canonicalization_preserves_values(self):
         source = json.loads(
-            (ROOT / "public/data/models/msgnet/etth1/catalog.json").read_text(encoding="utf-8")
+            (ROOT / "legacy/v1/artifacts/public-data/models/msgnet/etth1/catalog.json").read_text(encoding="utf-8")
         )["samples"][0]
         exported = self.msgnet["samples"][0]
         self.assertEqual(exported["history"]["value"]["axis_order"], ["input_step", "variable"])

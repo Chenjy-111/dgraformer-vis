@@ -11,7 +11,13 @@ import torch
 from scipy.stats import rankdata, spearmanr
 
 from dgraudit.adapters import DGraFormerAdapter
-from dgraudit.cli.validate_pattern import benjamini_hochberg, impact_metrics, sample_timestamps, sha256
+from dgraudit.cli.validate_pattern import (
+    benjamini_hochberg,
+    empirical_p_plus_one,
+    impact_metrics,
+    sample_timestamps,
+    sha256,
+)
 
 
 def canonical_json(value) -> str:
@@ -119,8 +125,7 @@ def main() -> int:
             sampled_indices = [eligible[int(rng.integers(0, len(eligible)))]
                                for _ in range(int(controls_config["repetitions"]))]
             control_impacts = impacts[sampled_indices]
-            empirical_p = float((1 + np.sum(control_impacts >= focal_metrics["prediction_delta_abs"])) /
-                                (len(control_impacts) + 1))
+            empirical_p = empirical_p_plus_one(control_impacts, focal_metrics["prediction_delta_abs"])
             percentile = float(100 * np.mean(control_impacts <= focal_metrics["prediction_delta_abs"]))
             standard_deviation = float(control_impacts.std(ddof=1))
             effect_size = None if standard_deviation == 0 else float(

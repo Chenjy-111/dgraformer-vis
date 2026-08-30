@@ -7,8 +7,25 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping
 
-from dgraudit.edge_discovery import inspect_native_edges, render_edge_inspection
-from dgraudit.local_audit import LocalAuditError, run_local_audit
+from dgraudit.v2.config import load_audit_config_v2
+from dgraudit.v2.quick import upgrade_quick_session_v1
+from dgraudit.v2.runner import run_audit_v2, terminal_summary
+from dgraudit.v2.session import write_audit_session_v2
+
+
+def run_local_audit(*args, **kwargs):
+    from dgraudit.local_audit import run_local_audit as legacy_run_local_audit
+    return legacy_run_local_audit(*args, **kwargs)
+
+
+def inspect_native_edges(*args, **kwargs):
+    from dgraudit.edge_discovery import inspect_native_edges as legacy_inspect_native_edges
+    return legacy_inspect_native_edges(*args, **kwargs)
+
+
+def render_edge_inspection(*args, **kwargs):
+    from dgraudit.edge_discovery import render_edge_inspection as legacy_render_edge_inspection
+    return legacy_render_edge_inspection(*args, **kwargs)
 
 
 Input = Callable[[str], str]
@@ -185,6 +202,9 @@ def run_wizard(
 
 
 def main(argv: list[str] | None = None) -> int:
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if callable(reconfigure):
+        reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(
         description="Interactively inspect native graphs, select a real edge, and generate a portable audit session."
     )
@@ -203,9 +223,34 @@ def main(argv: list[str] | None = None) -> int:
     scope.add_argument("--broader", action="store_true", help="Also audit all applicable native contexts.")
     scope.add_argument("--local-only", action="store_true", help="Audit only the selected exact native context.")
     parser.add_argument("--yes", action="store_true", help="Run without the final confirmation prompt.")
+    parser.add_argument("--mode", choices=("auto", "quick", "formal"), default="auto")
+    parser.add_argument("--legacy-v1", action="store_true", help="Explicitly retain the old Session v1 output for Quick Inspection.")
     args = parser.parse_args(argv)
     broader = True if args.broader else False if args.local_only else None
     try:
+        raw_config = json.loads(Path(args.config).expanduser().resolve().read_text(encoding="utf-8"))
+        is_v2 = raw_config.get("config_version") == 2
+        if args.mode == "formal" and not is_v2:
+            raise ValueError("Formal Evidence Audit requires an Audit Config v2 with frozen samples and candidate families.")
+        if is_v2:
+            _, formal_config = load_audit_config_v2(args.config)
+            if formal_config["audit_mode"] != "formal_evidence_audit":
+                raise ValueError("The supplied v2 config is not a Formal Evidence Audit config.")
+            print("DGraInsight Formal Evidence Audit — frozen confirmation")
+            print(f"Samples: {len(formal_config['sample_protocol']['sample_ids'])}")
+            print(f"Candidate hypotheses: {sum(family['family_size'] for family in formal_config['candidate_families'])}")
+            print(f"Primary metric: {formal_config['response_metric']}")
+            print("Control protocol: all unique eligible")
+            print(f"Dependence status: {formal_config['dependence_protocol']['expected_classification']}")
+            methods = sorted({value['primary_test'] for value in formal_config['inference_protocol']['by_family'].values()})
+            print(f"Primary inference: {', '.join(methods)}")
+            print(f"Multiple testing: BH")
+            print(f"Alpha: {formal_config['multiplicity_protocol']['alpha']}")
+            if not args.yes and not _ask_yes_no("Freeze this config and run the formal audit?", input, default=True):
+                raise KeyboardInterrupt("Audit cancelled by user.")
+            output, session = run_audit_v2(args.config, output_path=args.output, progress=lambda message: print(f"[DGraInsight] {message}"))
+            print(terminal_summary(session, output))
+            return 0
         output, selected_config, session = run_wizard(
             args.config,
             output_path=args.output,
@@ -221,14 +266,18 @@ def main(argv: list[str] | None = None) -> int:
             include_broader_context=broader,
             assume_yes=args.yes,
         )
+        if not args.legacy_v1:
+            session = upgrade_quick_session_v1(session)
+            output = write_audit_session_v2(output, session)
+            print("Quick Inspection: formal_inference.status=not_evaluated; raw_p=null; bh_q=null")
     except KeyboardInterrupt:
         print("\nDGraInsight wizard cancelled.", file=sys.stderr)
         return 130
-    except (LocalAuditError, OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+    except (OSError, ValueError, KeyError, RuntimeError, ModuleNotFoundError, json.JSONDecodeError) as exc:
         print(f"DGraInsight wizard failed: {exc}", file=sys.stderr)
         return 2
     print(json.dumps({
-        "status": "complete",
+        "status": session["session"].get("status", "complete"),
         "output": str(output),
         "selected_config": str(selected_config),
         "session_id": session["session"]["session_id"],

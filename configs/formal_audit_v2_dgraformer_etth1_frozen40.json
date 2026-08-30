@@ -1,0 +1,462 @@
+{
+  "schema_version": "dgrainsight.audit_config.v2",
+  "config_version": 2,
+  "audit_mode": "formal_evidence_audit",
+  "adapter": "dgraformer",
+  "dataset": {
+    "name": "ETTh1"
+  },
+  "checkpoint": {
+    "sha256": "f6abbd4e9b32ae80851f42d5476069c41c66b900b181f9f24c56d445a1cead9f"
+  },
+  "sample_protocol": {
+    "protocol_id": "dgraformer.ETTh1.frozen",
+    "selection_rule": "frozen before intervention; use the existing validated protocol artifact",
+    "split": "test",
+    "sample_ids": [
+      0,
+      71,
+      143,
+      214,
+      286,
+      357,
+      428,
+      500,
+      571,
+      642,
+      714,
+      785,
+      857,
+      928,
+      999,
+      1071,
+      1142,
+      1214,
+      1285,
+      1356,
+      1428,
+      1499,
+      1570,
+      1642,
+      1713,
+      1785,
+      1856,
+      1927,
+      1999,
+      2070,
+      2142,
+      2213,
+      2284,
+      2356,
+      2427,
+      2498,
+      2570,
+      2641,
+      2713,
+      2784
+    ],
+    "units": [
+      {
+        "raw_start": 11424,
+        "raw_end": 11615
+      },
+      {
+        "raw_start": 11495,
+        "raw_end": 11686
+      },
+      {
+        "raw_start": 11567,
+        "raw_end": 11758
+      },
+      {
+        "raw_start": 11638,
+        "raw_end": 11829
+      },
+      {
+        "raw_start": 11710,
+        "raw_end": 11901
+      },
+      {
+        "raw_start": 11781,
+        "raw_end": 11972
+      },
+      {
+        "raw_start": 11852,
+        "raw_end": 12043
+      },
+      {
+        "raw_start": 11924,
+        "raw_end": 12115
+      },
+      {
+        "raw_start": 11995,
+        "raw_end": 12186
+      },
+      {
+        "raw_start": 12066,
+        "raw_end": 12257
+      },
+      {
+        "raw_start": 12138,
+        "raw_end": 12329
+      },
+      {
+        "raw_start": 12209,
+        "raw_end": 12400
+      },
+      {
+        "raw_start": 12281,
+        "raw_end": 12472
+      },
+      {
+        "raw_start": 12352,
+        "raw_end": 12543
+      },
+      {
+        "raw_start": 12423,
+        "raw_end": 12614
+      },
+      {
+        "raw_start": 12495,
+        "raw_end": 12686
+      },
+      {
+        "raw_start": 12566,
+        "raw_end": 12757
+      },
+      {
+        "raw_start": 12638,
+        "raw_end": 12829
+      },
+      {
+        "raw_start": 12709,
+        "raw_end": 12900
+      },
+      {
+        "raw_start": 12780,
+        "raw_end": 12971
+      },
+      {
+        "raw_start": 12852,
+        "raw_end": 13043
+      },
+      {
+        "raw_start": 12923,
+        "raw_end": 13114
+      },
+      {
+        "raw_start": 12994,
+        "raw_end": 13185
+      },
+      {
+        "raw_start": 13066,
+        "raw_end": 13257
+      },
+      {
+        "raw_start": 13137,
+        "raw_end": 13328
+      },
+      {
+        "raw_start": 13209,
+        "raw_end": 13400
+      },
+      {
+        "raw_start": 13280,
+        "raw_end": 13471
+      },
+      {
+        "raw_start": 13351,
+        "raw_end": 13542
+      },
+      {
+        "raw_start": 13423,
+        "raw_end": 13614
+      },
+      {
+        "raw_start": 13494,
+        "raw_end": 13685
+      },
+      {
+        "raw_start": 13566,
+        "raw_end": 13757
+      },
+      {
+        "raw_start": 13637,
+        "raw_end": 13828
+      },
+      {
+        "raw_start": 13708,
+        "raw_end": 13899
+      },
+      {
+        "raw_start": 13780,
+        "raw_end": 13971
+      },
+      {
+        "raw_start": 13851,
+        "raw_end": 14042
+      },
+      {
+        "raw_start": 13922,
+        "raw_end": 14113
+      },
+      {
+        "raw_start": 13994,
+        "raw_end": 14185
+      },
+      {
+        "raw_start": 14065,
+        "raw_end": 14256
+      },
+      {
+        "raw_start": 14137,
+        "raw_end": 14328
+      },
+      {
+        "raw_start": 14208,
+        "raw_end": 14399
+      }
+    ],
+    "selection_frozen": true,
+    "active_inactive_policy": "exclude_inactive_without_zero_imputation"
+  },
+  "candidate_families": [
+    {
+      "family_id": "dgraformer.local.frozen40",
+      "scope": "single_window",
+      "selection_rule": "pre-intervention retained-graph frequency and retained learned/top-K score",
+      "context_identity_rule": "window_index,source,target",
+      "members": [
+        {
+          "candidate_id": "dgra:window:0:0->2",
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 0,
+          "retained_contexts": [
+            0
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:0:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 0,
+          "retained_contexts": [
+            0
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:1:0->3",
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 1,
+          "retained_contexts": [
+            1
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:1:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 1,
+          "retained_contexts": [
+            1
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:1:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 1,
+          "retained_contexts": [
+            1
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:2:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 2,
+          "retained_contexts": [
+            2
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:4:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 4,
+          "retained_contexts": [
+            4
+          ]
+        },
+        {
+          "candidate_id": "dgra:window:6:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "single_window",
+          "native_context_type": "window",
+          "window_index": 6,
+          "retained_contexts": [
+            6
+          ]
+        }
+      ],
+      "family_size": 8,
+      "selection_frozen": true
+    },
+    {
+      "family_id": "dgraformer.all_retained.frozen40",
+      "scope": "all_retained_windows",
+      "selection_rule": "frozen unique relation projection of the local family",
+      "context_identity_rule": "source,target over all retained windows",
+      "members": [
+        {
+          "candidate_id": "dgra:all:0->2",
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "scope": "all_retained_windows",
+          "native_context_type": "window",
+          "retained_contexts": [
+            0
+          ]
+        },
+        {
+          "candidate_id": "dgra:all:0->3",
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "scope": "all_retained_windows",
+          "native_context_type": "window",
+          "retained_contexts": [
+            1
+          ]
+        },
+        {
+          "candidate_id": "dgra:all:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "all_retained_windows",
+          "native_context_type": "window",
+          "retained_contexts": [
+            0,
+            1,
+            6
+          ]
+        },
+        {
+          "candidate_id": "dgra:all:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "all_retained_windows",
+          "native_context_type": "window",
+          "retained_contexts": [
+            1,
+            2,
+            4
+          ]
+        }
+      ],
+      "family_size": 4,
+      "selection_frozen": true
+    }
+  ],
+  "control_protocol": {
+    "protocol": "all_unique_eligible",
+    "with_replacement": false
+  },
+  "response_metric": "prediction_delta_abs",
+  "dependence_protocol": {
+    "expected_classification": "overlapping_time_windows",
+    "same_continuous_series": true,
+    "selection_frozen": true
+  },
+  "inference_protocol": {
+    "selection_frozen": true,
+    "alternative": "mean_D > 0",
+    "inference_unit": "candidate_relation_across_predeclared_units",
+    "null_definition": "declared by each registered primary engine",
+    "by_family": {
+      "dgraformer.local.frozen40": {
+        "primary_test": "moving_block_bootstrap_mean_D",
+        "block_length": 3,
+        "block_length_derivation": "ceil(raw_span 192 / minimum start gap 71)",
+        "repetitions": 10000,
+        "seed": 20260830,
+        "minimum_active_units": 2
+      },
+      "dgraformer.all_retained.frozen40": {
+        "primary_test": "moving_block_bootstrap_mean_D",
+        "block_length": 3,
+        "block_length_derivation": "ceil(raw_span 192 / minimum start gap 71)",
+        "repetitions": 10000,
+        "seed": 20260830,
+        "minimum_active_units": 2
+      }
+    }
+  },
+  "multiplicity_protocol": {
+    "primary_method": "BH",
+    "alpha": 0.05,
+    "families_frozen": true
+  },
+  "sensitivity_protocol": {
+    "primary_results_unchanged": true,
+    "by_family": {
+      "dgraformer.local.frozen40": [
+        "block_length_2",
+        "block_length_4",
+        "non_overlap_subset",
+        "trimmed_mean",
+        "median_ci",
+        "outlier_sensitivity"
+      ],
+      "dgraformer.all_retained.frozen40": [
+        "block_length_2",
+        "block_length_4",
+        "non_overlap_subset",
+        "trimmed_mean",
+        "median_ci",
+        "outlier_sensitivity"
+      ]
+    }
+  },
+  "frozen_protocol": "dgraformer_etth1_frozen40"
+}

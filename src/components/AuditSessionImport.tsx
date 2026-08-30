@@ -9,6 +9,7 @@ export function AuditSessionImport() {
   const setModel = useWorkflowStore(state => state.setModel);
   const source = useAuditSessionStore(state => state.source);
   const session = useAuditSessionStore(state => state.session);
+  const sessionV2 = useAuditSessionStore(state => state.sessionV2);
   const fileName = useAuditSessionStore(state => state.fileName);
   const previousModel = useAuditSessionStore(state => state.previousModel);
   const importState = useAuditSessionStore(state => state.importState);
@@ -21,7 +22,7 @@ export function AuditSessionImport() {
     if (!file) return;
     const imported = await importFile(file, model);
     if (imported) {
-      setModel(imported.model.name);
+      setModel(String(imported.model.name));
       setTimeout(() => document.getElementById('discovery-workspace')?.scrollIntoView({ behavior: 'smooth' }), 0);
     }
     if (inputRef.current) inputRef.current.value = '';
@@ -55,17 +56,17 @@ export function AuditSessionImport() {
             {busy ? <LoaderCircle size={14} className="animate-spin"/> : <Upload size={14}/>}
             {busy ? (importState === 'reading' ? 'Reading file…' : 'Validating session…') : 'Choose DGraInsight Session'}
           </button>
-          <p className="mt-2 text-[9px] text-ink-400">Only DGraInsight Audit Session v1 is accepted. Arbitrary JSON is rejected.</p>
+          <p className="mt-2 text-[9px] text-ink-400">Validated Session v2 and legacy Session v1 files are accepted. Corrupted or incompatible evidence is rejected atomically.</p>
         </article>
       </div>
 
-      {session && <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+      {(session || sessionV2) && <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div><div className="flex items-center gap-2 text-[11px] font-semibold text-emerald-800"><ShieldCheck size={15}/>Validated imported source</div><p className="mt-1 text-[10px] text-emerald-700">{fileName}</p></div>
           <button onClick={restoreDemo} className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800"><X size={13}/>Close Imported Session</button>
         </div>
         <dl className="mt-4 grid gap-3 text-[10px] sm:grid-cols-2 lg:grid-cols-5">
-          <SourceField label="Model" value={session.model.name}/><SourceField label="Dataset" value={session.dataset.name}/><SourceField label="Adapter" value={session.model.adapter}/><SourceField label="Checkpoint" value={`${session.checkpoint.sha256.slice(0, 16)}…`}/><SourceField label="Session generation run" value={`${session.provenance.session_generation_run_id.slice(0, 16)}…`}/>
+          <SourceField label="Version" value={sessionV2 ? 'Session v2' : 'Legacy Session v1'}/><SourceField label="Model" value={(sessionV2 ?? session!).model.name as string}/><SourceField label="Dataset" value={(sessionV2 ?? session!).dataset.name as string}/><SourceField label="Adapter" value={(sessionV2 ?? session!).model.adapter as string}/><SourceField label="Checkpoint" value={`${String((sessionV2 ?? session!).checkpoint.sha256).slice(0, 16)}…`}/>
         </dl>
       </div>}
 

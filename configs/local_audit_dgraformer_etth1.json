@@ -1,13 +1,13 @@
 {
   "schema_version": "dgrainsight.audit_config.v1",
   "adapter": "dgraformer",
-  "source_root": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main",
+  "source_root": "../external/DGraFormer",
   "checkpoint": {
-    "path": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main/checkpoints/test_DGraFormer_ETTh1.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0/checkpoint.pth"
+    "path": "../external/DGraFormer/checkpoints/test_DGraFormer_ETTh1.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0/checkpoint.pth"
   },
   "dataset": {
     "name": "ETTh1",
-    "path": "C:/Users/cj/Downloads/iTransformer_datasets/iTransformer_datasets/ETT-small/ETTh1.csv",
+    "path": "../external/data/ETTh1.csv",
     "sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
     "format": "ett_hour",
     "date_column": "date",

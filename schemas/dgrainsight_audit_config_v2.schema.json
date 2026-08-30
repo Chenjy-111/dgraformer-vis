@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dgrainsight.local/schemas/dgrainsight_audit_config_v2.schema.json",
+  "title": "DGraInsight Audit Config v2",
+  "type": "object",
+  "required": ["schema_version", "config_version", "audit_mode", "adapter", "dataset", "checkpoint", "sample_protocol", "candidate_families", "control_protocol", "response_metric", "dependence_protocol", "inference_protocol", "multiplicity_protocol", "sensitivity_protocol"],
+  "properties": {
+    "schema_version": {"const": "dgrainsight.audit_config.v2"}, "config_version": {"const": 2},
+    "audit_mode": {"enum": ["quick_inspection", "formal_evidence_audit"]},
+    "sample_protocol": {"type": "object", "required": ["protocol_id", "selection_rule", "split", "sample_ids", "selection_frozen", "active_inactive_policy"], "properties": {"sample_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "integer", "minimum": 0}}, "selection_frozen": {"const": true}, "active_inactive_policy": {"const": "exclude_inactive_without_zero_imputation"}}},
+    "candidate_families": {"type": "array", "items": {"type": "object", "required": ["family_id", "scope", "selection_rule", "context_identity_rule", "members", "family_size", "selection_frozen"], "properties": {"members": {"type": "array", "minItems": 1}, "family_size": {"type": "integer", "minimum": 1}, "selection_frozen": {"const": true}}}},
+    "control_protocol": {"type": "object", "required": ["protocol", "with_replacement"], "properties": {"protocol": {"const": "all_unique_eligible"}, "with_replacement": {"const": false}}},
+    "response_metric": {"const": "prediction_delta_abs"},
+    "dependence_protocol": {"type": "object", "required": ["expected_classification"]},
+    "inference_protocol": {"type": "object", "required": ["selection_frozen", "alternative", "inference_unit", "by_family"], "properties": {"selection_frozen": {"const": true}, "alternative": {"const": "mean_D > 0"}}},
+    "multiplicity_protocol": {"type": "object", "required": ["primary_method", "alpha"], "properties": {"primary_method": {"const": "BH"}, "alpha": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1}}},
+    "sensitivity_protocol": {"type": "object"}
+  }
+}

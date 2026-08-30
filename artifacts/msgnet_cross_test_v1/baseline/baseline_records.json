@@ -1,0 +1,730 @@
+[
+  {
+    "test_id": 0,
+    "history_file": "baseline/history_test_0000.npy",
+    "ground_truth_file": "baseline/ground_truth_test_0000.npy",
+    "baseline_prediction_file": "baseline/baseline_test_0000.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_0000.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 58.343868255615234,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 12,
+        "fft_strength": 36.76531982421875,
+        "scale_contribution": 4.2516304366024826e-10,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 31.90631675720215,
+        "scale_contribution": 3.298505782747818e-12,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 214,
+    "history_file": "baseline/history_test_0214.npy",
+    "ground_truth_file": "baseline/ground_truth_test_0214.npy",
+    "baseline_prediction_file": "baseline/baseline_test_0214.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_0214.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 53.7357177734375,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 48,
+        "fft_strength": 34.05233383178711,
+        "scale_contribution": 2.828883127747872e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 32.490013122558594,
+        "scale_contribution": 5.930724245040153e-10,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 428,
+    "history_file": "baseline/history_test_0428.npy",
+    "ground_truth_file": "baseline/ground_truth_test_0428.npy",
+    "baseline_prediction_file": "baseline/baseline_test_0428.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_0428.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 55.46218490600586,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 12,
+        "fft_strength": 28.329660415649414,
+        "scale_contribution": 1.6462444471856963e-12,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 27.013395309448242,
+        "scale_contribution": 4.4141556729271336e-13,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 642,
+    "history_file": "baseline/history_test_0642.npy",
+    "ground_truth_file": "baseline/ground_truth_test_0642.npy",
+    "baseline_prediction_file": "baseline/baseline_test_0642.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_0642.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 54.22242736816406,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 96,
+        "fft_strength": 30.490516662597656,
+        "scale_contribution": 4.9358520742837086e-11,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 12,
+        "fft_strength": 28.322513580322266,
+        "scale_contribution": 5.646903517703139e-12,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 857,
+    "history_file": "baseline/history_test_0857.npy",
+    "ground_truth_file": "baseline/ground_truth_test_0857.npy",
+    "baseline_prediction_file": "baseline/baseline_test_0857.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_0857.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 53.420616149902344,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 12,
+        "fft_strength": 34.895450592041016,
+        "scale_contribution": 9.007884216316597e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 29.424182891845703,
+        "scale_contribution": 3.7886235815243197e-11,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 1071,
+    "history_file": "baseline/history_test_1071.npy",
+    "ground_truth_file": "baseline/ground_truth_test_1071.npy",
+    "baseline_prediction_file": "baseline/baseline_test_1071.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_1071.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 51.07456588745117,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 12,
+        "fft_strength": 32.82312774658203,
+        "scale_contribution": 1.1844074165878737e-08,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 32.46508026123047,
+        "scale_contribution": 8.279480212536328e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 1285,
+    "history_file": "baseline/history_test_1285.npy",
+    "ground_truth_file": "baseline/ground_truth_test_1285.npy",
+    "baseline_prediction_file": "baseline/baseline_test_1285.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_1285.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 56.16425704956055,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 96,
+        "fft_strength": 32.07645034790039,
+        "scale_contribution": 3.4577889163056597e-11,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 32,
+        "fft_strength": 23.5428466796875,
+        "scale_contribution": 6.803015843124009e-15,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 1499,
+    "history_file": "baseline/history_test_1499.npy",
+    "ground_truth_file": "baseline/ground_truth_test_1499.npy",
+    "baseline_prediction_file": "baseline/baseline_test_1499.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_1499.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 55.49909210205078,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 96,
+        "fft_strength": 36.405765533447266,
+        "scale_contribution": 5.1035651260633585e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 12,
+        "fft_strength": 29.89082908630371,
+        "scale_contribution": 7.559145150104474e-12,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 1713,
+    "history_file": "baseline/history_test_1713.npy",
+    "ground_truth_file": "baseline/ground_truth_test_1713.npy",
+    "baseline_prediction_file": "baseline/baseline_test_1713.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_1713.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 96,
+        "fft_strength": 43.237831115722656,
+        "scale_contribution": 0.8951598405838013,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 48,
+        "fft_strength": 40.728721618652344,
+        "scale_contribution": 0.07281287014484406,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 24,
+        "fft_strength": 39.90741729736328,
+        "scale_contribution": 0.032027292996644974,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 1927,
+    "history_file": "baseline/history_test_1927.npy",
+    "ground_truth_file": "baseline/ground_truth_test_1927.npy",
+    "baseline_prediction_file": "baseline/baseline_test_1927.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_1927.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 50.15049743652344,
+        "scale_contribution": 0.9990597367286682,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 48,
+        "fft_strength": 43.18180847167969,
+        "scale_contribution": 0.0009400009294040501,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 12,
+        "fft_strength": 34.92005157470703,
+        "scale_contribution": 2.4271290044453053e-07,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 2142,
+    "history_file": "baseline/history_test_2142.npy",
+    "ground_truth_file": "baseline/ground_truth_test_2142.npy",
+    "baseline_prediction_file": "baseline/baseline_test_2142.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_2142.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 48.04140090942383,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 96,
+        "fft_strength": 29.569896697998047,
+        "scale_contribution": 9.504464770770937e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 48,
+        "fft_strength": 24.548965454101562,
+        "scale_contribution": 6.271406310931482e-11,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 2356,
+    "history_file": "baseline/history_test_2356.npy",
+    "ground_truth_file": "baseline/ground_truth_test_2356.npy",
+    "baseline_prediction_file": "baseline/baseline_test_2356.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_2356.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 50.50190734863281,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 96,
+        "fft_strength": 30.04785919189453,
+        "scale_contribution": 1.308940067445974e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 12,
+        "fft_strength": 29.072574615478516,
+        "scale_contribution": 4.935816755313738e-10,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 2570,
+    "history_file": "baseline/history_test_2570.npy",
+    "ground_truth_file": "baseline/ground_truth_test_2570.npy",
+    "baseline_prediction_file": "baseline/baseline_test_2570.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_2570.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 58.31544876098633,
+        "scale_contribution": 1.0,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 12,
+        "fft_strength": 37.91745376586914,
+        "scale_contribution": 1.384405590165727e-09,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 32.96757125854492,
+        "scale_contribution": 9.807463001443306e-12,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  },
+  {
+    "test_id": 2784,
+    "history_file": "baseline/history_test_2784.npy",
+    "ground_truth_file": "baseline/ground_truth_test_2784.npy",
+    "baseline_prediction_file": "baseline/baseline_test_2784.npy",
+    "history_shape": [
+      96,
+      7
+    ],
+    "ground_truth_shape": [
+      96,
+      7
+    ],
+    "baseline_prediction_shape": [
+      96,
+      7
+    ],
+    "context_file": "baseline/contexts_test_2784.npz",
+    "contexts": [
+      {
+        "scale_index": 0,
+        "observed_period": 24,
+        "fft_strength": 53.951866149902344,
+        "scale_contribution": 0.9999992847442627,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 1,
+        "observed_period": 12,
+        "fft_strength": 39.14630126953125,
+        "scale_contribution": 3.715562684192264e-07,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      },
+      {
+        "scale_index": 2,
+        "observed_period": 96,
+        "fft_strength": 39.01054763793945,
+        "scale_contribution": 3.243900152938295e-07,
+        "adaptive_shape": [
+          7,
+          7
+        ]
+      }
+    ],
+    "value_space": "Dataset_ETT_hour standardized model input/output space"
+  }
+]

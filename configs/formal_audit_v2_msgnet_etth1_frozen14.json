@@ -1,0 +1,2426 @@
+{
+  "schema_version": "dgrainsight.audit_config.v2",
+  "config_version": 2,
+  "audit_mode": "formal_evidence_audit",
+  "adapter": "msgnet",
+  "dataset": {
+    "name": "ETTh1"
+  },
+  "checkpoint": {
+    "sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d"
+  },
+  "sample_protocol": {
+    "protocol_id": "msgnet.ETTh1.frozen",
+    "selection_rule": "frozen before intervention; use the existing validated protocol artifact",
+    "split": "test",
+    "sample_ids": [
+      0,
+      214,
+      428,
+      642,
+      857,
+      1071,
+      1285,
+      1499,
+      1713,
+      1927,
+      2142,
+      2356,
+      2570,
+      2784
+    ],
+    "units": [
+      {
+        "raw_start": 11424,
+        "raw_end": 11615,
+        "start_timestamp": "2017-10-20 00:00:00",
+        "end_timestamp": "2017-10-27 23:00:00"
+      },
+      {
+        "raw_start": 11638,
+        "raw_end": 11829,
+        "start_timestamp": "2017-10-28 22:00:00",
+        "end_timestamp": "2017-11-05 21:00:00"
+      },
+      {
+        "raw_start": 11852,
+        "raw_end": 12043,
+        "start_timestamp": "2017-11-06 20:00:00",
+        "end_timestamp": "2017-11-14 19:00:00"
+      },
+      {
+        "raw_start": 12066,
+        "raw_end": 12257,
+        "start_timestamp": "2017-11-15 18:00:00",
+        "end_timestamp": "2017-11-23 17:00:00"
+      },
+      {
+        "raw_start": 12281,
+        "raw_end": 12472,
+        "start_timestamp": "2017-11-24 17:00:00",
+        "end_timestamp": "2017-12-02 16:00:00"
+      },
+      {
+        "raw_start": 12495,
+        "raw_end": 12686,
+        "start_timestamp": "2017-12-03 15:00:00",
+        "end_timestamp": "2017-12-11 14:00:00"
+      },
+      {
+        "raw_start": 12709,
+        "raw_end": 12900,
+        "start_timestamp": "2017-12-12 13:00:00",
+        "end_timestamp": "2017-12-20 12:00:00"
+      },
+      {
+        "raw_start": 12923,
+        "raw_end": 13114,
+        "start_timestamp": "2017-12-21 11:00:00",
+        "end_timestamp": "2017-12-29 10:00:00"
+      },
+      {
+        "raw_start": 13137,
+        "raw_end": 13328,
+        "start_timestamp": "2017-12-30 09:00:00",
+        "end_timestamp": "2018-01-07 08:00:00"
+      },
+      {
+        "raw_start": 13351,
+        "raw_end": 13542,
+        "start_timestamp": "2018-01-08 07:00:00",
+        "end_timestamp": "2018-01-16 06:00:00"
+      },
+      {
+        "raw_start": 13566,
+        "raw_end": 13757,
+        "start_timestamp": "2018-01-17 06:00:00",
+        "end_timestamp": "2018-01-25 05:00:00"
+      },
+      {
+        "raw_start": 13780,
+        "raw_end": 13971,
+        "start_timestamp": "2018-01-26 04:00:00",
+        "end_timestamp": "2018-02-03 03:00:00"
+      },
+      {
+        "raw_start": 13994,
+        "raw_end": 14185,
+        "start_timestamp": "2018-02-04 02:00:00",
+        "end_timestamp": "2018-02-12 01:00:00"
+      },
+      {
+        "raw_start": 14208,
+        "raw_end": 14399,
+        "start_timestamp": "2018-02-13 00:00:00",
+        "end_timestamp": "2018-02-20 23:00:00"
+      }
+    ],
+    "selection_frozen": true,
+    "active_inactive_policy": "exclude_inactive_without_zero_imputation"
+  },
+  "candidate_families": [
+    {
+      "family_id": "msgnet.single_scale.frozen14",
+      "scope": "single_scale",
+      "selection_rule": "complete directed non-self graph; no outcome-based filtering",
+      "context_identity_rule": "scale_index,source,target",
+      "members": [
+        {
+          "candidate_id": "single_scale:0:0->1",
+          "source": 0,
+          "target": 1,
+          "source_name": "HUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:0->2",
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:0->3",
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:0->5",
+          "source": 0,
+          "target": 5,
+          "source_name": "HUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:0->6",
+          "source": 0,
+          "target": 6,
+          "source_name": "HUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:1->0",
+          "source": 1,
+          "target": 0,
+          "source_name": "HULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:1->2",
+          "source": 1,
+          "target": 2,
+          "source_name": "HULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:1->3",
+          "source": 1,
+          "target": 3,
+          "source_name": "HULL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:1->4",
+          "source": 1,
+          "target": 4,
+          "source_name": "HULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:1->5",
+          "source": 1,
+          "target": 5,
+          "source_name": "HULL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:1->6",
+          "source": 1,
+          "target": 6,
+          "source_name": "HULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:2->0",
+          "source": 2,
+          "target": 0,
+          "source_name": "MUFL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:2->1",
+          "source": 2,
+          "target": 1,
+          "source_name": "MUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:2->3",
+          "source": 2,
+          "target": 3,
+          "source_name": "MUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:2->4",
+          "source": 2,
+          "target": 4,
+          "source_name": "MUFL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:2->5",
+          "source": 2,
+          "target": 5,
+          "source_name": "MUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:2->6",
+          "source": 2,
+          "target": 6,
+          "source_name": "MUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:3->0",
+          "source": 3,
+          "target": 0,
+          "source_name": "MULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:3->1",
+          "source": 3,
+          "target": 1,
+          "source_name": "MULL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:3->2",
+          "source": 3,
+          "target": 2,
+          "source_name": "MULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:3->4",
+          "source": 3,
+          "target": 4,
+          "source_name": "MULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:3->5",
+          "source": 3,
+          "target": 5,
+          "source_name": "MULL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:3->6",
+          "source": 3,
+          "target": 6,
+          "source_name": "MULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:4->0",
+          "source": 4,
+          "target": 0,
+          "source_name": "LUFL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:4->1",
+          "source": 4,
+          "target": 1,
+          "source_name": "LUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:4->2",
+          "source": 4,
+          "target": 2,
+          "source_name": "LUFL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:4->3",
+          "source": 4,
+          "target": 3,
+          "source_name": "LUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:4->5",
+          "source": 4,
+          "target": 5,
+          "source_name": "LUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:4->6",
+          "source": 4,
+          "target": 6,
+          "source_name": "LUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:5->0",
+          "source": 5,
+          "target": 0,
+          "source_name": "LULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:5->1",
+          "source": 5,
+          "target": 1,
+          "source_name": "LULL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:5->2",
+          "source": 5,
+          "target": 2,
+          "source_name": "LULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:5->3",
+          "source": 5,
+          "target": 3,
+          "source_name": "LULL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:5->6",
+          "source": 5,
+          "target": 6,
+          "source_name": "LULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:6->0",
+          "source": 6,
+          "target": 0,
+          "source_name": "OT",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:6->1",
+          "source": 6,
+          "target": 1,
+          "source_name": "OT",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:6->2",
+          "source": 6,
+          "target": 2,
+          "source_name": "OT",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:6->3",
+          "source": 6,
+          "target": 3,
+          "source_name": "OT",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:6->4",
+          "source": 6,
+          "target": 4,
+          "source_name": "OT",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:0:6->5",
+          "source": 6,
+          "target": 5,
+          "source_name": "OT",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0
+          ],
+          "scale_index": 0
+        },
+        {
+          "candidate_id": "single_scale:1:0->1",
+          "source": 0,
+          "target": 1,
+          "source_name": "HUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:0->2",
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:0->3",
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:0->5",
+          "source": 0,
+          "target": 5,
+          "source_name": "HUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:0->6",
+          "source": 0,
+          "target": 6,
+          "source_name": "HUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:1->0",
+          "source": 1,
+          "target": 0,
+          "source_name": "HULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:1->2",
+          "source": 1,
+          "target": 2,
+          "source_name": "HULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:1->3",
+          "source": 1,
+          "target": 3,
+          "source_name": "HULL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:1->4",
+          "source": 1,
+          "target": 4,
+          "source_name": "HULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:1->5",
+          "source": 1,
+          "target": 5,
+          "source_name": "HULL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:1->6",
+          "source": 1,
+          "target": 6,
+          "source_name": "HULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:2->0",
+          "source": 2,
+          "target": 0,
+          "source_name": "MUFL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:2->1",
+          "source": 2,
+          "target": 1,
+          "source_name": "MUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:2->3",
+          "source": 2,
+          "target": 3,
+          "source_name": "MUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:2->4",
+          "source": 2,
+          "target": 4,
+          "source_name": "MUFL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:2->5",
+          "source": 2,
+          "target": 5,
+          "source_name": "MUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:2->6",
+          "source": 2,
+          "target": 6,
+          "source_name": "MUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:3->0",
+          "source": 3,
+          "target": 0,
+          "source_name": "MULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:3->1",
+          "source": 3,
+          "target": 1,
+          "source_name": "MULL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:3->2",
+          "source": 3,
+          "target": 2,
+          "source_name": "MULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:3->4",
+          "source": 3,
+          "target": 4,
+          "source_name": "MULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:3->5",
+          "source": 3,
+          "target": 5,
+          "source_name": "MULL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:3->6",
+          "source": 3,
+          "target": 6,
+          "source_name": "MULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:4->0",
+          "source": 4,
+          "target": 0,
+          "source_name": "LUFL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:4->1",
+          "source": 4,
+          "target": 1,
+          "source_name": "LUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:4->2",
+          "source": 4,
+          "target": 2,
+          "source_name": "LUFL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:4->3",
+          "source": 4,
+          "target": 3,
+          "source_name": "LUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:4->5",
+          "source": 4,
+          "target": 5,
+          "source_name": "LUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:4->6",
+          "source": 4,
+          "target": 6,
+          "source_name": "LUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:5->0",
+          "source": 5,
+          "target": 0,
+          "source_name": "LULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:5->1",
+          "source": 5,
+          "target": 1,
+          "source_name": "LULL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:5->2",
+          "source": 5,
+          "target": 2,
+          "source_name": "LULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:5->3",
+          "source": 5,
+          "target": 3,
+          "source_name": "LULL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:5->6",
+          "source": 5,
+          "target": 6,
+          "source_name": "LULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:6->0",
+          "source": 6,
+          "target": 0,
+          "source_name": "OT",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:6->1",
+          "source": 6,
+          "target": 1,
+          "source_name": "OT",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:6->2",
+          "source": 6,
+          "target": 2,
+          "source_name": "OT",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:6->3",
+          "source": 6,
+          "target": 3,
+          "source_name": "OT",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:6->4",
+          "source": 6,
+          "target": 4,
+          "source_name": "OT",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:1:6->5",
+          "source": 6,
+          "target": 5,
+          "source_name": "OT",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            1
+          ],
+          "scale_index": 1
+        },
+        {
+          "candidate_id": "single_scale:2:0->1",
+          "source": 0,
+          "target": 1,
+          "source_name": "HUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:0->2",
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:0->3",
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:0->5",
+          "source": 0,
+          "target": 5,
+          "source_name": "HUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:0->6",
+          "source": 0,
+          "target": 6,
+          "source_name": "HUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:1->0",
+          "source": 1,
+          "target": 0,
+          "source_name": "HULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:1->2",
+          "source": 1,
+          "target": 2,
+          "source_name": "HULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:1->3",
+          "source": 1,
+          "target": 3,
+          "source_name": "HULL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:1->4",
+          "source": 1,
+          "target": 4,
+          "source_name": "HULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:1->5",
+          "source": 1,
+          "target": 5,
+          "source_name": "HULL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:1->6",
+          "source": 1,
+          "target": 6,
+          "source_name": "HULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:2->0",
+          "source": 2,
+          "target": 0,
+          "source_name": "MUFL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:2->1",
+          "source": 2,
+          "target": 1,
+          "source_name": "MUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:2->3",
+          "source": 2,
+          "target": 3,
+          "source_name": "MUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:2->4",
+          "source": 2,
+          "target": 4,
+          "source_name": "MUFL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:2->5",
+          "source": 2,
+          "target": 5,
+          "source_name": "MUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:2->6",
+          "source": 2,
+          "target": 6,
+          "source_name": "MUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:3->0",
+          "source": 3,
+          "target": 0,
+          "source_name": "MULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:3->1",
+          "source": 3,
+          "target": 1,
+          "source_name": "MULL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:3->2",
+          "source": 3,
+          "target": 2,
+          "source_name": "MULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:3->4",
+          "source": 3,
+          "target": 4,
+          "source_name": "MULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:3->5",
+          "source": 3,
+          "target": 5,
+          "source_name": "MULL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:3->6",
+          "source": 3,
+          "target": 6,
+          "source_name": "MULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:4->0",
+          "source": 4,
+          "target": 0,
+          "source_name": "LUFL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:4->1",
+          "source": 4,
+          "target": 1,
+          "source_name": "LUFL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:4->2",
+          "source": 4,
+          "target": 2,
+          "source_name": "LUFL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:4->3",
+          "source": 4,
+          "target": 3,
+          "source_name": "LUFL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:4->5",
+          "source": 4,
+          "target": 5,
+          "source_name": "LUFL",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:4->6",
+          "source": 4,
+          "target": 6,
+          "source_name": "LUFL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:5->0",
+          "source": 5,
+          "target": 0,
+          "source_name": "LULL",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:5->1",
+          "source": 5,
+          "target": 1,
+          "source_name": "LULL",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:5->2",
+          "source": 5,
+          "target": 2,
+          "source_name": "LULL",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:5->3",
+          "source": 5,
+          "target": 3,
+          "source_name": "LULL",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:5->6",
+          "source": 5,
+          "target": 6,
+          "source_name": "LULL",
+          "target_name": "OT",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:6->0",
+          "source": 6,
+          "target": 0,
+          "source_name": "OT",
+          "target_name": "HUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:6->1",
+          "source": 6,
+          "target": 1,
+          "source_name": "OT",
+          "target_name": "HULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:6->2",
+          "source": 6,
+          "target": 2,
+          "source_name": "OT",
+          "target_name": "MUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:6->3",
+          "source": 6,
+          "target": 3,
+          "source_name": "OT",
+          "target_name": "MULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:6->4",
+          "source": 6,
+          "target": 4,
+          "source_name": "OT",
+          "target_name": "LUFL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        },
+        {
+          "candidate_id": "single_scale:2:6->5",
+          "source": 6,
+          "target": 5,
+          "source_name": "OT",
+          "target_name": "LULL",
+          "scope": "single_scale",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            2
+          ],
+          "scale_index": 2
+        }
+      ],
+      "family_size": 126,
+      "selection_frozen": true
+    },
+    {
+      "family_id": "msgnet.all_scales.frozen14",
+      "scope": "all_scales",
+      "selection_rule": "complete directed non-self graph; no outcome-based filtering",
+      "context_identity_rule": "source,target across scales 0,1,2",
+      "members": [
+        {
+          "candidate_id": "all_scales:0->1",
+          "source": 0,
+          "target": 1,
+          "source_name": "HUFL",
+          "target_name": "HULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:0->2",
+          "source": 0,
+          "target": 2,
+          "source_name": "HUFL",
+          "target_name": "MUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:0->3",
+          "source": 0,
+          "target": 3,
+          "source_name": "HUFL",
+          "target_name": "MULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:0->4",
+          "source": 0,
+          "target": 4,
+          "source_name": "HUFL",
+          "target_name": "LUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:0->5",
+          "source": 0,
+          "target": 5,
+          "source_name": "HUFL",
+          "target_name": "LULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:0->6",
+          "source": 0,
+          "target": 6,
+          "source_name": "HUFL",
+          "target_name": "OT",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:1->0",
+          "source": 1,
+          "target": 0,
+          "source_name": "HULL",
+          "target_name": "HUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:1->2",
+          "source": 1,
+          "target": 2,
+          "source_name": "HULL",
+          "target_name": "MUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:1->3",
+          "source": 1,
+          "target": 3,
+          "source_name": "HULL",
+          "target_name": "MULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:1->4",
+          "source": 1,
+          "target": 4,
+          "source_name": "HULL",
+          "target_name": "LUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:1->5",
+          "source": 1,
+          "target": 5,
+          "source_name": "HULL",
+          "target_name": "LULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:1->6",
+          "source": 1,
+          "target": 6,
+          "source_name": "HULL",
+          "target_name": "OT",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:2->0",
+          "source": 2,
+          "target": 0,
+          "source_name": "MUFL",
+          "target_name": "HUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:2->1",
+          "source": 2,
+          "target": 1,
+          "source_name": "MUFL",
+          "target_name": "HULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:2->3",
+          "source": 2,
+          "target": 3,
+          "source_name": "MUFL",
+          "target_name": "MULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:2->4",
+          "source": 2,
+          "target": 4,
+          "source_name": "MUFL",
+          "target_name": "LUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:2->5",
+          "source": 2,
+          "target": 5,
+          "source_name": "MUFL",
+          "target_name": "LULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:2->6",
+          "source": 2,
+          "target": 6,
+          "source_name": "MUFL",
+          "target_name": "OT",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:3->0",
+          "source": 3,
+          "target": 0,
+          "source_name": "MULL",
+          "target_name": "HUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:3->1",
+          "source": 3,
+          "target": 1,
+          "source_name": "MULL",
+          "target_name": "HULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:3->2",
+          "source": 3,
+          "target": 2,
+          "source_name": "MULL",
+          "target_name": "MUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:3->4",
+          "source": 3,
+          "target": 4,
+          "source_name": "MULL",
+          "target_name": "LUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:3->5",
+          "source": 3,
+          "target": 5,
+          "source_name": "MULL",
+          "target_name": "LULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:3->6",
+          "source": 3,
+          "target": 6,
+          "source_name": "MULL",
+          "target_name": "OT",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:4->0",
+          "source": 4,
+          "target": 0,
+          "source_name": "LUFL",
+          "target_name": "HUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:4->1",
+          "source": 4,
+          "target": 1,
+          "source_name": "LUFL",
+          "target_name": "HULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:4->2",
+          "source": 4,
+          "target": 2,
+          "source_name": "LUFL",
+          "target_name": "MUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:4->3",
+          "source": 4,
+          "target": 3,
+          "source_name": "LUFL",
+          "target_name": "MULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:4->5",
+          "source": 4,
+          "target": 5,
+          "source_name": "LUFL",
+          "target_name": "LULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:4->6",
+          "source": 4,
+          "target": 6,
+          "source_name": "LUFL",
+          "target_name": "OT",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:5->0",
+          "source": 5,
+          "target": 0,
+          "source_name": "LULL",
+          "target_name": "HUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:5->1",
+          "source": 5,
+          "target": 1,
+          "source_name": "LULL",
+          "target_name": "HULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:5->2",
+          "source": 5,
+          "target": 2,
+          "source_name": "LULL",
+          "target_name": "MUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:5->3",
+          "source": 5,
+          "target": 3,
+          "source_name": "LULL",
+          "target_name": "MULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:5->4",
+          "source": 5,
+          "target": 4,
+          "source_name": "LULL",
+          "target_name": "LUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:5->6",
+          "source": 5,
+          "target": 6,
+          "source_name": "LULL",
+          "target_name": "OT",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:6->0",
+          "source": 6,
+          "target": 0,
+          "source_name": "OT",
+          "target_name": "HUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:6->1",
+          "source": 6,
+          "target": 1,
+          "source_name": "OT",
+          "target_name": "HULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:6->2",
+          "source": 6,
+          "target": 2,
+          "source_name": "OT",
+          "target_name": "MUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:6->3",
+          "source": 6,
+          "target": 3,
+          "source_name": "OT",
+          "target_name": "MULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:6->4",
+          "source": 6,
+          "target": 4,
+          "source_name": "OT",
+          "target_name": "LUFL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "candidate_id": "all_scales:6->5",
+          "source": 6,
+          "target": 5,
+          "source_name": "OT",
+          "target_name": "LULL",
+          "scope": "all_scales",
+          "native_context_type": "scale",
+          "retained_contexts": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "family_size": 42,
+      "selection_frozen": true
+    }
+  ],
+  "control_protocol": {
+    "protocol": "all_unique_eligible",
+    "with_replacement": false
+  },
+  "response_metric": "prediction_delta_abs",
+  "dependence_protocol": {
+    "expected_classification": "non_overlapping_time_units",
+    "same_continuous_series": true,
+    "selection_frozen": true
+  },
+  "inference_protocol": {
+    "selection_frozen": true,
+    "alternative": "mean_D > 0",
+    "inference_unit": "candidate_relation_across_predeclared_units",
+    "null_definition": "declared by each registered primary engine",
+    "by_family": {
+      "msgnet.single_scale.frozen14": {
+        "primary_test": "exact_sign_flip_mean_D",
+        "maximum_exact_units": 20,
+        "minimum_active_units": 14,
+        "enumeration": "complete"
+      },
+      "msgnet.all_scales.frozen14": {
+        "primary_test": "exact_sign_flip_mean_D",
+        "maximum_exact_units": 20,
+        "minimum_active_units": 14,
+        "enumeration": "complete"
+      }
+    }
+  },
+  "multiplicity_protocol": {
+    "primary_method": "BH",
+    "alpha": 0.05,
+    "families_frozen": true
+  },
+  "sensitivity_protocol": {
+    "primary_results_unchanged": true,
+    "by_family": {
+      "msgnet.single_scale.frozen14": [
+        "exact_sign_test",
+        "BY",
+        "temporal_interleaved_subsets",
+        "leave_one_out",
+        "bootstrap_mean_CI",
+        "trimmed_mean"
+      ],
+      "msgnet.all_scales.frozen14": [
+        "exact_sign_test",
+        "BY",
+        "temporal_interleaved_subsets",
+        "leave_one_out",
+        "bootstrap_mean_CI",
+        "trimmed_mean"
+      ]
+    }
+  },
+  "frozen_protocol": "msgnet_etth1_frozen14"
+}

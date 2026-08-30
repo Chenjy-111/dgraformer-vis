@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": ".tmp/audit-session-v2-validator",
+    "rootDir": "."
+  },
+  "include": ["src/data/auditSession.ts", "src/data/auditSessionV2.ts"]
+}

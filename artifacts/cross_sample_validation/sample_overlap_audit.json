@@ -1,0 +1,259 @@
+{
+  "dataset": "ETTh1",
+  "number_of_predeclared_samples": 40,
+  "dataloader_class": "Dataset_ETT_hour",
+  "dataloader_source": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\data_provider\\data_loader.py",
+  "dataloader_source_sha256": "b763e649dbdf4b1b2e3da625b0186bc9ae66744755faf07719c18103a9e25c02",
+  "dataset_path": "C:\\Users\\cj\\Desktop\\DGraFormer-main\\DGraFormer-main\\data_provider\\data\\ETT\\ETTh1.csv",
+  "dataset_path_currently_available": false,
+  "dataset_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+  "dataset_sha256_source": "formal run manifest 3e83451437fe946a975b56fe6528fa2136443b9b08b966d3a9a78041849a6442",
+  "test_border_rule": "border1s[2] = 12*30*24 + 4*30*24 - seq_len",
+  "test_border1": 11424,
+  "test_border2_exclusive": 14400,
+  "dataloader_derived_test_length": 2785,
+  "predeclared_test_length": 2785,
+  "seq_len": 96,
+  "pred_len": 96,
+  "raw_span_rule": "raw_start=test_border1+sample_id; raw_end=raw_start+seq_len+pred_len-1 (inclusive)",
+  "raw_span_length_per_sample": 192,
+  "minimum_start_gap": 71,
+  "median_start_gap": 71.0,
+  "number_of_overlapping_sample_pairs": 77,
+  "number_of_adjacent_overlapping_samples": 39,
+  "has_overlap": true,
+  "sample_spans": [
+    {
+      "sample_id": 0,
+      "raw_start": 11424,
+      "raw_end": 11615
+    },
+    {
+      "sample_id": 71,
+      "raw_start": 11495,
+      "raw_end": 11686
+    },
+    {
+      "sample_id": 143,
+      "raw_start": 11567,
+      "raw_end": 11758
+    },
+    {
+      "sample_id": 214,
+      "raw_start": 11638,
+      "raw_end": 11829
+    },
+    {
+      "sample_id": 286,
+      "raw_start": 11710,
+      "raw_end": 11901
+    },
+    {
+      "sample_id": 357,
+      "raw_start": 11781,
+      "raw_end": 11972
+    },
+    {
+      "sample_id": 428,
+      "raw_start": 11852,
+      "raw_end": 12043
+    },
+    {
+      "sample_id": 500,
+      "raw_start": 11924,
+      "raw_end": 12115
+    },
+    {
+      "sample_id": 571,
+      "raw_start": 11995,
+      "raw_end": 12186
+    },
+    {
+      "sample_id": 642,
+      "raw_start": 12066,
+      "raw_end": 12257
+    },
+    {
+      "sample_id": 714,
+      "raw_start": 12138,
+      "raw_end": 12329
+    },
+    {
+      "sample_id": 785,
+      "raw_start": 12209,
+      "raw_end": 12400
+    },
+    {
+      "sample_id": 857,
+      "raw_start": 12281,
+      "raw_end": 12472
+    },
+    {
+      "sample_id": 928,
+      "raw_start": 12352,
+      "raw_end": 12543
+    },
+    {
+      "sample_id": 999,
+      "raw_start": 12423,
+      "raw_end": 12614
+    },
+    {
+      "sample_id": 1071,
+      "raw_start": 12495,
+      "raw_end": 12686
+    },
+    {
+      "sample_id": 1142,
+      "raw_start": 12566,
+      "raw_end": 12757
+    },
+    {
+      "sample_id": 1214,
+      "raw_start": 12638,
+      "raw_end": 12829
+    },
+    {
+      "sample_id": 1285,
+      "raw_start": 12709,
+      "raw_end": 12900
+    },
+    {
+      "sample_id": 1356,
+      "raw_start": 12780,
+      "raw_end": 12971
+    },
+    {
+      "sample_id": 1428,
+      "raw_start": 12852,
+      "raw_end": 13043
+    },
+    {
+      "sample_id": 1499,
+      "raw_start": 12923,
+      "raw_end": 13114
+    },
+    {
+      "sample_id": 1570,
+      "raw_start": 12994,
+      "raw_end": 13185
+    },
+    {
+      "sample_id": 1642,
+      "raw_start": 13066,
+      "raw_end": 13257
+    },
+    {
+      "sample_id": 1713,
+      "raw_start": 13137,
+      "raw_end": 13328
+    },
+    {
+      "sample_id": 1785,
+      "raw_start": 13209,
+      "raw_end": 13400
+    },
+    {
+      "sample_id": 1856,
+      "raw_start": 13280,
+      "raw_end": 13471
+    },
+    {
+      "sample_id": 1927,
+      "raw_start": 13351,
+      "raw_end": 13542
+    },
+    {
+      "sample_id": 1999,
+      "raw_start": 13423,
+      "raw_end": 13614
+    },
+    {
+      "sample_id": 2070,
+      "raw_start": 13494,
+      "raw_end": 13685
+    },
+    {
+      "sample_id": 2142,
+      "raw_start": 13566,
+      "raw_end": 13757
+    },
+    {
+      "sample_id": 2213,
+      "raw_start": 13637,
+      "raw_end": 13828
+    },
+    {
+      "sample_id": 2284,
+      "raw_start": 13708,
+      "raw_end": 13899
+    },
+    {
+      "sample_id": 2356,
+      "raw_start": 13780,
+      "raw_end": 13971
+    },
+    {
+      "sample_id": 2427,
+      "raw_start": 13851,
+      "raw_end": 14042
+    },
+    {
+      "sample_id": 2498,
+      "raw_start": 13922,
+      "raw_end": 14113
+    },
+    {
+      "sample_id": 2570,
+      "raw_start": 13994,
+      "raw_end": 14185
+    },
+    {
+      "sample_id": 2641,
+      "raw_start": 14065,
+      "raw_end": 14256
+    },
+    {
+      "sample_id": 2713,
+      "raw_start": 14137,
+      "raw_end": 14328
+    },
+    {
+      "sample_id": 2784,
+      "raw_start": 14208,
+      "raw_end": 14399
+    }
+  ],
+  "nonoverlap_selection_rule": "sort raw_start ascending; take earliest; repeatedly take first raw_start > previous selected raw_end",
+  "non_overlapping_sample_ids": [
+    0,
+    214,
+    428,
+    642,
+    857,
+    1071,
+    1285,
+    1499,
+    1713,
+    1927,
+    2142,
+    2356,
+    2570,
+    2784
+  ],
+  "N_nonoverlap": 14,
+  "primary_inference_mode": "moving_block_bootstrap_all_predeclared",
+  "primary_effect": "mean_D over active observations only",
+  "primary_block_length": 3,
+  "block_length_derivation": "ceil(raw_span_length_per_sample / minimum_start_gap) = ceil(192 / 71) = 3",
+  "block_length_sensitivity": [
+    2,
+    4
+  ],
+  "moving_block_rule": "all non-circular consecutive sample-position blocks; sample blocks with replacement, concatenate and truncate to 40 positions; preserve inactive positions; compute D only for active positions",
+  "bootstrap_repetitions": 10000,
+  "bootstrap_seed": 20260830,
+  "primary_null": "H0: E[D] <= 0",
+  "primary_alternative": "H1: E[D] > 0",
+  "primary_p_formula": "(1 + count(T_null_star >= observed_mean_D)) / (B + 1)"
+}

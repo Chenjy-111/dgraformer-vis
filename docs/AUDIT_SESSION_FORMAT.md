@@ -1,6 +1,6 @@
 # DGraInsight Audit Session Format
 
-Status: Audit Session v1, direct supported-model local generation, immutable-artifact round-trip export, and validated browser import are implemented and real-input verified as of 2026-08-30.
+Status: legacy Audit Session v1 compatibility format. Its empirical p and case-level BH fields are not Pipeline v2 formal evidence. The CLI defaults to Session v2; see `AUDIT_SESSION_V2.md`.
 
 Canonical schema: `schemas/dgrainsight_audit_session_v1.schema.json`
 
@@ -225,8 +225,8 @@ negative_evidence_preserved = true
 | Sample history/truth/baseline | Offline adapter batch/output; built-in sample JSON when round-tripping existing demo cases |
 | Window contexts | Adapter `extract_graph_stages().windows`; raw `graphs/window_*.json`; built-in sample `windows[]` |
 | Relations | Local catalog `edges[]` and case edge objects |
-| Local evidence | `etth1_intervention_catalog.json` cases |
-| Broader evidence | `etth1_global_intervention_catalog.json` cases |
+| Local evidence | legacy fixture `legacy/v1/artifacts/public-data/evidence/etth1_intervention_catalog.json` cases |
+| Broader evidence | legacy fixture `legacy/v1/artifacts/public-data/evidence/etth1_global_intervention_catalog.json` cases |
 | Local controls | Phase 5 `controls/s*_w*_e*_*.json` records plus case summaries |
 | Broader controls | Global run `controls/s*_e*_*.json` records plus case summaries |
 | Provenance | source run IDs, manifests, raw operand paths and hashes |

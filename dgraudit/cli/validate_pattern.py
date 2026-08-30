@@ -57,6 +57,14 @@ def benjamini_hochberg(values: list[float]) -> list[float]:
     return adjusted.tolist()
 
 
+def empirical_p_plus_one(control_effects, focal_effect: float) -> float:
+    """One-sided matched-control empirical p-value used by evidence pipelines."""
+    controls = np.asarray(control_effects, dtype=float)
+    if controls.size == 0:
+        raise ValueError("At least one matched-control effect is required")
+    return float((1 + np.sum(controls >= focal_effect)) / (controls.size + 1))
+
+
 def sample_timestamps(data_path: Path, dataset_name: str, sample_index: int, seq_len: int, pred_len: int) -> dict:
     with data_path.open(encoding="utf-8", errors="replace", newline="") as handle:
         dates = [row[0] for row in list(csv.reader(handle))[1:]]
@@ -180,7 +188,7 @@ def main() -> int:
         })
 
     control_impacts = np.asarray([item["metrics"]["prediction_delta_abs"] for item in control_records])
-    empirical_p = float((1 + np.sum(control_impacts >= focal_metrics["prediction_delta_abs"])) / (len(control_impacts) + 1))
+    empirical_p = empirical_p_plus_one(control_impacts, focal_metrics["prediction_delta_abs"])
     percentile = float(100 * np.mean(control_impacts <= focal_metrics["prediction_delta_abs"]))
     standard_deviation = float(control_impacts.std(ddof=1))
     effect_size = None if standard_deviation == 0 else float((focal_metrics["prediction_delta_abs"] - control_impacts.mean()) / standard_deviation)

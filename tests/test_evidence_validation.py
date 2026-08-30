@@ -4,7 +4,7 @@ from pathlib import Path
 
 import torch
 
-from dgraudit.cli.validate_pattern import benjamini_hochberg, impact_metrics
+from dgraudit.cli.validate_pattern import benjamini_hochberg, empirical_p_plus_one, impact_metrics
 
 
 class EvidenceValidationTests(unittest.TestCase):
@@ -30,6 +30,9 @@ class EvidenceValidationTests(unittest.TestCase):
     def test_bh_adjustment_is_monotone_in_rank(self):
         adjusted = benjamini_hochberg([0.01, 0.04, 0.03])
         self.assertEqual([round(value, 3) for value in adjusted], [0.03, 0.04, 0.04])
+
+    def test_empirical_p_plus_one_reaches_finite_control_minimum(self):
+        self.assertEqual(empirical_p_plus_one([0.01, 0.03, 0.02, 0.04], 1.0), 0.2)
 
     def test_evidence_contains_hashes(self):
         evidence = self.real_evidence()

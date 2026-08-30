@@ -9,7 +9,7 @@ from dgraudit.session import AuditSessionError, write_audit_session
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Export immutable official DGraInsight evidence artifacts as one portable Audit Session v1 JSON file."
+        description="Legacy compatibility exporter for immutable Audit Session v1 artifacts; v1 case p/BH is not Pipeline v2 formal evidence."
     )
     parser.add_argument("--config", required=True, help="Path to a DGraInsight Session Export Config v1 JSON file.")
     parser.add_argument("--output", help="Optional output override for dgrainsight_session.json.")

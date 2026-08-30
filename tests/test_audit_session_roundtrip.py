@@ -86,9 +86,9 @@ class AuditSessionRoundTripTests(unittest.TestCase):
         )
         cls.dgra = read_json(temp_root / "dgraformer" / "dgrainsight_session.json")
         cls.msgnet = read_json(temp_root / "msgnet" / "dgrainsight_session.json")
-        cls.dgra_local = read_json(ROOT / "public/data/evidence/etth1_intervention_catalog.json")
-        cls.dgra_broader = read_json(ROOT / "public/data/evidence/etth1_global_intervention_catalog.json")
-        cls.msgnet_catalog = read_json(ROOT / "public/data/models/msgnet/etth1/catalog.json")
+        cls.dgra_local = read_json(ROOT / "legacy/v1/artifacts/public-data/evidence/etth1_intervention_catalog.json")
+        cls.dgra_broader = read_json(ROOT / "legacy/v1/artifacts/public-data/evidence/etth1_global_intervention_catalog.json")
+        cls.msgnet_catalog = read_json(ROOT / "legacy/v1/artifacts/public-data/models/msgnet/etth1/catalog.json")
         cls.dgra_local_run = ROOT / "artifacts/runs" / cls.dgra_local["source_runs"]["evidence"]
         cls.dgra_broader_run = ROOT / "artifacts/runs" / cls.dgra_broader["run_id"]
 

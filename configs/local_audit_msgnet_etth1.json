@@ -1,13 +1,13 @@
 {
   "schema_version": "dgrainsight.audit_config.v1",
   "adapter": "msgnet",
-  "source_root": "C:/Users/cj/Desktop/MSGNet-main",
+  "source_root": "../external/MSGNet",
   "checkpoint": {
     "path": "../artifacts/msgnet_checkpoints/ETTh1_96_96_MSGNet_ETTh1_ftM_sl96_ll48_pl96_dm32_nh8_el1_dl1_df64_fc3_ebtimeF_dtTrue_Exp_0/checkpoint.pth"
   },
   "dataset": {
     "name": "ETTh1",
-    "path": "C:/Users/cj/Downloads/iTransformer_datasets/iTransformer_datasets/ETT-small/ETTh1.csv",
+    "path": "../external/data/ETTh1.csv",
     "sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
     "format": "ett_hour",
     "date_column": "date",

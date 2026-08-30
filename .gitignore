@@ -1,15 +1,50 @@
+# Credentials and local environment
+.env
+.env.*
+!.env.example
+
+# Python / Node / Vite build output
+__pycache__/
+*.py[cod]
 node_modules/
 dist/
 *.tsbuildinfo
 vite.config.d.ts
 vite.config.js
-artifacts/preflight/python-3.9.13-embed-amd64.zip
-artifacts/preflight/python39/
-artifacts/preflight/*.cjs
-artifacts/preflight/audit-session-validator/
-artifacts/preflight/web-root/
-artifacts/sessions/
-dgrainsight_session.json
-__pycache__/
-*.py[cod]
-.vite-preview.*.log
+.tmp/
+tmp/
+*.log
+
+# Generated user sessions and local experiments
+/dgrainsight_session.json
+/my_mtgnn_session*.json
+/experiments/
+/chatgpt_context_pack/
+/MSGNET_EVIDENCE_AUDIT.md
+
+# Local/private model resources and non-frozen analysis output
+/artifacts/msgnet_checkpoints/
+/artifacts/mtgnn_exchange/
+/artifacts/evidence_validation/
+/artifacts/preflight/audit-session-validator/
+/artifacts/sessions/*
+!/artifacts/sessions/dgraformer_etth1/
+!/artifacts/sessions/dgraformer_etth1/dgrainsight_session.json
+!/artifacts/sessions/msgnet_etth1/
+!/artifacts/sessions/msgnet_etth1/dgrainsight_session.json
+
+# Run directories are local by default. Only the three audited frozen sources
+# required for public v2 reproduction are allowlisted.
+/artifacts/runs/*
+!/artifacts/runs/3e83451437fe946a975b56fe6528fa2136443b9b08b966d3a9a78041849a6442/
+!/artifacts/runs/3e83451437fe946a975b56fe6528fa2136443b9b08b966d3a9a78041849a6442/**
+!/artifacts/runs/59573278fc173879bbacef9ae99073f04faa7587dd4659ecad5b4eabe3684cb9/
+!/artifacts/runs/59573278fc173879bbacef9ae99073f04faa7587dd4659ecad5b4eabe3684cb9/**
+!/artifacts/runs/a256ec935997909c43d29acee22fdfccb8650d1db77dadf335c92d8ad63b0f43/
+!/artifacts/runs/a256ec935997909c43d29acee22fdfccb8650d1db77dadf335c92d8ad63b0f43/**
+
+# Editor / operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

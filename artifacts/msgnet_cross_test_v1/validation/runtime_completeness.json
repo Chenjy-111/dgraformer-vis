@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "baseline_expected": 14,
+  "baseline_actual": 14,
+  "single_scale_records_expected": 1764,
+  "single_scale_records_actual": 1764,
+  "all_scale_records_expected": 588,
+  "all_scale_records_actual": 588,
+  "single_scale_trajectories_expected": 1764,
+  "single_scale_trajectories_actual": 1764,
+  "all_scale_trajectories_expected": 588,
+  "all_scale_trajectories_actual": 588,
+  "single_hypotheses_expected": 126,
+  "single_hypotheses_actual": 126,
+  "all_hypotheses_expected": 42,
+  "all_hypotheses_actual": 42,
+  "tests_per_hypothesis": [
+    14
+  ],
+  "invalid_trajectory_arrays": [],
+  "nan_inf_count": 0,
+  "missing_intervention_count": 0
+}

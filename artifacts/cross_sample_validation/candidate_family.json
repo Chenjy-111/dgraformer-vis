@@ -1,0 +1,128 @@
+{
+  "dataset": "ETTh1",
+  "old_sample_level_cases": 320,
+  "new_unique_local_edge_window_candidates": 8,
+  "candidate_selection_uses_intervention_outcomes": false,
+  "candidate_selection_answer": "NO",
+  "candidate_selection_basis": "pre-intervention retained-graph frequency and retained learned/top-K score",
+  "candidate_selection_config": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\precomputed_intervention_catalog_etth1_40_grid.json",
+  "candidate_run_id": "467d53169372e3120e7964f81152bee863fc5ef121b01e5413ed813c14c10a5c",
+  "local_evidence_run_id": "3e83451437fe946a975b56fe6528fa2136443b9b08b966d3a9a78041849a6442",
+  "local_candidates": [
+    {
+      "window_id": 0,
+      "source_node": 0,
+      "target_node": 2,
+      "source_name": "HUFL",
+      "target_name": "MUFL",
+      "learned_edge_weight": 0.39268794655799866,
+      "topk_score": 0.9913186430931091,
+      "unique_control_count": 8
+    },
+    {
+      "window_id": 0,
+      "source_node": 0,
+      "target_node": 4,
+      "source_name": "HUFL",
+      "target_name": "LUFL",
+      "learned_edge_weight": 0.21118517220020294,
+      "topk_score": 0.533125102519989,
+      "unique_control_count": 8
+    },
+    {
+      "window_id": 1,
+      "source_node": 0,
+      "target_node": 3,
+      "source_name": "HUFL",
+      "target_name": "MULL",
+      "learned_edge_weight": 0.33288928866386414,
+      "topk_score": 0.996097207069397,
+      "unique_control_count": 13
+    },
+    {
+      "window_id": 1,
+      "source_node": 0,
+      "target_node": 4,
+      "source_name": "HUFL",
+      "target_name": "LUFL",
+      "learned_edge_weight": 0.33291715383529663,
+      "topk_score": 0.9961805939674377,
+      "unique_control_count": 13
+    },
+    {
+      "window_id": 1,
+      "source_node": 5,
+      "target_node": 4,
+      "source_name": "LULL",
+      "target_name": "LUFL",
+      "learned_edge_weight": 0.17656750977039337,
+      "topk_score": 0.8071285486221313,
+      "unique_control_count": 13
+    },
+    {
+      "window_id": 2,
+      "source_node": 5,
+      "target_node": 4,
+      "source_name": "LULL",
+      "target_name": "LUFL",
+      "learned_edge_weight": 0.414299875497818,
+      "topk_score": 0.7073583602905273,
+      "unique_control_count": 7
+    },
+    {
+      "window_id": 4,
+      "source_node": 5,
+      "target_node": 4,
+      "source_name": "LULL",
+      "target_name": "LUFL",
+      "learned_edge_weight": 0.39048388600349426,
+      "topk_score": 0.6406457424163818,
+      "unique_control_count": 5
+    },
+    {
+      "window_id": 6,
+      "source_node": 0,
+      "target_node": 4,
+      "source_name": "HUFL",
+      "target_name": "LUFL",
+      "learned_edge_weight": 0.48517075181007385,
+      "topk_score": 0.9423916339874268,
+      "unique_control_count": 7
+    }
+  ],
+  "local_hypothesis_identity": [
+    "window_id",
+    "source_node",
+    "target_node"
+  ],
+  "local_BH_family_size": 8,
+  "primary_inference": {
+    "effect": "mean_D",
+    "method": "one-sided null-centered moving-block bootstrap",
+    "block_length": 3,
+    "block_length_reason": "ceil(raw_span_length_per_sample / minimum_start_gap) = ceil(192 / 71) = 3",
+    "sensitivity_block_lengths": [
+      2,
+      4
+    ],
+    "bootstrap_repetitions": 10000,
+    "seed": 20260830,
+    "local_BH_input": "eight primary_block_p values",
+    "global_BH_input": "four primary_block_p values"
+  },
+  "nonoverlap_role": "conservative sensitivity analysis",
+  "global_evidence_run_id": "a256ec935997909c43d29acee22fdfccb8650d1db77dadf335c92d8ad63b0f43",
+  "global_analysis_available": true,
+  "global_unavailable_reason": null,
+  "global_hypothesis_identity": [
+    "source_node",
+    "target_node"
+  ],
+  "global_BH_family_size": 4,
+  "input_fingerprints": {
+    "configs\\phase1_registry.json": "b1621af0e6a84389c479576b06e854e96c307cbc675f38ce5fa4c3f80895ac1f",
+    "configs\\precomputed_intervention_catalog_etth1_40_grid.json": "8fdb78f4a4d1af1d1375239042c83be9b554ea43e701fff21599a0756bdc5edc",
+    "configs\\precomputed_evidence_catalog_etth1_40_grid.json": "6e3fb0802894b8066a9dc92133f5ab5bc78a405544f4d9156d38ef02ea723cd8",
+    "configs\\global_edge_intervention_etth1.json": "d96efa15335ba63746b000dd83c984385d9fa00e1e763ddd8cda56c42285a57a"
+  }
+}

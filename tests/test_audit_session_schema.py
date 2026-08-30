@@ -12,9 +12,9 @@ class AuditSessionSchemaTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.schema = json.loads((ROOT / "schemas/dgrainsight_audit_session_v1.schema.json").read_text(encoding="utf-8"))
-        cls.dgra_local = json.loads((ROOT / "public/data/evidence/etth1_intervention_catalog.json").read_text(encoding="utf-8"))
-        cls.dgra_global = json.loads((ROOT / "public/data/evidence/etth1_global_intervention_catalog.json").read_text(encoding="utf-8"))
-        cls.msgnet = json.loads((ROOT / "public/data/models/msgnet/etth1/catalog.json").read_text(encoding="utf-8"))
+        cls.dgra_local = json.loads((ROOT / "legacy/v1/artifacts/public-data/evidence/etth1_intervention_catalog.json").read_text(encoding="utf-8"))
+        cls.dgra_global = json.loads((ROOT / "legacy/v1/artifacts/public-data/evidence/etth1_global_intervention_catalog.json").read_text(encoding="utf-8"))
+        cls.msgnet = json.loads((ROOT / "legacy/v1/artifacts/public-data/models/msgnet/etth1/catalog.json").read_text(encoding="utf-8"))
 
     def test_schema_has_strict_portable_envelope(self):
         self.assertEqual(self.schema["properties"]["schema_version"]["const"], "dgrainsight.audit_session.v1")

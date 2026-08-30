@@ -1,6 +1,6 @@
 # DGraInsight Supported Local Audit
 
-Status: supported-input contract for Audit Config v1 and Audit Session v1, with all three official real-input preflights passed on 2026-08-30.
+Status: this document preserves the legacy v1 supported-input contract. The CLI now defaults to Pipeline/Session v2; use `--session-version 1` or `--legacy-v1` only for explicit compatibility output. See `AUDIT_SESSION_V2.md` for formal cross-sample evidence.
 
 ## 1. What is supported
 
@@ -169,7 +169,7 @@ See `docs/AUDIT_SESSION_FORMAT.md` for the complete schema, missing/null rules, 
 
 ## 7. Current local-environment note
 
-On 2026-08-30, the checked workstation has all three upstream source trees and checkpoint files. The training-era `dgra_env_cuda` launcher references a removed Python 3.9.13 base interpreter, but an official embeddable Python 3.9.13 runtime was previously restored at `artifacts/preflight/python39/python.exe`. Its `_pth` file loads `dgra_env_cuda/Lib/site-packages`; direct verification reports NumPy 1.24.3, PyTorch 2.1.1+cu121, and CUDA available. The exact ETTh1 CSV was located at `C:/Users/cj/Downloads/iTransformer_datasets/iTransformer_datasets/ETT-small/ETTh1.csv`; its SHA-256 matches the immutable DGraFormer ETTh1 run manifests. DGraFormer and MSGNet passed all nine real preflight checks with that hash-locked input. MTGNN independently passed checkpoint reload, GPU inference, learned-graph verification, V01–V09, portable session generation, browser validation, and an actual website import using the Exchange-Rate checkpoint and dataset hashes declared in `configs/local_audit_mtgnn_exchange.json`. Generated user sessions are intentionally not committed.
+On 2026-08-30, the checked workstation had all three upstream source trees and checkpoint files. The exact ETTh1 CSV had SHA-256 `f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066`, matching the immutable DGraFormer ETTh1 run manifests. DGraFormer and MSGNet passed all nine real preflight checks with that hash-locked input. MTGNN independently passed checkpoint reload, GPU inference, learned-graph verification, V01–V09, portable session generation, browser validation, and a website import using the Exchange-Rate checkpoint and dataset hashes declared in `configs/local_audit_mtgnn_exchange.json`. Machine-specific paths and generated user sessions are intentionally not committed.
 
 ## 8. Scientific failure policy
 

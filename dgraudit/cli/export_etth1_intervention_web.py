@@ -73,7 +73,7 @@ def main() -> int:
     parser.add_argument("--intervention-run", required=True)
     parser.add_argument("--dataset", default="ETTh1")
     parser.add_argument("--test-border", type=int, default=11424)
-    parser.add_argument("--output", default="public/data/evidence/etth1_intervention_catalog.json")
+    parser.add_argument("--output", default="legacy/v1/artifacts/public-data/evidence/etth1_intervention_catalog.json")
     args = parser.parse_args()
     root = Path("artifacts/runs")
     evidence_root = root / args.evidence_run

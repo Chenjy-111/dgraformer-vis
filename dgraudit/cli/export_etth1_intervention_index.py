@@ -7,9 +7,9 @@ from pathlib import Path
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Create a lossless summary index for the ETTh1 web workspace.")
-    parser.add_argument("--local", default="public/data/evidence/etth1_intervention_catalog.json")
-    parser.add_argument("--global-catalog", default="public/data/evidence/etth1_global_intervention_catalog.json")
-    parser.add_argument("--output", default="public/data/evidence/etth1_intervention_index.json")
+    parser.add_argument("--local", default="legacy/v1/artifacts/public-data/evidence/etth1_intervention_catalog.json")
+    parser.add_argument("--global-catalog", default="legacy/v1/artifacts/public-data/evidence/etth1_global_intervention_catalog.json")
+    parser.add_argument("--output", default="legacy/v1/artifacts/public-data/evidence/etth1_intervention_index.json")
     args = parser.parse_args()
 
     local = json.loads(Path(args.local).read_text(encoding="utf-8"))

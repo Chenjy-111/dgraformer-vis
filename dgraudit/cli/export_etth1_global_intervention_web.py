@@ -6,7 +6,7 @@ import numpy as np
 VARIABLES=["HUFL","HULL","MUFL","MULL","LUFL","LULL","OT"]
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument("--run",required=True);p.add_argument("--output",default="public/data/evidence/etth1_global_intervention_catalog.json");a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("--run",required=True);p.add_argument("--output",default="legacy/v1/artifacts/public-data/evidence/etth1_global_intervention_catalog.json");a=p.parse_args()
     root=Path("artifacts/runs")/a.run;catalog=json.loads((root/"evidence_catalog.json").read_text())
     cases=[]
     for c in catalog["cases"]:

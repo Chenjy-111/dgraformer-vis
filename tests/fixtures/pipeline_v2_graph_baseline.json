@@ -1,0 +1,7761 @@
+{
+  "fixture_version": "pipeline_v2_graph_baseline.v1",
+  "rule": "Session v1 graph/model core must be byte-for-byte equivalent after canonical JSON serialization.",
+  "models": {
+    "DGraFormer": {
+      "source": "artifacts/sessions/dgraformer_etth1/dgrainsight_session.json",
+      "source_sha256": "5831e6a23c6b0daad6c4a68882e8beb9e5f2ec24ea870b24764a3dbea780518b",
+      "sample_count": 40,
+      "relation_count": 160,
+      "samples": [
+        {
+          "sample_id": "test:0",
+          "sample_index": 0,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "846f431b208ec25ad672d883ba1c550d950757db4966284a94c92264d54d5401",
+          "baseline_prediction_sha256": "981735c1165243e45f923bc700e560e440697a564840c23c6375717b987e0572",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:71",
+          "sample_index": 71,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "e14bd435d932da5447285b7aa7f3ac07a47467a9b464c5f6e142460417d174ec",
+          "baseline_prediction_sha256": "9f21300ad2feaaf74960d3c64030fc70c4e581f1d3a15c1533845334837303d7",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:143",
+          "sample_index": 143,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "6fabbe9365a53fb78b75c7ac3d978cf7eced9fff653d4f8cc1b7453756c272b3",
+          "baseline_prediction_sha256": "26eeef4b8503e049e44168507cbd847b7e13a1c9f4d3e948f18d1ccc74cc6ded",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:214",
+          "sample_index": 214,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "b84df17a6b4be7a47b785848437ffcb2110702cd1cd24ff8529b38088b2d41b4",
+          "baseline_prediction_sha256": "9c34f0d26dbd937b198ddd90bb4deb2dab0ca8b2742f8c148c4fc6838c7276c8",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:286",
+          "sample_index": 286,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "437333386631a65f8eda68ab8ee25fc4ba6ffccf40c96604833e6660c97b7d35",
+          "baseline_prediction_sha256": "eee03b8ba14eb37998167b4ad931a939ddccc41bec318c4f35dc332372780510",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:357",
+          "sample_index": 357,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "061971adbbdaa295b07284d5ba652b4ed3910131fa53b26f160486655fb38aed",
+          "baseline_prediction_sha256": "4dec55b13b903442bcbc4f68fb8e952a7d04e554001bd452d6a0463347d6c399",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:428",
+          "sample_index": 428,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "f3c024afa6d967620d797befe589fa8e89f7946036cc38c06ec5648756477906",
+          "baseline_prediction_sha256": "33d509ff2e232168041158ea2db67fd7fb2cb556a0715d9e14685324c1616003",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:500",
+          "sample_index": 500,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "c6edd085cbf7281c4dc9dcb5804fb3a86533ff39ab70c768af7eb6c70c2de54b",
+          "baseline_prediction_sha256": "fff1ad6700b37f0708bc8303579e85e2d9bac0d3dbdd2de56707ab4cd81ce9d6",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:571",
+          "sample_index": 571,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "302c8c4b42e2bd78c9d111dd7ed9516e1720f63c4ec9b0c9c9b98707dc4ebea4",
+          "baseline_prediction_sha256": "7177cd225f80599d5d4b2f74bc1eed4468174284e14d125f0cbfa291c3d577e1",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:642",
+          "sample_index": 642,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "5758d9c261afae65648ad30d997861278c537aaa4740103553bdd08f78684d8c",
+          "baseline_prediction_sha256": "a9a1af2a5e1e29be377899ec6897bfc4e6a9ae6a9eea0e8dbac5d3a674642cf9",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:714",
+          "sample_index": 714,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "27dc42b45a2613be79eca7e3e5f013b0b4657fd60ce285bce40b4945c2ec58f4",
+          "baseline_prediction_sha256": "7bf5944d2371a9196e08e97d26718beb8929239309f0a546fa7497a9d9d311df",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:785",
+          "sample_index": 785,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "ff2ce65e15a474997cc04fda0ef7ccedae41cf2b23e891e174ee80e1b43aca37",
+          "baseline_prediction_sha256": "1782dc9844878f99f5d1df38ecb4a8fa172079c8c6176007b94c86d7b218c9c1",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:857",
+          "sample_index": 857,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "3ca5afe2f4ace4e46f2b9632cdaff08ec886ff7f2a23abe147b6c4c8dc76d8b5",
+          "baseline_prediction_sha256": "fee559275bb26d9e15e949ce0483929855ef6a2de8f110882b14bcb819d30e69",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:928",
+          "sample_index": 928,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "f72293b9e7706f67caff212d41b699f5b715a7a4081f8cd9bf030792a326623f",
+          "baseline_prediction_sha256": "854aacf196b97c1da25763993e7c5dc5602501b67437d8eb28384db2af2f1c6b",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:999",
+          "sample_index": 999,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "1a71832760bec2da413cedb1d2829be1178dc95da665392c1f4e30c5d751caff",
+          "baseline_prediction_sha256": "8f64a71bfa84aeff3d7213bab4f701f68aa2826669c0157b2b8b50478e4970f6",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1071",
+          "sample_index": 1071,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "58f3dfcd16e03e7c44dd46127bb518477908ab5a817b0e11d91b3597101fde18",
+          "baseline_prediction_sha256": "bf58dd9614a6798c859b1f2909c0d6b6923f74b367d8c3a58dcb63139145392f",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1142",
+          "sample_index": 1142,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "b895061abec5de28226dbfc2a4c5a7945921fe54d0db3640329367c4fab88d9c",
+          "baseline_prediction_sha256": "4cf9ad567a8944e0403080ad8c0a8435fa760c837f97d554adcb245e591e4aa2",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1214",
+          "sample_index": 1214,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "d4a2b506bb6b1df3ff3e3d0451a0cd1ef5d097a2bb6b5d2d18eba7486d126108",
+          "baseline_prediction_sha256": "f62394955bdc023805cb853801945463a90db073bf2b12b962c76a935fdb5d78",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1285",
+          "sample_index": 1285,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "11538bd611ce045b3a8b4249890d3eeec502cc3d75de398dc2a6a0846ee90d3c",
+          "baseline_prediction_sha256": "499641b84defa61a8147ed92199601de8ea692bf9426f5d61864f67b5f83b497",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1356",
+          "sample_index": 1356,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "04caef8ec4ba1ffcd968e2be5ea38660b536e78a877c069f64475483978ba3c6",
+          "baseline_prediction_sha256": "14b8a8fc95c3f527d1f96b08deb77da8611464eafc972df4c88e568a0eef7a83",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1428",
+          "sample_index": 1428,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "7628f0c0c423722c5a17f16030da47e8f832e83d262e3a3a1e289686262cb991",
+          "baseline_prediction_sha256": "5aef136271e74229314c6d0c183e8e00259354ac5f21bd71cb4aa36d73885dcc",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1499",
+          "sample_index": 1499,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "35cf43c092f0d7d891947766d6e4d6487046047b80deda28d3784fd9229d217e",
+          "baseline_prediction_sha256": "f3cf507a83bd9a62b99a52d6032b1970f43f85db1d350340beba883ba7a7db83",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1570",
+          "sample_index": 1570,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "2659e2e949f83c3cc4c40389c1af16a3b419fb555ebe9eab429863a7e2f57bc0",
+          "baseline_prediction_sha256": "c7c801fe22af514b5e129399e5c461cde425d2ebe0cdbe139d960c89d9fe2c66",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1642",
+          "sample_index": 1642,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "5f40b678f5c3fd9faa00bb110ef7edac16a1023d08bfd79a4defd7cb8bad3e48",
+          "baseline_prediction_sha256": "fb9c18052de778876a4a86f341d12ab72bd0490b902fd37e28ce8406df0a697e",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1713",
+          "sample_index": 1713,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "81a8a8dc85466f94335427c92bbbbeb0e193dfa56ab21250da77169af8ca12ac",
+          "baseline_prediction_sha256": "dbf71225f50e2b846f2a36f91f8ce96ef82d2c07f8c370256ad26425ee622505",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1785",
+          "sample_index": 1785,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "de35c56b5cb5e7053c2cae153e15196567149f37292d6081e8819dd3178214e5",
+          "baseline_prediction_sha256": "766aa5b9b5374b160db56981dfc238dff02ef3fd712bb496a2f5c87d7a879996",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1856",
+          "sample_index": 1856,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "6b33ab63a26771b6eb94bab1f485d65bf0052d5304714a18f76c95a8db206c89",
+          "baseline_prediction_sha256": "49811b76b1f2271a921cd1139be1011e03a2cacf009e3f11d5cc67230c5c4767",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1927",
+          "sample_index": 1927,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "fa1beafe2d9ed696180562f2c9f0e86d63b4bcf68f15a3ac3d19c2db5d82813e",
+          "baseline_prediction_sha256": "fdedf907b0e1a95659d1a4dfd0527ffd0d8bcf8146cb546ee0152fb428b08d68",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:1999",
+          "sample_index": 1999,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "e66ef4c78067e87f73cabb75fe5d3c53588770adee10e79b6678e9f1b32fecb6",
+          "baseline_prediction_sha256": "4e49f17cf58f53930139dc08bc6fccb2de033f5f52f3ad4cd9e046ecbea41062",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2070",
+          "sample_index": 2070,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "817416262f9ea768a502b991fbb77581cbc179a6222c39ed131b7749ba42ef3f",
+          "baseline_prediction_sha256": "23239500bf9dcb4d84f731c5bdb7b7ae1dcaa2f2cee49ba94d54c29b229ee365",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2142",
+          "sample_index": 2142,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "1870bba9ce3a1b9d254d37336c2e420381a14f565add432855fc47ca3e8fec25",
+          "baseline_prediction_sha256": "62ac014610f44f1a70f15cfa39150968785c7dfe30358ebf5782602a62d4b640",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2213",
+          "sample_index": 2213,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "be74b490991014ffa765156468228aa6646b8414241b7eadc86b7e6082aeb4ae",
+          "baseline_prediction_sha256": "bf4c5f5643e1a74d288d2a9d272e5b696bd5a53169d6d959fa351f2df6206451",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2284",
+          "sample_index": 2284,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "e891b230d2a7e7f8fb932fd78a17ba10004bb6b446bfa4d621c8499ad7a4a131",
+          "baseline_prediction_sha256": "7aef9b576ee97e59f8d9889709cd8dc8140a428d8a39431d6d6acce9bae933ad",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2356",
+          "sample_index": 2356,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "9c4aab8f733b472b48eb59e93ce7a6eda7eabaf1e5396ce14f646ddc6502581b",
+          "baseline_prediction_sha256": "ade480636d8729c50019d5404f574aa42a21b23a4a39643085dc7b4dc2e20f41",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2427",
+          "sample_index": 2427,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "aa9bed15c464883e1c345c3f4f39068ce1c5b25e3e81964582e1411b1da37e7f",
+          "baseline_prediction_sha256": "16891dc6419d6903d6cc66ffe725a8e8bddaeea99a50a6737516aef129cc5a46",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2498",
+          "sample_index": 2498,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "64f5b47934ac6308a66a2efb664b69c8562e6e5ab85ce834f6a95fc4f2f734d6",
+          "baseline_prediction_sha256": "9405d897217c7b251d909c5b708dc57fa452478abb64ec45a0211966876a5ea2",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2570",
+          "sample_index": 2570,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "2ffb3a5106b86a5f9e2b01e1b1ebc78954fdeaf723e357d6277d7a15bd175674",
+          "baseline_prediction_sha256": "a1ed99fdee3e33c0be50449206a5f45665ca224037f2d0ae39caa1a254281cac",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2641",
+          "sample_index": 2641,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "991aab96ba9daeb4087f1a63e8177bcaaf466dc7c09abbc2c6fbfeb1edb16a77",
+          "baseline_prediction_sha256": "7eaeb211eb5429aa02fea4b1cd4df3b94a514e2299314e9ba8a9ea97f361e61b",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2713",
+          "sample_index": 2713,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "0c5492ca937c8a312cded5c00f17c1f3025b55fc379c0a5ed156939768c52e44",
+          "baseline_prediction_sha256": "355ef612614bb33f7b3c4aaca240fc94f7ea4975ec050958ce1fdbe522322728",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        },
+        {
+          "sample_id": "test:2784",
+          "sample_index": 2784,
+          "context_count": 5,
+          "node_counts": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            },
+            {
+              "static_prior": [
+                7,
+                7
+              ],
+              "raw_score": [
+                7,
+                7
+              ],
+              "activated": [
+                7,
+                7
+              ],
+              "diagonal_removed": [
+                7,
+                7
+              ],
+              "topk_mask": [
+                7,
+                7
+              ],
+              "topk_graph": [
+                7,
+                7
+              ],
+              "self_loop_graph": [
+                7,
+                7
+              ],
+              "normalized": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "bc99988d30bc8309df5b9965f99ea868eda41385a61fa5639d86507aff2789a3",
+          "baseline_prediction_sha256": "4dfa1f792b959d344ad3db3d59890fa90cdbd8fedd06a3534990f77f2e208f28",
+          "contexts_sha256": "5d8e4cf77a87ec906b99800b974ff08688f401457a5e3cfd92453fa09c90076a"
+        }
+      ],
+      "relation_core_sha256": "16eb8ceee53f252a2dc571f0092e06c634aa0b5810da631a7df2749f15bc0e29"
+    },
+    "MSGNet": {
+      "source": "artifacts/sessions/msgnet_etth1/dgrainsight_session.json",
+      "source_sha256": "fb1625b3285d0b2142d07193923dd9e47821c1e80e38214eb8fe25df22a6ef83",
+      "sample_count": 5,
+      "relation_count": 210,
+      "samples": [
+        {
+          "sample_id": "test:0",
+          "sample_index": 0,
+          "context_count": 3,
+          "node_counts": [
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "e833dd1dec63f5df55caac64b8fd9b9754637111b12906e2f3a815930e9414cd",
+          "baseline_prediction_sha256": "767950d1710d8b497f44dc8273bf52b953a49fcb04954be17d53cb182543fa65",
+          "contexts_sha256": "aea01f7e908b2bfb9025fb86c37c6e25b6902bb5aad31a48e45753e6f4f9c4c7"
+        },
+        {
+          "sample_id": "test:537",
+          "sample_index": 537,
+          "context_count": 3,
+          "node_counts": [
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "43a526289351d6b5bbb88bf335a4413583755acb8757004bd22b25116c039842",
+          "baseline_prediction_sha256": "17090dfd68e4ae83affdc7ce6b3ece0488c50b7557d8cbd56e14377827e4452f",
+          "contexts_sha256": "d30c09e3f2fe209d9051bcf5e1736fc4c8328266ac12a3f142cfaee740570f5e"
+        },
+        {
+          "sample_id": "test:1074",
+          "sample_index": 1074,
+          "context_count": 3,
+          "node_counts": [
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "dc450a093711741a1c4275d5ec8b14ec9b41772b9c9d313cffd2978ea3e7084c",
+          "baseline_prediction_sha256": "7848bba6077c542ed14d6fa0d5cae4afed9e491455f77638f5e57d9fb7c5fd39",
+          "contexts_sha256": "2a92e0f3137813c64c9213dcae5e599edf4e5427067190182bc7444279754a28"
+        },
+        {
+          "sample_id": "test:1611",
+          "sample_index": 1611,
+          "context_count": 3,
+          "node_counts": [
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "4e75d04566acbde8ba1d52970fa8c48ff4e0c9e5abf4e7dfe0cd768e0c780b62",
+          "baseline_prediction_sha256": "58a04b3a7474c4c328ec57bf442b18c8761b7eac68cbf5565fe513c8d3ffb12d",
+          "contexts_sha256": "be9277ee95a87b5d578db4587162cac3a6ffcc67e61e4576ef255b9acaa36133"
+        },
+        {
+          "sample_id": "test:2148",
+          "sample_index": 2148,
+          "context_count": 3,
+          "node_counts": [
+            7,
+            7,
+            7
+          ],
+          "graph_shapes": [
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            },
+            {
+              "adaptive": [
+                7,
+                7
+              ],
+              "effective": [
+                7,
+                7
+              ]
+            }
+          ],
+          "graph_core_sha256": "3904ac2f3a26d1ce450731cdb1e19a6887f1a80ce6d180fb06287c4be97e1bde",
+          "baseline_prediction_sha256": "1de4785752dd0c1cdd842ce4599522ff1190d12d65c3d999807526f5ffb8bbc0",
+          "contexts_sha256": "a9fb255f707b070a6f866d356cab40299d3693d39e91bca492e7d77d1815d248"
+        }
+      ],
+      "relation_core_sha256": "caab887edb9412f2c963ffd9d580525ce6785e09179b0dd587c2380a97a453ed"
+    },
+    "MTGNN": {
+      "source": "tests/fixtures/mtgnn_exchange_session_v1.json",
+      "source_sha256": "f177bd7015b8d2c1d9bbc2bbbdac5038ecfc7ae0a9399bbeb921f4df45bef687",
+      "sample_count": 1,
+      "relation_count": 1,
+      "samples": [
+        {
+          "sample_id": "test:0",
+          "sample_index": 0,
+          "context_count": 1,
+          "node_counts": [
+            8
+          ],
+          "graph_shapes": [
+            {
+              "learned_adjacency": [
+                8,
+                8
+              ],
+              "transpose_adjacency": [
+                8,
+                8
+              ]
+            }
+          ],
+          "graph_core_sha256": "02da10a3e68b8dbadb687b4ab9f8e02460cec7d76ccc6a5bf5ab2f71c45a62a6",
+          "baseline_prediction_sha256": "9e4189148ca2f06624b34d478180d7db51c7b2369f4eaead4a8f3f547dc97946",
+          "contexts_sha256": "607b8d71af6836196474265a2d292cba3825adad507bc68337296e32e7413b8a"
+        }
+      ],
+      "relation_core_sha256": "8f16026b76fcf13e219734eb7756f17995fb195d727946156ad0f59a19cc44fa"
+    }
+  }
+}

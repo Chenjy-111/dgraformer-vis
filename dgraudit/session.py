@@ -1,3 +1,5 @@
+# LEGACY SESSION V1 COMPATIBILITY ONLY.
+# Not used by the current Session v2 formal inference path.
 from __future__ import annotations
 
 import copy
@@ -261,6 +263,7 @@ def _common_session(
             "created_at": timestamp,
             "generator": {"name": GENERATOR_NAME, "version": GENERATOR_VERSION, "run_id": run_id},
             "source_mode": "offline_audit",
+            "inference_classification": "Legacy single-case / legacy inference session",
             "title": config.get("session", {}).get("title"),
         },
         "model": model,
