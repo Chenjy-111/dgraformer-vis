@@ -1,29 +1,21 @@
-import { useEffect } from 'react';
 import { useDemoStore } from '@/store/useDemoStore';
 import { AttentionHeatmap } from './charts/AttentionHeatmap';
 import { ForecastChart } from './ForecastChart';
 import { getScale, headMatrix, patchRange, attentionConcentration, strongestLink } from '@/engine/attentionAnalysis';
-import { buildPatchExplanation } from '@/engine/explanationEngine';
 import type { ScaleId } from '@/types/demo';
 import { AlertCircle, ChevronDown, Merge, MousePointer2 } from 'lucide-react';
 
 const SCALE_NOTE: Record<ScaleId, string> = {
-  1: 'Scale 1 — short-term local fluctuation (fine patches).',
-  2: 'Scale 2 — periodic patterns (medium patches).',
-  3: 'Scale 3 — long-range trend (coarse patches).',
+  1: 'Scale 1 — exported attention over the finest stored patch resolution.',
+  2: 'Scale 2 — exported attention over the intermediate stored patch resolution.',
+  3: 'Scale 3 — exported attention over the coarsest stored context.',
 };
 
 export function MultiScaleAttentionView() {
   const s = useDemoStore();
   const sample = s.sample;
 
-  useEffect(() => {
-    if (sample) s.setExplanation(buildPatchExplanation({ sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head }, 0, 0));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sample, s.target, s.scale, s.head, s.depth]);
-
   if (!sample) return null;
-  const ctx = { sample, windowIdx: s.windowIdx, target: s.target, depth: s.depth, scale: s.scale, head: s.head };
   const sc = getScale(sample, s.scale);
   const scaleSpan = s.scale === 3 ? (sample.history[0]?.length ?? 96) : sc.patchSteps;
   const mat = headMatrix(sc, s.head, s.target);
@@ -72,7 +64,7 @@ export function MultiScaleAttentionView() {
             const visibleCount = Math.min(level.nPatches, 24);
             return <div key={scaleId}>
               <button onClick={() => s.set('scale', scaleId)} className={`grid w-full grid-cols-[125px_1fr_125px] items-center gap-3 rounded-lg border p-3 text-left transition ${active ? 'border-[#596bb4] bg-[#f0f2fb] shadow-sm' : 'border-line bg-white hover:border-[#9ba7d4]'}`}>
-                <div><div className={`text-[12px] font-semibold ${active ? 'text-[#4858a8]' : 'text-ink-700'}`}>Scale {scaleId}</div><div className="mt-0.5 text-[10px] text-ink-400">{scaleId === 1 ? 'local fluctuations' : scaleId === 2 ? 'periodic patterns' : 'long-range trend'}</div></div>
+                <div><div className={`text-[12px] font-semibold ${active ? 'text-[#4858a8]' : 'text-ink-700'}`}>Scale {scaleId}</div><div className="mt-0.5 text-[10px] text-ink-400">{scaleId === 1 ? 'fine resolution' : scaleId === 2 ? 'intermediate resolution' : 'coarse context'}</div></div>
                 <div className="flex items-center gap-1 overflow-hidden">
                   {Array.from({ length: visibleCount }, (_, i) => <span key={i} className={`h-7 min-w-[6px] flex-1 rounded-sm border transition ${active && s.hoveredPatch && (i === s.hoveredPatch.q || i === s.hoveredPatch.k) ? 'border-[#d6453b] bg-[#f7d9d6]' : active ? 'border-[#7f8bc3] bg-[#cdd3ef]' : 'border-[#cbd3de] bg-[#e7ebf0]'}`} title={scaleId === 3 ? `Scale 3 covers the full ${levelSpan}-step context` : `Patch ${i + 1}: ${levelSpan} steps`} />)}
                 </div>
@@ -93,7 +85,6 @@ export function MultiScaleAttentionView() {
           onClickCell={(q, k) => {
             s.set('hoveredPatch', { q, k });
             s.log('Click attention cell', undefined, `scale ${s.scale} P${q + 1}→P${k + 1}`);
-            s.setExplanation(buildPatchExplanation(ctx, q, k));
           }}
           size={Math.min(380, 120 + sc.nPatches * 24)}
           title={`Scale ${s.scale} · head ${s.head}`}
@@ -113,8 +104,7 @@ export function MultiScaleAttentionView() {
 
         <div className="mt-3 max-w-lg rounded-md border border-line bg-paper p-3 text-[12.5px] text-ink-500">
           Strongest link in this head: <span className="font-mono text-ink-700">P{strong.q + 1} → P{strong.k + 1}</span>{' '}
-          (weight {strong.w.toFixed(2)}). Darker cells mean a query patch (row) draws more from a key patch (column).
-          Compare heads and scales to see how local vs. periodic vs. trend evidence is combined.
+          (weight {strong.w.toFixed(2)}). Darker cells encode larger stored attention values. Attention weight is a descriptive model-internal quantity, not intervention evidence or a guarantee of prediction influence.
         </div>
       </div>
     </div>

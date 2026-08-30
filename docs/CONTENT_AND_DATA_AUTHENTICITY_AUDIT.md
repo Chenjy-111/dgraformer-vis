@@ -11,19 +11,19 @@
 
 ## B. 模拟、合成与占位内容
 
-- `src/data/paperMetrics.ts`：`SYNTH_FACTORS` 为 PatchTST、TimesNet、DLinear、Crossformer 生成 illustrative 指标。这些不是已核验实验结果，必须在正式科研结果界面禁用或删除。当前标记：`blocked_from_scientific_evidence`。
+- `src/data/paperMetrics.ts`：已从投稿版删除；synthetic baseline 不再存在可调用路径。当前标记：`removed_from_submission_build`。
 - `scripts/export_demo_data.py`：模型导入、数据加载和推理为 TODO；脚本不可执行完成导出。当前标记：`placeholder_exporter`。
 - `public/data/samples/*.json`：history、ground truth、prediction、动态图和注意力已与真实 NPY 逐值匹配。当前标记：`verified_against_saved_run_arrays`；尚未完成 checkpoint 重新 forward。
 - `public/data/metrics.json` 与 `src/data/paperMetrics.ts`：论文转录指标未附表格页码、版本哈希或原始操作数追踪。只能视为文献转录，不能混同本地真实运行结果。
 
 ## C. 启发式与推测性内容
 
-- `src/engine/errorDiagnosis.ts::diagnose`：依据固定阈值将误差、远期步、图变化、稀疏度和注意力扩散组合成诊断线索；属于指示书禁止的启发式原因猜测。当前标记：`must_disable_before_release`。
-- `src/engine/graphAnalysis.ts::recomputeTopK`：根据 UI 滑杆对已导出图执行二次 Top-K，不一定等于模型实际 Top-K。不得作为真实模型图证据。当前标记：`descriptive_ui_only`。
-- `src/engine/graphAnalysis.ts::computePriorC`：在浏览器从 history 重算余弦矩阵，不是已证明的 DGraFormer 原始图阶段。当前标记：`descriptive_ui_only`。
-- `src/engine/graphAnalysis.ts::classifyNodeRole`：以固定度数阈值生成 hub/sink/peripheral 标签。只能标为候选描述，不能称为重要性或因果性。当前标记：`must_relabel_or_disable`。
-- `src/engine/explanationEngine.ts`：包含“useful”“important”“why it hurts”“largest degradation”等解释性模板，以及将高权重/Top-K 与模型用途直接联系的表述。没有干预与匹配对照支持时不得作为科学结论。当前标记：`must_rewrite_after_real_evidence`。
-- `src/components/ErrorDiagnosisView.tsx` 与 `src/components/ExplanationModeGallery.tsx`：向用户展示上述诊断提示。当前标记：`must_disable_before_release`。
+- `src/engine/errorDiagnosis.ts::diagnose`：历史模块保留在源码中以避免覆盖既有工作，但投稿版无任何组件导入或调用它。预测页不再将误差峰值映射到图窗口或 MSGNet 尺度。当前标记：`unreachable_in_submission_ui`。
+- 浏览器二次科学 Top-K：`recomputeTopK` 已删除。3D 滑杆只在模型已保留的 artifact 边集合内控制可见数量和显示阈值，不改写 `kept`，不生成新图，也不影响预测、干预、对照或统计结果。当前标记：`visual_visibility_filter_only`。
+- history prior：`computePriorC` 已删除；静态先验只从保存的 artifact 字段读取。当前标记：`removed`。
+- 节点角色：`classifyNodeRole` 已删除；投稿版不生成 hub/sink/peripheral 角色。当前标记：`removed`。
+- `src/engine/explanationEngine.ts`：已删除；“useful”“important”“why it hurts”等未经干预支持的解释模板不再有可调用路径。当前标记：`removed`。
+- `ErrorDiagnosisView.tsx`、`TopKFocusingView.tsx` 与 `ExplanationModeGallery.tsx`：已从投稿版删除。右侧栏已改为只读 artifact 字段，不生成解释或重要性判断。当前标记：`removed_or_replaced`。
 
 ## D. 前端派生值
 

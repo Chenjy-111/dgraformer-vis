@@ -1,0 +1,14 @@
+{
+  "run_id": "4e3e6fd4970fedbf3ddc91e2f43db952d347afec9f82028a96c45cc0e1547bef",
+  "status": "complete",
+  "model": "MSGNet",
+  "dataset": "ETTh1",
+  "intervention": "same directed edge removed simultaneously from every MSGNet scale before MixHop propagation",
+  "control_protocol": "within-sample all-other-directed-edge matched controls",
+  "multiple_comparison_correction": "Benjamini-Hochberg over all global cases",
+  "config_sha256": "d15a07afc2ad20e05218a51e8552106938f76aecfa72ee34b17d3f7314c00156",
+  "checkpoint_sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d",
+  "case_count": 210,
+  "bh_supported_count": 0,
+  "notice": "Checkpoint-internal intervention evidence; not real-world causality."
+}

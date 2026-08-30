@@ -1,0 +1,60 @@
+{
+  "schema_version": "dgrainsight.audit_config.v1",
+  "adapter": "dgraformer",
+  "source_root": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main",
+  "checkpoint": {
+    "path": "C:/Users/cj/Desktop/DGraFormer-main/DGraFormer-main/checkpoints/test_DGraFormer_ETTh1.csv_sl96_ll48_pl96_nw24_wb0_dgra30_dgcn1_wr0.5_ml2_dm16_nh4_el1_df128_ebtimeF_test_0/checkpoint.pth"
+  },
+  "dataset": {
+    "name": "ETTh1",
+    "path": "C:/Users/cj/Downloads/iTransformer_datasets/iTransformer_datasets/ETT-small/ETTh1.csv",
+    "sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+    "format": "ett_hour",
+    "date_column": "date",
+    "variables": ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"],
+    "features": "M",
+    "target": "OT",
+    "frequency": "h",
+    "seq_len": 96,
+    "label_len": 48,
+    "pred_len": 96
+  },
+  "audit": {
+    "split": "test",
+    "samples": [0],
+    "relations": [
+      {
+        "sample": 0,
+        "context": {"type": "window", "index": 0},
+        "source": 0,
+        "target": 4,
+        "include_broader_context": true
+      }
+    ]
+  },
+  "adapter_config": {
+    "random_seed": 202501,
+    "current_epoch": 5,
+    "model": {
+      "numpoint_win": 24,
+      "w_bias": 0,
+      "d_graph": 30,
+      "d_gcn": 1,
+      "w_ratio": 0.5,
+      "mp_layers": 2,
+      "predictor_dropout": 0.0,
+      "patch_len": 8,
+      "stride": 8,
+      "revin": 1,
+      "affine": 0,
+      "subtract_last": 0,
+      "d_model": 16,
+      "n_heads": 4,
+      "e_layers": 1,
+      "d_ff": 128,
+      "dropout": 0.05,
+      "embed": "timeF",
+      "activation": "gelu"
+    }
+  }
+}

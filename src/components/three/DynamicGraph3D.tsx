@@ -7,8 +7,8 @@ import { useDemoStore } from '@/store/useDemoStore';
 
 interface Props {
   variables: string[]; windows: GraphEdge[][]; activeWindow: number; target: number;
-  dynamicWindows: GraphEdge[][]; keepRatio: number;
-  threshold: number; spacing: number; selectedNode: number | null;
+  dynamicWindows: GraphEdge[][]; displayRatio: number;
+  displayThreshold: number; spacing: number; selectedNode: number | null;
   selectedEdge: { source: number; target: number } | null;
   onSelectWindow: (index: number) => void; onSelectNode: (index: number) => void;
   onSelectEdge: (edge: GraphEdge, windowIndex: number) => void;
@@ -22,19 +22,16 @@ export function DynamicGraph3D(props: Props) {
   const setPruningDetail = useDemoStore((s) => s.set);
   const [cameraMode, setCameraMode] = useState<CameraMode>('focus');
   const current = props.windows[props.activeWindow] ?? [];
-  // The threshold is a shared visibility condition for both sides of the
-  // comparison. Zero-weight entries are absent edges and are never rendered.
-  const candidates = current.filter((e) => e.weight > 0 && Math.abs(e.weight) >= props.threshold);
-  const retained = candidates.filter((e) => e.kept);
-  const mean = retained.length ? retained.reduce((n, e) => n + Math.abs(e.weight), 0) / retained.length : 0;
-  const strongest = [...retained].sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight))[0];
+  const displayed = displayEdges(current, props.displayRatio, props.displayThreshold);
+  const mean = current.length ? current.reduce((n, e) => n + Math.abs(e.weight), 0) / current.length : 0;
+  const strongest = [...current].sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight))[0];
 
   return (
     <div className="relative h-[920px] w-full overflow-hidden bg-[#eef3f8]">
       <div className={`absolute left-[330px] top-20 z-10 flex items-start justify-between rounded-xl border border-white/70 bg-white/70 p-4 shadow-sm backdrop-blur-md transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#718096]">Dynamic correlation laboratory</div>
-          <div className="mt-1 flex items-baseline gap-2"><span className="text-lg font-semibold text-[#233047]">Window {props.activeWindow + 1}</span><span className="text-[11px] text-[#7b879a]">{retained.length} essential edges · μ {mean.toFixed(3)}</span></div>
+          <div className="mt-1 flex items-baseline gap-2"><span className="text-lg font-semibold text-[#233047]">Window {props.activeWindow + 1}</span><span className="text-[11px] text-[#7b879a]">{current.length} model-retained · {displayed.length} displayed · μ {mean.toFixed(3)}</span></div>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => setPruningDetail('pruningDetail', !detailMode)} className={`rounded-lg border px-3 py-1.5 text-[11px] font-semibold shadow-sm transition ${detailMode ? 'border-[#16827f] bg-[#16827f] text-white' : 'border-[#b9c7d5] bg-white/90 text-[#40516a] hover:border-[#16827f]'}`}>{detailMode ? 'Exit pruning detail' : 'Expand pruning process'}</button>
@@ -46,14 +43,15 @@ export function DynamicGraph3D(props: Props) {
 
       <div className="pointer-events-none absolute bottom-20 left-[330px] z-10 w-[230px] rounded-lg border border-white/80 bg-white/88 p-3 shadow-[0_8px_28px_rgba(42,55,78,.12)] backdrop-blur-md">
         <div className="mb-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[#758196]">Current graph evidence</div>
-        <Metric label="Retained / candidate" value={`${retained.length} / ${candidates.length}`} />
-        <Metric label="Retention rate" value={`${candidates.length ? Math.round(retained.length / candidates.length * 100) : 0}%`} />
-        <Metric label="Strongest relation" value={strongest ? `${props.variables[strongest.source]} → ${props.variables[strongest.target]}` : '—'} accent />
+        <Metric label="Model-retained edges" value={String(current.length)} />
+        <Metric label="Currently displayed" value={String(displayed.length)} />
+        <Metric label="Highest stored weight" value={strongest ? `${props.variables[strongest.source]} → ${props.variables[strongest.target]}` : '—'} accent />
       </div>
       <div className={`pointer-events-none absolute bottom-20 z-10 rounded-lg border border-white/80 bg-white/85 px-3 py-2 text-[10.5px] leading-5 text-[#718096] shadow-sm backdrop-blur transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
-        <div><i className="mr-2 inline-block h-1.5 w-5 rounded bg-[#16827f]" />essential correlation</div>
-        <div><i className="mr-2 inline-block h-px w-5 bg-[#aeb8c6]" />filtered correlation</div>
-        <div className="mt-1 border-t border-[#e5e9ef] pt-1">Drag to orbit · wheel to zoom · select graph elements</div>
+        <div><i className="mr-2 inline-block h-1.5 w-5 rounded bg-[#16827f]" />displayed model-retained edge</div>
+        <div><i className="mr-2 inline-block h-px w-5 bg-[#aeb8c6]" />excluded by stored model mask</div>
+        <div className="mt-1 border-t border-[#e5e9ef] pt-1">Display filtering changes visibility only</div>
+        <div>Drag to orbit · wheel to zoom · select graph elements</div>
       </div>
 
       <div className={`absolute bottom-6 left-[330px] z-20 transition-all ${inspectorCollapsed ? 'right-12' : 'right-[370px]'}`}>
@@ -122,28 +120,29 @@ function PruningDetail(props: Props) {
   }), [props.variables]);
   const dynamic = props.dynamicWindows[props.activeWindow] ?? [];
   const sparse = props.windows[props.activeWindow] ?? [];
-  const candidates = dynamic.filter((e) => e.weight > 0 && Math.abs(e.weight) >= props.threshold).length;
-  const retained = sparse.filter((e) => e.weight > 0 && Math.abs(e.weight) >= props.threshold && e.kept).length;
+  const candidates = dynamic.filter((e) => e.weight > 0).length;
+  const retained = sparse.length;
+  const retainedRatio = candidates ? retained / candidates : 0;
   return <group position={[0, -.15, 0]}>
-    <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel={`BEFORE · ${candidates} candidate edges`} stageTone="before" filteredVisible />
-    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel={`AFTER · ${retained} retained edges`} stageTone="after" />
+    <WindowGraph {...props} edges={dynamic} windowIndex={props.activeWindow} active positionX={-3.8} positions={positions} stageLabel={`BEFORE · ${candidates} positive entries`} stageTone="before" filteredVisible bypassDisplayFilter />
+    <WindowGraph {...props} edges={sparse} windowIndex={props.activeWindow} active positionX={3.8} positions={positions} stageLabel={`AFTER · ${retained} model-retained edges`} stageTone="after" bypassDisplayFilter />
     <Billboard position={[0, .4, .8]}><Html center distanceFactor={8}><div className="w-[190px] rounded-xl border border-[#c9d4df] bg-white/95 p-4 text-center shadow-xl backdrop-blur">
-      <div className="text-[9px] font-semibold uppercase tracking-[.16em] text-[#77869a]">Essential correlation focusing</div>
+      <div className="text-[9px] font-semibold uppercase tracking-[.16em] text-[#77869a]">Stored model sparsification</div>
       <div className="my-2 font-serif text-[18px] text-[#26364d]">Ẽ<sub>w</sub> = M<sub>w</sub> ⊙ E<sub>w</sub></div>
-      <div className="h-2 overflow-hidden rounded-full bg-[#e5eaf0]"><div className="h-full bg-[#16827f] transition-all duration-500" style={{ width: `${props.keepRatio * 100}%` }} /></div>
-      <div className="mt-1.5 text-[10px] text-[#6f7d90]">Top {Math.round(props.keepRatio * 100)}% weights retained</div>
-      <div className="mt-2 grid grid-cols-3 gap-1 border-t border-[#e3e8ee] pt-2 text-[9px]"><span><b className="block text-[#344158]">{candidates}</b>candidate</span><span><b className="block text-[#a06052]">{candidates - retained}</b>pruned</span><span><b className="block text-[#16827f]">{retained}</b>retained</span></div>
+      <div className="h-2 overflow-hidden rounded-full bg-[#e5eaf0]"><div className="h-full bg-[#16827f] transition-all duration-500" style={{ width: `${retainedRatio * 100}%` }} /></div>
+      <div className="mt-1.5 text-[10px] text-[#6f7d90]">Exact retained state from the checkpoint-replayed artifact</div>
+      <div className="mt-2 grid grid-cols-3 gap-1 border-t border-[#e3e8ee] pt-2 text-[9px]"><span><b className="block text-[#344158]">{candidates}</b>positive</span><span><b className="block text-[#a06052]">{candidates - retained}</b>excluded</span><span><b className="block text-[#16827f]">{retained}</b>retained</span></div>
       <div className="mt-3 flex items-center justify-center gap-1 text-[10px] font-semibold text-[#16827f]"><span>rank</span><span>→</span><span>mask</span><span>→</span><span>propagate</span></div>
     </div></Html></Billboard>
     {positions.map((p, i) => <Line key={i} points={[[-3.8 + p.x, p.y, -.05], [3.8 + p.x, p.y, -.05]]} color={i === props.target ? '#cf503d' : '#b9c5d2'} lineWidth={i === props.target ? 1 : .45} dashed dashSize={.08} gapSize={.1} transparent opacity={i === props.target ? .28 : .1} />)}
   </group>;
 }
 
-function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, stageTone = 'normal', filteredVisible = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; stageTone?: 'normal' | 'before' | 'after'; filteredVisible?: boolean }) {
+function WindowGraph({ edges, windowIndex, active, positionX, positions, stageLabel, stageTone = 'normal', filteredVisible = false, bypassDisplayFilter = false, ...props }: Props & { edges: GraphEdge[]; windowIndex: number; active: boolean; positionX: number; positions: THREE.Vector3[]; stageLabel?: string; stageTone?: 'normal' | 'before' | 'after'; filteredVisible?: boolean; bypassDisplayFilter?: boolean }) {
   const [hoverNode, setHoverNode] = useState<number | null>(null);
-  const visible = filteredVisible
-    ? edges.filter((e) => e.weight > 0 && Math.abs(e.weight) >= props.threshold)
-    : edges.filter((e) => e.weight > 0 && Math.abs(e.weight) >= props.threshold && e.kept);
+  const visible = bypassDisplayFilter
+    ? edges.filter((edge) => edge.weight > 0)
+    : displayEdges(edges.filter((edge) => edge.kept), props.displayRatio, props.displayThreshold);
   return <group
     position={[positionX, 0, active ? .35 : -.4]}
     rotation={[THREE.MathUtils.degToRad(-4), THREE.MathUtils.degToRad(-27), THREE.MathUtils.degToRad(-1.5)]}
@@ -177,9 +176,18 @@ function CorrelationEdge({ edge, variables, active, revealPruned = false, select
       <div className="font-semibold text-[#26364d]">{variables[edge.source]} → {variables[edge.target]}</div>
       <div className="mt-1 flex justify-between gap-4 text-[#6f7d90]"><span>Correlation</span><b className="font-mono text-[#26364d]">{edge.weight.toFixed(4)}</b></div>
       <div className="flex justify-between gap-4 text-[#6f7d90]"><span>Weight rank</span><b className="text-[#26364d]">#{edge.rank}</b></div>
-      <div className={`mt-1.5 rounded px-1.5 py-1 text-center font-semibold ${edge.kept ? 'bg-[#e4f4f1] text-[#167a77]' : 'bg-[#faeae6] text-[#a64f3d]'}`}>{edge.kept ? 'Retained for message passing' : 'Pruned as non-essential'}</div>
+      <div className={`mt-1.5 rounded px-1.5 py-1 text-center font-semibold ${edge.kept ? 'bg-[#e4f4f1] text-[#167a77]' : 'bg-[#faeae6] text-[#a64f3d]'}`}>{edge.kept ? 'Retained by the stored model mask' : 'Excluded by the stored model mask'}</div>
     </div></Html></Billboard>}
   </group>;
+}
+
+function displayEdges(edges: GraphEdge[], ratio: number, threshold: number) {
+  const eligible = edges
+    .filter((edge) => edge.weight > 0 && Math.abs(edge.weight) >= threshold)
+    .sort((left, right) => Math.abs(right.weight) - Math.abs(left.weight));
+  if (eligible.length === 0) return [];
+  const count = Math.max(1, Math.ceil(eligible.length * Math.min(1, Math.max(0, ratio))));
+  return eligible.slice(0, count);
 }
 
 function Node({ p, name, active, target, selected, hovered, onHover, onClick }: { p: THREE.Vector3; name: string; active: boolean; target: boolean; selected: boolean; hovered: boolean; onHover: (v: boolean) => void; onClick: () => void }) {

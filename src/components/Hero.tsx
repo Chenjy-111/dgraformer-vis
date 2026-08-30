@@ -2,13 +2,19 @@ import { ArrowRight, FlaskConical, PlayCircle } from 'lucide-react';
 import { Button } from './ui/Button';
 import { useWorkflowStore } from '@/store/useWorkflowStore';
 import { useDemoStore } from '@/store/useDemoStore';
+import { useAuditSessionStore } from '@/store/useAuditSessionStore';
 
 export function Hero() {
   const runGuidedExample = useWorkflowStore(s => s.runGuidedExample);
   const testRelation = useWorkflowStore(s => s.testRelation);
   const setDemo = useDemoStore(s => s.set);
+  const imported = useAuditSessionStore(s => s.source === 'imported');
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   const loadAuditedExample = (openEvidence: boolean) => {
+    if (imported) {
+      scrollTo(openEvidence ? 'validation-workspace' : 'discovery-workspace');
+      return;
+    }
     runGuidedExample();
     setDemo('sampleId', 0);
     setDemo('windowIdx', 0);
@@ -25,8 +31,8 @@ export function Hero() {
         <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-ink-500">DGraInsight lets forecasting researchers discover a candidate learned relation, carry that exact selection into a checkpoint-replayed graph intervention, compare the response with matched controls, and obtain a provenance-backed, bounded evidence record.</p>
         <div className="mt-7 flex flex-wrap gap-2.5">
           <Button variant="primary" icon={<ArrowRight size={15}/>} onClick={() => scrollTo('discovery-workspace')}>Explore graph patterns</Button>
-          <Button variant="outline" icon={<FlaskConical size={15}/>} onClick={() => loadAuditedExample(true)}>Inspect intervention evidence</Button>
-          <Button variant="outline" icon={<PlayCircle size={15}/>} onClick={() => loadAuditedExample(false)}>Start guided example</Button>
+          <Button variant="outline" icon={<FlaskConical size={15}/>} onClick={() => loadAuditedExample(true)}>{imported ? 'Inspect imported evidence' : 'Inspect intervention evidence'}</Button>
+          <Button variant="outline" icon={<PlayCircle size={15}/>} onClick={() => loadAuditedExample(false)}>{imported ? 'Explore imported session' : 'Start guided example'}</Button>
         </div>
       </div>
       <div className="card p-6"><div className="eyebrow">The reviewer question</div><p className="mt-3 font-serif text-[25px] leading-snug text-[#263b59]">Does a learned graph relation actually matter to the model's forecast?</p><div className="mt-6 grid grid-cols-3 gap-2 text-center text-[11px] font-semibold"><div className="rounded-lg bg-[#edf7f6] p-3 text-accent">Discover</div><div className="rounded-lg bg-[#eef2f7] p-3 text-[#263b59]">Test</div><div className="rounded-lg bg-[#f8f2e8] p-3 text-amber-800">Validate</div></div><p className="mt-4 text-[11px] leading-relaxed text-ink-400">The output describes the tested checkpoint's behavior. It does not establish a causal relationship between real-world variables.</p></div>

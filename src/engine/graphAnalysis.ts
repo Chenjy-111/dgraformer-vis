@@ -2,63 +2,19 @@ import type { GraphEdge, SampleData, WindowData } from '@/types/demo';
 
 export function activeMatrix(
   win: WindowData,
-  source: 'static' | 'dynamic' | 'sparse' | 'difference',
-  priorC?: number[][]
+  source: 'static' | 'dynamic' | 'sparse' | 'difference'
 ): number[][] {
-  if (source === 'static') return priorC ?? win.static_graph;
+  if (source === 'static') return win.static_graph;
   // Canonical exports store the actual final self-looped, row-normalized graph
   // used by message passing in sparse_graph.
   if (source === 'sparse') return win.sparse_graph;
   if (source === 'difference') {
-    const base = priorC ?? win.static_graph;
     const N = win.dynamic_graph.length;
     return Array.from({ length: N }, (_, i) =>
-      Array.from({ length: N }, (_, j) => Math.round((win.dynamic_graph[i][j] - base[i][j]) * 1000) / 1000)
+      Array.from({ length: N }, (_, j) => Math.round((win.dynamic_graph[i][j] - win.static_graph[i][j]) * 1000) / 1000)
     );
   }
   return win.dynamic_graph;
-}
-
-/** Cosine similarity matrix from variable-wise history sequences. */
-export function computePriorC(history: number[][]): number[][] {
-  const N = history.length;
-  const T = history[0]?.length ?? 0;
-  const norms = history.map((row) => {
-    let sumSq = 0;
-    for (let t = 0; t < T; t++) sumSq += row[t] * row[t];
-    return Math.sqrt(sumSq) || 1e-8;
-  });
-  const result: number[][] = Array.from({ length: N }, () => Array(N).fill(0));
-  for (let i = 0; i < N; i++) {
-    for (let j = 0; j < N; j++) {
-      if (i === j) { result[i][j] = 1; continue; }
-      let dot = 0;
-      for (let t = 0; t < T; t++) dot += history[i][t] * history[j][t];
-      result[i][j] = dot / (norms[i] * norms[j]);
-    }
-  }
-  return result;
-}
-
-/**
- * Recompute the kept/filtered split for the UI pipeline:
- * remove zero edges -> apply threshold -> apply Top-K within that result.
- */
-export function recomputeTopK(edges: GraphEdge[], keepRatio: number, threshold = 0): GraphEdge[] {
-  // Zero entries are absent correlations, not candidate edges. Including them in
-  // K makes every positive edge survive in sparse windows and can even mark
-  // zero-weight entries as "kept".
-  const candidates = edges
-    .filter((e) => e.weight > 0 && Math.abs(e.weight) >= threshold)
-    .sort((a, b) => b.weight - a.weight);
-  const k = candidates.length === 0
-    ? 0
-    : Math.max(1, Math.round(candidates.length * keepRatio));
-  const kept = new Set(candidates.slice(0, k).map((e) => `${e.source}-${e.target}`));
-  return edges.map((e) => ({
-    ...e,
-    kept: e.weight > 0 && Math.abs(e.weight) >= threshold && kept.has(`${e.source}-${e.target}`),
-  }));
 }
 
 export function edgesForThreshold(edges: GraphEdge[], threshold: number): GraphEdge[] {
@@ -87,12 +43,4 @@ export function edgeStabilityAcrossWindows(sample: SampleData, source: number, t
     if (w.kept_edges.some((e) => e.source === source && e.target === target)) kept++;
   }
   return Math.round((kept / sample.windows.length) * 100) / 100;
-}
-
-export function classifyNodeRole(edges: GraphEdge[], node: number, N: number): string {
-  const deg = nodeDegree(edges, node);
-  if (deg.out === 0 && deg.in === 0) return 'isolated (no retained correlations in this window)';
-  if (deg.out >= Math.max(2, N / 3)) return 'hub (propagates information to many variables)';
-  if (deg.in >= Math.max(2, N / 3)) return 'sink (aggregates information from many variables)';
-  return 'peripheral (a few retained correlations)';
 }

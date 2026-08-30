@@ -1,0 +1,290 @@
+{
+  "schema_version": "dgrainsight.adapter_validation.v1",
+  "status": "ready_for_audit",
+  "adapter": {
+    "id": "msgnet",
+    "name": "MSGNetAdapter",
+    "model": "MSGNet",
+    "native_context_type": "scale"
+  },
+  "dataset": {
+    "name": "ETTh1",
+    "sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+    "path": "C:\\Users\\cj\\Downloads\\iTransformer_datasets\\iTransformer_datasets\\ETT-small\\ETTh1.csv"
+  },
+  "checkpoint": {
+    "sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d",
+    "path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\artifacts\\msgnet_checkpoints\\ETTh1_96_96_MSGNet_ETTh1_ftM_sl96_ll48_pl96_dm32_nh8_el1_dl1_df64_fc3_ebtimeF_dtTrue_Exp_0\\checkpoint.pth"
+  },
+  "config_path": "C:\\Users\\cj\\Desktop\\files (1)\\dgraformer-vis\\configs\\local_audit_msgnet_etth1.json",
+  "config_sha256": "5195e710523faf5301e429ed89585228cefc036d124ea33376015419d84e3f98",
+  "checks": [
+    {
+      "id": "V01",
+      "name": "config_and_adapter",
+      "label": "Config and official adapter",
+      "status": "pass",
+      "code": null,
+      "message": "Config and official adapter passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "adapter": "MSGNetAdapter",
+        "model": "MSGNet",
+        "native_context_type": "scale"
+      }
+    },
+    {
+      "id": "V02",
+      "name": "input_existence",
+      "label": "Input files located and hashed",
+      "status": "pass",
+      "code": null,
+      "message": "Input files located and hashed passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "source_root": "C:\\Users\\cj\\Desktop\\MSGNet-main",
+        "dataset_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+        "checkpoint_sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d"
+      }
+    },
+    {
+      "id": "V03",
+      "name": "dataset_compatibility",
+      "label": "Dataset schema validated",
+      "status": "pass",
+      "code": null,
+      "message": "Dataset schema validated passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "format": "ett_hour",
+        "columns": [
+          "date",
+          "HUFL",
+          "HULL",
+          "MUFL",
+          "MULL",
+          "LUFL",
+          "LULL",
+          "OT"
+        ],
+        "row_count": 17420
+      }
+    },
+    {
+      "id": "V04",
+      "name": "sample_construction",
+      "label": "Samples constructed",
+      "status": "pass",
+      "code": null,
+      "message": "Samples constructed passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "samples": [
+          {
+            "x_shape": [
+              96,
+              7
+            ],
+            "y_shape": [
+              144,
+              7
+            ],
+            "x_mark_shape": [
+              96,
+              4
+            ],
+            "y_mark_shape": [
+              144,
+              4
+            ],
+            "sample_index": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "V05",
+      "name": "checkpoint_loading",
+      "label": "Checkpoint loaded",
+      "status": "pass",
+      "code": null,
+      "message": "Checkpoint loaded passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "metadata": {
+          "adapter": "MSGNetAdapter",
+          "dataset": "ETTh1",
+          "seed": 2021,
+          "device": "cuda:0"
+        }
+      }
+    },
+    {
+      "id": "V06",
+      "name": "baseline_forward",
+      "label": "Baseline forward passed",
+      "status": "pass",
+      "code": null,
+      "message": "Baseline forward passed passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "samples": [
+          {
+            "sample_index": 0,
+            "prediction_shape": [
+              1,
+              96,
+              7
+            ],
+            "prediction_sha256": "3771fca7096b06852aeb7f9933f3405a7eb8de75f555be1f441f81da5e169cb8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V07",
+      "name": "native_graph_extraction",
+      "label": "Native graph extracted",
+      "status": "pass",
+      "code": null,
+      "message": "Native graph extracted passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "relations": [
+          {
+            "relation_index": 0,
+            "sample_index": 0,
+            "context_count": 3,
+            "requested_layer": 0,
+            "requested_scale": 2,
+            "period": 96,
+            "fft_strength": 31.90631675720215,
+            "scale_contribution": 3.298505782747818e-12,
+            "requested_weight": 0.8544130921363831,
+            "matrix_shape": [
+              7,
+              7
+            ]
+          }
+        ],
+        "sample_graph_count": 1
+      }
+    },
+    {
+      "id": "V08",
+      "name": "identity_intervention",
+      "label": "Identity intervention matched baseline",
+      "status": "pass",
+      "code": null,
+      "message": "Identity intervention matched baseline passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "contexts": [
+          {
+            "relation_index": 0,
+            "sample_index": 0,
+            "max_absolute_difference": 0.0
+          }
+        ],
+        "max_absolute_difference": 0.0,
+        "atol": 1e-06,
+        "rtol": 1e-05
+      }
+    },
+    {
+      "id": "V09",
+      "name": "intervention_availability",
+      "label": "Exact intervention hook available",
+      "status": "pass",
+      "code": null,
+      "message": "Exact intervention hook available passed.",
+      "expected": null,
+      "found": null,
+      "details": {
+        "replays": [
+          {
+            "relation_index": 0,
+            "sample_index": 0,
+            "scope": "local",
+            "prediction_shape": [
+              1,
+              96,
+              7
+            ],
+            "protocol": {
+              "type": "structural_edge_removal",
+              "layer": 0,
+              "scale_index": 2,
+              "source": 6,
+              "target": 4
+            }
+          },
+          {
+            "relation_index": 0,
+            "sample_index": 0,
+            "scope": "broader",
+            "prediction_shape": [
+              1,
+              96,
+              7
+            ],
+            "protocol": {
+              "type": "structural_edge_removal",
+              "layer": 0,
+              "scale_index": 2,
+              "source": 6,
+              "target": 4,
+              "scope": "global"
+            }
+          }
+        ],
+        "nonzero_effect_required": false
+      }
+    }
+  ],
+  "probe": {
+    "sample_index": 0,
+    "context_type": "scale",
+    "context_index": 2,
+    "source": 6,
+    "target": 4,
+    "include_broader_context": true,
+    "layer": 0
+  },
+  "measurements": {
+    "baseline_predictions": [
+      {
+        "sample_index": 0,
+        "prediction_shape": [
+          1,
+          96,
+          7
+        ],
+        "prediction_sha256": "3771fca7096b06852aeb7f9933f3405a7eb8de75f555be1f441f81da5e169cb8"
+      }
+    ],
+    "baseline_shape": [
+      1,
+      96,
+      7
+    ],
+    "baseline_prediction_sha256": "3771fca7096b06852aeb7f9933f3405a7eb8de75f555be1f441f81da5e169cb8",
+    "identity_max_absolute_difference": 0.0,
+    "identity_atol": 1e-06,
+    "identity_rtol": 1e-05
+  },
+  "runtime": {
+    "python": "3.9.13",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "device": "cuda:0"
+  },
+  "report_sha256": "61ac3e00a17930e2a969147bb9fd63e4372f7694437325782b8fd18ac4462c07"
+}

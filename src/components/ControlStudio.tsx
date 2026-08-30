@@ -1,42 +1,31 @@
 import { useEffect, type ReactNode } from 'react';
+import { Pause, Play, RotateCcw, FileDown } from 'lucide-react';
 import { useDemoStore } from '@/store/useDemoStore';
 import { DATASETS } from '@/data/datasets';
+import { download } from '@/engine/narrativeGenerator';
 import { Select } from './ui/Select';
 import { Slider } from './ui/Slider';
 import { Toggle } from './ui/Toggle';
 import { Tabs } from './ui/Tabs';
 import { Button } from './ui/Button';
-import { explanationToMarkdown, download, copyText } from '@/engine/narrativeGenerator';
-import type {
-  BaselineId,
-  GraphLayout,
-  GraphSource,
-  ScaleId,
-  ViewMode,
-} from '@/types/demo';
-import { Pause, Play, RotateCcw, Pin, FileDown, Copy, Compass } from 'lucide-react';
-
-const BASELINES: BaselineId[] = ['iTransformer', 'MSGNet', 'PatchTST', 'TimesNet', 'DLinear', 'Crossformer'];
+import type { GraphLayout, GraphSource, ScaleId, ViewMode } from '@/types/demo';
 
 export function ControlStudio() {
   const s = useDemoStore();
   const sample = s.sample;
   const nWindows = sample?.windows.length ?? 1;
 
-  // window evolution playback
   useEffect(() => {
     if (!s.playing) return;
     const id = setInterval(() => {
-      const st = useDemoStore.getState();
-      const next = (st.windowIdx + 1) % (st.sample?.windows.length ?? 1);
-      st.set('windowIdx', next);
+      const state = useDemoStore.getState();
+      state.set('windowIdx', (state.windowIdx + 1) % (state.sample?.windows.length ?? 1));
     }, 1100);
     return () => clearInterval(id);
   }, [s.playing]);
 
-  const variableOptions =
-    sample?.variables.map((v, i) => ({ value: i, label: v })) ??
-    DATASETS[s.dataset].variables.map((v, i) => ({ value: i, label: v }));
+  const variableOptions = sample?.variables.map((label, value) => ({ value, label }))
+    ?? DATASETS[s.dataset].variables.map((label, value) => ({ value, label }));
 
   return (
     <div className="space-y-5">
@@ -45,9 +34,9 @@ export function ControlStudio() {
         <Field label="Target variable">
           <Select<number>
             value={s.target}
-            onChange={(n) => {
-              s.set('target', n);
-              s.log('Change target', undefined, sample?.variables[n]);
+            onChange={(target) => {
+              s.set('target', target);
+              s.log('Change target', undefined, sample?.variables[target]);
             }}
             options={variableOptions}
             ariaLabel="Target variable"
@@ -59,7 +48,7 @@ export function ControlStudio() {
       <Group title="View">
         <Tabs<ViewMode>
           value={s.view}
-          onChange={(v) => s.setView(v)}
+          onChange={s.setView}
           options={[
             { value: 'forecast', label: 'Forecast' },
             { value: 'graph', label: 'Dynamic graph' },
@@ -71,7 +60,7 @@ export function ControlStudio() {
       </Group>
 
       {s.view === 'graph' && (
-        <Group title="Graph">
+        <Group title="Graph artifact">
           <div className="flex items-center gap-2">
             <Button
               size="sm"
@@ -81,102 +70,100 @@ export function ControlStudio() {
             >
               {s.playing ? 'Pause' : 'Play'}
             </Button>
-            <span className="data-num text-[12px] text-ink-400">
-              window {s.windowIdx + 1}/{nWindows}
-            </span>
+            <span className="data-num text-[12px] text-ink-400">window {s.windowIdx + 1}/{nWindows}</span>
           </div>
           <Slider
             label="Window"
             value={s.windowIdx}
             min={0}
             max={Math.max(0, nWindows - 1)}
-            onChange={(v) => {
-              s.set('windowIdx', v);
-              s.log('Window slider', undefined, `window ${v + 1}`);
+            onChange={(windowIdx) => {
+              s.set('windowIdx', windowIdx);
+              s.log('Window slider', undefined, `window ${windowIdx + 1}`);
             }}
-            format={(v) => `#${v + 1}`}
+            format={(value) => `#${value + 1}`}
           />
+
           {s.graphLayout === 'matrix' && (
-            <Field label="Graph source">
+            <Field label="Stored graph stage">
               <Select<GraphSource>
                 value={s.graphSource}
-                onChange={(g) => s.set('graphSource', g)}
+                onChange={(source) => s.set('graphSource', source)}
                 options={[
-                  { value: 'static', label: 'Static prior C' },
-                  { value: 'dynamic', label: 'Window dynamic Ew' },
-                  { value: 'sparse', label: 'Sparse essential Ẽw' },
-                  { value: 'difference', label: 'Difference (Ew − C)' },
+                  { value: 'static', label: 'Stored static prior' },
+                  { value: 'dynamic', label: 'Stored learned score' },
+                  { value: 'sparse', label: 'Stored message-passing graph' },
+                  { value: 'difference', label: 'Derived display: score − prior' },
                 ]}
-                ariaLabel="Graph source"
+                ariaLabel="Stored graph stage"
               />
             </Field>
           )}
-          {s.graphLayout === '3d-timeline' ? (
+
+          {s.graphLayout === '3d-timeline' && (
             <>
               <Slider
-                label="Displayed top-K ratio"
+                label="Display strongest retained edges"
                 value={s.topkRatio}
                 min={0.05}
                 max={1}
                 step={0.05}
-                onChange={(v) => s.set('topkRatio', v)}
-                format={(v) => `${Math.round(v * 100)}%`}
+                onChange={(ratio) => s.set('topkRatio', ratio)}
+                format={(ratio) => `${Math.round(ratio * 100)}%`}
               />
               <Slider
-                label="Displayed weight threshold"
+                label="Display weight threshold"
                 value={s.edgeThreshold}
                 min={0}
                 max={1}
                 step={0.05}
-                onChange={(v) => s.set('edgeThreshold', v)}
-                format={(v) => v.toFixed(2)}
+                onChange={(threshold) => s.set('edgeThreshold', threshold)}
+                format={(threshold) => threshold.toFixed(2)}
               />
-              <p className="text-[10px] leading-relaxed text-ink-400">Visualization filter only. These controls affect display and do not rerun or modify the trained model.</p>
+              <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[10px] leading-relaxed text-amber-900">
+                Display only. These controls hide model-retained artifact edges by stored weight; they do not change the model mask, predictions, interventions, controls, or statistical results.
+              </p>
             </>
-          ) : (
-            <div className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] leading-relaxed text-ink-400">
-              Model-fixed focusing: Top-K 50% <span aria-hidden="true">·</span> edge threshold 0
-            </div>
           )}
-          {s.view === 'graph' && (
-            <Field label="Layout">
-              <Tabs<GraphLayout>
-                value={s.graphLayout}
-                onChange={(l) => s.set('graphLayout', l)}
-                options={[
-                  { value: 'matrix', label: 'Matrix' },
-                  { value: 'sidebyside', label: 'Side' },
-                  { value: '3d-timeline', label: '3D timeline' },
-                ]}
-                size="sm"
-                wrap
-              />
-            </Field>
-          )}
-          {s.view === 'graph' && s.graphLayout === '3d-timeline' && (
+
+          <Field label="Layout">
+            <Tabs<GraphLayout>
+              value={s.graphLayout}
+              onChange={(layout) => s.set('graphLayout', layout)}
+              options={[
+                { value: 'matrix', label: 'Matrix' },
+                { value: 'sidebyside', label: 'Side' },
+                { value: '3d-timeline', label: '3D timeline' },
+              ]}
+              size="sm"
+              wrap
+            />
+          </Field>
+
+          {s.graphLayout === '3d-timeline' && (
             <Slider
               label="3D layer spacing"
               value={s.graph3DSpacing}
               min={3.4}
               max={6.4}
               step={0.2}
-              onChange={(v) => s.set('graph3DSpacing', v)}
-              format={(v) => v.toFixed(1)}
+              onChange={(spacing) => s.set('graph3DSpacing', spacing)}
+              format={(spacing) => spacing.toFixed(1)}
             />
           )}
         </Group>
       )}
 
       {s.view === 'attention' && (
-        <Group title="Attention">
-          <Field label="Scale">
+        <Group title="Stored attention">
+          <Field label="Patch resolution">
             <Tabs<ScaleId>
               value={s.scale}
-              onChange={(v) => s.set('scale', v)}
+              onChange={(scale) => s.set('scale', scale)}
               options={[
-                { value: 1, label: 'S1 · local' },
-                { value: 2, label: 'S2 · periodic' },
-                { value: 3, label: 'S3 · trend' },
+                { value: 1, label: 'S1 · fine' },
+                { value: 2, label: 'S2 · medium' },
+                { value: 3, label: 'S3 · coarse' },
               ]}
               size="sm"
               wrap
@@ -185,74 +172,27 @@ export function ControlStudio() {
           <Field label="Head">
             <Tabs<number>
               value={s.head}
-              onChange={(v) => s.set('head', v)}
-              options={[0, 1, 2, 3].map((h) => ({ value: h, label: `H${h}` }))}
+              onChange={(head) => s.set('head', head)}
+              options={[0, 1, 2, 3].map((head) => ({ value: head, label: `H${head}` }))}
               size="sm"
               wrap
             />
           </Field>
-          <Toggle checked={s.showPatchBoundary} onChange={(v) => s.set('showPatchBoundary', v)} label="Show patch boundary" />
-          <Toggle checked={s.linkAttention} onChange={(v) => s.set('linkAttention', v)} label="Link attention to forecast" />
+          <Toggle checked={s.showPatchBoundary} onChange={(value) => s.set('showPatchBoundary', value)} label="Show patch boundary" />
+          <Toggle checked={s.linkAttention} onChange={(value) => s.set('linkAttention', value)} label="Link hover highlight to forecast" />
         </Group>
       )}
 
-      <Group title="Explanation detail">
-        <Toggle checked={s.showFormulas} onChange={(v) => s.set('showFormulas', v)} label="Show formulas" />
-        <Toggle checked={s.showAssumptions} onChange={(v) => s.set('showAssumptions', v)} label="Show assumptions" />
-        <Toggle checked={s.showCaveats} onChange={(v) => s.set('showCaveats', v)} label="Show caveats" />
-        <Toggle checked={s.showEvidence} onChange={(v) => s.set('showEvidence', v)} label="Show evidence cards" />
-      </Group>
-
-      <Group title="Comparison">
-        <Field label="Baseline">
-          <Select<BaselineId>
-            value={s.compareBaseline}
-            onChange={(b) => s.set('compareBaseline', b)}
-            options={BASELINES.map((b) => ({ value: b, label: b }))}
-            ariaLabel="Baseline"
-          />
-        </Field>
-        <div className="grid grid-cols-2 gap-2">
-          <Slider
-            label="Window A"
-            value={s.compareWindowA}
-            min={0}
-            max={Math.max(0, nWindows - 1)}
-            onChange={(v) => s.set('compareWindowA', v)}
-            format={(v) => `#${v + 1}`}
-          />
-          <Slider
-            label="Window B"
-            value={s.compareWindowB}
-            min={0}
-            max={Math.max(0, nWindows - 1)}
-            onChange={(v) => s.set('compareWindowB', v)}
-            format={(v) => `#${v + 1}`}
-          />
-        </div>
-      </Group>
-
       <Group title="Utilities">
         <div className="grid grid-cols-2 gap-2">
-          <Button size="sm" variant="outline" icon={<Pin className="h-3.5 w-3.5" />} onClick={() => s.explanation && s.pin(s.explanation)}>
-            Pin
-          </Button>
-          <Button size="sm" variant="outline" icon={<RotateCcw className="h-3.5 w-3.5" />} onClick={() => { s.reset(); s.log('Reset view'); }}>
-            Reset
-          </Button>
+          <Button size="sm" variant="outline" icon={<RotateCcw className="h-3.5 w-3.5" />} onClick={() => s.reset()}>Reset</Button>
           <Button
             size="sm"
             variant="outline"
             icon={<FileDown className="h-3.5 w-3.5" />}
-            onClick={() => sample && download(`${sample.dataset}_state.json`, JSON.stringify(stateSnapshot(), null, 2), 'application/json')}
+            onClick={() => sample && download(`${sample.dataset}_display-state.json`, JSON.stringify(stateSnapshot(), null, 2), 'application/json')}
           >
-            Export JSON
-          </Button>
-          <Button size="sm" variant="outline" icon={<Copy className="h-3.5 w-3.5" />} onClick={() => s.explanation && copyText(explanationToMarkdown(s.explanation))}>
-            Copy expl.
-          </Button>
-          <Button size="sm" variant="subtle" icon={<Compass className="h-3.5 w-3.5" />} onClick={() => s.startTour()}>
-            Tour
+            Export state
           </Button>
         </div>
       </Group>
@@ -261,39 +201,28 @@ export function ControlStudio() {
 }
 
 function stateSnapshot() {
-  const s = useDemoStore.getState();
+  const state = useDemoStore.getState();
   return {
-    dataset: s.dataset,
-    sampleId: s.sampleId,
-    horizon: s.horizon,
-    target: s.target,
-    view: s.view,
-    windowIdx: s.windowIdx,
-    graphSource: s.graphSource,
-    topkRatio: s.topkRatio,
-    scale: s.scale,
-    head: s.head,
-    depth: s.depth,
-    selectedEdge: s.selectedEdge,
-    selectedNode: s.selectedNode,
-    selectedErrorStep: s.selectedErrorStep,
+    dataset: state.dataset,
+    sampleId: state.sampleId,
+    horizon: state.horizon,
+    target: state.target,
+    view: state.view,
+    windowIdx: state.windowIdx,
+    graphSource: state.graphSource,
+    displayFilter: { strongestRetainedRatio: state.topkRatio, minimumStoredWeight: state.edgeThreshold },
+    displayFilterAffectsModelResults: false,
+    scale: state.scale,
+    head: state.head,
+    selectedEdge: state.selectedEdge,
+    selectedNode: state.selectedNode,
   };
 }
 
 function Group({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div>
-      <div className="eyebrow mb-2">{title}</div>
-      <div className="space-y-2.5">{children}</div>
-    </div>
-  );
+  return <div><div className="eyebrow mb-2">{title}</div><div className="space-y-2.5">{children}</div></div>;
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div>
-      <div className="mb-1 text-[12px] text-ink-400">{label}</div>
-      {children}
-    </div>
-  );
+  return <div><div className="mb-1 text-[12px] text-ink-400">{label}</div>{children}</div>;
 }

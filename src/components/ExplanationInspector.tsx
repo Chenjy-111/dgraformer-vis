@@ -1,154 +1,74 @@
 import { useDemoStore } from '@/store/useDemoStore';
-import { Badge } from './ui/Badge';
-import { KatexSpan } from './KatexSpan';
-import { Button } from './ui/Button';
-import { Pin, Copy } from 'lucide-react';
-import { explanationToMarkdown, copyText } from '@/engine/narrativeGenerator';
-import type { EvidenceItem } from '@/types/explanation';
-
-const MODE_LABEL: Record<string, string> = {
-  forecast: 'Forecast',
-  graph: 'Dynamic graph',
-  topk: 'Top-K focusing',
-  attention: 'Multi-scale attention',
-  error: 'Error diagnosis',
-};
 
 export function ExplanationInspector() {
-  const s = useDemoStore();
-  const e = s.explanation;
-  const sample = s.sample;
+  const sample = useDemoStore((state) => state.sample);
+  const windowIdx = useDemoStore((state) => state.windowIdx);
+  const selectedEdge = useDemoStore((state) => state.selectedEdge);
+  const selectedNode = useDemoStore((state) => state.selectedNode);
+  const view = useDemoStore((state) => state.view);
+  const win = sample?.windows[windowIdx];
+  const edge = selectedEdge && win
+    ? win.edges.find((candidate) => candidate.source === selectedEdge.source && candidate.target === selectedEdge.target)
+    : undefined;
+  const retained = Boolean(selectedEdge && win?.kept_edges.some((candidate) => candidate.source === selectedEdge.source && candidate.target === selectedEdge.target));
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <span className="eyebrow">Explanation inspector</span>
-        {e && (
-          <div className="flex gap-1.5">
-            <button
-              title="Copy as Markdown"
-              onClick={() => copyText(explanationToMarkdown(e))}
-              className="rounded-md border border-line p-1.5 text-ink-400 hover:text-accent focus-visible:focus-ring"
-            >
-              <Copy className="h-3.5 w-3.5" />
-            </button>
-            <button
-              title="Pin explanation"
-              onClick={() => s.pin(e)}
-              className="rounded-md border border-line p-1.5 text-ink-400 hover:text-accent focus-visible:focus-ring"
-            >
-              <Pin className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        )}
+    <aside className="space-y-4">
+      <div>
+        <span className="eyebrow">Artifact inspector</span>
+        <p className="mt-2 text-[11px] leading-relaxed text-ink-400">Read-only fields from stored checkpoint artifacts. No explanation or functional-importance claim is generated here.</p>
       </div>
 
-      {/* current selection state */}
-      <div className="card p-3 text-[12px] text-ink-500">
-        <div className="data-num">
-          {sample ? `${sample.dataset} · sample ${sample.sample_id} · h${sample.horizon}` : '—'}
-        </div>
-        <div className="mt-1 flex flex-wrap gap-1.5">
-          <Badge tone="accent">{MODE_LABEL[s.view]}</Badge>
-          {sample && <Badge>target {sample.variables[s.target]}</Badge>}
-          {(s.view === 'graph' || s.view === 'topk') && <Badge>win {s.windowIdx + 1}</Badge>}
-          {s.view === 'attention' && <Badge>scale {s.scale} · H{s.head}</Badge>}
-        </div>
-      </div>
+      <section className="card p-4">
+        <div className="eyebrow">Current context</div>
+        <dl className="mt-3 space-y-2">
+          <Row label="Model" value="DGraFormer" />
+          <Row label="Dataset / sample" value={sample ? `${sample.dataset} / ${sample.sample_id}` : '—'} />
+          <Row label="View" value={view} />
+          <Row label="Graph window" value={sample ? `${windowIdx + 1} / ${sample.windows.length}` : '—'} />
+          <Row label="Artifact run" value={sample?.provenance?.runId ? shortHash(sample.provenance.runId) : 'not included'} mono />
+        </dl>
+      </section>
 
-      {!e ? (
-        <div className="card p-4 text-[13px] text-ink-400">
-          Interact with the canvas — click an edge, node, patch, window or error step — and a structured explanation
-          appears here.
-        </div>
+      {edge && sample ? (
+        <section className="card border-accent/30 p-4">
+          <div className="eyebrow">Selected candidate relation</div>
+          <h3 className="mt-2 text-[17px] font-semibold text-ink-900">
+            {sample.variables[edge.source]} → {sample.variables[edge.target]}
+          </h3>
+          <dl className="mt-3 space-y-2">
+            <Row label="Stored weight" value={edge.weight.toFixed(6)} mono />
+            <Row label="Stored rank" value={`#${edge.rank}`} mono />
+            <Row label="Model mask state" value={retained ? 'retained' : 'excluded'} />
+            <Row label="Graph window" value={String(windowIdx + 1)} />
+          </dl>
+          <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-[10.5px] leading-relaxed text-amber-900">
+            Candidate only. Stored graph weight and rank do not establish functional importance. Use Intervention Validation to inspect checkpoint-replayed response and matched controls.
+          </p>
+        </section>
+      ) : selectedNode != null && sample ? (
+        <section className="card p-4">
+          <div className="eyebrow">Selected variable</div>
+          <h3 className="mt-2 text-[17px] font-semibold">{sample.variables[selectedNode]}</h3>
+          <p className="mt-3 text-[11px] leading-relaxed text-ink-400">Variable selection is navigational only. The interface does not infer hub, sink, importance, or causal roles.</p>
+        </section>
       ) : (
-        <div className="space-y-3">
-          <div className="card p-4">
-            <h3 className="font-serif text-[16px] font-semibold leading-snug text-ink-900">{e.title}</h3>
-            <div className="mt-0.5 data-num text-[11px] text-ink-400">{e.selectionLabel}</div>
-            <p className="mt-2 text-[13px] leading-relaxed text-ink-700">{e.summary}</p>
-          </div>
-
-          {s.showEvidence && e.evidence.length > 0 && (
-            <div className="card p-3">
-              <div className="eyebrow mb-2">Evidence</div>
-              <div className="space-y-1">
-                {e.evidence.map((ev, i) => (
-                  <EvidenceRow key={i} item={ev} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {s.showFormulas && e.formula && (
-            <Note label="Formula">
-              <KatexSpan html={e.formula} />
-            </Note>
-          )}
-          {s.showAssumptions && e.assumption && <Note label="Assumption">{e.assumption}</Note>}
-          {s.showCaveats && e.caveat && <Note label="Caveat" tone="warn">{e.caveat}</Note>}
-          {e.nextStep && <Note label="Suggested next step" tone="accent">{e.nextStep}</Note>}
-
-          {s.pinned.length > 0 && (
-            <div className="card p-3">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="eyebrow">Pinned ({s.pinned.length})</span>
-                <Button size="sm" variant="ghost" onClick={() => s.pinned.forEach((p) => s.unpin(p.id))}>
-                  clear
-                </Button>
-              </div>
-              <ul className="space-y-1">
-                {s.pinned.map((p) => (
-                  <li key={p.id} className="flex items-center justify-between gap-2 text-[12px]">
-                    <span className="truncate text-ink-700">{p.title}</span>
-                    <button onClick={() => s.unpin(p.id)} className="text-ink-400 hover:text-pred">
-                      ✕
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+        <section className="card p-4 text-[12px] leading-relaxed text-ink-400">
+          Select a model-retained edge in the 3D graph to inspect its stored fields and transfer it as a candidate relation.
+        </section>
       )}
-    </div>
+
+      <section className="rounded-xl border border-line bg-white p-4 text-[10.5px] leading-relaxed text-ink-400">
+        The browser loads precomputed artifacts and applies optional visibility filters. It does not rerun the forecasting model or alter any stored evidence result.
+      </section>
+    </aside>
   );
 }
 
-function EvidenceRow({ item }: { item: EvidenceItem }) {
-  const tone =
-    item.tone === 'kept'
-      ? 'text-kept'
-      : item.tone === 'filtered'
-        ? 'text-ink-400'
-        : item.tone === 'warn'
-          ? 'text-pred'
-          : 'text-ink-700';
-  return (
-    <div className="flex items-start justify-between gap-2 border-b border-line/60 pb-1 last:border-0">
-      <span className="text-[12px] text-ink-400">{item.label}</span>
-      <span className={`data-num text-[12px] text-right ${tone}`}>{item.value}</span>
-    </div>
-  );
+function Row({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
+  return <div className="flex items-start justify-between gap-3 border-b border-line/60 pb-2 last:border-0 last:pb-0"><dt className="text-[11px] text-ink-400">{label}</dt><dd className={`text-right text-[11px] text-ink-700 ${mono ? 'font-mono' : ''}`}>{value}</dd></div>;
 }
 
-function Note({
-  label,
-  children,
-  mono,
-  tone = 'neutral',
-}: {
-  label: string;
-  children: React.ReactNode;
-  mono?: boolean;
-  tone?: 'neutral' | 'warn' | 'accent';
-}) {
-  const border =
-    tone === 'warn' ? 'border-pred/30 bg-pred/5' : tone === 'accent' ? 'border-accent/30 bg-accent-soft' : 'border-line bg-white';
-  return (
-    <div className={`rounded-card border p-3 ${border}`}>
-      <div className="eyebrow mb-1">{label}</div>
-      <div className={`text-[12.5px] leading-relaxed text-ink-700 ${mono ? 'font-mono' : ''}`}>{children}</div>
-    </div>
-  );
+function shortHash(value: string) {
+  return value.length > 16 ? `${value.slice(0, 8)}…${value.slice(-6)}` : value;
 }

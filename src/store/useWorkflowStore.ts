@@ -5,7 +5,7 @@ export type WorkflowStage = 'discover' | 'select' | 'test' | 'validate';
 
 export interface WorkflowSelection {
   model: WorkflowModel;
-  dataset: 'ETTh1';
+  dataset: string;
   sample: number;
   contextType: 'window' | 'scale';
   contextIndex: number;

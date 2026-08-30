@@ -1,0 +1,56 @@
+{
+  "schema_version": "dgrainsight.audit_config.v1",
+  "adapter": "msgnet",
+  "source_root": "C:/Users/cj/Desktop/MSGNet-main",
+  "checkpoint": {
+    "path": "../artifacts/msgnet_checkpoints/ETTh1_96_96_MSGNet_ETTh1_ftM_sl96_ll48_pl96_dm32_nh8_el1_dl1_df64_fc3_ebtimeF_dtTrue_Exp_0/checkpoint.pth"
+  },
+  "dataset": {
+    "name": "ETTh1",
+    "path": "C:/Users/cj/Downloads/iTransformer_datasets/iTransformer_datasets/ETT-small/ETTh1.csv",
+    "sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+    "format": "ett_hour",
+    "date_column": "date",
+    "variables": ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"],
+    "features": "M",
+    "target": "OT",
+    "frequency": "h",
+    "seq_len": 96,
+    "label_len": 48,
+    "pred_len": 96
+  },
+  "audit": {
+    "split": "test",
+    "samples": [0],
+    "relations": [
+      {
+        "sample": 0,
+        "context": {"type": "scale", "layer": 0, "index": 2},
+        "source": 6,
+        "target": 4,
+        "include_broader_context": true
+      }
+    ]
+  },
+  "adapter_config": {
+    "random_seed": 2021,
+    "model": {
+      "task_name": "long_term_forecast",
+      "top_k": 3,
+      "enc_in": 7,
+      "c_out": 7,
+      "e_layers": 1,
+      "d_model": 32,
+      "n_heads": 8,
+      "d_ff": 64,
+      "conv_channel": 32,
+      "skip_channel": 32,
+      "node_dim": 10,
+      "gcn_depth": 2,
+      "propalpha": 0.3,
+      "dropout": 0.1,
+      "embed": "timeF",
+      "individual": false
+    }
+  }
+}

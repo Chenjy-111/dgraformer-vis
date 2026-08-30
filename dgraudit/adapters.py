@@ -81,6 +81,9 @@ class DynamicGraphForecastAdapter(ABC):
     @abstractmethod
     def get_metadata(self) -> Mapping[str, Any]: ...
 
+    def close(self) -> None:
+        """Release adapter-scoped process state after an offline operation."""
+
 
 class DGraFormerAdapter(DynamicGraphForecastAdapter):
     """Thin adapter around the supplied, unmodified DGraFormer inference path."""
@@ -103,13 +106,17 @@ class DGraFormerAdapter(DynamicGraphForecastAdapter):
         if source not in sys.path:
             sys.path.insert(0, source)
         os.chdir(self.source_root)
-        from exp.exp_main import Exp_Main
+        try:
+            from exp.exp_main import Exp_Main
 
-        args = self._namespace()
-        self.exp = Exp_Main(args)
-        self.model = self.exp.model
-        self.device = self.exp.device
-        self._datasets: dict[str, Any] = {}
+            args = self._namespace()
+            self.exp = Exp_Main(args)
+            self.model = self.exp.model
+            self.device = self.exp.device
+            self._datasets: dict[str, Any] = {}
+        except Exception:
+            os.chdir(self._old_cwd)
+            raise
 
     def _namespace(self) -> Namespace:
         c = self.config
@@ -238,6 +245,10 @@ class DGraFormerAdapter(DynamicGraphForecastAdapter):
     def get_metadata(self) -> Mapping[str, Any]:
         return {"adapter": "DGraFormerAdapter", "dataset": self.dataset_name, "seed": self.seed,
                 "current_epoch": self.current_epoch, "device": str(self.device), "source_root": str(self.source_root)}
+
+    def close(self) -> None:
+        if Path.cwd() == self.source_root:
+            os.chdir(self._old_cwd)
 
 
 class MSGNetAdapter(DynamicGraphForecastAdapter):

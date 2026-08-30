@@ -1,9 +1,7 @@
 import { useDemoStore } from '@/store/useDemoStore';
 import { ForecastView } from './ForecastView';
 import { DynamicGraphView } from './DynamicGraphView';
-import { TopKFocusingView } from './TopKFocusingView';
 import { MultiScaleAttentionView } from './MultiScaleAttentionView';
-import { ErrorDiagnosisView } from './ErrorDiagnosisView';
 
 export function VisualizationCanvas() {
   const view = useDemoStore((s) => s.view);
@@ -19,9 +17,7 @@ export function VisualizationCanvas() {
     <div className={immersive3D ? 'absolute inset-0 min-h-[920px]' : 'card min-h-[460px] p-5'}>
       {view === 'forecast' && <ForecastView />}
       {view === 'graph' && <DynamicGraphView />}
-      {view === 'topk' && <TopKFocusingView />}
       {view === 'attention' && <MultiScaleAttentionView />}
-      {view === 'error' && <ErrorDiagnosisView />}
     </div>
   );
 }

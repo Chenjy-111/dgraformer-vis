@@ -5,6 +5,11 @@ vite.config.d.ts
 vite.config.js
 artifacts/preflight/python-3.9.13-embed-amd64.zip
 artifacts/preflight/python39/
+artifacts/preflight/*.cjs
+artifacts/preflight/audit-session-validator/
+artifacts/preflight/web-root/
+artifacts/sessions/
+dgrainsight_session.json
 __pycache__/
 *.py[cod]
 .vite-preview.*.log

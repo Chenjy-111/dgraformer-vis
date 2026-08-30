@@ -5,9 +5,10 @@
   "type": "module",
   "description": "Interactive evidence validation for learned graph structures in multivariate forecasting.",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "dev": "vite --config vite.config.ts",
+    "build": "tsc -b && vite build --config vite.config.ts",
+    "test:session-validator": "tsc -p tsconfig.audit-session-validator.json && node tests/auditSessionValidator.mjs",
+    "preview": "vite preview --config vite.config.ts",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {

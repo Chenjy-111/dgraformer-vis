@@ -14,21 +14,10 @@ export type DatasetId =
 
 export type Horizon = 96 | 192 | 336 | 720;
 
-export type BaselineId =
-  | 'iTransformer'
-  | 'MSGNet'
-  | 'PatchTST'
-  | 'TimesNet'
-  | 'DLinear'
-  | 'Crossformer';
-
 export type ViewMode =
   | 'forecast'
   | 'graph'
-  | 'topk'
-  | 'attention'
-  | 'error'
-  | 'ablation';
+  | 'attention';
 
 export type GraphLayout = 'matrix' | 'sidebyside' | '3d-timeline';
 export type GraphSource = 'static' | 'dynamic' | 'sparse' | 'difference';
@@ -95,8 +84,6 @@ export interface SampleData {
     scale_3: AttentionScale;
   };
   metrics: { mse: number; mae: number };
-  baseline_predictions?: Partial<Record<BaselineId, number[][]>>;
-  baseline_metrics?: Partial<Record<BaselineId, { mse: number; mae: number }>>;
   narrative: string;
   provenance?: {
     scheduleState: string;
