@@ -85,10 +85,10 @@
       "additionalProperties": false,
       "required": ["name", "adapter", "adapter_id", "native_context_type", "configuration"],
       "properties": {
-        "name": {"enum": ["DGraFormer", "MSGNet"]},
-        "adapter": {"enum": ["DGraFormerAdapter", "MSGNetAdapter"]},
-        "adapter_id": {"enum": ["dgraformer", "msgnet"]},
-        "native_context_type": {"enum": ["window", "scale"]},
+        "name": {"type": "string", "minLength": 1},
+        "adapter": {"type": "string", "minLength": 1},
+        "adapter_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]*$"},
+        "native_context_type": {"type": "string", "minLength": 1},
         "source_repository": {"type": ["string", "null"]},
         "source_commit": {"type": ["string", "null"]},
         "configuration": {"type": "object", "additionalProperties": true}
@@ -111,6 +111,16 @@
               "adapter": {"const": "MSGNetAdapter"},
               "adapter_id": {"const": "msgnet"},
               "native_context_type": {"const": "scale"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"name": {"const": "MTGNN"}}},
+          "then": {
+            "properties": {
+              "adapter": {"const": "MTGNNAdapter"},
+              "adapter_id": {"const": "mtgnn"},
+              "native_context_type": {"const": "global_graph"}
             }
           }
         }
@@ -259,7 +269,7 @@
       "required": ["context_id", "type", "index", "node_count", "graphs", "native_metadata"],
       "properties": {
         "context_id": {"type": "string", "minLength": 1},
-        "type": {"enum": ["window", "scale"]},
+        "type": {"type": "string", "minLength": 1},
         "index": {"type": "integer", "minimum": 0},
         "layer": {"type": "integer", "minimum": 0},
         "node_count": {"type": "integer", "minimum": 1},
@@ -279,7 +289,7 @@
           "then": {"required": ["layer"]}
         },
         {
-          "if": {"properties": {"type": {"const": "window"}}},
+          "if": {"properties": {"type": {"enum": ["window", "global_graph"]}}},
           "then": {"not": {"required": ["layer"]}}
         }
       ]
@@ -352,11 +362,11 @@
         "context_index", "source", "target", "source_name", "target_name", "scope"
       ],
       "properties": {
-        "model": {"enum": ["DGraFormer", "MSGNet"]},
+        "model": {"type": "string", "minLength": 1},
         "dataset": {"type": "string", "minLength": 1},
         "sample_id": {"type": "string", "minLength": 1},
         "sample_index": {"type": "integer", "minimum": 0},
-        "context_type": {"enum": ["window", "scale", "window_set", "scale_set"]},
+        "context_type": {"type": "string", "minLength": 1},
         "context_id": {"type": "string", "minLength": 1},
         "context_index": {
           "oneOf": [
@@ -376,7 +386,7 @@
           "if": {"properties": {"scope": {"const": "local"}}},
           "then": {
             "properties": {
-              "context_type": {"enum": ["window", "scale"]},
+              "context_type": {"type": "string", "minLength": 1},
               "context_index": {"type": "integer", "minimum": 0}
             }
           }
@@ -385,7 +395,7 @@
           "if": {"properties": {"scope": {"const": "broader_context"}}},
           "then": {
             "properties": {
-              "context_type": {"enum": ["window_set", "scale_set"]},
+              "context_type": {"type": "string", "minLength": 1},
               "context_index": {"const": "all_applicable"}
             }
           }
@@ -395,7 +405,7 @@
           "then": {"required": ["layer"]}
         },
         {
-          "if": {"properties": {"context_type": {"enum": ["window", "window_set"]}}},
+          "if": {"properties": {"context_type": {"enum": ["window", "global_graph", "window_set"]}}},
           "then": {"not": {"required": ["layer"]}}
         }
       ]

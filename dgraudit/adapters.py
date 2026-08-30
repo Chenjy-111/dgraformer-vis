@@ -389,3 +389,141 @@ class MSGNetAdapter(DynamicGraphForecastAdapter):
     def get_metadata(self) -> Mapping[str, Any]:
         return {"adapter": "MSGNetAdapter", "dataset": self.config["dataset"]["name"],
                 "seed": self.seed, "device": str(self.device), "source_root": str(self.source_root)}
+
+
+class MTGNNAdapter(DynamicGraphForecastAdapter):
+    """Adapter around the supplied MTGNN source without editing upstream files."""
+
+    def __init__(self, source_root: str, config: Mapping[str, Any]):
+        self.source_root = Path(source_root).resolve()
+        self.config = dict(config)
+        self.seed = int(config.get("random_seed", 42))
+        random.seed(self.seed)
+        np.random.seed(self.seed)
+        torch.manual_seed(self.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(self.seed)
+        source = str(self.source_root)
+        if source not in sys.path:
+            sys.path.insert(0, source)
+        from net import gtnet
+
+        mc = self.config["model_config"]
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.model = gtnet(
+            bool(mc["gcn_true"]), bool(mc["build_a_true"]), int(mc["gcn_depth"]),
+            int(mc["num_nodes"]), self.device, predefined_A=None, static_feat=None,
+            dropout=float(mc["dropout"]), subgraph_size=int(mc["subgraph_size"]),
+            node_dim=int(mc["node_dim"]), dilation_exponential=int(mc["dilation_exponential"]),
+            conv_channels=int(mc["conv_channels"]), residual_channels=int(mc["residual_channels"]),
+            skip_channels=int(mc["skip_channels"]), end_channels=int(mc["end_channels"]),
+            seq_length=int(mc["seq_in_len"]), in_dim=int(mc["in_dim"]),
+            out_dim=int(mc["seq_out_len"]), layers=int(mc["layers"]),
+            propalpha=float(mc["propalpha"]), tanhalpha=float(mc["tanhalpha"]),
+            layer_norm_affline=bool(mc["layer_norm_affline"]),
+        ).float().to(self.device)
+        self._datasets: dict[str, Any] = {}
+
+    def load_checkpoint(self, checkpoint_path: str) -> None:
+        payload = torch.load(checkpoint_path, map_location=self.device)
+        state = payload.get("state_dict", payload) if isinstance(payload, Mapping) else payload
+        self.model.load_state_dict(state, strict=True)
+        self.model.eval()
+
+    def _dataset(self, split: str):
+        if split != "test":
+            raise ValueError("MTGNNAdapter currently supports only the test split.")
+        if split not in self._datasets:
+            from util import DataLoaderS
+
+            ds, mc = self.config["dataset"], self.config["model_config"]
+            self._datasets[split] = DataLoaderS(
+                ds["path"], float(mc["train_ratio"]), float(mc["validation_ratio"]),
+                self.device, int(mc["horizon"]), int(mc["seq_in_len"]),
+                int(mc["normalize"]),
+            )
+        return self._datasets[split]
+
+    def load_sample(self, split: str, sample_index: int) -> Mapping[str, Any]:
+        dataset = self._dataset(split)
+        x_normalized = dataset.test[0][sample_index].clone()
+        y_normalized = dataset.test[1][sample_index].clone()
+        scale = dataset.scale.detach().cpu()
+        return {
+            "x": x_normalized * scale.view(1, -1),
+            "y": (y_normalized * scale).view(1, -1),
+            "x_normalized": x_normalized,
+            "sample_index": sample_index,
+            "split": split,
+        }
+
+    def _model_input(self, batch: Mapping[str, Any]) -> torch.Tensor:
+        x = torch.as_tensor(batch["x_normalized"], dtype=torch.float32, device=self.device)
+        if x.ndim == 2:
+            x = x.unsqueeze(0)
+        return x.unsqueeze(1).transpose(2, 3)
+
+    def predict(self, batch: Mapping[str, Any]) -> torch.Tensor:
+        with torch.no_grad():
+            output = self.model(self._model_input(batch))
+        prediction = output.squeeze(-1)
+        scale = self._dataset(str(batch.get("split", "test"))).scale.view(1, 1, -1)
+        return (prediction * scale).detach().cpu()
+
+    def extract_graph_stages(self, batch: Mapping[str, Any]) -> Mapping[str, Any]:
+        with torch.no_grad():
+            learned = self.model.gc(self.model.idx).detach().cpu()
+        return {"contexts": [{
+            "index": 0,
+            "learned_adjacency": learned,
+            "transpose_adjacency": learned.transpose(0, 1).contiguous(),
+            "edge_count": int((learned > 0).sum()),
+            "subgraph_size": int(self.config["model_config"]["subgraph_size"]),
+            "gcn_layer_count": int(self.config["model_config"]["layers"]),
+            "construction": "MTGNN graph_constructor output shared by every gconv1 layer; transpose shared by every gconv2 layer",
+        }]}
+
+    def predict_with_graph_override(
+        self, batch: Mapping[str, Any], graph_override: Mapping[str, Any]
+    ) -> Mapping[str, Any]:
+        with torch.no_grad():
+            before = self.model.gc(self.model.idx).detach().clone()
+        after = before.clone()
+        kind = graph_override["type"]
+        if kind == "structural_edge_removal":
+            after[int(graph_override["source"]), int(graph_override["target"])] = 0
+        elif kind != "identity":
+            raise ValueError(f"Unsupported MTGNN intervention: {kind}")
+
+        original_forward = self.model.gc.forward
+
+        def overridden_forward(_self, idx):
+            return after.index_select(0, idx).index_select(1, idx)
+
+        self.model.gc.forward = types.MethodType(overridden_forward, self.model.gc)
+        try:
+            prediction = self.predict(batch)
+        finally:
+            self.model.gc.forward = original_forward
+        protocol = {
+            **dict(graph_override),
+            "applied_to": "shared learned adjacency before every MTGNN mixprop layer",
+            "transpose_branch_updated": True,
+            "internal_mixprop_normalization": True,
+        }
+        return {
+            "prediction": prediction,
+            "graph_before": before.cpu(),
+            "graph_after": after.cpu(),
+            "renormalized": False,
+            "protocol": protocol,
+        }
+
+    def get_metadata(self) -> Mapping[str, Any]:
+        return {
+            "adapter": "MTGNNAdapter",
+            "dataset": self.config["dataset"]["name"],
+            "seed": self.seed,
+            "device": str(self.device),
+            "source_root": str(self.source_root),
+        }

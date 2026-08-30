@@ -34,6 +34,22 @@ const msgnet = JSON.parse(fs.readFileSync(sessionPaths.msgnet, 'utf8'));
 assert.deepEqual(validateAuditSession(dgraformer), { valid: true, session: dgraformer, errors: [] });
 assert.deepEqual(validateAuditSession(msgnet), { valid: true, session: msgnet, errors: [] });
 
+const external = structuredClone(msgnet);
+external.model.name = 'ExternalGraphNet';
+external.model.adapter = 'ExternalGraphNetAdapter';
+external.model.adapter_id = 'external_graph_net';
+external.model.native_context_type = 'learned_context';
+for (const sample of external.samples) for (const context of sample.contexts) context.type = 'learned_context';
+for (const record of external.evidence_records) {
+  record.selection.model = 'ExternalGraphNet';
+  record.selection.context_type = record.selection.scope === 'local' ? 'learned_context' : 'learned_context_set';
+}
+assert.deepEqual(
+  validateAuditSession(external),
+  { valid: true, session: external, errors: [] },
+  'A self-describing external adapter must not require a frontend model enum or redeployment.',
+);
+
 const originalVersion = msgnet.schema_version;
 msgnet.schema_version = 'dgrainsight.audit_session.v999';
 assert.equal(validateAuditSession(msgnet).valid, false, 'Unsupported schema versions must be rejected.');
@@ -89,4 +105,4 @@ assert.equal(dgraformer.cross_run_evidence.status, 'missing');
 assert.equal(dgraformer.cross_run_evidence.value, null);
 assert.equal(parseAuditSession('{not json').valid, false, 'Malformed JSON must be rejected.');
 
-console.log('Audit Session browser validator: 11 checks passed.');
+console.log('Audit Session browser validator: 12 checks passed.');

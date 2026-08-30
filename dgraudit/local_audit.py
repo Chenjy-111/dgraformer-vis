@@ -25,7 +25,7 @@ from dgraudit.validation import OFFICIAL_ADAPTER_REGISTRY, render_validation_rep
 
 
 Progress = Callable[[str], None]
-LOCAL_AUDIT_GENERATOR_VERSION = "1.1"
+LOCAL_AUDIT_GENERATOR_VERSION = "1.2"
 
 
 class LocalAuditError(AuditSessionError):
@@ -157,11 +157,17 @@ def _statistics(values: Sequence[float], focal: float, bootstrap: int, seed: int
 def _context_id(adapter_id: str, context: Mapping[str, Any]) -> str:
     if adapter_id == "dgraformer":
         return f"window:{int(context['window'])}"
+    if adapter_id == "mtgnn":
+        return f"global_graph:{int(context['index'])}"
     return f"layer:{int(context['layer'])}:scale:{int(context['scale_index'])}"
 
 
 def _context_weight(adapter_id: str, context: Mapping[str, Any]) -> np.ndarray:
-    return _array(context["normalized"] if adapter_id == "dgraformer" else context["adaptive"])
+    if adapter_id == "dgraformer":
+        return _array(context["normalized"])
+    if adapter_id == "mtgnn":
+        return _array(context["learned_adjacency"])
+    return _array(context["adaptive"])
 
 
 def _portable_context(adapter_id: str, context: Mapping[str, Any], node_count: int) -> dict[str, Any]:
@@ -179,6 +185,21 @@ def _portable_context(adapter_id: str, context: Mapping[str, Any], node_count: i
             "native_metadata": {
                 "topk_slots": int(context["topk_slots"]),
                 "blend_proportion": float(context["blend_proportion"]),
+            },
+        }
+    if adapter_id == "mtgnn":
+        graph_names = ("learned_adjacency", "transpose_adjacency")
+        return {
+            "context_id": _context_id(adapter_id, context),
+            "type": "global_graph",
+            "index": int(context["index"]),
+            "node_count": node_count,
+            "graphs": {name: _tensor(context[name], ("source_node", "target_node")) for name in graph_names},
+            "native_metadata": {
+                "edge_count": int(context["edge_count"]),
+                "subgraph_size": int(context["subgraph_size"]),
+                "gcn_layer_count": int(context["gcn_layer_count"]),
+                "construction": str(context["construction"]),
             },
         }
     graph_names = ("raw_affinity", "activated", "adaptive", "self_loop_graph", "effective")
@@ -200,6 +221,8 @@ def _portable_context(adapter_id: str, context: Mapping[str, Any], node_count: i
 def _find_context(adapter_id: str, contexts: Sequence[Mapping[str, Any]], requested: Mapping[str, Any]) -> Mapping[str, Any]:
     if adapter_id == "dgraformer":
         match = next((item for item in contexts if int(item["window"]) == int(requested["index"])), None)
+    elif adapter_id == "mtgnn":
+        match = next((item for item in contexts if int(item["index"]) == int(requested["index"])), None)
     else:
         layer = int(requested.get("layer", 0))
         match = next(
@@ -235,7 +258,7 @@ def _control_edges(
     eligible = [edge for edge in _eligible_edges(adapter_id, contexts, requested, broader) if edge != focal]
     if not eligible:
         return [], "no eligible controls"
-    if adapter_id == "msgnet":
+    if adapter_id in {"msgnet", "mtgnn"}:
         return eligible, "all other real directed non-self edge removals in the same sample and scope"
     rng = np.random.default_rng(seed)
     if not broader:
@@ -290,7 +313,7 @@ def _selection(
             "target_name": variables[target],
             "scope": "broader_context" if broader else "local",
         }
-    else:
+    elif adapter_id == "msgnet":
         layer = int(context.get("layer", 0))
         context_type = "scale_set" if broader else "scale"
         context_id = f"layer:{layer}:scale-set:all" if broader else f"layer:{layer}:scale:{int(context['index'])}"
@@ -308,6 +331,23 @@ def _selection(
             "source_name": variables[source],
             "target_name": variables[target],
             "scope": "broader_context" if broader else "local",
+        }
+    else:
+        if broader:
+            raise LocalAuditError("MTGNN exposes only one global learned graph; broader context is unavailable.")
+        result = {
+            "model": model_name,
+            "dataset": dataset_name,
+            "sample_id": f"test:{sample_index}",
+            "sample_index": sample_index,
+            "context_type": "global_graph",
+            "context_id": f"global_graph:{int(context['index'])}",
+            "context_index": int(context["index"]),
+            "source": source,
+            "target": target,
+            "source_name": variables[source],
+            "target_name": variables[target],
+            "scope": "local",
         }
     return result
 
@@ -517,17 +557,22 @@ def run_local_audit(
                 else:
                     context = _find_context(adapter_id, runtime["contexts"], requested["context"])
                     matrix = _context_weight(adapter_id, context)
+                    model_metadata = ({
+                        "period": int(context["period"]),
+                        "fft_strength": float(context["fft_strength"]),
+                        "scale_contribution": float(context["scale_contribution"]),
+                    } if adapter_id == "msgnet" else ({
+                        "blend_proportion": float(context["blend_proportion"]),
+                        "topk_slots": int(context["topk_slots"]),
+                    } if adapter_id == "dgraformer" else {
+                        "edge_count": int(context["edge_count"]),
+                        "subgraph_size": int(context["subgraph_size"]),
+                        "shared_across_gcn_layers": True,
+                    }))
                     graph_effect = {
                         "native_weight": float(matrix[source, target]),
                         "weight_rank": _average_ranks_descending(matrix)[(source, target)],
-                        **({
-                            "period": int(context["period"]),
-                            "fft_strength": float(context["fft_strength"]),
-                            "scale_contribution": float(context["scale_contribution"]),
-                        } if adapter_id == "msgnet" else {
-                            "blend_proportion": float(context["blend_proportion"]),
-                            "topk_slots": int(context["topk_slots"]),
-                        }),
+                        **model_metadata,
                     }
                 context_token = str(selection["context_id"]).replace(":", "_").replace("-", "_")
                 evidence_id = f"local_{adapter_id}_s{sample_index}_{context_token}_e{source}_{target}"

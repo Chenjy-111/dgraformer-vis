@@ -10,7 +10,7 @@ from dgraudit.local_audit import LocalAuditError, run_local_audit
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Run a validated DGraFormer or MSGNet audit on this computer and create one "
+            "Run a validated DGraFormer, MSGNet, or MTGNN audit on this computer and create one "
             "portable dgrainsight_session.json file for the DGraInsight website."
         )
     )

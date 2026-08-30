@@ -17,6 +17,8 @@ python -m dgraudit audit --config configs/local_audit_dgraformer_etth1.json --ou
 
 Replace the config with `configs/local_audit_msgnet_etth1.json` for MSGNet. The `audit` command repeats the required preflight, runs real baseline, graph extraction, exact intervention and matched-control checkpoint replays locally, computes statistics, and writes one JSON document. It does not use the built-in demo catalogs. The resulting file is the file selected in the website's **Import Audit Session** control.
 
+Use `configs/local_audit_mtgnn_exchange.json` for MTGNN. Run `python -m dgraudit edges --config <config>` first to display the native graph count, context IDs, retained-edge counts, and ranked real edge candidates before editing the exact relation.
+
 The browser never receives the checkpoint or dataset and never executes inference. Local filesystem paths are omitted from the portable session; hashes, runtime versions, the preflight summary, exact selections, outputs, controls, statistics, and provenance are retained.
 
 ## Round-trip exporting of built-in artifacts
@@ -42,8 +44,9 @@ Audit Session v1 officially represents:
 
 - DGraFormer with native window graph contexts.
 - MSGNet with native layer/scale graph contexts.
+- MTGNN with one native global learned graph shared across its GCN layers.
 
-Additional architectures require model-specific adapter and schema-mapping work.
+Additional architectures require a model-specific offline adapter. Audit Session v1 is self-describing: if the adapter exports its real native context through the common graph/evidence contract, the existing website can validate and display that new model without adding a frontend model enum or redeploying model-specific UI code. A new schema version is needed only when the architecture has semantics that v1 cannot preserve losslessly.
 
 ## 2. Top-level structure
 
@@ -402,8 +405,8 @@ JSON Schema validation is necessary but not sufficient. `validateAuditSession()`
 4. Model, dataset, sample, source, target, names, and native context agree across all references.
 5. Source and target are distinct and within the dataset variable range.
 6. Local context IDs resolve to an existing native context of the same type.
-7. DGraFormer sessions contain only window native contexts; MSGNet sessions contain only scale native contexts.
-8. Broader selections use `window_set` or `scale_set` and `all_applicable`.
+7. DGraFormer sessions contain only window native contexts; MSGNet sessions contain only scale native contexts; MTGNN sessions contain only a global graph context.
+8. Broader selections use `window_set` or `scale_set` and `all_applicable`; MTGNN does not declare a synthetic broader context.
 9. Tensor shape, axis count, nested values, finiteness, and optional hash agree exactly; a missing history tensor remains null.
 10. `missing` and `unavailable` evidence always has `value: null` and a reason.
 11. `available` and `not_exposed` evidence has a payload.
@@ -473,6 +476,6 @@ The implementation is split between:
 - `src/components/AuditSessionImport.tsx`: file selection, validation progress, source identity, explicit errors, and return-to-demo control.
 - `src/components/ImportedAuditWorkspace.tsx`: read-only native graph exploration and stored evidence presentation.
 
-Imported DGraFormer sessions retain window contexts. Imported MSGNet sessions retain layer/scale contexts, period, FFT strength, and scale contribution. An evidence lookup uses the complete exact selection and returns no result when any sample, context, source, target, or scope field differs. The browser never requests a nearest stored case.
+Imported DGraFormer sessions retain window contexts. Imported MSGNet sessions retain layer/scale contexts, period, FFT strength, and scale contribution. Imported MTGNN sessions retain the learned global adjacency and its transpose metadata. An evidence lookup uses the complete exact selection and returns no result when any sample, context, source, target, or scope field differs. The browser never requests a nearest stored case.
 
 The imported evidence workspace displays stored metrics, statistics, matched-control values, intervention-output availability, limitations, and provenance. It does not recompute p-values, confidence intervals, effect sizes, graph matrices, or model outputs. For an available trajectory it displays the first stored values directly; for a genuinely absent trajectory it displays the stored missing/null reason.

@@ -1,6 +1,6 @@
 # Adding a Model to DGraInsight
 
-Status: extension contract for architectures beyond the two official v1 adapters, updated 2026-08-30.
+Status: extension contract for architectures beyond the three official v1 adapters, updated 2026-08-30.
 
 ## 1. Extension boundary
 
@@ -8,10 +8,11 @@ DGraInsight provides an extension path for additional graph-based forecasting ar
 
 Each new architecture requires model-specific integration because its checkpoint structure, preprocessing, forward API, native graph semantics, graph extraction location, and intervention location are architecture-dependent. A model is not supported merely because it can produce an adjacency matrix.
 
-The two official reference integrations are:
+The three official reference integrations are:
 
 - `DGraFormerAdapter`: window-level graphs and exact window/broader-window intervention.
 - `MSGNetAdapter`: layer/scale graphs and exact scale/all-scale intervention.
+- `MTGNNAdapter`: one global learned graph and exact directed-edge intervention.
 
 Their different temporal semantics are preserved. A new adapter must likewise expose its real native context rather than converting it to a convenient existing type.
 
@@ -102,7 +103,7 @@ Document at least:
 - how identity/no-change replay is constructed;
 - official numeric tolerances.
 
-The UI can visualize a new context only after the Audit Session schema can preserve these semantics without loss. Do not label a scale, layer, head, component, or latent state as a `window` merely to reuse an existing screen.
+The browser reads the model, adapter, and native context type from the session itself, so a new adapter does not require a hard-coded frontend model enum. The UI can visualize a new context through the common graph/evidence contract only when Audit Session v1 preserves its semantics without loss. Do not label a scale, layer, head, component, or latent state as a `window` merely to reuse an existing screen.
 
 ## 6. Add Audit Session export mapping
 

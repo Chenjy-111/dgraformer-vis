@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import platform
 import tempfile
 from collections import defaultdict
@@ -1167,9 +1168,16 @@ def validate_audit_session(session: Any) -> list[str]:
     expected_model = {
         "dgraformer": ("DGraFormer", "DGraFormerAdapter", "window"),
         "msgnet": ("MSGNet", "MSGNetAdapter", "scale"),
+        "mtgnn": ("MTGNN", "MTGNNAdapter", "global_graph"),
     }.get(model.get("adapter_id")) if isinstance(model, dict) else None
-    if expected_model is None or (model.get("name"), model.get("adapter"), model.get("native_context_type")) != expected_model:
+    if expected_model is not None and (model.get("name"), model.get("adapter"), model.get("native_context_type")) != expected_model:
         errors.append("Model, adapter, adapter_id, and native context type are inconsistent")
+    if not isinstance(model, dict) or not all(isinstance(model.get(field), str) and model.get(field) for field in (
+        "name", "adapter", "adapter_id", "native_context_type"
+    )):
+        errors.append("Model must declare a non-empty self-describing adapter contract")
+    elif not re.fullmatch(r"[a-z][a-z0-9_-]*", model["adapter_id"]):
+        errors.append("Model adapter_id has an invalid portable identifier")
 
     dataset = session["dataset"]
     variables = dataset.get("variables", []) if isinstance(dataset, dict) else []
@@ -1269,6 +1277,8 @@ def validate_audit_session(session: Any) -> list[str]:
             local_count += 1
         elif scope == "broader_context":
             broader_count += 1
+            if model.get("native_context_type") == "global_graph":
+                errors.append(f"{path} global_graph model cannot declare a broader context")
         else:
             errors.append(f"{path} has an unsupported evidence scope")
         expected_selection = {

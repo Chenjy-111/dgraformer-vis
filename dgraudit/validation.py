@@ -77,6 +77,49 @@ class AdapterValidationSpec:
     def create_adapter(self, config: Mapping[str, Any], resolved: Mapping[str, Path]) -> Any:
         raise NotImplementedError
 
+    def validate_dataset(self, path: Path, config: Mapping[str, Any]) -> Mapping[str, Any]:
+        dataset = config["dataset"]
+        expected_columns = [dataset["date_column"], *dataset["variables"]]
+        row_count = 0
+        try:
+            with path.open("r", encoding="utf-8-sig", newline="") as handle:
+                reader = csv.reader(handle)
+                header = next(reader, None)
+                if header != expected_columns:
+                    raise ValidationFailure(
+                        "DATASET_COLUMNS_MISMATCH",
+                        "Dataset columns do not match the supported schema and exact variable order.",
+                        expected_columns,
+                        header,
+                    )
+                for line_number, row in enumerate(reader, start=2):
+                    row_count += 1
+                    if len(row) != len(expected_columns):
+                        raise ValidationFailure(
+                            "DATASET_COLUMNS_MISMATCH",
+                            f"Dataset row {line_number} has an incompatible column count.",
+                            len(expected_columns),
+                            len(row),
+                        )
+                    try:
+                        datetime.fromisoformat(row[0])
+                        values = [float(value) for value in row[1:]]
+                    except (ValueError, TypeError) as exc:
+                        raise ValidationFailure(
+                            "DATASET_VALUE_INVALID",
+                            f"Dataset row {line_number} cannot be parsed using the declared schema.",
+                            details={"line": line_number, "reason": str(exc)},
+                        ) from exc
+                    if not all(math.isfinite(value) for value in values):
+                        raise ValidationFailure("DATASET_VALUE_INVALID", f"Dataset row {line_number} contains non-finite values.")
+        except ValidationFailure:
+            raise
+        except (OSError, UnicodeError, csv.Error) as exc:
+            raise ValidationFailure("DATASET_LOAD_FAILED", f"Dataset could not be read: {exc}") from exc
+        if row_count == 0:
+            raise ValidationFailure("DATASET_LOAD_FAILED", "Dataset contains no data rows.")
+        return {"format": dataset["format"], "columns": expected_columns, "row_count": row_count}
+
     def prepare_batch(self, batch: Mapping[str, Any], config: Mapping[str, Any]) -> dict[str, Any]:
         return dict(batch)
 
@@ -367,9 +410,159 @@ class MSGNetValidationSpec(AdapterValidationSpec):
         return result
 
 
+class MTGNNValidationSpec(AdapterValidationSpec):
+    adapter_id = "mtgnn"
+    adapter_name = "MTGNNAdapter"
+    model_name = "MTGNN"
+    native_context_type = "global_graph"
+    supported_formats = ("mtgnn_numeric_matrix", "mtgnn_exchange_rate")
+    required_source_files = ("net.py", "layer.py", "util.py")
+    required_model_fields = (
+        "gcn_true", "build_a_true", "gcn_depth", "num_nodes", "dropout",
+        "subgraph_size", "node_dim", "dilation_exponential", "conv_channels",
+        "residual_channels", "skip_channels", "end_channels", "in_dim",
+        "seq_in_len", "seq_out_len", "horizon", "layers", "propalpha",
+        "tanhalpha", "layer_norm_affline", "normalize", "train_ratio",
+        "validation_ratio",
+    )
+
+    def validate_adapter_config(self, config: Mapping[str, Any]) -> list[dict[str, Any]]:
+        issues = super().validate_adapter_config(config)
+        model = config.get("adapter_config", {}).get("model", {})
+        if isinstance(model, Mapping):
+            if model.get("gcn_true") is not True or model.get("build_a_true") is not True:
+                issues.append(_issue(
+                    "CONFIG_FIELD_INVALID",
+                    "MTGNN local graph audit requires gcn_true and build_a_true.",
+                    True,
+                    {"gcn_true": model.get("gcn_true"), "build_a_true": model.get("build_a_true")},
+                ))
+            for field in ("train_ratio", "validation_ratio"):
+                value = model.get(field)
+                if not isinstance(value, (int, float)) or isinstance(value, bool) or not 0 < float(value) < 1:
+                    issues.append(_issue("CONFIG_FIELD_INVALID", f"MTGNN {field} must be between zero and one.", "0 < value < 1", value))
+            train_ratio, validation_ratio = model.get("train_ratio"), model.get("validation_ratio")
+            if isinstance(train_ratio, (int, float)) and isinstance(validation_ratio, (int, float)) and train_ratio + validation_ratio >= 1:
+                issues.append(_issue("CONFIG_FIELD_INVALID", "MTGNN train_ratio + validation_ratio must be less than one.", "< 1", train_ratio + validation_ratio))
+        audit = config.get("audit")
+        if isinstance(audit, Mapping):
+            for index, relation in enumerate(audit.get("relations", [])):
+                if isinstance(relation, Mapping) and relation.get("include_broader_context"):
+                    issues.append(_issue(
+                        "CONFIG_FIELD_INVALID",
+                        f"audit.relations[{index}] requests broader context, but MTGNN exposes one global learned graph only.",
+                        False,
+                        True,
+                    ))
+        return issues
+
+    def validate_dataset(self, path: Path, config: Mapping[str, Any]) -> Mapping[str, Any]:
+        expected_count = len(config["dataset"]["variables"])
+        row_count = 0
+        try:
+            with path.open("r", encoding="utf-8-sig", newline="") as handle:
+                for line_number, row in enumerate(csv.reader(handle), start=1):
+                    if not row:
+                        continue
+                    row_count += 1
+                    if len(row) != expected_count:
+                        raise ValidationFailure(
+                            "DATASET_COLUMNS_MISMATCH",
+                            f"MTGNN dataset row {line_number} has an incompatible variable count.",
+                            expected_count,
+                            len(row),
+                        )
+                    try:
+                        values = [float(value) for value in row]
+                    except (ValueError, TypeError) as exc:
+                        raise ValidationFailure(
+                            "DATASET_VALUE_INVALID",
+                            f"MTGNN dataset row {line_number} contains a non-numeric value.",
+                            details={"line": line_number, "reason": str(exc)},
+                        ) from exc
+                    if not all(math.isfinite(value) for value in values):
+                        raise ValidationFailure("DATASET_VALUE_INVALID", f"MTGNN dataset row {line_number} contains non-finite values.")
+        except ValidationFailure:
+            raise
+        except (OSError, UnicodeError, csv.Error) as exc:
+            raise ValidationFailure("DATASET_LOAD_FAILED", f"MTGNN dataset could not be read: {exc}") from exc
+        if row_count == 0:
+            raise ValidationFailure("DATASET_LOAD_FAILED", "MTGNN dataset contains no data rows.")
+        return {"format": config["dataset"]["format"], "variable_count": expected_count, "row_count": row_count, "header": False}
+
+    def create_adapter(self, config: Mapping[str, Any], resolved: Mapping[str, Path]) -> Any:
+        from dgraudit.adapters import MTGNNAdapter
+
+        adapter_config = config["adapter_config"]
+        return MTGNNAdapter(str(resolved["source_root"]), {
+            "random_seed": adapter_config["random_seed"],
+            "dataset": {"name": config["dataset"]["name"], "path": str(resolved["dataset"])},
+            "model_config": dict(adapter_config["model"]),
+        })
+
+    def validate_sample(self, batch: Mapping[str, Any], config: Mapping[str, Any]) -> Mapping[str, Any]:
+        dataset = config["dataset"]
+        expected_x = [dataset["seq_len"], len(dataset["variables"])]
+        expected_y = [dataset["pred_len"], len(dataset["variables"])]
+        x_shape, y_shape = list(_shape(batch.get("x"))), list(_shape(batch.get("y")))
+        normalized_shape = list(_shape(batch.get("x_normalized")))
+        if x_shape != expected_x or y_shape != expected_y or normalized_shape != expected_x:
+            raise ValidationFailure(
+                "SAMPLE_SHAPE_MISMATCH",
+                "MTGNN sample tensor shapes are incompatible.",
+                {"x": expected_x, "y": expected_y, "x_normalized": expected_x},
+                {"x": x_shape, "y": y_shape, "x_normalized": normalized_shape},
+            )
+        for key in ("x", "y", "x_normalized"):
+            if not _is_finite(batch.get(key)):
+                raise ValidationFailure("SAMPLE_NONFINITE", f"MTGNN sample field {key} contains non-finite values.")
+        return {"x_shape": x_shape, "y_shape": y_shape, "x_normalized_shape": normalized_shape}
+
+    def validate_graph(
+        self, extracted: Mapping[str, Any], probe: Mapping[str, Any], config: Mapping[str, Any]
+    ) -> Mapping[str, Any]:
+        contexts = extracted.get("contexts")
+        if not isinstance(contexts, Sequence) or len(contexts) != 1:
+            raise ValidationFailure("GRAPH_EXTRACTION_FAILED", "MTGNN must expose exactly one global learned graph.", 1, len(contexts or []))
+        requested_index = int(probe["context"]["index"])
+        context = contexts[0]
+        if requested_index != int(context.get("index", -1)):
+            raise ValidationFailure("GRAPH_CONTEXT_MISSING", "Requested MTGNN global graph does not exist.", 0, requested_index)
+        n = len(config["dataset"]["variables"])
+        _validate_square_finite_matrix(context.get("learned_adjacency"), n, "MTGNN learned adjacency")
+        rows = _matrix_rows(context["learned_adjacency"])
+        source, target = int(probe["source"]), int(probe["target"])
+        weight = float(rows[source][target])
+        if weight <= 0:
+            raise ValidationFailure("RELATION_NOT_PRESENT", "Declared MTGNN relation is not retained in the learned graph.", "positive learned weight", weight)
+        return {
+            "context_count": 1,
+            "requested_global_graph": 0,
+            "matrix_shape": [n, n],
+            "requested_weight": weight,
+            "edge_count": int(context["edge_count"]),
+        }
+
+    def identity_override(self, probe: Mapping[str, Any], config: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"type": "identity", "context_index": 0}
+
+    def intervention_override(
+        self, probe: Mapping[str, Any], config: Mapping[str, Any], broader: bool = False
+    ) -> Mapping[str, Any]:
+        if broader:
+            raise ValueError("MTGNN has no broader native context beyond its single global learned graph.")
+        return {
+            "type": "structural_edge_removal",
+            "context_index": 0,
+            "source": int(probe["source"]),
+            "target": int(probe["target"]),
+        }
+
+
 OFFICIAL_ADAPTER_REGISTRY: dict[str, AdapterValidationSpec] = {
     "dgraformer": DGraFormerValidationSpec(),
     "msgnet": MSGNetValidationSpec(),
+    "mtgnn": MTGNNValidationSpec(),
 }
 
 
@@ -509,46 +702,7 @@ def validate_audit_config(
                 list(spec.supported_formats),
                 dataset["format"],
             )
-        expected_columns = [dataset["date_column"], *dataset["variables"]]
-        row_count = 0
-        try:
-            with resolved["dataset"].open("r", encoding="utf-8-sig", newline="") as handle:
-                reader = csv.reader(handle)
-                header = next(reader, None)
-                if header != expected_columns:
-                    raise ValidationFailure(
-                        "DATASET_COLUMNS_MISMATCH",
-                        "Dataset columns do not match the supported schema and exact variable order.",
-                        expected_columns,
-                        header,
-                    )
-                for line_number, row in enumerate(reader, start=2):
-                    row_count += 1
-                    if len(row) != len(expected_columns):
-                        raise ValidationFailure(
-                            "DATASET_COLUMNS_MISMATCH",
-                            f"Dataset row {line_number} has an incompatible column count.",
-                            len(expected_columns),
-                            len(row),
-                        )
-                    try:
-                        datetime.fromisoformat(row[0])
-                        values = [float(value) for value in row[1:]]
-                    except (ValueError, TypeError) as exc:
-                        raise ValidationFailure(
-                            "DATASET_VALUE_INVALID",
-                            f"Dataset row {line_number} cannot be parsed using the declared schema.",
-                            details={"line": line_number, "reason": str(exc)},
-                        ) from exc
-                    if not all(math.isfinite(value) for value in values):
-                        raise ValidationFailure("DATASET_VALUE_INVALID", f"Dataset row {line_number} contains non-finite values.")
-        except ValidationFailure:
-            raise
-        except (OSError, UnicodeError, csv.Error) as exc:
-            raise ValidationFailure("DATASET_LOAD_FAILED", f"Dataset could not be read: {exc}") from exc
-        if row_count == 0:
-            raise ValidationFailure("DATASET_LOAD_FAILED", "Dataset contains no data rows.")
-        return {"format": dataset["format"], "columns": expected_columns, "row_count": row_count}
+        return spec.validate_dataset(resolved["dataset"], config)
 
     if not execute("V03", v03, "DATASET_LOAD_FAILED"):
         return _finish_report(report)
@@ -892,6 +1046,17 @@ def _validate_common_config(config: Mapping[str, Any], spec: AdapterValidationSp
             output_count = model.get("c_out") if spec.adapter_id == "msgnet" else None
             if spec.adapter_id == "msgnet" and isinstance(output_count, int) and output_count != len(dataset["variables"]):
                 issues.append(_issue("CONFIG_FIELD_INVALID", "MSGNet c_out must equal dataset variable count.", len(dataset["variables"]), output_count))
+            if spec.adapter_id == "mtgnn":
+                num_nodes = model.get("num_nodes")
+                if isinstance(num_nodes, int) and num_nodes != len(dataset["variables"]):
+                    issues.append(_issue("CONFIG_FIELD_INVALID", "MTGNN num_nodes must equal dataset variable count.", len(dataset["variables"]), num_nodes))
+                if model.get("seq_in_len") != dataset.get("seq_len") or model.get("seq_out_len") != dataset.get("pred_len"):
+                    issues.append(_issue(
+                        "CONFIG_FIELD_INVALID",
+                        "MTGNN model sequence lengths must match dataset seq_len and pred_len.",
+                        {"seq_in_len": dataset.get("seq_len"), "seq_out_len": dataset.get("pred_len")},
+                        {"seq_in_len": model.get("seq_in_len"), "seq_out_len": model.get("seq_out_len")},
+                    ))
     return issues
 
 

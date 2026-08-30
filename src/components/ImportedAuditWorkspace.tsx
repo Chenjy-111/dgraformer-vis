@@ -151,14 +151,20 @@ function Rail({ label, value }: { label: string; value: string }) {
 }
 
 function preferredGraph(context: GraphContext) {
-  const preferred = context.type === 'window' ? ['normalized', 'topk_graph', 'self_loop_graph'] : ['adaptive', 'effective'];
+  const preferred = context.type === 'window'
+    ? ['normalized', 'topk_graph', 'self_loop_graph']
+    : context.type === 'global_graph' ? ['learned_adjacency', 'transpose_adjacency'] : ['adaptive', 'effective'];
   return preferred.find(name => context.graphs[name]) ?? Object.keys(context.graphs)[0];
 }
 
 function contextLabel(context: GraphContext) {
   if (context.type === 'window') return `window ${context.index}`;
-  const period = context.native_metadata.period;
-  return `layer ${context.layer ?? 0} · scale ${context.index}${typeof period === 'number' ? ` · period ${period}` : ''}`;
+  if (context.type === 'global_graph') return `global learned graph ${context.index}`;
+  if (context.type === 'scale') {
+    const period = context.native_metadata.period;
+    return `layer ${context.layer ?? 0} · scale ${context.index}${typeof period === 'number' ? ` · period ${period}` : ''}`;
+  }
+  return `${humanize(context.type)} ${context.index}${context.layer === undefined ? '' : ` · layer ${context.layer}`}`;
 }
 
 function relationWeight(relation: AuditRelation, contextId: string) {

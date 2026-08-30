@@ -1,7 +1,7 @@
 export const AUDIT_SESSION_VERSION = 'dgrainsight.audit_session.v1' as const;
 
-export type AuditModelName = 'DGraFormer' | 'MSGNet';
-export type NativeContextType = 'window' | 'scale';
+export type AuditModelName = string;
+export type NativeContextType = string;
 export type EvidenceScope = 'local' | 'broader_context';
 export type EvidenceStatus = 'available' | 'not_exposed' | 'missing' | 'unavailable';
 
@@ -67,7 +67,7 @@ export interface ExactSelection {
   dataset: string;
   sample_id: string;
   sample_index: number;
-  context_type: 'window' | 'scale' | 'window_set' | 'scale_set';
+  context_type: string;
   context_id: string;
   context_index: number | 'all_applicable';
   layer?: number | null;
@@ -128,8 +128,8 @@ export interface AuditSession {
   };
   model: {
     name: AuditModelName;
-    adapter: 'DGraFormerAdapter' | 'MSGNetAdapter';
-    adapter_id: 'dgraformer' | 'msgnet';
+    adapter: string;
+    adapter_id: string;
     native_context_type: NativeContextType;
     source_repository?: string | null;
     source_commit?: string | null;
@@ -355,9 +355,15 @@ export function validateAuditSession(input: unknown): AuditSessionValidationResu
     requireFields(model, ['name', 'adapter', 'adapter_id', 'native_context_type', 'configuration'], 'session.model', errors);
     const expected = adapterId === 'dgraformer'
       ? ['DGraFormer', 'DGraFormerAdapter', 'window']
-      : adapterId === 'msgnet' ? ['MSGNet', 'MSGNetAdapter', 'scale'] : null;
-    if (!expected || model.name !== expected[0] || model.adapter !== expected[1] || nativeType !== expected[2]) {
+      : adapterId === 'msgnet' ? ['MSGNet', 'MSGNetAdapter', 'scale']
+        : adapterId === 'mtgnn' ? ['MTGNN', 'MTGNNAdapter', 'global_graph'] : null;
+    if (expected && (model.name !== expected[0] || model.adapter !== expected[1] || nativeType !== expected[2])) {
       add(errors, 'session.model does not preserve a supported model-native adapter mapping.');
+    }
+    if (typeof model.name !== 'string' || !model.name || typeof model.adapter !== 'string' || !model.adapter ||
+      typeof adapterId !== 'string' || !/^[a-z][a-z0-9_-]*$/.test(adapterId) ||
+      typeof nativeType !== 'string' || !nativeType) {
+      add(errors, 'session.model must declare a non-empty self-describing adapter contract.');
     }
     if (!isRecord(model.configuration)) add(errors, 'session.model.configuration must be an object.');
   }
@@ -425,7 +431,8 @@ export function validateAuditSession(input: unknown): AuditSessionValidationResu
       if (context.type !== nativeType) add(errors, `${contextPath}.type changes model-native graph semantics.`);
       if (!isInteger(context.index) || context.index < 0) add(errors, `${contextPath}.index must be non-negative.`);
       if (nativeType === 'scale' && (!isInteger(context.layer) || context.layer < 0)) add(errors, `${contextPath}.layer is required for scale contexts.`);
-      if (nativeType === 'window' && context.layer !== undefined) add(errors, `${contextPath}.layer is not valid for window contexts.`);
+      if ((nativeType === 'window' || nativeType === 'global_graph') && context.layer !== undefined) add(errors, `${contextPath}.layer is not valid for ${nativeType} contexts.`);
+      if (context.layer !== undefined && (!isInteger(context.layer) || context.layer < 0)) add(errors, `${contextPath}.layer must be a non-negative integer when present.`);
       if (context.node_count !== variables.length) add(errors, `${contextPath}.node_count differs from dataset variables.`);
       const graphs = requireRecord(context.graphs, `${contextPath}.graphs`, errors);
       if (graphs) {
@@ -547,8 +554,10 @@ export function validateAuditSession(input: unknown): AuditSessionValidationResu
         }
       } else if (selection.scope === 'broader_context') {
         broaderCount += 1;
-        const expectedSet = nativeType === 'window' ? 'window_set' : 'scale_set';
-        if (selection.context_type !== expectedSet || selection.context_index !== 'all_applicable') {
+        const expectedSet = nativeType === 'window' ? 'window_set' : nativeType === 'scale' ? 'scale_set' : null;
+        const invalidKnownSet = expectedSet !== null && selection.context_type !== expectedSet;
+        if (typeof selection.context_type !== 'string' || !selection.context_type || selection.context_type === nativeType ||
+          invalidKnownSet || selection.context_index !== 'all_applicable') {
           add(errors, `${path} has an invalid broader-context selection.`);
         }
       } else add(errors, `${path}.selection.scope is unsupported.`);

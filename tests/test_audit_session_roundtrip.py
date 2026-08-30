@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import tempfile
@@ -465,6 +466,25 @@ class AuditSessionRoundTripTests(unittest.TestCase):
                 session["session"]["generator"]["run_id"],
                 session["provenance"]["session_generation_run_id"],
             )
+
+    def test_self_describing_external_adapter_does_not_require_a_frontend_model_enum(self):
+        external = copy.deepcopy(self.msgnet)
+        external["model"].update({
+            "name": "ExternalGraphNet",
+            "adapter": "ExternalGraphNetAdapter",
+            "adapter_id": "external_graph_net",
+            "native_context_type": "learned_context",
+        })
+        for sample in external["samples"]:
+            for context in sample["contexts"]:
+                context["type"] = "learned_context"
+        for record in external["evidence_records"]:
+            selection = record["selection"]
+            selection["model"] = "ExternalGraphNet"
+            selection["context_type"] = (
+                "learned_context" if selection["scope"] == "local" else "learned_context_set"
+            )
+        self.assertEqual(validate_audit_session(external), [])
 
 
 if __name__ == "__main__":

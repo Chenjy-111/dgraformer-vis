@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 
-export type WorkflowModel = 'DGraFormer' | 'MSGNet';
+export type WorkflowModel = string;
 export type WorkflowStage = 'discover' | 'select' | 'test' | 'validate';
 
 export interface WorkflowSelection {
   model: WorkflowModel;
   dataset: string;
   sample: number;
-  contextType: 'window' | 'scale';
+  contextType: string;
   contextIndex: number;
   source: number;
   target: number;
