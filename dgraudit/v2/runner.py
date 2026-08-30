@@ -25,13 +25,13 @@ def run_audit_v2(config_path: str | Path, *, output_path: str | Path = "dgrainsi
         inputs = config.get("prepared_inputs")
         if not isinstance(inputs, Mapping):
             raise ValueError("A non-frozen v2 audit requires prepared_inputs for graph core, case evidence, and dependence audit")
-        graph = _read_relative(resolved, inputs["graph_core_session_v1"])
+        graph = _read_relative(resolved, inputs["graph_core"])
         cases = _read_relative(resolved, inputs["case_evidence"])
         dependence_records = _read_relative(resolved, inputs["dependence_audit"])
         dependence = {str(item["family_id"]): item for item in dependence_records}
         provenance = {"prepared_inputs": True, "audit_config_sha256": _sha256(resolved)}
     tell("Aggregating case D by frozen candidate identity")
-    session = build_audit_session_v2(config=config, graph_core_session_v1=graph, case_evidence=cases, dependence_by_family=dependence, generator={"name": "dgraudit", "version": "pipeline-v2"}, additional_provenance=provenance)
+    session = build_audit_session_v2(config=config, graph_core=graph, case_evidence=cases, dependence_by_family=dependence, generator={"name": "dgraudit", "version": "pipeline-v2"}, additional_provenance=provenance)
     output = write_audit_session_v2(output_path, session)
     return output, session
 

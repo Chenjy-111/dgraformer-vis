@@ -15,21 +15,11 @@ from .dependence import audit_dependence
 
 
 ROOT = Path(__file__).resolve().parents[2]
-LEGACY_CASE_INFERENCE_FIELDS = {
-    "empirical_p",
-    "bh_adjusted_p",
-    "local_bh_supported_count",
-    "broader_context_bh_supported_count",
-    "global_bh_supported_count",
-    "supported",
-}
-DGRA_SESSION = ROOT / "artifacts/sessions/dgraformer_etth1/dgrainsight_session.json"
-MSG_SESSION = ROOT / "artifacts/sessions/msgnet_etth1/dgrainsight_session.json"
-MTGNN_SESSION = ROOT / "tests/fixtures/mtgnn_exchange_session_v1.json"
-DGRA_FROZEN = ROOT / "artifacts/cross_sample_validation"
-MSG_FROZEN = ROOT / "artifacts/msgnet_cross_test_v1"
-DGRA_LOCAL_RUN = ROOT / "artifacts/runs/3e83451437fe946a975b56fe6528fa2136443b9b08b966d3a9a78041849a6442"
-DGRA_GLOBAL_RUN = ROOT / "artifacts/runs/a256ec935997909c43d29acee22fdfccb8650d1db77dadf335c92d8ad63b0f43"
+DGRA_SESSION = ROOT / "public/data/evidence/dgraformer_etth1_session_v2.json"
+MSG_SESSION = ROOT / "tests/fixtures/msgnet_graph_core_baseline.json"
+MTGNN_SESSION = ROOT / "tests/fixtures/mtgnn_quick_session_v2.json"
+MSG_FROZEN = ROOT / "artifacts/msgnet_frozen14"
+DGRA_OPERANDS = ROOT / "artifacts/dgraformer_frozen40"
 
 
 def _json(path: Path) -> Any:
@@ -63,11 +53,9 @@ def _portable_mapping(value: Mapping[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     missing: dict[str, str] = {}
     for key, item in value.items():
-        if key in LEGACY_CASE_INFERENCE_FIELDS:
-            continue
         if isinstance(item, float) and not np.isfinite(item):
             result[key] = None
-            missing[key] = "Legacy descriptive metric was non-finite; v2 exports null instead of NaN/Inf."
+            missing[key] = "Historical descriptive metric was non-finite; v2 exports null instead of NaN/Inf."
         else:
             result[key] = copy.deepcopy(item)
     if missing:
@@ -75,22 +63,21 @@ def _portable_mapping(value: Mapping[str, Any]) -> dict[str, Any]:
     return result
 
 
-def _v1_interventions(session: Mapping[str, Any]) -> dict[tuple[int, str, int | None, int, int], Mapping[str, Any]]:
+def _intervention_outputs(session: Mapping[str, Any]) -> dict[tuple[int, str, int | None, int, int], Mapping[str, Any]]:
     result: dict[tuple[int, str, int | None, int, int], Mapping[str, Any]] = {}
-    for record in session.get("evidence_records", []):
-        selection = record.get("selection", {})
-        value = record.get("value") or {}
-        context_index = selection.get("context_index")
+    candidates = {item["candidate_id"]: item for item in session.get("candidate_relations", [])}
+    for case in session.get("case_evidence", []):
+        candidate = candidates.get(case.get("candidate_id"), {})
+        context = case.get("context", {})
+        context_index = context.get("window_index", context.get("scale_index"))
         normalized_context = int(context_index) if isinstance(context_index, (int, float)) or str(context_index).isdigit() else None
-        scope = str(selection.get("scope"))
-        if scope in {"broader", "all_applicable", "global"}:
-            scope = "broader_context"
+        scope = "local" if case.get("scope") in {"single_window", "single_scale", "global_graph"} else "broader_context"
         key = (
-            int(selection.get("sample_index", -1)), scope,
+            int(case.get("sample_id", -1)), scope,
             normalized_context,
-            int(selection.get("source", -1)), int(selection.get("target", -1)),
+            int(candidate.get("source", -1)), int(candidate.get("target", -1)),
         )
-        result[key] = value
+        result[key] = {"intervention_output": case.get("intervention_output_reference")}
     return result
 
 
@@ -132,10 +119,18 @@ def _base_config(
 
 def load_dgraformer_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]], dict[str, dict[str, Any]], dict[str, Any]]:
     graph = _json(DGRA_SESSION)
-    family_source = _json(DGRA_FROZEN / "candidate_family.json")
-    frozen_results = _json(DGRA_FROZEN / "cross_sample_validation_results.json")
-    local_rows = _csv(DGRA_FROZEN / "per_sample_paired_effects.csv")
-    global_rows = _csv(DGRA_FROZEN / "per_sample_global_paired_effects.csv")
+    graph["model_specific"] = {
+        "artifact_validation_report": copy.deepcopy(
+            graph.get("validation", {}).get("model_validation_V01_V09")
+        )
+    }
+    graph["provenance"] = {
+        "graph_source": "public/data/evidence/dgraformer_etth1_session_v2.json",
+        "graph_source_protocol": "current Session v2 graph core",
+    }
+    family_source = _json(DGRA_OPERANDS / "protocol.json")
+    local_rows = _csv(DGRA_OPERANDS / "local_case_effects.csv")
+    global_rows = _csv(DGRA_OPERANDS / "global_case_effects.csv")
     sample_ids = sorted({int(row["sample_id"]) for row in local_rows})
     units_by_sample = {
         int(row["sample_id"]): {"raw_start": int(row["raw_start"]), "raw_end": int(row["raw_end"])}
@@ -153,7 +148,7 @@ def load_dgraformer_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any], lis
             "retained_contexts": [member["window_id"]],
         })
     global_members = []
-    for member in frozen_results["global_family"]:
+    for member in family_source["global_candidates"]:
         candidate_id = f"dgra:all:{member['source_node']}->{member['target_node']}"
         global_members.append({
             "candidate_id": candidate_id, "source": member["source_node"], "target": member["target_node"],
@@ -172,21 +167,21 @@ def load_dgraformer_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any], lis
     sensitivities = {family["family_id"]: ["block_length_2", "block_length_4", "non_overlap_subset", "trimmed_mean", "median_ci", "outlier_sensitivity"] for family in families}
     config = _base_config(adapter="dgraformer", dataset="ETTh1", checkpoint_sha256=graph["checkpoint"]["sha256"], sample_ids=sample_ids, units=units, families=families, dependence="overlapping_time_windows", primary_by_family=primary, sensitivity=sensitivities)
 
-    local_catalog = _json(DGRA_LOCAL_RUN / "evidence_catalog.json")
+    local_catalog = _json(DGRA_OPERANDS / "local_case_operands.json")
     local_lookup = {
         (int(item["sample"]["original_index"]), int(item["graph"]["window"]), int(item["graph"]["source"]), int(item["graph"]["target"])): item
         for item in local_catalog["cases"]
     }
-    v1_outputs = _v1_interventions(graph)
+    intervention_outputs = _intervention_outputs(graph)
     cases: list[dict[str, Any]] = []
     for row in local_rows:
         sample, window, source, target = (int(row[name]) for name in ("sample_id", "window_id", "source_node", "target_node"))
         candidate_id = f"dgra:window:{window}:{source}->{target}"
         source_case = local_lookup[(sample, window, source, target)]
-        edges = source_case["raw_operands"]["weight_impact"]["edges"]
+        edges = source_case["control_edges"]
         controls = [{"identity": f"{edge['source']}->{edge['target']}", "response": edge["prediction_delta_abs"]} for edge in edges if (int(edge["source"]), int(edge["target"])) != (source, target)]
         active = _parse_bool(row["active"])
-        output = v1_outputs.get((sample, "local", window, source, target), {})
+        output = intervention_outputs.get((sample, "local", window, source, target), {})
         cases.append(build_case_evidence(
             case_evidence_id=f"case:{candidate_id}:test:{sample}", candidate_id=candidate_id, sample_id=sample,
             context={"type": "window", "window_index": window}, scope="single_window", active=active,
@@ -194,10 +189,10 @@ def load_dgraformer_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any], lis
             response_metrics=_portable_mapping(source_case["metrics"]), graph_effect={"learned_edge_weight": source_case["graph"]["normalized_weight"], "rank": source_case["graph"]["retained_edge_rank"]},
             baseline_reference={"sample_id": f"test:{sample}", "field": "baseline_prediction"},
             intervention_output_reference=output.get("intervention_output") if active else None,
-            provenance={"source_artifact": "cross_sample_validation/per_sample_paired_effects.csv", "source_case_id": source_case["conclusion_id"]},
+            provenance={"source_artifact": "dgraformer_frozen40/local_case_effects.csv", "source_case_id": source_case["case_id"]},
         ))
 
-    reconstructed = _reconstruct_dgra_global_controls()
+    reconstructed = _json(DGRA_OPERANDS / "global_case_operands.json")["cases"]
     global_source = {(int(item["sample"]), int(item["edge"][0]), int(item["edge"][1])): item for item in reconstructed}
     for row in global_rows:
         sample, source, target = (int(row[name]) for name in ("sample_id", "source_node", "target_node"))
@@ -205,7 +200,7 @@ def load_dgraformer_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any], lis
         item = global_source[(sample, source, target)]
         active = _parse_bool(row["active"])
         controls = [{"identity": f"{edge[0]}->{edge[1]}", "response": value} for edge, value in zip(item["unique_control_edges"], item["unique_control_values"])]
-        output = v1_outputs.get((sample, "broader_context", None, source, target), {})
+        output = intervention_outputs.get((sample, "broader_context", None, source, target), {})
         cases.append(build_case_evidence(
             case_evidence_id=f"case:{candidate_id}:test:{sample}", candidate_id=candidate_id, sample_id=sample,
             context={"type": "window", "retained_windows": item["retained_windows"]}, scope="all_retained_windows", active=active,
@@ -213,11 +208,11 @@ def load_dgraformer_frozen_inputs() -> tuple[dict[str, Any], dict[str, Any], lis
             response_metrics=_portable_mapping(item["metrics"]), graph_effect={"mean_weight": item["mean_weight"], "retained_windows": item["retained_windows"]},
             baseline_reference={"sample_id": f"test:{sample}", "field": "baseline_prediction"},
             intervention_output_reference=output.get("intervention_output") if active else None,
-            provenance={"source_artifact": "cross_sample_validation/per_sample_global_paired_effects.csv", "source_case_id": item["id"]},
+            provenance={"source_artifact": "dgraformer_frozen40/global_case_effects.csv", "source_case_id": item["case_id"]},
         ))
 
     dependence = {family["family_id"]: audit_dependence(config["sample_protocol"]["protocol_id"], sample_ids, units, same_continuous_series=True) for family in families}
-    provenance = {"frozen_artifacts": {str(path.relative_to(ROOT)).replace("\\", "/"): _sha256(path) for path in (DGRA_FROZEN / "candidate_family.json", DGRA_FROZEN / "cross_sample_validation_results.json", DGRA_FROZEN / "per_sample_paired_effects.csv", DGRA_FROZEN / "per_sample_global_paired_effects.csv")}}
+    provenance = {"frozen_artifacts": {str(path.relative_to(ROOT)).replace("\\", "/"): _sha256(path) for path in (DGRA_OPERANDS / "protocol.json", DGRA_OPERANDS / "local_case_effects.csv", DGRA_OPERANDS / "global_case_effects.csv", DGRA_OPERANDS / "local_case_operands.json", DGRA_OPERANDS / "global_case_operands.json")}}
     return config, graph, cases, dependence, provenance
 
 
@@ -232,40 +227,10 @@ def _retained_windows(graph: Mapping[str, Any], source: int, target: int) -> lis
     return sorted(windows)
 
 
-def _reconstruct_dgra_global_controls() -> list[dict[str, Any]]:
-    catalog = _json(DGRA_GLOBAL_RUN / "evidence_catalog.json")
-    matching = _json(ROOT / "configs/global_edge_intervention_etth1.json")["control_matching"]
-    nearest = int(matching["nearest_relations"])
-    metadata: dict[tuple[int, int], dict[str, Any]] = {}
-    metrics: dict[int, dict[tuple[int, int], float]] = defaultdict(dict)
-    for case in catalog["cases"]:
-        sample = int(case["sample"])
-        edge = tuple(int(value) for value in case["edge"])
-        metadata[edge] = {"edge": edge, "windows": tuple(case["retained_windows"]), "mean_weight": float(case["mean_weight"])}
-        metrics[sample][edge] = float(case["metrics"]["prediction_delta_abs"])
-        controls_path = DGRA_GLOBAL_RUN / Path(case["controls_file"].replace("\\", "/"))
-        for control in _json(controls_path):
-            other = tuple(int(value) for value in control["edge"])
-            metadata[other] = {"edge": other, "windows": tuple(control["windows"]), "mean_weight": float(control["mean_weight"])}
-            metrics[sample][other] = float(control["prediction_delta_abs"])
-    result = []
-    for case in catalog["cases"]:
-        sample = int(case["sample"])
-        focal_edge = tuple(int(value) for value in case["edge"])
-        focal = metadata[focal_edge]
-        eligible = [value for edge, value in metadata.items() if edge != focal_edge]
-        eligible.sort(key=lambda value: (abs(len(value["windows"]) - len(focal["windows"])), abs(value["mean_weight"] - focal["mean_weight"]), value["edge"]))
-        pool = eligible[:nearest]
-        if any(value["edge"] not in metrics[sample] for value in pool):
-            raise RuntimeError("BROADER CONTROL PROTOCOL MISSING")
-        result.append({**case, "unique_control_edges": [list(value["edge"]) for value in pool], "unique_control_values": [metrics[sample][value["edge"]] for value in pool]})
-    return result
-
-
 def load_msgnet_frozen_inputs(*, include_intervention_trajectories: bool = True) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]], dict[str, dict[str, Any]], dict[str, Any]]:
-    family_source = _json(MSG_FROZEN / "candidate_family.json")
-    protocol = _json(MSG_FROZEN / "test_protocol.json")
-    manifest = _json(MSG_FROZEN / "manifest.json")
+    family_source = _json(MSG_FROZEN / "candidate_family_v2.json")
+    protocol = _json(MSG_FROZEN / "formal_protocol_v2.json")
+    manifest = _json(MSG_FROZEN / "formal_manifest_v2.json")
     template = _json(MSG_SESSION)
     sample_ids = [int(value) for value in protocol["selected_test_ids"]]
     units = [{"raw_start": item["raw_start"], "raw_end": item["raw_end"], "start_timestamp": item["start_timestamp"], "end_timestamp": item["end_timestamp"]} for item in protocol["tests"]]
@@ -325,10 +290,10 @@ def load_msgnet_frozen_inputs(*, include_intervention_trajectories: bool = True)
             scope=row["scope"], active=True, focal_response=float(row["focal_response"]), controls=controls,
             response_metrics=metrics, graph_effect={"before_weights": record["graph_before_focal_weights"], "after_weights": record["graph_after_focal_weights"], "affected_scales": record["affected_scales"]},
             baseline_reference={"sample_id": f"test:{sample}", "field": "baseline_prediction"}, intervention_output_reference=intervention_ref,
-            provenance={"source_artifact": "msgnet_cross_test_v1/case_evidence.csv", "source_case_id": row["case_id"]},
+            provenance={"source_artifact": "msgnet_frozen14/case_evidence.csv", "source_case_id": row["case_id"]},
         ))
     dependence = {family["family_id"]: audit_dependence(config["sample_protocol"]["protocol_id"], sample_ids, units, same_continuous_series=True) for family in families}
-    provenance = {"frozen_artifacts": {name: manifest["artifact_sha256"][name] for name in ("test_protocol.json", "candidate_family.json", "case_evidence.csv", "relation_evidence_single_scale.csv", "relation_evidence_all_scale.csv")}}
+    provenance = {"frozen_artifacts": dict(manifest["artifact_sha256"])}
     return config, graph, cases, dependence, provenance
 
 
@@ -358,7 +323,12 @@ def _build_msgnet_graph_core(template: Mapping[str, Any], protocol: Mapping[str,
     records = _json(MSG_FROZEN / "baseline/baseline_records.json")
     record_by_id = {int(record["test_id"]): record for record in records}
     names = list(template["dataset"]["variables"])
-    graph = {key: copy.deepcopy(template[key]) for key in ("session", "model", "dataset", "checkpoint", "provenance", "model_specific")}
+    graph = {key: copy.deepcopy(template[key]) for key in ("session", "model", "dataset", "checkpoint", "provenance")}
+    graph["model_specific"] = {
+        "artifact_validation_report": copy.deepcopy(
+            template.get("validation", {}).get("model_validation_V01_V09")
+        )
+    }
     graph["session"]["session_id"] = "msgnet_etth1_frozen14_graph_core"
     graph["samples"] = []
     graph["relations"] = []
@@ -412,7 +382,7 @@ def _build_msgnet_graph_core(template: Mapping[str, Any], protocol: Mapping[str,
                 if sample_id == 0 and (source, target) in old_relations:
                     occurrences = copy.deepcopy(old_relations[(source, target)]["native_occurrences"])
                 graph["relations"].append({"relation_id": f"test:{sample_id}:edge:{source}->{target}", "sample_id": f"test:{sample_id}", "source": source, "target": target, "source_name": names[source], "target_name": names[target], "native_occurrences": occurrences})
-    graph["model_specific"]["artifact_validation_report"] = {"status": "pass", "source": "msgnet_cross_test_v1/manifest.json", "frozen_validation": _json(MSG_FROZEN / "manifest.json")["status"]}
+    graph["model_specific"]["artifact_validation_report"] = {"status": "pass", "source": "msgnet_frozen14/formal_manifest_v2.json", "frozen_validation": _json(MSG_FROZEN / "formal_manifest_v2.json")["status"]}
     return graph
 
 

@@ -1,0 +1,183 @@
+{
+  "schema_version": "dgrainsight.msgnet_formal_protocol.v2",
+  "selection_frozen": true,
+  "selection_rule": "round(linspace(valid_min_index, valid_max_index, 14))",
+  "dataset_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+  "seq_len": 96,
+  "pred_len": 96,
+  "raw_span": 192,
+  "selected_test_ids": [
+    0,
+    214,
+    428,
+    642,
+    857,
+    1071,
+    1285,
+    1499,
+    1713,
+    1927,
+    2142,
+    2356,
+    2570,
+    2784
+  ],
+  "tests": [
+    {
+      "test_id": 0,
+      "raw_start": 11424,
+      "raw_end": 11615,
+      "input_start": 11424,
+      "input_end": 11519,
+      "forecast_start": 11520,
+      "forecast_end": 11615,
+      "start_timestamp": "2017-10-20 00:00:00",
+      "end_timestamp": "2017-10-27 23:00:00"
+    },
+    {
+      "test_id": 214,
+      "raw_start": 11638,
+      "raw_end": 11829,
+      "input_start": 11638,
+      "input_end": 11733,
+      "forecast_start": 11734,
+      "forecast_end": 11829,
+      "start_timestamp": "2017-10-28 22:00:00",
+      "end_timestamp": "2017-11-05 21:00:00"
+    },
+    {
+      "test_id": 428,
+      "raw_start": 11852,
+      "raw_end": 12043,
+      "input_start": 11852,
+      "input_end": 11947,
+      "forecast_start": 11948,
+      "forecast_end": 12043,
+      "start_timestamp": "2017-11-06 20:00:00",
+      "end_timestamp": "2017-11-14 19:00:00"
+    },
+    {
+      "test_id": 642,
+      "raw_start": 12066,
+      "raw_end": 12257,
+      "input_start": 12066,
+      "input_end": 12161,
+      "forecast_start": 12162,
+      "forecast_end": 12257,
+      "start_timestamp": "2017-11-15 18:00:00",
+      "end_timestamp": "2017-11-23 17:00:00"
+    },
+    {
+      "test_id": 857,
+      "raw_start": 12281,
+      "raw_end": 12472,
+      "input_start": 12281,
+      "input_end": 12376,
+      "forecast_start": 12377,
+      "forecast_end": 12472,
+      "start_timestamp": "2017-11-24 17:00:00",
+      "end_timestamp": "2017-12-02 16:00:00"
+    },
+    {
+      "test_id": 1071,
+      "raw_start": 12495,
+      "raw_end": 12686,
+      "input_start": 12495,
+      "input_end": 12590,
+      "forecast_start": 12591,
+      "forecast_end": 12686,
+      "start_timestamp": "2017-12-03 15:00:00",
+      "end_timestamp": "2017-12-11 14:00:00"
+    },
+    {
+      "test_id": 1285,
+      "raw_start": 12709,
+      "raw_end": 12900,
+      "input_start": 12709,
+      "input_end": 12804,
+      "forecast_start": 12805,
+      "forecast_end": 12900,
+      "start_timestamp": "2017-12-12 13:00:00",
+      "end_timestamp": "2017-12-20 12:00:00"
+    },
+    {
+      "test_id": 1499,
+      "raw_start": 12923,
+      "raw_end": 13114,
+      "input_start": 12923,
+      "input_end": 13018,
+      "forecast_start": 13019,
+      "forecast_end": 13114,
+      "start_timestamp": "2017-12-21 11:00:00",
+      "end_timestamp": "2017-12-29 10:00:00"
+    },
+    {
+      "test_id": 1713,
+      "raw_start": 13137,
+      "raw_end": 13328,
+      "input_start": 13137,
+      "input_end": 13232,
+      "forecast_start": 13233,
+      "forecast_end": 13328,
+      "start_timestamp": "2017-12-30 09:00:00",
+      "end_timestamp": "2018-01-07 08:00:00"
+    },
+    {
+      "test_id": 1927,
+      "raw_start": 13351,
+      "raw_end": 13542,
+      "input_start": 13351,
+      "input_end": 13446,
+      "forecast_start": 13447,
+      "forecast_end": 13542,
+      "start_timestamp": "2018-01-08 07:00:00",
+      "end_timestamp": "2018-01-16 06:00:00"
+    },
+    {
+      "test_id": 2142,
+      "raw_start": 13566,
+      "raw_end": 13757,
+      "input_start": 13566,
+      "input_end": 13661,
+      "forecast_start": 13662,
+      "forecast_end": 13757,
+      "start_timestamp": "2018-01-17 06:00:00",
+      "end_timestamp": "2018-01-25 05:00:00"
+    },
+    {
+      "test_id": 2356,
+      "raw_start": 13780,
+      "raw_end": 13971,
+      "input_start": 13780,
+      "input_end": 13875,
+      "forecast_start": 13876,
+      "forecast_end": 13971,
+      "start_timestamp": "2018-01-26 04:00:00",
+      "end_timestamp": "2018-02-03 03:00:00"
+    },
+    {
+      "test_id": 2570,
+      "raw_start": 13994,
+      "raw_end": 14185,
+      "input_start": 13994,
+      "input_end": 14089,
+      "forecast_start": 14090,
+      "forecast_end": 14185,
+      "start_timestamp": "2018-02-04 02:00:00",
+      "end_timestamp": "2018-02-12 01:00:00"
+    },
+    {
+      "test_id": 2784,
+      "raw_start": 14208,
+      "raw_end": 14399,
+      "input_start": 14208,
+      "input_end": 14303,
+      "forecast_start": 14304,
+      "forecast_end": 14399,
+      "start_timestamp": "2018-02-13 00:00:00",
+      "end_timestamp": "2018-02-20 23:00:00"
+    }
+  ],
+  "minimum_start_gap": 214,
+  "median_start_gap": 214.0
+}

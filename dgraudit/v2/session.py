@@ -22,7 +22,7 @@ FORBIDDEN_CASE_FIELDS = {"case_raw_p", "case_bh_q", "case_significant", "empiric
 def build_audit_session_v2(
     *,
     config: Mapping[str, Any],
-    graph_core_session_v1: Mapping[str, Any],
+    graph_core: Mapping[str, Any],
     case_evidence: Sequence[Mapping[str, Any]],
     dependence_by_family: Mapping[str, Mapping[str, Any]],
     generator: Mapping[str, Any],
@@ -44,19 +44,19 @@ def build_audit_session_v2(
     if config.get("audit_mode") == "quick_inspection":
         status = "PARTIAL AUDIT"
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    v1_validation = copy.deepcopy(graph_core_session_v1.get("model_specific", {}).get("artifact_validation_report"))
+    model_validation = copy.deepcopy(graph_core.get("model_specific", {}).get("artifact_validation_report"))
     session = {
         "schema_version": SESSION_SCHEMA_VERSION_V2,
         "session": {
-            **copy.deepcopy(graph_core_session_v1["session"]),
+            **copy.deepcopy(graph_core["session"]),
             "created_at": now,
             "generator": dict(generator),
             "source_mode": "offline_audit_v2",
             "status": status,
         },
-        "model": copy.deepcopy(graph_core_session_v1["model"]),
-        "dataset": copy.deepcopy(graph_core_session_v1["dataset"]),
-        "checkpoint": copy.deepcopy(graph_core_session_v1["checkpoint"]),
+        "model": copy.deepcopy(graph_core["model"]),
+        "dataset": copy.deepcopy(graph_core["dataset"]),
+        "checkpoint": copy.deepcopy(graph_core["checkpoint"]),
         "audit_plan": {
             "audit_mode": config["audit_mode"],
             "sample_protocol": copy.deepcopy(config["sample_protocol"]),
@@ -68,19 +68,19 @@ def build_audit_session_v2(
             "multiplicity_protocol": copy.deepcopy(config["multiplicity_protocol"]),
             "sensitivity_protocol": copy.deepcopy(config["sensitivity_protocol"]),
         },
-        "samples": copy.deepcopy(graph_core_session_v1["samples"]),
+        "samples": copy.deepcopy(graph_core["samples"]),
         "relations": [
             {key: copy.deepcopy(value) for key, value in relation.items() if key != "evidence_ids"}
-            for relation in graph_core_session_v1["relations"]
+            for relation in graph_core["relations"]
         ],
         "case_evidence": copy.deepcopy(list(case_evidence)),
         "candidate_relations": candidate_relations,
         "hypothesis_families": families,
         "cross_sample_evidence": cross,
         "dependence_audit": dependence_records,
-        "validation": {"model_validation_V01_V09": v1_validation, "statistical_validation": checks},
+        "validation": {"model_validation_V01_V09": model_validation, "statistical_validation": checks},
         "provenance": {
-            **copy.deepcopy(graph_core_session_v1.get("provenance", {})),
+            **copy.deepcopy(graph_core.get("provenance", {})),
             **protocol_provenance(config, families, dependence_records),
             **dict(additional_provenance or {}),
         },

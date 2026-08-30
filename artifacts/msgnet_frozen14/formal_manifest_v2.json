@@ -1,0 +1,32 @@
+{
+  "schema_version": "dgrainsight.msgnet_formal_manifest.v2",
+  "status": "DATA GENERATION PASS",
+  "checkpoint_sha256": "78cf820042156a3e7d30e137ad944b9fb9a079b3d50be4893b49d1567bb6309d",
+  "dataset_sha256": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+  "selected_test_ids": [
+    0,
+    214,
+    428,
+    642,
+    857,
+    1071,
+    1285,
+    1499,
+    1713,
+    1927,
+    2142,
+    2356,
+    2570,
+    2784
+  ],
+  "candidate_family_sizes": {
+    "single": 126,
+    "all": 42
+  },
+  "artifact_sha256": {
+    "formal_protocol_v2.json": "c31ac938c25c46778073c07cec3cd245359d5faa08e87ad799a0150e2baff884",
+    "candidate_family_v2.json": "2ff1ee8485e60cff14fe63eccb440a03dead5e48eb31bb121ac22149443ed3bd",
+    "case_evidence.csv": "9f35adcfba91b819e42979785084aa513695da47339c8d227d62c6cbaf959e85",
+    "intervention_records.jsonl": "c2776b71b72418e2e0664d4f9ec68f005556fbfad635b8c4300ea56143be7642"
+  }
+}

@@ -48,12 +48,18 @@ export function captureWebGraphBaseline() {
 
   const pipeline = read('tests/fixtures/pipeline_v2_graph_baseline.json');
   const mtgnn = pipeline.models.MTGNN;
+  const mtgnnGraphCore = {
+    sample_count: mtgnn.sample_count,
+    relation_count: mtgnn.relation_count,
+    samples: mtgnn.samples,
+    relation_core_sha256: mtgnn.relation_core_sha256,
+  };
   return {
-    fixture_version: 1,
-    rule: 'Read-only browser graph baseline captured before Web Migration v2 evidence UI changes.',
+    fixture_version: 2,
+    rule: 'Current browser graph tensors and MTGNN graph core must remain exact.',
     dgraformer,
     msgnet,
-    mtgnn_sha256: sha256(mtgnn),
+    mtgnn_graph_core_sha256: sha256(mtgnnGraphCore),
   };
 }
 

@@ -1,4 +1,4 @@
-"""Freeze graph/model-core hashes before the Pipeline v2 statistical migration."""
+"""Refresh the protected current Session v2 graph/model-core hash fixture."""
 
 from __future__ import annotations
 
@@ -11,9 +11,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "tests" / "fixtures" / "pipeline_v2_graph_baseline.json"
 SOURCES = {
-    "DGraFormer": ROOT / "artifacts" / "sessions" / "dgraformer_etth1" / "dgrainsight_session.json",
-    "MSGNet": ROOT / "artifacts" / "sessions" / "msgnet_etth1" / "dgrainsight_session.json",
-    "MTGNN": ROOT / "dgrainsight_session.json",
+    "DGraFormer": ROOT / "public" / "data" / "evidence" / "dgraformer_etth1_session_v2.json",
+    "MSGNet": ROOT / "tests" / "fixtures" / "msgnet_graph_core_baseline.json",
+    "MTGNN": ROOT / "tests" / "fixtures" / "mtgnn_quick_session_v2.json",
 }
 
 
@@ -69,8 +69,8 @@ def freeze(path: Path) -> dict[str, Any]:
 
 def main() -> None:
     result = {
-        "fixture_version": "pipeline_v2_graph_baseline.v1",
-        "rule": "Session v1 graph/model core must be byte-for-byte equivalent after canonical JSON serialization.",
+        "fixture_version": "pipeline_v2_graph_baseline.v2",
+        "rule": "Current Session v2 graph/model core must remain exactly equivalent after canonical JSON serialization.",
         "models": {model: freeze(path) for model, path in SOURCES.items()},
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)

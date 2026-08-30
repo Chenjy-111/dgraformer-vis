@@ -1,9 +1,9 @@
 {
-  "fixture_version": "pipeline_v2_graph_baseline.v1",
-  "rule": "Session v1 graph/model core must be byte-for-byte equivalent after canonical JSON serialization.",
+  "fixture_version": "pipeline_v2_graph_baseline.v2",
+  "rule": "Current Session v2 graph/model core must remain byte-for-byte equivalent after canonical JSON serialization.",
   "models": {
     "DGraFormer": {
-      "source": "artifacts/sessions/dgraformer_etth1/dgrainsight_session.json",
+      "source": "public/data/evidence/dgraformer_etth1_session_v2.json",
       "source_sha256": "5831e6a23c6b0daad6c4a68882e8beb9e5f2ec24ea870b24764a3dbea780518b",
       "sample_count": 40,
       "relation_count": 160,
@@ -7492,7 +7492,7 @@
       "relation_core_sha256": "16eb8ceee53f252a2dc571f0092e06c634aa0b5810da631a7df2749f15bc0e29"
     },
     "MSGNet": {
-      "source": "artifacts/sessions/msgnet_etth1/dgrainsight_session.json",
+      "source": "tests/fixtures/msgnet_graph_core_baseline.json",
       "source_sha256": "fb1625b3285d0b2142d07193923dd9e47821c1e80e38214eb8fe25df22a6ef83",
       "sample_count": 5,
       "relation_count": 210,
@@ -7726,7 +7726,7 @@
       "relation_core_sha256": "caab887edb9412f2c963ffd9d580525ce6785e09179b0dd587c2380a97a453ed"
     },
     "MTGNN": {
-      "source": "tests/fixtures/mtgnn_exchange_session_v1.json",
+      "source": "tests/fixtures/mtgnn_quick_session_v2.json",
       "source_sha256": "f177bd7015b8d2c1d9bbc2bbbdac5038ecfc7ae0a9399bbeb921f4df45bef687",
       "sample_count": 1,
       "relation_count": 1,

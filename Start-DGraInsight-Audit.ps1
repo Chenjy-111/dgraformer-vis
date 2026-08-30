@@ -1,6 +1,6 @@
 param(
     [string]$Config,
-    [string]$Output = "dgrainsight_session.json"
+    [string]$Output = "dgrainsight_session_v2.json"
 )
 
 $ErrorActionPreference = "Stop"

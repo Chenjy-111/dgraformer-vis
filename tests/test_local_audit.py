@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 import numpy as np
 
-from dgraudit.local_audit import LocalAuditError, _bh_adjust, run_local_audit
-from dgraudit.session import validate_audit_session
+from dgraudit.quick_audit import QuickAuditError, run_quick_audit
+from dgraudit.v2.session import validate_audit_session_v2
 
 
 class _FakeAdapter:
@@ -90,11 +90,8 @@ class _FakeSpec:
         return result
 
 
-class LocalAuditTests(unittest.TestCase):
-    def test_bh_adjustment_is_monotone_in_rank_order(self):
-        self.assertEqual(_bh_adjust([0.01, 0.04, 0.03]), [0.03, 0.04, 0.04])
-
-    def test_direct_audit_writes_valid_session_despite_adapter_cwd_change(self):
+class QuickAuditTests(unittest.TestCase):
+    def test_direct_audit_writes_valid_quick_session_despite_adapter_cwd_change(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             workspace = root / "workspace"
@@ -106,7 +103,9 @@ class LocalAuditTests(unittest.TestCase):
             dataset.write_text("date,A,B,C\n2026-01-01,1,2,3\n", encoding="utf-8")
             checkpoint.write_bytes(b"real-test-checkpoint-placeholder")
             config = {
-                "schema_version": "dgrainsight.audit_config.v1",
+                "schema_version": "dgrainsight.audit_config.v2",
+                "config_version": 2,
+                "audit_mode": "quick_inspection",
                 "adapter": "dgraformer",
                 "source_root": str(source),
                 "checkpoint": {"path": str(checkpoint)},
@@ -134,12 +133,24 @@ class LocalAuditTests(unittest.TestCase):
                         "include_broader_context": True,
                     }],
                 },
+                "sample_protocol": {
+                    "protocol_id": "quick.fixture", "selection_rule": "explicit user selection",
+                    "split": "test", "sample_ids": [0], "selection_frozen": True,
+                    "active_inactive_policy": "exclude_inactive_without_zero_imputation",
+                },
+                "candidate_families": [],
+                "control_protocol": {"protocol": "all_unique_eligible", "with_replacement": False},
+                "response_metric": "prediction_delta_abs",
+                "dependence_protocol": {"expected_classification": "unknown_dependence"},
+                "inference_protocol": {"selection_frozen": True, "alternative": "mean_D > 0", "by_family": {}},
+                "multiplicity_protocol": {"primary_method": "BH", "alpha": 0.05},
+                "sensitivity_protocol": {},
                 "adapter_config": {"random_seed": 7, "current_epoch": 5, "model": {}},
             }
             config_path = workspace / "audit.json"
             config_path.write_text(json.dumps(config), encoding="utf-8")
             preflight = {
-                "schema_version": "dgrainsight.adapter_validation.v1",
+                "schema_version": "dgrainsight.adapter_validation.v2",
                 "status": "ready_for_audit",
                 "adapter": {"id": "dgraformer", "name": "DGraFormerAdapter"},
                 "checks": [{"id": f"V{index:02d}", "name": "fixture", "label": "fixture", "status": "pass"}
@@ -152,30 +163,30 @@ class LocalAuditTests(unittest.TestCase):
             previous = Path.cwd()
             try:
                 os.chdir(workspace)
-                with patch("dgraudit.local_audit.validate_audit_config", return_value=preflight), patch.dict(
-                    "dgraudit.local_audit.OFFICIAL_ADAPTER_REGISTRY", {"dgraformer": _FakeSpec()}, clear=True
+                with patch("dgraudit.quick_audit.validate_audit_config", return_value=preflight), patch.dict(
+                    "dgraudit.quick_audit.OFFICIAL_ADAPTER_REGISTRY", {"dgraformer": _FakeSpec()}, clear=True
                 ):
-                    output, session = run_local_audit(
+                    output, session = run_quick_audit(
                         config_path,
-                        output_path="generated/dgrainsight_session.json",
-                        bootstrap_repetitions=20,
+                        output_path="generated/dgrainsight_session_v2.json",
                     )
             finally:
                 os.chdir(previous)
-            self.assertEqual(output, workspace / "generated" / "dgrainsight_session.json")
+            self.assertEqual(output, workspace / "generated" / "dgrainsight_session_v2.json")
             self.assertTrue(output.is_file())
-            self.assertEqual(validate_audit_session(session), [])
-            self.assertEqual(session["evidence_summary"]["local_case_count"], 1)
-            self.assertEqual(session["evidence_summary"]["broader_context_case_count"], 1)
-            self.assertEqual(session["model_specific"]["local_audit"]["prediction_replay_count"], 12)
+            self.assertEqual(validate_audit_session_v2(session), [])
+            self.assertEqual(session["audit_plan"]["audit_mode"], "quick_inspection")
+            self.assertEqual(len(session["case_evidence"]), 2)
+            self.assertTrue(all(case["formal_inference"]["status"] == "not_evaluated" for case in session["case_evidence"]))
+            self.assertTrue(all(case["controls"]["unique_count"] == 5 for case in session["case_evidence"]))
 
     def test_failed_preflight_creates_no_output(self):
         with tempfile.TemporaryDirectory() as temporary:
-            output = Path(temporary) / "dgrainsight_session.json"
+            output = Path(temporary) / "dgrainsight_session_v2.json"
             report = {"status": "not_ready", "checks": []}
-            with patch("dgraudit.local_audit.validate_audit_config", return_value=report):
-                with self.assertRaises(LocalAuditError):
-                    run_local_audit(Path(temporary) / "missing.json", output_path=output)
+            with patch("dgraudit.quick_audit.validate_audit_config", return_value=report):
+                with self.assertRaises(QuickAuditError):
+                    run_quick_audit(Path(temporary) / "missing.json", output_path=output)
             self.assertFalse(output.exists())
 
 

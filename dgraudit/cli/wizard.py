@@ -8,24 +8,22 @@ from pathlib import Path
 from typing import Any, Callable, Mapping
 
 from dgraudit.v2.config import load_audit_config_v2
-from dgraudit.v2.quick import upgrade_quick_session_v1
 from dgraudit.v2.runner import run_audit_v2, terminal_summary
-from dgraudit.v2.session import write_audit_session_v2
 
 
-def run_local_audit(*args, **kwargs):
-    from dgraudit.local_audit import run_local_audit as legacy_run_local_audit
-    return legacy_run_local_audit(*args, **kwargs)
+def run_quick_audit(*args, **kwargs):
+    from dgraudit.quick_audit import run_quick_audit as current_run_quick_audit
+    return current_run_quick_audit(*args, **kwargs)
 
 
 def inspect_native_edges(*args, **kwargs):
-    from dgraudit.edge_discovery import inspect_native_edges as legacy_inspect_native_edges
-    return legacy_inspect_native_edges(*args, **kwargs)
+    from dgraudit.edge_discovery import inspect_native_edges as current_inspect_native_edges
+    return current_inspect_native_edges(*args, **kwargs)
 
 
 def render_edge_inspection(*args, **kwargs):
-    from dgraudit.edge_discovery import render_edge_inspection as legacy_render_edge_inspection
-    return legacy_render_edge_inspection(*args, **kwargs)
+    from dgraudit.edge_discovery import render_edge_inspection as current_render_edge_inspection
+    return current_render_edge_inspection(*args, **kwargs)
 
 
 Input = Callable[[str], str]
@@ -74,8 +72,7 @@ def _timestamped_config_path(output: Path) -> Path:
 def run_wizard(
     config_path: str | Path,
     *,
-    output_path: str | Path = "dgrainsight_session.json",
-    bootstrap_repetitions: int = 2000,
+    output_path: str | Path = "dgrainsight_session_v2.json",
     source_root: str | None = None,
     checkpoint: str | None = None,
     dataset: str | None = None,
@@ -177,6 +174,8 @@ def run_wizard(
                 "include_broader_context": broader,
             }],
         }
+        config["sample_protocol"]["sample_ids"] = [sample]
+        config["sample_protocol"]["protocol_id"] = f"quick.{config['adapter']}.test.{sample}"
         selected_config.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         selection_persisted = True
 
@@ -187,10 +186,9 @@ def run_wizard(
         if not assume_yes and not _ask_yes_no("Run the validated local audit now?", input_fn, default=True):
             raise KeyboardInterrupt("Audit cancelled by user.")
         print_fn(f"Selected config saved to: {selected_config}")
-        written, session = run_local_audit(
+        written, session = run_quick_audit(
             selected_config,
             output_path=output,
-            bootstrap_repetitions=bootstrap_repetitions,
             progress=lambda message: print_fn(f"[DGraInsight] {message}"),
         )
         return written, selected_config, session
@@ -208,9 +206,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Interactively inspect native graphs, select a real edge, and generate a portable audit session."
     )
-    parser.add_argument("--config", required=True, help="Model-specific Audit Config v1 template.")
-    parser.add_argument("--output", default="dgrainsight_session.json")
-    parser.add_argument("--bootstrap", type=int, default=2000)
+    parser.add_argument("--config", required=True, help="Model-specific Audit Config v2 template.")
+    parser.add_argument("--output", default="dgrainsight_session_v2.json")
     parser.add_argument("--source-root", help="Override the model source directory without editing the template.")
     parser.add_argument("--checkpoint", help="Override the checkpoint path without editing the template.")
     parser.add_argument("--dataset", help="Override the dataset path without editing the template.")
@@ -224,7 +221,6 @@ def main(argv: list[str] | None = None) -> int:
     scope.add_argument("--local-only", action="store_true", help="Audit only the selected exact native context.")
     parser.add_argument("--yes", action="store_true", help="Run without the final confirmation prompt.")
     parser.add_argument("--mode", choices=("auto", "quick", "formal"), default="auto")
-    parser.add_argument("--legacy-v1", action="store_true", help="Explicitly retain the old Session v1 output for Quick Inspection.")
     args = parser.parse_args(argv)
     broader = True if args.broader else False if args.local_only else None
     try:
@@ -232,7 +228,7 @@ def main(argv: list[str] | None = None) -> int:
         is_v2 = raw_config.get("config_version") == 2
         if args.mode == "formal" and not is_v2:
             raise ValueError("Formal Evidence Audit requires an Audit Config v2 with frozen samples and candidate families.")
-        if is_v2:
+        if is_v2 and raw_config.get("audit_mode") == "formal_evidence_audit":
             _, formal_config = load_audit_config_v2(args.config)
             if formal_config["audit_mode"] != "formal_evidence_audit":
                 raise ValueError("The supplied v2 config is not a Formal Evidence Audit config.")
@@ -254,7 +250,6 @@ def main(argv: list[str] | None = None) -> int:
         output, selected_config, session = run_wizard(
             args.config,
             output_path=args.output,
-            bootstrap_repetitions=args.bootstrap,
             source_root=args.source_root,
             checkpoint=args.checkpoint,
             dataset=args.dataset,
@@ -266,10 +261,7 @@ def main(argv: list[str] | None = None) -> int:
             include_broader_context=broader,
             assume_yes=args.yes,
         )
-        if not args.legacy_v1:
-            session = upgrade_quick_session_v1(session)
-            output = write_audit_session_v2(output, session)
-            print("Quick Inspection: formal_inference.status=not_evaluated; raw_p=null; bh_q=null")
+        print("Quick Inspection: formal_inference.status=not_evaluated; raw_p=null; bh_q=null")
     except KeyboardInterrupt:
         print("\nDGraInsight wizard cancelled.", file=sys.stderr)
         return 130

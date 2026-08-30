@@ -1,6 +1,6 @@
 """DGraInsight Offline Audit Pipeline v2 statistical layer.
 
-The v2 package intentionally does not modify adapter contracts or Session v1.
+The v2 package preserves the validated adapter contracts and graph semantics.
 """
 
 from .config import CONFIG_SCHEMA_VERSION_V2, load_audit_config_v2, validate_audit_config_v2

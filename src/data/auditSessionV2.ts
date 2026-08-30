@@ -1,8 +1,43 @@
-import type { AuditSession as V1Session, AuditSample, AuditTensor } from './auditSession';
-
-export type V1AuditSession = V1Session;
 export type EvidenceStatus = 'active' | 'inactive' | 'complete' | 'unavailable' | 'not_evaluated';
 export type MissingReason = string;
+
+export interface AuditTensor {
+  dtype: string;
+  shape: number[];
+  axis_order: string[];
+  values: unknown[];
+  sha256?: string;
+}
+
+export interface NullableTensor {
+  status: 'available' | 'missing' | 'unavailable';
+  value: AuditTensor | null;
+  reason: string | null;
+}
+
+export interface GraphContext {
+  context_id: string;
+  type: string;
+  index: number;
+  layer?: number;
+  node_count: number;
+  graphs: Record<string, AuditTensor>;
+  native_metadata: Record<string, unknown>;
+}
+
+export interface AuditSample {
+  sample_id: string;
+  display_id: number | null;
+  split: 'test';
+  sample_index: number;
+  history: NullableTensor;
+  ground_truth: AuditTensor;
+  baseline_prediction: AuditTensor;
+  sample_metrics: Record<string, number | number[] | null>;
+  contexts: GraphContext[];
+  provenance: Record<string, unknown>;
+  model_specific?: Record<string, unknown>;
+}
 
 export interface CaseEvidence {
   case_evidence_id: string;
@@ -235,4 +270,15 @@ export function parseAuditSessionV2(text: string): AuditSessionV2Validation {
   catch (error) { return { ok: false, errors: [`Invalid JSON: ${error instanceof Error ? error.message : String(error)}`] }; }
 }
 
-export type { AuditTensor };
+export const SESSION_V1_UNSUPPORTED =
+  'Session v1 is no longer supported by the current DGraInsight release. Please generate a Session v2 audit.';
+
+export function parseCurrentAuditSession(text: string): AuditSessionV2Validation {
+  let input: unknown;
+  try { input = JSON.parse(text); }
+  catch (error) { return { ok: false, errors: [`Invalid JSON: ${error instanceof Error ? error.message : String(error)}`] }; }
+  if (!object(input) || input.schema_version !== '2.0') {
+    return { ok: false, errors: [SESSION_V1_UNSUPPORTED] };
+  }
+  return validateAuditSessionV2(input);
+}

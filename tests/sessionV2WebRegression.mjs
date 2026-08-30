@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateAuditSessionV2 } from '../.tmp/audit-session-v2-validator/src/data/auditSessionV2.js';
+import { parseCurrentAuditSession, SESSION_V1_UNSUPPORTED, validateAuditSessionV2 } from '../.tmp/audit-session-v2-validator/src/data/auditSessionV2.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = relative => JSON.parse(fs.readFileSync(path.join(ROOT, relative), 'utf8'));
@@ -12,6 +12,9 @@ const msgnet = read('public/data/evidence/msgnet_etth1_session_v2.json');
 
 assert.equal(validateAuditSessionV2(dgra).ok, true);
 assert.equal(validateAuditSessionV2(msgnet).ok, true);
+const rejectedV1 = parseCurrentAuditSession(JSON.stringify({ schema_version: '1.0' }));
+assert.equal(rejectedV1.ok, false);
+assert.deepEqual(rejectedV1.errors, [SESSION_V1_UNSUPPORTED]);
 
 const dgraRelations = new Map();
 for (const candidate of dgra.candidate_relations) {

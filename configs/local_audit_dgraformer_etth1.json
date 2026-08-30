@@ -1,5 +1,7 @@
 {
-  "schema_version": "dgrainsight.audit_config.v1",
+  "schema_version": "dgrainsight.audit_config.v2",
+  "config_version": 2,
+  "audit_mode": "quick_inspection",
   "adapter": "dgraformer",
   "source_root": "../external/DGraFormer",
   "checkpoint": {
@@ -32,6 +34,27 @@
       }
     ]
   },
+  "sample_protocol": {
+    "protocol_id": "quick.dgraformer.user_selection",
+    "selection_rule": "explicit user selection",
+    "split": "test",
+    "sample_ids": [0],
+    "selection_frozen": true,
+    "active_inactive_policy": "exclude_inactive_without_zero_imputation"
+  },
+  "candidate_families": [],
+  "control_protocol": {"protocol": "all_unique_eligible", "with_replacement": false},
+  "response_metric": "prediction_delta_abs",
+  "dependence_protocol": {"expected_classification": "unknown_dependence", "same_continuous_series": null},
+  "inference_protocol": {
+    "selection_frozen": true,
+    "alternative": "mean_D > 0",
+    "inference_unit": "candidate_relation_across_predeclared_units",
+    "null_definition": null,
+    "by_family": {}
+  },
+  "multiplicity_protocol": {"primary_method": "BH", "alpha": 0.05, "families_frozen": true},
+  "sensitivity_protocol": {"primary_results_unchanged": true, "by_family": {}},
   "adapter_config": {
     "random_seed": 202501,
     "current_epoch": 5,

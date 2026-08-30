@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "vite --config vite.config.ts",
     "build": "tsc -b && vite build --config vite.config.ts",
-    "test:session-validator": "tsc -p tsconfig.audit-session-validator.json && node tests/auditSessionValidator.mjs",
     "test:session-v2-validator": "tsc -p tsconfig.audit-session-v2-validator.json",
     "test:web-graph-regression": "node tests/webGraphRegression.mjs",
     "test:web-session-v2": "npm run test:session-v2-validator && node tests/sessionV2WebRegression.mjs",

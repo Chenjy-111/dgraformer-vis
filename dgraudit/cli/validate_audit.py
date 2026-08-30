@@ -14,6 +14,16 @@ def validate_config_file(path: str | Path, *, debug: bool = False) -> tuple[dict
     config = json.loads(config_path.read_text(encoding="utf-8"))
     if isinstance(config, dict) and config.get("config_version") == 2:
         errors = validate_audit_config_v2(config)
+        if config.get("audit_mode") == "quick_inspection" and not errors:
+            adapter_report = validate_audit_config(config_path, debug=debug)
+            adapter_report["checks"].extend(statistical_protocol_checks(config))
+            adapter_report["schema_version"] = "dgrainsight.audit_config_validation.v2"
+            adapter_report["status"] = (
+                "ready_for_audit"
+                if all(check.get("status") == "pass" for check in adapter_report["checks"])
+                else "invalid_config"
+            )
+            return adapter_report, json.dumps(adapter_report, indent=2, ensure_ascii=False)
         report = {
             "schema_version": "dgrainsight.audit_config_validation.v2",
             "config": str(config_path),
@@ -22,13 +32,18 @@ def validate_config_file(path: str | Path, *, debug: bool = False) -> tuple[dict
             "checks": statistical_protocol_checks(config),
         }
         return report, json.dumps(report, indent=2, ensure_ascii=False)
-    report = validate_audit_config(config_path, debug=debug)
-    return report, render_validation_report(report)
+    return {
+        "schema_version": "dgrainsight.audit_config_validation.v2",
+        "config": str(config_path),
+        "status": "invalid_config",
+        "errors": ["DGraInsight accepts Audit Config v2 only."],
+        "checks": [],
+    }, "DGraInsight accepts Audit Config v2 only."
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Validate supported DGraInsight local-audit inputs before audit execution.")
-    parser.add_argument("--config", required=True, help="Path to a current Audit Config v2 or legacy v1 JSON file.")
+    parser.add_argument("--config", required=True, help="Path to an Audit Config v2.")
     parser.add_argument("--output", help="Optional path for the machine-readable validation report.")
     parser.add_argument("--debug", action="store_true", help="Include bounded exception details in the JSON report.")
     args = parser.parse_args(argv)

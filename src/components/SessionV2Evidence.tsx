@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Activity, AlertTriangle, BarChart3, CheckCircle2, CircleOff, Info, LoaderCircle, Microscope, ShieldCheck } from 'lucide-react';
-import type { AuditTensor } from '@/data/auditSession';
-import type { AuditSessionV2, CandidateRelation, CaseEvidence, CrossSampleEvidence, HypothesisFamily, SensitivityResult } from '@/data/auditSessionV2';
+import type { AuditSessionV2, AuditTensor, CandidateRelation, CaseEvidence, CrossSampleEvidence, HypothesisFamily, SensitivityResult } from '@/data/auditSessionV2';
 import { exactCandidate, exactCase, loadBuiltInSessionV2, relationGroups, sampleById, type CandidateBundle } from '@/data/auditSessionV2View';
 import { useDemoStore } from '@/store/useDemoStore';
 import { useWorkflowStore } from '@/store/useWorkflowStore';

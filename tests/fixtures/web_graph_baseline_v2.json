@@ -1,6 +1,6 @@
 {
-  "fixture_version": 1,
-  "rule": "Read-only browser graph baseline captured before Web Migration v2 evidence UI changes.",
+  "fixture_version": 2,
+  "rule": "Current browser graph tensors and MTGNN graph core must remain exact.",
   "dgraformer": [
     {
       "dataset": "ETTh1",
@@ -2365,5 +2365,5 @@
       ]
     }
   ],
-  "mtgnn_sha256": "721d8293dff96359bd4dcce8ce2be16a37773417de3e4de492d4e4bcd04c4fe5"
+  "mtgnn_graph_core_sha256": "ed4413a83c817dc1275e4119caa30a4e87eaa5563d1ce12498dd114274694b2f"
 }

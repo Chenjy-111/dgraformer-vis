@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
-from dgraudit.local_audit import _context_id, _context_weight, _resolve
+from dgraudit.quick_audit import _context_id, _context_weight, _resolve
 from dgraudit.validation import OFFICIAL_ADAPTER_REGISTRY
 
 

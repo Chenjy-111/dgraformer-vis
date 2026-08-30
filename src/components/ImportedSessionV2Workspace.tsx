@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { GraphNetwork } from './charts/GraphNetwork';
 import type { GraphEdge } from '@/types/demo';
-import type { AuditSessionV2 } from '@/data/auditSessionV2';
-import type { AuditTensor } from '@/data/auditSession';
+import type { AuditSessionV2, AuditTensor } from '@/data/auditSessionV2';
 import { useWorkflowStore } from '@/store/useWorkflowStore';
 import { Select } from './ui/Select';
 import { DgraSessionV2Evidence, MsgnetSessionV2Evidence } from './SessionV2Evidence';

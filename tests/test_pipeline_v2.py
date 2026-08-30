@@ -16,7 +16,6 @@ from dgraudit.v2.controls import ControlProtocolError, build_case_evidence
 from dgraudit.v2.families import canonical_hash
 from dgraudit.v2.frozen import load_dgraformer_frozen_inputs, load_msgnet_frozen_inputs
 from dgraudit.v2.inference import infer_candidate
-from dgraudit.v2.quick import upgrade_quick_session_v1
 from dgraudit.v2.session import build_audit_session_v2, validate_audit_session_v2, write_audit_session_v2
 
 
@@ -45,18 +44,17 @@ def graph_snapshot(session: dict) -> dict:
 
 
 class GraphRegressionTests(unittest.TestCase):
-    def test_v1_graph_core_is_exactly_preserved_for_all_adapters(self) -> None:
+    def test_current_graph_core_is_exactly_preserved_for_all_adapters(self) -> None:
         fixture = json.loads((ROOT / "tests/fixtures/pipeline_v2_graph_baseline.json").read_text(encoding="utf-8"))["models"]
         sources = {"DGraFormer": ROOT / fixture["DGraFormer"]["source"], "MSGNet": ROOT / fixture["MSGNet"]["source"], "MTGNN": ROOT / fixture["MTGNN"]["source"]}
         for model, path in sources.items():
             with self.subTest(model=model):
-                v1 = json.loads(path.read_text(encoding="utf-8"))
-                v2 = upgrade_quick_session_v1(v1)
+                session = json.loads(path.read_text(encoding="utf-8"))
                 expected = {key: fixture[model][key] for key in ("sample_count", "relation_count", "samples", "relation_core_sha256")}
-                self.assertEqual(graph_snapshot(v2), expected)
+                self.assertEqual(graph_snapshot(session), expected)
 
     def test_msgnet_frozen14_shared_test_zero_graph_core_is_exact(self) -> None:
-        old = json.loads((ROOT / "artifacts/sessions/msgnet_etth1/dgrainsight_session.json").read_text(encoding="utf-8"))
+        old = json.loads((ROOT / "tests/fixtures/msgnet_graph_core_baseline.json").read_text(encoding="utf-8"))
         new = load_msgnet_frozen_inputs(include_intervention_trajectories=False)[1]
         old_sample = next(sample for sample in old["samples"] if sample["sample_index"] == 0)
         new_sample = next(sample for sample in new["samples"] if sample["sample_index"] == 0)
@@ -71,12 +69,12 @@ class FrozenStatisticalReproductionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         dgra = load_dgraformer_frozen_inputs()
-        cls.dgra_session = build_audit_session_v2(config=dgra[0], graph_core_session_v1=dgra[1], case_evidence=dgra[2], dependence_by_family=dgra[3], generator={"name": "regression"})
+        cls.dgra_session = build_audit_session_v2(config=dgra[0], graph_core=dgra[1], case_evidence=dgra[2], dependence_by_family=dgra[3], generator={"name": "regression"})
         msg = load_msgnet_frozen_inputs(include_intervention_trajectories=False)
-        cls.msg_session = build_audit_session_v2(config=msg[0], graph_core_session_v1=msg[1], case_evidence=msg[2], dependence_by_family=msg[3], generator={"name": "regression"})
+        cls.msg_session = build_audit_session_v2(config=msg[0], graph_core=msg[1], case_evidence=msg[2], dependence_by_family=msg[3], generator={"name": "regression"})
 
     def test_dgraformer_frozen_D_p_and_q(self) -> None:
-        with (ROOT / "artifacts/cross_sample_validation/per_sample_paired_effects.csv").open(encoding="utf-8", newline="") as handle:
+        with (ROOT / "artifacts/dgraformer_frozen40/local_case_effects.csv").open(encoding="utf-8", newline="") as handle:
             local_rows = list(csv.DictReader(handle))
         by_candidate = {item["candidate_id"]: item for item in self.dgra_session["cross_sample_evidence"]}
         candidate = by_candidate["dgra:window:6:0->4"]
@@ -107,10 +105,9 @@ class FrozenStatisticalReproductionTests(unittest.TestCase):
 class NegativeAndRoundTripTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.v1 = json.loads(
-            (ROOT / "tests/fixtures/mtgnn_exchange_session_v1.json").read_text(encoding="utf-8")
+        cls.session = json.loads(
+            (ROOT / "tests/fixtures/mtgnn_quick_session_v2.json").read_text(encoding="utf-8")
         )
-        cls.session = upgrade_quick_session_v1(cls.v1)
 
     def test_one_sample_formal_requires_explicit_unavailable(self) -> None:
         family_id = "mtgnn.global"

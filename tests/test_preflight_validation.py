@@ -135,6 +135,8 @@ class PreflightValidationTests(unittest.TestCase):
     def config(self) -> dict[str, Any]:
         return {
             "schema_version": CONFIG_SCHEMA_VERSION,
+            "config_version": 2,
+            "audit_mode": "quick_inspection",
             "adapter": "fake",
             "source_root": str(self.source),
             "checkpoint": {"path": str(self.checkpoint)},
@@ -162,6 +164,25 @@ class PreflightValidationTests(unittest.TestCase):
                     "include_broader_context": True,
                 }],
             },
+            "sample_protocol": {
+                "protocol_id": "quick.fixture",
+                "selection_rule": "explicit user selection",
+                "split": "test",
+                "sample_ids": [0],
+                "selection_frozen": True,
+                "active_inactive_policy": "exclude_inactive_without_zero_imputation",
+            },
+            "candidate_families": [],
+            "control_protocol": {"protocol": "all_unique_eligible", "with_replacement": False},
+            "response_metric": "prediction_delta_abs",
+            "dependence_protocol": {"expected_classification": "unknown_dependence"},
+            "inference_protocol": {
+                "selection_frozen": True,
+                "alternative": "mean_D > 0",
+                "by_family": {},
+            },
+            "multiplicity_protocol": {"primary_method": "BH", "alpha": 0.05},
+            "sensitivity_protocol": {},
             "adapter_config": {"random_seed": 1, "model": {}},
         }
 

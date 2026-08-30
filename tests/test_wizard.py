@@ -20,12 +20,26 @@ class WizardTests(unittest.TestCase):
             dataset = root / "dataset.csv"
             dataset.write_text("1,2\n", encoding="utf-8")
             template = {
-                "schema_version": "dgrainsight.audit_config.v1",
+                "schema_version": "dgrainsight.audit_config.v2",
+                "config_version": 2,
+                "audit_mode": "quick_inspection",
                 "adapter": "fake",
                 "source_root": "source",
                 "checkpoint": {"path": "checkpoint.pt"},
                 "dataset": {"path": "dataset.csv"},
                 "audit": {"split": "test", "samples": [0], "relations": []},
+                "sample_protocol": {
+                    "protocol_id": "quick.fake", "selection_rule": "explicit user selection",
+                    "split": "test", "sample_ids": [0], "selection_frozen": True,
+                    "active_inactive_policy": "exclude_inactive_without_zero_imputation",
+                },
+                "candidate_families": [],
+                "control_protocol": {"protocol": "all_unique_eligible", "with_replacement": False},
+                "response_metric": "prediction_delta_abs",
+                "dependence_protocol": {"expected_classification": "unknown_dependence"},
+                "inference_protocol": {"selection_frozen": True, "alternative": "mean_D > 0", "by_family": {}},
+                "multiplicity_protocol": {"primary_method": "BH", "alpha": 0.05},
+                "sensitivity_protocol": {},
             }
             template_path = root / "template.json"
             template_path.write_text(json.dumps(template), encoding="utf-8")
@@ -58,19 +72,17 @@ class WizardTests(unittest.TestCase):
             answers = iter(["2", "1", "y", "y"])
             captured: dict[str, object] = {}
 
-            def fake_audit(config_path, *, output_path, bootstrap_repetitions, progress):
+            def fake_audit(config_path, *, output_path, progress):
                 captured["config"] = json.loads(Path(config_path).read_text(encoding="utf-8"))
-                captured["bootstrap"] = bootstrap_repetitions
                 Path(output_path).write_text("{}", encoding="utf-8")
                 return Path(output_path), {"session": {"session_id": "fixture"}}
 
             with patch("dgraudit.cli.wizard.inspect_native_edges", return_value=report), patch(
                 "dgraudit.cli.wizard.render_edge_inspection", return_value="fixture graph report"
-            ), patch("dgraudit.cli.wizard.run_local_audit", side_effect=fake_audit):
+            ), patch("dgraudit.cli.wizard.run_quick_audit", side_effect=fake_audit):
                 written, selected_config, _ = run_wizard(
                     template_path,
                     output_path=output_path,
-                    bootstrap_repetitions=25,
                     input_fn=lambda _prompt: next(answers),
                     print_fn=lambda _message: None,
                 )
@@ -83,7 +95,7 @@ class WizardTests(unittest.TestCase):
             self.assertEqual(relation["context"], {"type": "window", "index": 1})
             self.assertEqual((relation["source"], relation["target"]), (1, 0))
             self.assertTrue(relation["include_broader_context"])
-            self.assertEqual(captured["bootstrap"], 25)
+            self.assertEqual(captured["config"]["schema_version"], "dgrainsight.audit_config.v2")
 
 
 if __name__ == "__main__":

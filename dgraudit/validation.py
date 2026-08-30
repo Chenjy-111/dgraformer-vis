@@ -11,8 +11,8 @@ from pathlib import Path
 from typing import Any, Mapping, MutableMapping, Sequence
 
 
-CONFIG_SCHEMA_VERSION = "dgrainsight.audit_config.v1"
-REPORT_SCHEMA_VERSION = "dgrainsight.adapter_validation.v1"
+CONFIG_SCHEMA_VERSION = "dgrainsight.audit_config.v2"
+REPORT_SCHEMA_VERSION = "dgrainsight.adapter_validation.v2"
 IDENTITY_ATOL = 1e-6
 IDENTITY_RTOL = 1e-5
 
@@ -300,7 +300,7 @@ class MSGNetValidationSpec(AdapterValidationSpec):
 
         dataset = config["dataset"]
         adapter_config = config["adapter_config"]
-        legacy_config = {
+        adapter_runtime_config = {
             "random_seed": adapter_config["random_seed"],
             "dataset": {
                 "name": dataset["name"],
@@ -314,7 +314,7 @@ class MSGNetValidationSpec(AdapterValidationSpec):
             },
             "model_config": dict(adapter_config["model"]),
         }
-        return MSGNetAdapter(str(resolved["source_root"]), legacy_config)
+        return MSGNetAdapter(str(resolved["source_root"]), adapter_runtime_config)
 
     def validate_sample(self, batch: Mapping[str, Any], config: Mapping[str, Any]) -> Mapping[str, Any]:
         dataset = config["dataset"]
@@ -940,12 +940,24 @@ def _validate_common_config(config: Mapping[str, Any], spec: AdapterValidationSp
         issues,
         "config",
         config,
-        {"schema_version", "adapter", "source_root", "checkpoint", "dataset", "audit", "adapter_config"},
+        {
+            "schema_version", "config_version", "audit_mode", "adapter", "source_root", "checkpoint",
+            "dataset", "audit", "adapter_config", "sample_protocol", "candidate_families",
+            "control_protocol", "response_metric", "dependence_protocol", "inference_protocol",
+            "multiplicity_protocol", "sensitivity_protocol",
+        },
     )
     if config.get("schema_version") != CONFIG_SCHEMA_VERSION:
         issues.append(_issue("CONFIG_SCHEMA_UNSUPPORTED", "Unsupported audit config schema version.", CONFIG_SCHEMA_VERSION, config.get("schema_version")))
     if spec is None:
-        issues.append(_issue("ADAPTER_UNSUPPORTED", "Adapter is not registered as an official v1 adapter.", sorted(OFFICIAL_ADAPTER_REGISTRY), config.get("adapter")))
+        issues.append(_issue("ADAPTER_UNSUPPORTED", "Adapter is not registered as an official adapter.", sorted(OFFICIAL_ADAPTER_REGISTRY), config.get("adapter")))
+    if config.get("config_version") != 2 or config.get("audit_mode") != "quick_inspection":
+        issues.append(_issue(
+            "CONFIG_SCHEMA_UNSUPPORTED",
+            "Local adapter validation requires a Quick Inspection Audit Config v2.",
+            {"config_version": 2, "audit_mode": "quick_inspection"},
+            {"config_version": config.get("config_version"), "audit_mode": config.get("audit_mode")},
+        ))
     if not isinstance(config.get("source_root"), str) or not config.get("source_root"):
         issues.append(_issue("CONFIG_FIELD_INVALID", "source_root must be a non-empty path string.", "path string", config.get("source_root")))
     checkpoint = config.get("checkpoint")
@@ -981,7 +993,7 @@ def _validate_common_config(config: Mapping[str, Any], spec: AdapterValidationSp
         samples = audit.get("samples")
         relations = audit.get("relations")
         if audit.get("split") != "test":
-            issues.append(_issue("CONFIG_FIELD_INVALID", "Audit Config v1 supports only the test split.", "test", audit.get("split")))
+            issues.append(_issue("CONFIG_FIELD_INVALID", "Quick Inspection supports only the test split.", "test", audit.get("split")))
         if not isinstance(samples, list) or not samples or not all(isinstance(value, int) and value >= 0 for value in samples):
             issues.append(_issue("CONFIG_FIELD_INVALID", "audit.samples must be a non-empty array of non-negative real split indices.", "integer array", samples))
             samples = []

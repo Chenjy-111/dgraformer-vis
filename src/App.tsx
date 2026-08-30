@@ -12,10 +12,8 @@ import { VisualizationCanvas } from './components/VisualizationCanvas';
 import { ControlStudio } from './components/ControlStudio';
 import { ExplanationInspector } from './components/ExplanationInspector';
 import { MsgnetDataWorkspace } from './components/MsgnetWorkspace';
-import { InterventionErrorBoundary } from './components/InterventionErrorBoundary';
-import { TransferBanner, WorkflowBar } from './components/WorkflowChrome';
+import { WorkflowBar } from './components/WorkflowChrome';
 import { AuditSessionImport } from './components/AuditSessionImport';
-import { ImportedEvidenceWorkspace, ImportedGraphWorkspace } from './components/ImportedAuditWorkspace';
 import { ImportedSessionV2Workspace } from './components/ImportedSessionV2Workspace';
 import { DgraSessionV2Evidence, MsgnetSessionV2Evidence } from './components/SessionV2Evidence';
 import { useDemoStore } from './store/useDemoStore';
@@ -31,11 +29,9 @@ export default function App() {
   const collapsed = useDemoStore(state => state.inspectorCollapsed);
   const setDemo = useDemoStore(state => state.set);
   const source = useAuditSessionStore(state => state.source);
-  const session = useAuditSessionStore(state => state.session);
   const sessionV2 = useAuditSessionStore(state => state.sessionV2);
-  const importedV1 = source === 'imported' && session !== null;
   const importedV2 = source === 'imported' && sessionV2 !== null;
-  const imported = importedV1 || importedV2;
+  const imported = importedV2;
 
   useEffect(() => { void load(); }, [load]);
 
@@ -48,11 +44,9 @@ export default function App() {
     <WorkflowBar/>
     <section id="discovery-workspace" className="border-b border-line bg-white">
       <WorkspaceHeader number="01" title="Pattern Discovery" text={imported ? 'Inspect stored model-native graphs and select an exact imported relation.' : 'Find a learned relation worth testing.'}/>
-      {imported ? <ImportedModelLock model={(sessionV2 ?? session!).model.name as string} context={(sessionV2 ?? session!).model.native_context_type as string}/> : <ModelSwitch value={model} onChange={setModel}/>}
+      {imported ? <ImportedModelLock model={sessionV2!.model.name as string} context={sessionV2!.model.native_context_type as string}/> : <ModelSwitch value={model} onChange={setModel}/>}
       {importedV2
         ? <ImportedSessionV2Workspace key={String((sessionV2.session as any).session_id)} session={sessionV2}/>
-        : importedV1
-        ? <><div className="mx-auto max-w-[1400px] px-5"><div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-[11px] text-amber-900">Legacy Session v1 contains single-case inference and does not provide the relation-level cross-sample evidence available in Session v2.</div></div><ImportedGraphWorkspace key={session.session.session_id}/></>
         : model === 'DGraFormer'
           ? <>
               <div className={immersive ? 'relative min-h-[920px] w-full overflow-hidden' : 'relative mx-auto grid max-w-[1400px] gap-6 px-5 py-10 lg:grid-cols-[280px_1fr_320px]'}>
@@ -66,11 +60,6 @@ export default function App() {
             </>
           : <><MsgnetDataWorkspace/><MsgnetSessionV2Evidence/></>}
     </section>
-    {importedV1 && <section id="validation-workspace" className="border-b border-line bg-[#f4f7fa]">
-      <WorkspaceHeader number="02" title="Intervention Validation" text={imported ? 'Load only the stored evidence for the exact imported selection.' : 'Test the transferred relation against stored checkpoint-replayed evidence and matched controls.'}/>
-      <div className="mx-auto max-w-[1240px] px-5 pt-6"><TransferBanner/></div>
-      <InterventionErrorBoundary><ImportedEvidenceWorkspace key={session.session.session_id}/></InterventionErrorBoundary>
-    </section>}
     <SystemArchitecture/>
     <CaseStudy/>
     <Limitations/>
