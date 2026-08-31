@@ -161,6 +161,8 @@ assert.match(completeUi, /Scope Evidence Map/);
 assert.match(completeUi, /Selected Scope Comparison/);
 assert.match(completeUi, /All Test Results/);
 assert.match(completeUi, /Selected Test Detail/);
+assert.doesNotMatch(completeUi, /Descriptive same-test trajectory|Illustrative Case/);
+assert.match(completeUi, /font-sans tabular-nums text-ink-700/);
 assert.match(completeUi, /planned_samples\.map\(testId => \(\{ testId, record: exactCase/);
 assert.match(completeUi, /No zero value or alternate case was substituted/);
 assert.doesNotMatch(completeUi, /const\s+supported\s*=\s*q\s*</);
