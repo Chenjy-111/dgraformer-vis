@@ -58,6 +58,59 @@ for (const testId of tests) {
   assert.deepEqual(allCase.intervention_output_reference.value.shape, sample.baseline_prediction.shape);
 }
 
+// Presentation rows must be a lossless view of frozen planned_samples and exact candidate cases.
+function exactBundle(session, predicate) {
+  const candidate = session.candidate_relations.find(predicate);
+  if (!candidate) return null;
+  const evidence = session.cross_sample_evidence.find(item => item.cross_sample_evidence_id === candidate.cross_sample_evidence_id && item.candidate_id === candidate.candidate_id && item.family_id === candidate.family_id);
+  const family = session.hypothesis_families.find(item => item.family_id === candidate.family_id && item.members.includes(candidate.candidate_id));
+  return evidence && family ? { candidate, evidence, family } : null;
+}
+function exactCaseFor(session, candidate, testId) {
+  const ids = candidate.case_evidence_ids.filter(id => session.case_evidence.some(item => item.case_evidence_id === id && item.candidate_id === candidate.candidate_id && item.sample_id === testId));
+  assert.ok(ids.length <= 1, `${candidate.candidate_id} has duplicate exact cases for ${testId}`);
+  return ids.length ? session.case_evidence.find(item => item.case_evidence_id === ids[0]) : null;
+}
+for (const session of [dgra, msgnet]) {
+  for (const candidate of session.candidate_relations) {
+    const bundle = exactBundle(session, item => item.candidate_id === candidate.candidate_id);
+    assert.ok(bundle, `${candidate.candidate_id} must resolve to exact frozen evidence and family`);
+    const rows = bundle.evidence.planned_samples.map(testId => ({ testId, record: exactCaseFor(session, candidate, testId) }));
+    assert.equal(rows.length, bundle.evidence.planned_samples.length);
+    assert.deepEqual(rows.map(row => row.testId), bundle.evidence.planned_samples, 'table order must remain frozen protocol order');
+    for (const row of rows) {
+      if (!row.record) continue;
+      assert.equal(row.record.candidate_id, candidate.candidate_id);
+      assert.equal(row.record.sample_id, row.testId);
+      if (row.record.status === 'inactive') {
+        assert.equal(row.record.D, null);
+        assert.equal(row.record.focal_response, null);
+      }
+    }
+  }
+}
+
+const missingCaseSession = structuredClone(dgra);
+const missingCandidate = missingCaseSession.candidate_relations[0];
+const missingEvidence = missingCaseSession.cross_sample_evidence.find(item => item.candidate_id === missingCandidate.candidate_id);
+const missingTestId = missingEvidence.planned_samples[0];
+missingCaseSession.case_evidence = missingCaseSession.case_evidence.filter(item => !(item.candidate_id === missingCandidate.candidate_id && item.sample_id === missingTestId));
+const missingRows = missingEvidence.planned_samples.map(testId => ({ testId, record: exactCaseFor(missingCaseSession, missingCandidate, testId) }));
+assert.equal(missingRows.length, missingEvidence.planned_samples.length, 'a missing exact case must not remove its planned row');
+assert.equal(missingRows.find(row => row.testId === missingTestId).record, null, 'a missing exact case must remain unavailable without fallback');
+
+for (const [relation, windows] of dgraRelations) {
+  const [source, target] = relation.split('->').map(Number);
+  const locals = [...windows].map(window => exactBundle(dgra, candidate => candidate.source === source && candidate.target === target && candidate.scope === 'single_window' && candidate.window_index === window));
+  assert.ok(locals.every(Boolean), `${relation} must resolve every retained window by exact identity`);
+  assert.ok(exactBundle(dgra, candidate => candidate.source === source && candidate.target === target && candidate.scope === 'all_retained_windows'), `${relation} must resolve its exact all-window candidate`);
+}
+for (let sourceIndex = 0; sourceIndex < 7; sourceIndex += 1) for (let targetIndex = 0; targetIndex < 7; targetIndex += 1) {
+  if (sourceIndex === targetIndex) continue;
+  for (const scaleIndex of [0, 1, 2]) assert.ok(exactBundle(msgnet, candidate => candidate.source === sourceIndex && candidate.target === targetIndex && candidate.scope === 'single_scale' && candidate.scale_index === scaleIndex));
+  assert.ok(exactBundle(msgnet, candidate => candidate.source === sourceIndex && candidate.target === targetIndex && candidate.scope === 'all_scales'));
+}
+
 function expectInvalid(mutate, restore, fragment) {
   mutate();
   const result = validateAuditSessionV2(dgra);
@@ -97,14 +150,24 @@ cross.primary_inference = savedInference;
 cross.multiplicity = savedMultiplicity;
 
 const ui = source('src/components/SessionV2Evidence.tsx');
+const evidenceUi = source('src/components/evidence/EvidencePresentation.tsx');
+const completeUi = `${ui}\n${evidenceUi}`;
 assert.match(ui, /Evidence Summary/);
 assert.match(ui, /Single-window Detail/);
 assert.match(ui, /All-window Detail/);
 assert.match(ui, /Single-scale Detail/);
 assert.match(ui, /All-scale Detail/);
-assert.match(ui, /No zero value or alternate case was substituted/);
-assert.doesNotMatch(ui, /const\s+supported\s*=\s*q\s*</);
-const production = ['src/App.tsx','src/components/SessionV2Evidence.tsx','src/components/MsgnetWorkspace.tsx','src/components/ImportedSessionV2Workspace.tsx','src/data/auditSessionV2View.ts'];
+assert.match(completeUi, /Scope Evidence Map/);
+assert.match(completeUi, /Selected Scope Comparison/);
+assert.match(completeUi, /All Test Results/);
+assert.match(completeUi, /Selected Test Detail/);
+assert.match(completeUi, /planned_samples\.map\(testId => \(\{ testId, record: exactCase/);
+assert.match(completeUi, /No zero value or alternate case was substituted/);
+assert.doesNotMatch(completeUi, /const\s+supported\s*=\s*q\s*</);
+assert.doesNotMatch(completeUi, /multiplicity\.supported\s*\|\|/);
+assert.doesNotMatch(completeUi, /computeBH|calculatePValue|deriveSupported|aggregateCasesToFormalEvidence|inferRelationPattern/);
+assert.doesNotMatch(completeUi, /Localized evidence|Distributed evidence|Stable dependency|Global importance|Robust evidence/);
+const production = ['src/App.tsx','src/components/SessionV2Evidence.tsx','src/components/evidence/EvidencePresentation.tsx','src/components/MsgnetWorkspace.tsx','src/components/ImportedSessionV2Workspace.tsx','src/data/auditSessionV2View.ts'];
 const legacy = /empirical_p|bh_adjusted_p|local_bh_supported_count|broader_context_bh_supported_count|global_bh_supported_count|bootstrap_repetitions|statistically significant|case significance/;
 for (const file of production) assert.doesNotMatch(source(file), legacy, `${file} contains legacy production evidence usage`);
 
