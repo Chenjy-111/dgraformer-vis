@@ -11,7 +11,10 @@ import torch
 
 from dgraudit.v2.quick import build_quick_session_v2
 from dgraudit.v2.session import write_audit_session_v2
-from dgraudit.validation import OFFICIAL_ADAPTER_REGISTRY, render_validation_report, validate_audit_config
+from dgraudit.validation import (
+    AdapterValidationSpec, OFFICIAL_ADAPTER_REGISTRY, render_validation_report,
+    resolve_adapter_spec, validate_audit_config,
+)
 
 
 Progress = Callable[[str], None]
@@ -100,76 +103,44 @@ def _average_ranks_descending(matrix: np.ndarray) -> dict[tuple[int, int], float
     return result
 
 
-def _context_id(adapter_id: str, context: Mapping[str, Any]) -> str:
-    if adapter_id == "dgraformer":
-        return f"window:{int(context['window'])}"
-    if adapter_id == "mtgnn":
-        return f"global_graph:{int(context['index'])}"
-    return f"layer:{int(context['layer'])}:scale:{int(context['scale_index'])}"
+def _context_id(spec: AdapterValidationSpec, context: Mapping[str, Any]) -> str:
+    return spec.context_id(context)
 
 
-def _context_weight(adapter_id: str, context: Mapping[str, Any]) -> np.ndarray:
-    if adapter_id == "dgraformer":
-        return _array(context["normalized"])
-    if adapter_id == "mtgnn":
-        return _array(context["learned_adjacency"])
-    return _array(context["adaptive"])
+def _context_weight(spec: AdapterValidationSpec, context: Mapping[str, Any]) -> np.ndarray:
+    return _array(spec.context_weight(context))
 
 
-def _portable_context(adapter_id: str, context: Mapping[str, Any], node_count: int) -> dict[str, Any]:
-    if adapter_id == "dgraformer":
-        names = ("static_prior", "raw_score", "activated", "diagonal_removed", "topk_mask", "topk_graph", "self_loop_graph", "normalized")
-        return {
-            "context_id": _context_id(adapter_id, context), "type": "window", "index": int(context["window"]),
-            "node_count": node_count,
-            "graphs": {name: _tensor(context[name], ("source_node", "target_node")) for name in names},
-            "native_metadata": {"topk_slots": int(context["topk_slots"]), "blend_proportion": float(context["blend_proportion"])},
-        }
-    if adapter_id == "mtgnn":
-        names = ("learned_adjacency", "transpose_adjacency")
-        return {
-            "context_id": _context_id(adapter_id, context), "type": "global_graph", "index": int(context["index"]),
-            "node_count": node_count,
-            "graphs": {name: _tensor(context[name], ("source_node", "target_node")) for name in names},
-            "native_metadata": {
-                "edge_count": int(context["edge_count"]), "subgraph_size": int(context["subgraph_size"]),
-                "gcn_layer_count": int(context["gcn_layer_count"]), "construction": str(context["construction"]),
-            },
-        }
-    names = ("raw_affinity", "activated", "adaptive", "self_loop_graph", "effective")
-    return {
-        "context_id": _context_id(adapter_id, context), "type": "scale", "index": int(context["scale_index"]),
-        "layer": int(context["layer"]), "node_count": node_count,
-        "graphs": {name: _tensor(context[name], ("source_node", "target_node")) for name in names},
-        "native_metadata": {
-            "period": int(context["period"]), "fft_strength": float(context["fft_strength"]),
-            "scale_contribution": float(context["scale_contribution"]),
-        },
+def _portable_context(spec: AdapterValidationSpec, context: Mapping[str, Any], node_count: int) -> dict[str, Any]:
+    result = {
+        "context_id": _context_id(spec, context), "type": spec.native_context_type,
+        "index": spec.context_index(context), "node_count": node_count,
+        "graphs": {name: _tensor(value, ("source_node", "target_node")) for name, value in spec.context_graphs(context).items()},
+        "native_metadata": dict(spec.context_metadata(context)),
     }
+    if "layer" in context:
+        result["layer"] = int(context["layer"])
+    if context.get("display_label"):
+        result["display_label"] = str(context["display_label"])
+    return result
 
 
-def _find_context(adapter_id: str, contexts: Sequence[Mapping[str, Any]], requested: Mapping[str, Any]) -> Mapping[str, Any]:
-    if adapter_id == "dgraformer":
-        match = next((item for item in contexts if int(item["window"]) == int(requested["index"])), None)
-    elif adapter_id == "mtgnn":
-        match = next((item for item in contexts if int(item["index"]) == int(requested["index"])), None)
-    else:
-        layer = int(requested.get("layer", 0))
-        match = next((item for item in contexts if int(item["layer"]) == layer and int(item["scale_index"]) == int(requested["index"])), None)
-    if match is None:
-        raise QuickAuditError(f"The exact requested native context is unavailable: {dict(requested)}")
-    return match
+def _find_context(spec: AdapterValidationSpec, contexts: Sequence[Mapping[str, Any]], requested: Mapping[str, Any]) -> Mapping[str, Any]:
+    try:
+        return spec.find_context(contexts, requested)
+    except Exception as exc:
+        raise QuickAuditError(f"The exact requested native context is unavailable: {dict(requested)} ({exc})") from exc
 
 
 def _eligible_edges(
-    adapter_id: str,
+    spec: AdapterValidationSpec,
     contexts: Sequence[Mapping[str, Any]],
     requested: Mapping[str, Any],
     broader: bool,
 ) -> list[tuple[int, int]]:
-    matrices = [_context_weight(adapter_id, item) for item in contexts]
+    matrices = [_context_weight(spec, item) for item in contexts]
     if not broader:
-        matrices = [_context_weight(adapter_id, _find_context(adapter_id, contexts, requested))]
+        matrices = [_context_weight(spec, _find_context(spec, contexts, requested))]
     node_count = matrices[0].shape[0]
     return [
         (source, target)
@@ -180,53 +151,28 @@ def _eligible_edges(
 
 
 def _control_edges(
-    adapter_id: str,
+    spec: AdapterValidationSpec,
     contexts: Sequence[Mapping[str, Any]],
     requested: Mapping[str, Any],
     focal: tuple[int, int],
     broader: bool,
 ) -> tuple[list[tuple[int, int]], str]:
-    eligible = [edge for edge in _eligible_edges(adapter_id, contexts, requested, broader) if edge != focal]
+    eligible = [edge for edge in _eligible_edges(spec, contexts, requested, broader) if edge != focal]
     if not eligible:
         raise QuickAuditError("No eligible unique real intervention remains for the matched-control family.")
     return eligible, "all unique eligible directed non-self edge removals in the same sample and scope"
 
 
 def _selection(
-    adapter_id: str,
+    spec: AdapterValidationSpec,
     model_name: str,
     dataset_name: str,
     relation: Mapping[str, Any],
     variables: Sequence[str],
+    context: Mapping[str, Any],
     broader: bool,
 ) -> dict[str, Any]:
-    sample_index, source, target = int(relation["sample"]), int(relation["source"]), int(relation["target"])
-    context = relation["context"]
-    common = {
-        "model": model_name, "dataset": dataset_name, "sample_id": f"test:{sample_index}",
-        "sample_index": sample_index, "source": source, "target": target,
-        "source_name": variables[source], "target_name": variables[target],
-        "scope": "broader_context" if broader else "local",
-    }
-    if adapter_id == "dgraformer":
-        return {
-            **common, "context_type": "window_set" if broader else "window",
-            "context_id": "window-set:all" if broader else f"window:{int(context['index'])}",
-            "context_index": "all_applicable" if broader else int(context["index"]),
-        }
-    if adapter_id == "msgnet":
-        layer = int(context.get("layer", 0))
-        return {
-            **common, "context_type": "scale_set" if broader else "scale",
-            "context_id": f"layer:{layer}:scale-set:all" if broader else f"layer:{layer}:scale:{int(context['index'])}",
-            "context_index": "all_applicable" if broader else int(context["index"]), "layer": layer,
-        }
-    if broader:
-        raise QuickAuditError("MTGNN exposes only one global learned graph; broader context is unavailable.")
-    return {
-        **common, "context_type": "global_graph", "context_id": f"global_graph:{int(context['index'])}",
-        "context_index": int(context["index"]),
-    }
+    return spec.selection(model_name, dataset_name, relation, variables, context, broader)
 
 
 def _embedded_preflight(report: Mapping[str, Any]) -> dict[str, Any]:
@@ -261,7 +207,9 @@ def run_quick_audit(
         raise QuickAuditError(render_validation_report(preflight))
 
     config = json.loads(config_file.read_text(encoding="utf-8"))
-    spec = OFFICIAL_ADAPTER_REGISTRY[config["adapter"]]
+    spec = resolve_adapter_spec(config, config_file, OFFICIAL_ADAPTER_REGISTRY)
+    if spec is None:
+        raise QuickAuditError(f"Adapter could not be resolved after conformance validation: {config.get('adapter')}")
     resolved = {
         "source_root": _resolve(config_file.parent, config["source_root"]),
         "dataset": _resolve(config_file.parent, config["dataset"]["path"]),
@@ -275,6 +223,8 @@ def run_quick_audit(
     try:
         announce(f"Loading validated {spec.model_name} checkpoint")
         adapter.load_checkpoint(str(resolved["checkpoint"]))
+        metadata_callback = getattr(adapter, "get_metadata", None)
+        adapter_metadata = dict(metadata_callback()) if callable(metadata_callback) else {}
         for display_id, raw_index in enumerate(config["audit"]["samples"]):
             sample_index = int(raw_index)
             announce(f"Computing baseline and native graph for test sample {sample_index}")
@@ -283,7 +233,7 @@ def run_quick_audit(
             baseline = adapter.predict(batch)
             truth = torch.as_tensor(batch["y"][-pred_len:, :], dtype=torch.float32).unsqueeze(0)
             extracted = adapter.extract_graph_stages(batch)
-            contexts = list(extracted["windows"] if adapter_id == "dgraformer" else extracted["contexts"])
+            contexts = spec.contexts(extracted)
             sample_metrics = _metrics(baseline, baseline, truth)
             portable_samples.append({
                 "sample_id": f"test:{sample_index}", "display_id": display_id, "split": "test",
@@ -292,7 +242,7 @@ def run_quick_audit(
                 "ground_truth": _tensor(truth, ("forecast_step", "variable"), squeeze_batch=True),
                 "baseline_prediction": _tensor(baseline, ("forecast_step", "variable"), squeeze_batch=True),
                 "sample_metrics": {"baseline_mae": sample_metrics["baseline_mae"], "baseline_mse": sample_metrics["baseline_mse"]},
-                "contexts": [_portable_context(adapter_id, item, len(variables)) for item in contexts],
+                "contexts": [_portable_context(spec, item, len(variables)) for item in contexts],
                 "provenance": {"source": "direct validated checkpoint replay"},
             })
             samples_runtime[sample_index] = {"batch": batch, "baseline": baseline, "truth": truth, "contexts": contexts}
@@ -302,12 +252,14 @@ def run_quick_audit(
         def replay(relation: Mapping[str, Any], source: int, target: int, broader: bool):
             sample_index = int(relation["sample"])
             context = relation["context"]
-            context_key = (int(context.get("layer", 0)), int(context["index"])) if adapter_id == "msgnet" else int(context["index"])
+            native_context = _find_context(spec, samples_runtime[sample_index]["contexts"], context)
+            context_key = spec.context_cache_key(native_context)
             key = (sample_index, "broader" if broader else "local", context_key, source, target)
             if key not in prediction_cache:
                 probe = {**dict(relation), "source": source, "target": target}
                 outcome = adapter.predict_with_graph_override(
-                    samples_runtime[sample_index]["batch"], spec.intervention_override(probe, config, broader=broader)
+                    samples_runtime[sample_index]["batch"],
+                    spec.intervention_override_for_context(probe, config, native_context, broader=broader),
                 )
                 prediction = outcome["prediction"]
                 runtime = samples_runtime[sample_index]
@@ -322,10 +274,10 @@ def run_quick_audit(
                 continue
             occurrences = []
             for context in samples_runtime[sample_index]["contexts"]:
-                weights = _context_weight(adapter_id, context)
+                weights = _context_weight(spec, context)
                 weight = float(weights[source, target])
                 occurrences.append({
-                    "context_id": _context_id(adapter_id, context), "weight": weight, "retained": weight > 0,
+                    "context_id": _context_id(spec, context), "weight": weight, "retained": weight > 0,
                     "rank": _average_ranks_descending(weights)[(source, target)],
                 })
             relation_map[key] = {
@@ -339,8 +291,9 @@ def run_quick_audit(
         for requested in config["audit"]["relations"]:
             sample_index, source, target = int(requested["sample"]), int(requested["source"]), int(requested["target"])
             runtime = samples_runtime[sample_index]
+            selected_context = _find_context(spec, runtime["contexts"], requested["context"])
             for broader in ([False, True] if requested.get("include_broader_context") else [False]):
-                selection = _selection(adapter_id, spec.model_name, config["dataset"]["name"], requested, variables, broader)
+                selection = _selection(spec, spec.model_name, config["dataset"]["name"], requested, variables, selected_context, broader)
                 exact_key = tuple(selection.get(field) for field in (
                     "model", "dataset", "sample_id", "context_type", "context_id", "source", "target", "scope"
                 ))
@@ -350,7 +303,7 @@ def run_quick_audit(
                 announce(f"Auditing test sample {sample_index}, {variables[source]}->{variables[target]}")
                 focal_prediction, focal_outcome, focal_metrics = replay(requested, source, target, broader)
                 selected_controls, control_protocol = _control_edges(
-                    adapter_id, runtime["contexts"], requested["context"], (source, target), broader
+                    spec, runtime["contexts"], requested["context"], (source, target), broader
                 )
                 controls = []
                 for control_source, control_target in selected_controls:
@@ -360,23 +313,17 @@ def run_quick_audit(
                         "response": control_metrics["prediction_delta_abs"],
                     })
                 if broader:
-                    weights = [float(_context_weight(adapter_id, item)[source, target]) for item in runtime["contexts"]]
+                    weights = [float(_context_weight(spec, item)[source, target]) for item in runtime["contexts"]]
                     graph_effect = {
                         "native_context_weights": weights,
                         "affected_context_ids": [
-                            _context_id(adapter_id, item) for item, weight in zip(runtime["contexts"], weights) if weight > 0
+                            _context_id(spec, item) for item, weight in zip(runtime["contexts"], weights) if weight > 0
                         ],
                     }
                 else:
-                    context = _find_context(adapter_id, runtime["contexts"], requested["context"])
-                    matrix = _context_weight(adapter_id, context)
-                    metadata = (
-                        {"period": int(context["period"]), "fft_strength": float(context["fft_strength"]), "scale_contribution": float(context["scale_contribution"])}
-                        if adapter_id == "msgnet" else
-                        {"blend_proportion": float(context["blend_proportion"]), "topk_slots": int(context["topk_slots"])}
-                        if adapter_id == "dgraformer" else
-                        {"edge_count": int(context["edge_count"]), "subgraph_size": int(context["subgraph_size"]), "shared_across_gcn_layers": True}
-                    )
+                    context = _find_context(spec, runtime["contexts"], requested["context"])
+                    matrix = _context_weight(spec, context)
+                    metadata = dict(spec.graph_effect_metadata(context))
                     graph_effect = {
                         "native_weight": float(matrix[source, target]),
                         "weight_rank": _average_ranks_descending(matrix)[(source, target)],
@@ -402,9 +349,7 @@ def run_quick_audit(
             "checkpoint_sha256": checkpoint_hash,
             "control_protocol": "all_unique_eligible",
         })
-        model_configuration = {**dict(config["adapter_config"]["model"]), "random_seed": int(config["adapter_config"]["random_seed"])}
-        if "current_epoch" in config["adapter_config"]:
-            model_configuration["current_epoch"] = int(config["adapter_config"]["current_epoch"])
+        model_configuration = dict(spec.model_configuration(config))
         graph_core = {
             "session": {
                 "session_id": f"{adapter_id}:{config['dataset']['name']}:{run_id[:16]}",
@@ -415,6 +360,11 @@ def run_quick_audit(
                 "name": spec.model_name, "adapter": spec.adapter_name, "adapter_id": adapter_id,
                 "native_context_type": spec.native_context_type, "source_repository": None, "source_commit": None,
                 "configuration": model_configuration,
+                **({
+                    "adapter_module": config["custom_adapter"]["module"],
+                    "adapter_class": config["custom_adapter"]["class"],
+                    "adapter_version": adapter_metadata.get("adapter_version"),
+                } if config.get("adapter") == "custom" else {}),
             },
             "dataset": {
                 "name": config["dataset"]["name"], "format": config["dataset"]["format"], "sha256": dataset_hash,
@@ -423,7 +373,7 @@ def run_quick_audit(
                 "frequency": config["dataset"]["frequency"], "seq_len": int(config["dataset"]["seq_len"]),
                 "label_len": int(config["dataset"]["label_len"]), "pred_len": pred_len, "original_path": None,
             },
-            "checkpoint": {"sha256": checkpoint_hash, "format": "PyTorch state_dict", "load_status": "validated", "original_path": None},
+            "checkpoint": {"sha256": checkpoint_hash, "format": str(adapter_metadata.get("checkpoint_format", "PyTorch state_dict")), "load_status": "validated", "original_path": None},
             "samples": portable_samples,
             "relations": list(relation_map.values()),
             "provenance": {

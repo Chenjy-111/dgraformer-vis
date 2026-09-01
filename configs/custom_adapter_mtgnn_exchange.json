@@ -1,0 +1,91 @@
+{
+  "schema_version": "dgrainsight.audit_config.v2",
+  "config_version": 2,
+  "audit_mode": "quick_inspection",
+  "adapter": "custom",
+  "custom_adapter": {
+    "module": "mtgnn_external_adapter",
+    "class": "ExternalMTGNNAdapter"
+  },
+  "source_root": "../integrations/mtgnn_external",
+  "checkpoint": {
+    "path": "../artifacts/mtgnn_exchange/mtgnn_exchange_h3_seed42_state_dict.pt",
+    "sha256": "9a3d9847bb70a580ad7ed0094ebc0ee233b0e508425ecb9adae17f051e974fe7"
+  },
+  "dataset": {
+    "name": "Exchange-Rate",
+    "path": "../third_party/MTGNN/data/exchange_rate.txt",
+    "sha256": "0127465b51e3cd3c360f8eb2be30cfd294689a2a55903eb8245aafc396626c7f",
+    "format": "mtgnn_numeric_matrix",
+    "date_column": "not_provided",
+    "variables": ["EX0", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "EX7"],
+    "features": "M",
+    "target": "EX0",
+    "frequency": "daily",
+    "seq_len": 168,
+    "label_len": 1,
+    "pred_len": 1
+  },
+  "audit": {
+    "split": "test",
+    "samples": [0],
+    "relations": [{
+      "sample": 0,
+      "context": {"type": "global_graph", "index": 0},
+      "source": 0,
+      "target": 6,
+      "include_broader_context": false
+    }]
+  },
+  "sample_protocol": {
+    "protocol_id": "quick.mtgnn_external.user_selection",
+    "selection_rule": "explicit user selection from the public MTGNN learned graph",
+    "split": "test",
+    "sample_ids": [0],
+    "selection_frozen": true,
+    "active_inactive_policy": "exclude_inactive_without_zero_imputation"
+  },
+  "candidate_families": [],
+  "control_protocol": {"protocol": "all_unique_eligible", "with_replacement": false},
+  "response_metric": "prediction_delta_abs",
+  "dependence_protocol": {"expected_classification": "unknown_dependence", "same_continuous_series": null},
+  "inference_protocol": {
+    "selection_frozen": true,
+    "alternative": "mean_D > 0",
+    "inference_unit": "candidate_relation_across_predeclared_units",
+    "null_definition": null,
+    "by_family": {}
+  },
+  "multiplicity_protocol": {"primary_method": "BH", "alpha": 0.05, "families_frozen": true},
+  "sensitivity_protocol": {"primary_results_unchanged": true, "by_family": {}},
+  "adapter_config": {
+    "random_seed": 42,
+    "device": "auto",
+    "model_source_root": "../../third_party/MTGNN",
+    "model": {
+      "gcn_true": true,
+      "build_a_true": true,
+      "gcn_depth": 2,
+      "num_nodes": 8,
+      "dropout": 0.3,
+      "subgraph_size": 8,
+      "node_dim": 40,
+      "dilation_exponential": 2,
+      "conv_channels": 16,
+      "residual_channels": 16,
+      "skip_channels": 32,
+      "end_channels": 64,
+      "in_dim": 1,
+      "seq_in_len": 168,
+      "seq_out_len": 1,
+      "horizon": 3,
+      "layers": 5,
+      "propalpha": 0.05,
+      "tanhalpha": 3,
+      "layer_norm_affline": false,
+      "normalize": 2,
+      "train_ratio": 0.6,
+      "validation_ratio": 0.2
+    }
+  }
+}

@@ -10,6 +10,12 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Mapping, MutableMapping, Sequence
 
+from dgraudit.adapters import AdapterCapabilities, canonical_graph_contexts
+from dgraudit.registry import (
+    CUSTOM_ADAPTER_SENTINEL, CustomAdapterLoadError, LoadedCustomAdapter,
+    load_custom_adapter_class,
+)
+
 
 CONFIG_SCHEMA_VERSION = "dgrainsight.audit_config.v2"
 REPORT_SCHEMA_VERSION = "dgrainsight.adapter_validation.v2"
@@ -17,7 +23,7 @@ IDENTITY_ATOL = 1e-6
 IDENTITY_RTOL = 1e-5
 
 CHECK_DEFINITIONS = [
-    ("V01", "config_and_adapter", "Config and official adapter"),
+    ("V01", "config_and_adapter", "Config, adapter import and type"),
     ("V02", "input_existence", "Input files located and hashed"),
     ("V03", "dataset_compatibility", "Dataset schema validated"),
     ("V04", "sample_construction", "Samples constructed"),
@@ -139,6 +145,100 @@ class AdapterValidationSpec:
     ) -> Mapping[str, Any]:
         raise NotImplementedError
 
+    def intervention_override_for_context(
+        self, probe: Mapping[str, Any], config: Mapping[str, Any],
+        context: Mapping[str, Any], broader: bool = False,
+    ) -> Mapping[str, Any]:
+        return self.intervention_override(probe, config, broader=broader)
+
+    # The methods below describe model semantics to the shared Quick Inspection core.
+    # Official specs override them to preserve their existing Session v2 identities.
+    def contexts(self, extracted: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+        return canonical_graph_contexts(extracted)
+
+    def context_id(self, context: Mapping[str, Any]) -> str:
+        return str(context["context_id"])
+
+    def context_index(self, context: Mapping[str, Any]) -> int:
+        return int(context["index"])
+
+    def context_cache_key(self, context: Mapping[str, Any]) -> tuple[Any, ...]:
+        return (self.context_id(context),)
+
+    def context_weight(self, context: Mapping[str, Any]) -> Any:
+        graph = context.get("audit_graph")
+        if graph is None:
+            graphs = context.get("graphs", {})
+            graph = graphs.get(getattr(self, "audit_graph_key", "audit_graph")) if isinstance(graphs, Mapping) else None
+        if graph is None:
+            raise ValidationFailure("GRAPH_EXTRACTION_FAILED", "Graph context does not expose its declared audit graph.")
+        return graph
+
+    def context_graphs(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        graphs = context.get("graphs")
+        if isinstance(graphs, Mapping) and graphs:
+            return graphs
+        return {"audit_graph": self.context_weight(context)}
+
+    def context_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        metadata = context.get("metadata", {})
+        return dict(metadata) if isinstance(metadata, Mapping) else {}
+
+    def find_context(
+        self, contexts: Sequence[Mapping[str, Any]], requested: Mapping[str, Any]
+    ) -> Mapping[str, Any]:
+        requested_index = int(requested["index"])
+        match = next((item for item in contexts if self.context_index(item) == requested_index), None)
+        if match is None:
+            raise ValidationFailure(
+                "GRAPH_CONTEXT_MISSING", "The exact requested native graph context is unavailable.",
+                requested_index, [self.context_index(item) for item in contexts],
+            )
+        return match
+
+    def selection(
+        self,
+        model_name: str,
+        dataset_name: str,
+        relation: Mapping[str, Any],
+        variables: Sequence[str],
+        context: Mapping[str, Any],
+        broader: bool,
+    ) -> dict[str, Any]:
+        capabilities = getattr(self, "capabilities", None)
+        if broader and not bool(getattr(capabilities, "supports_broader_context", False)):
+            raise ValueError(f"{self.model_name} does not declare a broader native graph context.")
+        sample, source, target = int(relation["sample"]), int(relation["source"]), int(relation["target"])
+        native_type = self.native_context_type
+        native_indices = [self.context_index(context)]
+        scope = getattr(capabilities, "broader_scope", "all_contexts") if broader else getattr(capabilities, "local_scope", "single_context")
+        context_id = f"{native_type}-set:all" if broader else self.context_id(context)
+        candidate_id = f"quick:{self.adapter_id}:{scope}:{context_id}:{source}->{target}"
+        return {
+            "model": model_name, "dataset": dataset_name, "sample_id": f"test:{sample}",
+            "sample_index": sample, "source": source, "target": target,
+            "source_name": variables[source], "target_name": variables[target],
+            "scope": "broader_context" if broader else "local",
+            "context_type": f"{native_type}_set" if broader else native_type,
+            "context_id": context_id,
+            "context_index": "all_applicable" if broader else self.context_index(context),
+            "candidate_scope": scope,
+            "candidate_id": candidate_id,
+            "candidate_native_context_type": native_type,
+            "candidate_retained_contexts": native_indices,
+            "candidate_identity": dict(context.get("identity", {})) if not broader else {},
+        }
+
+    def graph_effect_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return self.context_metadata(context)
+
+    def model_configuration(self, config: Mapping[str, Any]) -> Mapping[str, Any]:
+        adapter_config = config.get("adapter_config", {})
+        model = dict(adapter_config.get("model", {})) if isinstance(adapter_config, Mapping) else {}
+        if isinstance(adapter_config, Mapping) and isinstance(adapter_config.get("random_seed"), int):
+            model["random_seed"] = int(adapter_config["random_seed"])
+        return model
+
 
 class DGraFormerValidationSpec(AdapterValidationSpec):
     adapter_id = "dgraformer"
@@ -151,6 +251,11 @@ class DGraFormerValidationSpec(AdapterValidationSpec):
         "numpoint_win", "w_bias", "d_graph", "d_gcn", "w_ratio", "mp_layers",
         "predictor_dropout", "patch_len", "stride", "revin", "affine", "subtract_last",
         "d_model", "n_heads", "e_layers", "d_ff", "dropout", "embed", "activation",
+    )
+    capabilities = AdapterCapabilities(
+        graph_context_type="window", supports_multi_context=True, supports_broader_context=True,
+        audit_graph_key="normalized", local_scope="single_window", broader_scope="all_retained_windows",
+        dataset_formats=("ett_hour",),
     )
 
     def validate_adapter_config(self, config: Mapping[str, Any]) -> list[dict[str, Any]]:
@@ -281,6 +386,39 @@ class DGraFormerValidationSpec(AdapterValidationSpec):
             return {"type": "global_structural_edge_removal", **common}
         return {"type": "structural_edge_removal", "window": int(probe["context"]["index"]), **common}
 
+    def contexts(self, extracted: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+        return list(extracted["windows"])
+
+    def context_id(self, context: Mapping[str, Any]) -> str:
+        return f"window:{int(context['window'])}"
+
+    def context_index(self, context: Mapping[str, Any]) -> int:
+        return int(context["window"])
+
+    def context_weight(self, context: Mapping[str, Any]) -> Any:
+        return context["normalized"]
+
+    def context_graphs(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        names = ("static_prior", "raw_score", "activated", "diagonal_removed", "topk_mask", "topk_graph", "self_loop_graph", "normalized")
+        return {name: context[name] for name in names}
+
+    def context_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"topk_slots": int(context["topk_slots"]), "blend_proportion": float(context["blend_proportion"])}
+
+    def selection(self, model_name, dataset_name, relation, variables, context, broader):
+        sample, source, target = int(relation["sample"]), int(relation["source"]), int(relation["target"])
+        window = int(context["window"])
+        common = {"model": model_name, "dataset": dataset_name, "sample_id": f"test:{sample}", "sample_index": sample, "source": source, "target": target, "source_name": variables[source], "target_name": variables[target], "scope": "broader_context" if broader else "local"}
+        return {**common, "context_type": "window_set" if broader else "window", "context_id": "window-set:all" if broader else f"window:{window}", "context_index": "all_applicable" if broader else window, "candidate_scope": "all_retained_windows" if broader else "single_window", "candidate_id": f"quick:dgra:{'all' if broader else f'window:{window}'}:{source}->{target}", "candidate_native_context_type": "window", "candidate_retained_contexts": [] if broader else [window], "candidate_identity": {} if broader else {"window_index": window}}
+
+    def graph_effect_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"blend_proportion": float(context["blend_proportion"]), "topk_slots": int(context["topk_slots"])}
+
+    def model_configuration(self, config: Mapping[str, Any]) -> Mapping[str, Any]:
+        result = dict(super().model_configuration(config))
+        result["current_epoch"] = int(config["adapter_config"]["current_epoch"])
+        return result
+
 
 class MSGNetValidationSpec(AdapterValidationSpec):
     adapter_id = "msgnet"
@@ -293,6 +431,11 @@ class MSGNetValidationSpec(AdapterValidationSpec):
         "task_name", "top_k", "enc_in", "c_out", "e_layers", "d_model", "n_heads",
         "d_ff", "conv_channel", "skip_channel", "node_dim", "gcn_depth", "propalpha",
         "dropout", "embed", "individual",
+    )
+    capabilities = AdapterCapabilities(
+        graph_context_type="scale", supports_multi_context=True, supports_broader_context=True,
+        audit_graph_key="adaptive", local_scope="single_scale", broader_scope="all_scales",
+        dataset_formats=("ett_hour",),
     )
 
     def create_adapter(self, config: Mapping[str, Any], resolved: Mapping[str, Path]) -> Any:
@@ -409,6 +552,44 @@ class MSGNetValidationSpec(AdapterValidationSpec):
             result["scope"] = "global"
         return result
 
+    def contexts(self, extracted: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+        return list(extracted["contexts"])
+
+    def context_id(self, context: Mapping[str, Any]) -> str:
+        return f"layer:{int(context['layer'])}:scale:{int(context['scale_index'])}"
+
+    def context_index(self, context: Mapping[str, Any]) -> int:
+        return int(context["scale_index"])
+
+    def context_cache_key(self, context: Mapping[str, Any]) -> tuple[Any, ...]:
+        return (int(context["layer"]), int(context["scale_index"]))
+
+    def context_weight(self, context: Mapping[str, Any]) -> Any:
+        return context["adaptive"]
+
+    def context_graphs(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        names = ("raw_affinity", "activated", "adaptive", "self_loop_graph", "effective")
+        return {name: context[name] for name in names}
+
+    def context_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"period": int(context["period"]), "fft_strength": float(context["fft_strength"]), "scale_contribution": float(context["scale_contribution"])}
+
+    def find_context(self, contexts, requested):
+        layer, scale = int(requested.get("layer", 0)), int(requested["index"])
+        match = next((item for item in contexts if int(item["layer"]) == layer and int(item["scale_index"]) == scale), None)
+        if match is None:
+            raise ValidationFailure("GRAPH_CONTEXT_MISSING", "The exact requested MSGNet scale is unavailable.", {"layer": layer, "scale": scale})
+        return match
+
+    def selection(self, model_name, dataset_name, relation, variables, context, broader):
+        sample, source, target = int(relation["sample"]), int(relation["source"]), int(relation["target"])
+        layer, scale = int(context["layer"]), int(context["scale_index"])
+        common = {"model": model_name, "dataset": dataset_name, "sample_id": f"test:{sample}", "sample_index": sample, "source": source, "target": target, "source_name": variables[source], "target_name": variables[target], "scope": "broader_context" if broader else "local"}
+        return {**common, "context_type": "scale_set" if broader else "scale", "context_id": f"layer:{layer}:scale-set:all" if broader else f"layer:{layer}:scale:{scale}", "context_index": "all_applicable" if broader else scale, "layer": layer, "candidate_scope": "all_scales" if broader else "single_scale", "candidate_id": f"quick:msgnet:{'all' if broader else f'scale:{scale}'}:{source}->{target}", "candidate_native_context_type": "scale", "candidate_retained_contexts": [0, 1, 2] if broader else [scale], "candidate_identity": {} if broader else {"scale_index": scale}}
+
+    def graph_effect_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return self.context_metadata(context)
+
 
 class MTGNNValidationSpec(AdapterValidationSpec):
     adapter_id = "mtgnn"
@@ -424,6 +605,10 @@ class MTGNNValidationSpec(AdapterValidationSpec):
         "seq_in_len", "seq_out_len", "horizon", "layers", "propalpha",
         "tanhalpha", "layer_norm_affline", "normalize", "train_ratio",
         "validation_ratio",
+    )
+    capabilities = AdapterCapabilities(
+        graph_context_type="global_graph", audit_graph_key="learned_adjacency",
+        local_scope="global_graph", dataset_formats=("mtgnn_matrix",),
     )
 
     def validate_adapter_config(self, config: Mapping[str, Any]) -> list[dict[str, Any]]:
@@ -558,6 +743,187 @@ class MTGNNValidationSpec(AdapterValidationSpec):
             "target": int(probe["target"]),
         }
 
+    def contexts(self, extracted: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+        return list(extracted["contexts"])
+
+    def context_id(self, context: Mapping[str, Any]) -> str:
+        return f"global_graph:{int(context['index'])}"
+
+    def context_index(self, context: Mapping[str, Any]) -> int:
+        return int(context["index"])
+
+    def context_weight(self, context: Mapping[str, Any]) -> Any:
+        return context["learned_adjacency"]
+
+    def context_graphs(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {name: context[name] for name in ("learned_adjacency", "transpose_adjacency")}
+
+    def context_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"edge_count": int(context["edge_count"]), "subgraph_size": int(context["subgraph_size"]), "gcn_layer_count": int(context["gcn_layer_count"]), "construction": str(context["construction"])}
+
+    def selection(self, model_name, dataset_name, relation, variables, context, broader):
+        if broader:
+            raise ValueError("MTGNN exposes only one global learned graph; broader context is unavailable.")
+        sample, source, target, index = int(relation["sample"]), int(relation["source"]), int(relation["target"]), int(context["index"])
+        return {"model": model_name, "dataset": dataset_name, "sample_id": f"test:{sample}", "sample_index": sample, "source": source, "target": target, "source_name": variables[source], "target_name": variables[target], "scope": "local", "context_type": "global_graph", "context_id": f"global_graph:{index}", "context_index": index, "candidate_scope": "global_graph", "candidate_id": f"quick:mtgnn:global:{source}->{target}", "candidate_native_context_type": "global_graph", "candidate_retained_contexts": [0], "candidate_identity": {}}
+
+    def graph_effect_metadata(self, context: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"edge_count": int(context["edge_count"]), "subgraph_size": int(context["subgraph_size"]), "shared_across_gcn_layers": True}
+
+
+class CustomAdapterValidationSpec(AdapterValidationSpec):
+    """Generic technical semantics for an explicitly loaded external adapter."""
+
+    is_custom = True
+
+    def __init__(self, loaded: LoadedCustomAdapter):
+        self.loaded = loaded
+        self.adapter_id = loaded.adapter_id
+        self.adapter_name = loaded.adapter_name
+        self.model_name = loaded.model_name
+        self.native_context_type = loaded.capabilities.graph_context_type
+        self.capabilities = loaded.capabilities
+        self.audit_graph_key = loaded.capabilities.audit_graph_key
+        self.supported_formats = loaded.capabilities.dataset_formats
+        self.required_source_files = ()
+        self.required_model_fields = ()
+        self._graphs: dict[tuple[int, str, int], Any] = {}
+
+    def validate_adapter_config(self, config: Mapping[str, Any]) -> list[dict[str, Any]]:
+        adapter_config = config.get("adapter_config")
+        if not isinstance(adapter_config, Mapping):
+            return [_issue("CONFIG_FIELD_INVALID", "adapter_config must be an object.", "object", type(adapter_config).__name__)]
+        if "model" in adapter_config and not isinstance(adapter_config.get("model"), Mapping):
+            return [_issue("CONFIG_FIELD_INVALID", "adapter_config.model must be an object.", "object", type(adapter_config.get("model")).__name__)]
+        if "random_seed" in adapter_config and not isinstance(adapter_config.get("random_seed"), int):
+            return [_issue("CONFIG_FIELD_INVALID", "adapter_config.random_seed must be an integer.", "integer", adapter_config.get("random_seed"))]
+        return []
+
+    def validate_dataset(self, path: Path, config: Mapping[str, Any]) -> Mapping[str, Any]:
+        try:
+            result = self.loaded.adapter_class.validate_dataset_file(path, config["dataset"])
+        except ValidationFailure:
+            raise
+        except Exception as exc:
+            raise ValidationFailure(
+                "DATASET_LOAD_FAILED",
+                f"Custom adapter native dataset validation failed: {exc}",
+                details={"exception_class": type(exc).__name__},
+            ) from exc
+        if result is None:
+            return super().validate_dataset(path, config)
+        if not isinstance(result, Mapping):
+            raise ValidationFailure(
+                "DATASET_LOAD_FAILED",
+                "Custom adapter validate_dataset_file must return a mapping or None.",
+                "mapping or None",
+                type(result).__name__,
+            )
+        return dict(result)
+
+    def create_adapter(self, config: Mapping[str, Any], resolved: Mapping[str, Path]) -> Any:
+        try:
+            adapter = self.loaded.adapter_class.from_audit_config(config, resolved)
+        except TypeError as exc:
+            raise ValidationFailure(
+                "CUSTOM_ADAPTER_CONSTRUCTION_FAILED",
+                "Custom adapter could not be constructed through from_audit_config(config, resolved_paths).",
+                details={"exception_class": type(exc).__name__, "reason": str(exc)},
+            ) from exc
+        if not isinstance(adapter, self.loaded.adapter_class):
+            raise ValidationFailure(
+                "CUSTOM_ADAPTER_CONSTRUCTION_FAILED",
+                "Custom adapter construction hook returned an incompatible object.",
+                self.loaded.class_name,
+                type(adapter).__name__,
+            )
+        return adapter
+
+    def validate_sample(self, batch: Mapping[str, Any], config: Mapping[str, Any]) -> Mapping[str, Any]:
+        dataset = config["dataset"]
+        n = len(dataset["variables"])
+        for field in ("x", "y"):
+            if field not in batch:
+                raise ValidationFailure("SAMPLE_CONSTRUCTION_FAILED", f"Custom adapter sample is missing {field}.")
+            if not _is_finite(batch[field]):
+                raise ValidationFailure("SAMPLE_NONFINITE", f"Custom adapter sample field {field} contains non-finite values.")
+        x_shape, y_shape = list(_shape(batch["x"])), list(_shape(batch["y"]))
+        if x_shape != [int(dataset["seq_len"]), n]:
+            raise ValidationFailure("SAMPLE_SHAPE_MISMATCH", "Custom adapter input shape is incompatible.", [int(dataset["seq_len"]), n], x_shape)
+        if len(y_shape) != 2 or y_shape[0] < int(dataset["pred_len"]) or y_shape[1] != n:
+            raise ValidationFailure("SAMPLE_SHAPE_MISMATCH", "Custom adapter target shape is incompatible.", [f">={dataset['pred_len']}", n], y_shape)
+        return {"x_shape": x_shape, "y_shape": y_shape}
+
+    def validate_graph(self, extracted, probe, config):
+        try:
+            contexts = self.contexts(extracted)
+        except Exception as exc:
+            raise ValidationFailure(
+                "GRAPH_EXTRACTION_FAILED",
+                f"Graph extraction failed: the adapter did not return a valid graph for sample {probe['sample']}: {exc}",
+                details={"exception_class": type(exc).__name__},
+            ) from exc
+        n = len(config["dataset"]["variables"])
+        identities: set[str] = set()
+        for context in contexts:
+            context_id = self.context_id(context)
+            if context_id in identities:
+                raise ValidationFailure("GRAPH_IDENTITY_INVALID", "Custom adapter graph context ids must be unique.", "unique context_id", context_id)
+            identities.add(context_id)
+            if str(context.get("context_type")) != self.native_context_type:
+                raise ValidationFailure("CONTEXT_TYPE_MISMATCH", "Custom graph context type disagrees with capabilities.", self.native_context_type, context.get("context_type"))
+            _validate_square_finite_matrix(self.context_weight(context), n, f"Custom context {context_id} audit graph")
+        requested = self.find_context(contexts, probe["context"])
+        graph = self.context_weight(requested)
+        source, target = int(probe["source"]), int(probe["target"])
+        weight = float(_matrix_rows(graph)[source][target])
+        if weight <= 0:
+            raise ValidationFailure("RELATION_NOT_PRESENT", "Declared custom relation is not retained in the requested graph.", "positive learned weight", weight)
+        key = (int(probe["sample"]), str(probe["context"]["type"]), int(probe["context"]["index"]))
+        self._graphs[key] = graph
+        return {"context_count": len(contexts), "context_id": self.context_id(requested), "matrix_shape": [n, n], "requested_weight": weight}
+
+    def _graph(self, probe: Mapping[str, Any]) -> Any:
+        key = (int(probe["sample"]), str(probe["context"]["type"]), int(probe["context"]["index"]))
+        if key not in self._graphs:
+            raise ValidationFailure("GRAPH_CONTEXT_MISSING", "Validated custom graph context is unavailable for override.")
+        return self._graphs[key]
+
+    def identity_override(self, probe: Mapping[str, Any], config: Mapping[str, Any]) -> Mapping[str, Any]:
+        return {"type": "identity", "context_index": int(probe["context"]["index"]), "graph": self._graph(probe)}
+
+    def intervention_override(self, probe, config, broader=False):
+        if broader and not self.capabilities.supports_broader_context:
+            raise ValidationFailure("INTERVENTION_SCOPE_UNAVAILABLE", "Custom adapter does not declare broader-context override support.")
+        return {"type": "structural_edge_removal", "context_index": int(probe["context"]["index"]), "scope": "all" if broader else "local", "source": int(probe["source"]), "target": int(probe["target"]), "graph": self._graph(probe)}
+
+    def intervention_override_for_context(self, probe, config, context, broader=False):
+        if broader and not self.capabilities.supports_broader_context:
+            raise ValidationFailure("INTERVENTION_SCOPE_UNAVAILABLE", "Custom adapter does not declare broader-context override support.")
+        return {"type": "structural_edge_removal", "context_index": self.context_index(context), "context_id": self.context_id(context), "scope": "all" if broader else "local", "source": int(probe["source"]), "target": int(probe["target"]), "graph": self.context_weight(context)}
+
+    def model_configuration(self, config: Mapping[str, Any]) -> Mapping[str, Any]:
+        return dict(config.get("adapter_config", {}))
+
+
+def resolve_adapter_spec(
+    config: Mapping[str, Any], config_path: str | Path,
+    registry: Mapping[str, AdapterValidationSpec] | None = None,
+) -> AdapterValidationSpec | None:
+    registry = OFFICIAL_ADAPTER_REGISTRY if registry is None else registry
+    adapter_id = str(config.get("adapter"))
+    if adapter_id != CUSTOM_ADAPTER_SENTINEL:
+        return registry.get(adapter_id)
+    declaration = config.get("custom_adapter")
+    if not isinstance(declaration, Mapping):
+        raise CustomAdapterLoadError("CUSTOM_ADAPTER_DECLARATION_INVALID", "custom_adapter must declare explicit module and class fields.")
+    base = Path(config_path).resolve().parent
+    source_raw = config.get("source_root")
+    if not isinstance(source_raw, str):
+        raise CustomAdapterLoadError("CUSTOM_ADAPTER_SOURCE_INVALID", "Custom adapter source_root must be an explicit path.")
+    source_root = _resolve_path(base, source_raw)
+    return CustomAdapterValidationSpec(load_custom_adapter_class(declaration, source_root))
+
 
 OFFICIAL_ADAPTER_REGISTRY: dict[str, AdapterValidationSpec] = {
     "dgraformer": DGraFormerValidationSpec(),
@@ -630,8 +996,13 @@ def validate_audit_config(
             raise ValidationFailure("CONFIG_PARSE_ERROR", f"Audit config is not valid readable JSON: {exc}") from exc
         if not isinstance(parsed, Mapping):
             raise ValidationFailure("CONFIG_FIELD_INVALID", "Audit config root must be an object.", "object", type(parsed).__name__)
-        adapter_id = parsed.get("adapter")
-        candidate_spec = registry.get(str(adapter_id))
+        try:
+            candidate_spec = resolve_adapter_spec(parsed, path, registry)
+        except CustomAdapterLoadError as exc:
+            details = {"exception_class": type(exc.cause).__name__} if debug and exc.cause is not None else {}
+            if debug and exc.cause is not None:
+                details["underlying_exception"] = repr(exc.cause)
+            raise ValidationFailure(exc.code, str(exc), details=details) from exc
         issues = _validate_common_config(parsed, candidate_spec)
         if issues:
             first = issues[0]
@@ -695,7 +1066,7 @@ def validate_audit_config(
 
     def v03() -> Mapping[str, Any]:
         dataset = config["dataset"]
-        if dataset["format"] not in spec.supported_formats:
+        if spec.supported_formats and dataset["format"] not in spec.supported_formats:
             raise ValidationFailure(
                 "DATASET_FORMAT_UNSUPPORTED",
                 "Dataset format is not supported by the selected adapter.",
@@ -724,7 +1095,7 @@ def validate_audit_config(
             except Exception as exc:
                 raise ValidationFailure(
                     "SAMPLE_CONSTRUCTION_FAILED",
-                    f"Official adapter could not construct sample {sample_index}: {exc}",
+                    f"Adapter could not construct sample {sample_index}: {exc}",
                     details={"sample_index": sample_index, "exception_class": type(exc).__name__},
                 ) from exc
             batch = spec.prepare_batch(raw, config)
@@ -754,6 +1125,27 @@ def validate_audit_config(
                 details={"exception_class": type(exc).__name__},
             ) from exc
         metadata = dict(adapter.get_metadata())
+        if getattr(spec, "is_custom", False):
+            required = {"adapter", "model", "dataset", "node_labels", "graph_contexts"}
+            missing = sorted(field for field in required if metadata.get(field) in (None, "", []))
+            if missing:
+                raise ValidationFailure(
+                    "ADAPTER_METADATA_INCOMPLETE",
+                    "Custom adapter metadata is incomplete for Session v2 provenance.",
+                    sorted(required), missing,
+                )
+            if metadata.get("model") != spec.model_name or metadata.get("dataset") != config["dataset"]["name"]:
+                raise ValidationFailure(
+                    "ADAPTER_METADATA_MISMATCH",
+                    "Custom adapter metadata model/dataset identity disagrees with the config.",
+                    {"model": spec.model_name, "dataset": config["dataset"]["name"]},
+                    {"model": metadata.get("model"), "dataset": metadata.get("dataset")},
+                )
+            if list(metadata.get("node_labels", [])) != list(config["dataset"]["variables"]):
+                raise ValidationFailure(
+                    "ADAPTER_METADATA_MISMATCH", "Custom adapter node labels do not match dataset variable identity.",
+                    list(config["dataset"]["variables"]), metadata.get("node_labels"),
+                )
         metadata.pop("source_root", None)
         report["runtime"] = {
             "python": platform.python_version(),
@@ -910,10 +1302,14 @@ def validate_audit_config(
 
 
 def render_validation_report(report: Mapping[str, Any]) -> str:
-    lines = ["DGraInsight Adapter Validation", ""]
+    lines = ["DGraInsight Adapter Conformance", ""]
     adapter = report.get("adapter") or {}
     if adapter.get("name"):
         lines.append(f"Adapter: {adapter['name']} · {adapter.get('model')} · {adapter.get('native_context_type')} graph")
+        if report.get("checkpoint"):
+            lines.append(f"Checkpoint: {report['checkpoint'].get('sha256')}")
+        if report.get("dataset"):
+            lines.append(f"Dataset: {report['dataset'].get('name')} · {report['dataset'].get('sha256')}")
         lines.append("")
     for check in report.get("checks", []):
         marker = {"pass": "✓", "fail": "✗", "not_run": "–"}.get(check["status"], "?")
@@ -930,7 +1326,12 @@ def render_validation_report(report: Mapping[str, Any]) -> str:
             issues = check.get("details", {}).get("issues", [])
             for issue in issues[1:]:
                 lines.append(f"  - [{issue['code']}] {issue['message']}")
-    lines.extend(["", f"Status: {'READY FOR AUDIT' if report.get('status') == 'ready_for_audit' else 'NOT READY'}"])
+    ready = report.get("status") == "ready_for_audit"
+    lines.extend([
+        "", f"Status: {'READY FOR AUDIT' if ready else 'NOT READY'}",
+        f"Quick Inspection readiness: {'READY' if ready else 'NOT READY'}",
+        "Formal Evidence Audit readiness: not evaluated (requires a separately declared protocol).",
+    ])
     return "\n".join(lines)
 
 
@@ -944,13 +1345,19 @@ def _validate_common_config(config: Mapping[str, Any], spec: AdapterValidationSp
             "schema_version", "config_version", "audit_mode", "adapter", "source_root", "checkpoint",
             "dataset", "audit", "adapter_config", "sample_protocol", "candidate_families",
             "control_protocol", "response_metric", "dependence_protocol", "inference_protocol",
-            "multiplicity_protocol", "sensitivity_protocol",
+            "multiplicity_protocol", "sensitivity_protocol", "custom_adapter",
         },
     )
     if config.get("schema_version") != CONFIG_SCHEMA_VERSION:
         issues.append(_issue("CONFIG_SCHEMA_UNSUPPORTED", "Unsupported audit config schema version.", CONFIG_SCHEMA_VERSION, config.get("schema_version")))
     if spec is None:
         issues.append(_issue("ADAPTER_UNSUPPORTED", "Adapter is not registered as an official adapter.", sorted(OFFICIAL_ADAPTER_REGISTRY), config.get("adapter")))
+    if config.get("adapter") == CUSTOM_ADAPTER_SENTINEL:
+        declaration = config.get("custom_adapter")
+        if not isinstance(declaration, Mapping):
+            issues.append(_issue("CUSTOM_ADAPTER_DECLARATION_INVALID", "custom_adapter must be an object.", {"module": "...", "class": "..."}, declaration))
+        else:
+            _reject_unknown_fields(issues, "custom_adapter", declaration, {"module", "class"})
     if config.get("config_version") != 2 or config.get("audit_mode") != "quick_inspection":
         issues.append(_issue(
             "CONFIG_SCHEMA_UNSUPPORTED",
@@ -1044,7 +1451,7 @@ def _validate_common_config(config: Mapping[str, Any], spec: AdapterValidationSp
                     issues.append(_issue("CONFIG_FIELD_INVALID", "include_broader_context must be boolean.", "boolean", relation["include_broader_context"]))
     if spec is not None:
         adapter_config = config.get("adapter_config")
-        if isinstance(adapter_config, Mapping):
+        if isinstance(adapter_config, Mapping) and not getattr(spec, "is_custom", False):
             allowed_adapter_fields = {"random_seed", "model"}
             if spec.adapter_id == "dgraformer":
                 allowed_adapter_fields.add("current_epoch")

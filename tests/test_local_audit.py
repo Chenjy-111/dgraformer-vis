@@ -9,6 +9,7 @@ import numpy as np
 
 from dgraudit.quick_audit import QuickAuditError, run_quick_audit
 from dgraudit.v2.session import validate_audit_session_v2
+from dgraudit.validation import DGraFormerValidationSpec
 
 
 class _FakeAdapter:
@@ -65,7 +66,7 @@ class _FakeAdapter:
         os.chdir(self.previous_cwd)
 
 
-class _FakeSpec:
+class _FakeSpec(DGraFormerValidationSpec):
     adapter_id = "dgraformer"
     adapter_name = "DGraFormerAdapter"
     model_name = "DGraFormer"

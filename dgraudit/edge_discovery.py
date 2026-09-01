@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from dgraudit.quick_audit import _context_id, _context_weight, _resolve
-from dgraudit.validation import OFFICIAL_ADAPTER_REGISTRY
+from dgraudit.validation import resolve_adapter_spec
 
 
 def inspect_native_edges(
@@ -21,10 +21,9 @@ def inspect_native_edges(
         raise ValueError("limit must be at least 1")
     path = Path(config_path).resolve()
     config: Mapping[str, Any] = json.loads(path.read_text(encoding="utf-8"))
-    adapter_id = str(config.get("adapter"))
-    if adapter_id not in OFFICIAL_ADAPTER_REGISTRY:
-        raise ValueError(f"Unsupported adapter: {adapter_id}")
-    spec = OFFICIAL_ADAPTER_REGISTRY[adapter_id]
+    spec = resolve_adapter_spec(config, path)
+    if spec is None:
+        raise ValueError(f"Unsupported adapter: {config.get('adapter')}")
     resolved = {
         "source_root": _resolve(path.parent, config["source_root"]),
         "dataset": _resolve(path.parent, config["dataset"]["path"]),
@@ -38,21 +37,17 @@ def inspect_native_edges(
         raw = adapter.load_sample(config["audit"]["split"], sample_index)
         batch = spec.prepare_batch(raw, config)
         extracted = adapter.extract_graph_stages(batch)
-        contexts = list(extracted["windows"] if adapter_id == "dgraformer" else extracted["contexts"])
+        contexts = spec.contexts(extracted)
         variables = list(config["dataset"]["variables"])
         results = []
         for context in contexts:
-            native_index = int(
-                context["window"] if adapter_id == "dgraformer"
-                else context["scale_index"] if adapter_id == "msgnet"
-                else context["index"]
-            )
-            native_layer = int(context["layer"]) if adapter_id == "msgnet" else None
+            native_index = spec.context_index(context)
+            native_layer = int(context["layer"]) if "layer" in context else None
             if context_index is not None and native_index != context_index:
                 continue
             if layer is not None and native_layer != layer:
                 continue
-            matrix = _context_weight(adapter_id, context)
+            matrix = _context_weight(spec, context)
             edges = [
                 {
                     "source": source,
@@ -67,7 +62,7 @@ def inspect_native_edges(
             ]
             edges.sort(key=lambda item: (-item["weight"], item["source"], item["target"]))
             results.append({
-                "context_id": _context_id(adapter_id, context),
+                "context_id": _context_id(spec, context),
                 "type": spec.native_context_type,
                 "index": native_index,
                 "layer": native_layer,

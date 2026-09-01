@@ -12,7 +12,7 @@ from dgraudit.v2.runner import run_audit_v2, terminal_summary
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Run a validated DGraFormer, MSGNet, or MTGNN audit and create a portable "
+            "Run a validated official or explicitly declared custom adapter audit and create a portable "
             "DGraInsight Session v2."
         )
     )
@@ -32,6 +32,11 @@ def main(argv: list[str] | None = None) -> int:
         if config.get("config_version") != 2:
             raise ValueError("DGraInsight audit accepts Audit Config v2 only.")
         if config.get("audit_mode") == "formal_evidence_audit":
+            if config.get("adapter") == "custom":
+                raise ValueError(
+                    "Custom adapter conformance does not enable Formal Evidence Audit. "
+                    "A separately declared and validated formal audit protocol is required."
+                )
             output, session = run_audit_v2(
                 args.config,
                 output_path=args.output,

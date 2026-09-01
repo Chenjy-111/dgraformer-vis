@@ -6,17 +6,25 @@ runtime as a structured preflight failure instead of crashing at package import.
 
 from typing import Any
 
-__all__ = ["DGraFormerAdapter", "DynamicGraphForecastAdapter", "MSGNetAdapter", "MTGNNAdapter"]
+__all__ = [
+    "AdapterCapabilities", "DGraFormerAdapter", "DynamicGraphForecastAdapter", "GraphContext",
+    "MSGNetAdapter", "MTGNNAdapter",
+]
 
 
 def __getattr__(name: str) -> Any:
     if name in __all__:
-        from .adapters import DGraFormerAdapter, DynamicGraphForecastAdapter, MSGNetAdapter, MTGNNAdapter
+        from .adapters import (
+            AdapterCapabilities, DGraFormerAdapter, DynamicGraphForecastAdapter, GraphContext,
+            MSGNetAdapter, MTGNNAdapter,
+        )
 
         return {
             "DGraFormerAdapter": DGraFormerAdapter,
             "DynamicGraphForecastAdapter": DynamicGraphForecastAdapter,
             "MSGNetAdapter": MSGNetAdapter,
             "MTGNNAdapter": MTGNNAdapter,
+            "AdapterCapabilities": AdapterCapabilities,
+            "GraphContext": GraphContext,
         }[name]
     raise AttributeError(name)

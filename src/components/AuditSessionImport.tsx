@@ -58,6 +58,14 @@ export function AuditSessionImport() {
           <p className="mt-2 text-[9px] text-ink-400">Validated Session v2 files are accepted. Unsupported or corrupted evidence is rejected atomically.</p>
         </article>
       </div>
+      <div className="mt-4 rounded-xl border border-line bg-white p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3"><div><div className="font-semibold text-[#263b59]">Need a Session JSON? Generate it first</div><p className="mt-1 text-[10px] leading-relaxed text-ink-500">Run these commands from the DGraInsight repository root. Model execution happens offline; the generated JSON is what you import above.</p></div><a className="text-[10px] font-semibold text-[#176e69] underline" href="./docs/CUSTOM_ADAPTER_GUIDE.md">Custom Adapter Guide</a></div>
+        <div className="mt-4 grid gap-3 lg:grid-cols-3">
+          <GenerationStep number="1" title="Prepare the config"><p>Set the model source, checkpoint, dataset, hashes, variables and model parameters in your Config v2 file.</p><code>configs/my_custom_quick.json</code></GenerationStep>
+          <GenerationStep number="2" title="Validate the adapter"><code>python -m dgraudit validate-adapter --config configs/my_custom_quick.json</code><p>Continue only when V01–V09 pass.</p></GenerationStep>
+          <GenerationStep number="3" title="Choose an edge and write JSON"><code>python -m dgraudit wizard --config configs/my_custom_quick.json --output outputs/my_session_v2.json</code><p>Return here and choose <b>outputs/my_session_v2.json</b>.</p></GenerationStep>
+        </div>
+      </div>
 
       {sessionV2 && <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -80,4 +88,8 @@ export function AuditSessionImport() {
 
 function SourceField({ label, value }: { label: string; value: string }) {
   return <div className="rounded-lg bg-white/70 p-3"><dt className="uppercase tracking-wider text-emerald-700">{label}</dt><dd className="mt-1 break-all font-mono font-semibold text-emerald-950">{value}</dd></div>;
+}
+
+function GenerationStep({ number, title, children }: { number: string; title: string; children: React.ReactNode }) {
+  return <article className="rounded-xl border border-line bg-[#fafbfd] p-4"><div className="flex items-center gap-2"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#263b59] text-[10px] font-semibold text-white">{number}</span><h3 className="text-[12px] font-semibold text-[#263b59]">{title}</h3></div><div className="mt-3 space-y-2 text-[10px] leading-relaxed text-ink-500 [&_code]:block [&_code]:overflow-x-auto [&_code]:rounded-lg [&_code]:bg-[#eef2f7] [&_code]:p-2.5 [&_code]:font-mono [&_code]:text-[9px] [&_code]:text-ink-700">{children}</div></article>;
 }

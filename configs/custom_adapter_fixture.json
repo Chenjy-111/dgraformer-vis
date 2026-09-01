@@ -1,0 +1,52 @@
+{
+  "schema_version": "dgrainsight.audit_config.v2",
+  "config_version": 2,
+  "audit_mode": "quick_inspection",
+  "adapter": "custom",
+  "custom_adapter": {
+    "module": "tiny_custom_adapter",
+    "class": "TinyDeterministicGraphAdapter"
+  },
+  "source_root": "../tests/fixtures/custom_adapter",
+  "checkpoint": {"path": "../tests/fixtures/custom_adapter/checkpoint.json"},
+  "dataset": {
+    "name": "TinyFixture",
+    "path": "../tests/fixtures/custom_adapter/dataset.csv",
+    "format": "custom_csv",
+    "date_column": "date",
+    "variables": ["A", "B", "C"],
+    "features": "M",
+    "target": "C",
+    "frequency": "h",
+    "seq_len": 2,
+    "label_len": 1,
+    "pred_len": 1
+  },
+  "audit": {
+    "split": "test",
+    "samples": [0],
+    "relations": [{
+      "sample": 0,
+      "context": {"type": "global", "index": 0},
+      "source": 0,
+      "target": 1,
+      "include_broader_context": false
+    }]
+  },
+  "sample_protocol": {
+    "protocol_id": "quick.tiny_fixture.0",
+    "selection_rule": "explicit user-selected retained relation after conformance",
+    "split": "test",
+    "sample_ids": [0],
+    "selection_frozen": true,
+    "active_inactive_policy": "exclude_inactive_without_zero_imputation"
+  },
+  "candidate_families": [],
+  "control_protocol": {"protocol": "all_unique_eligible", "with_replacement": false},
+  "response_metric": "prediction_delta_abs",
+  "dependence_protocol": {"expected_classification": "unknown_dependence"},
+  "inference_protocol": {"selection_frozen": true, "alternative": "mean_D > 0", "by_family": {}},
+  "multiplicity_protocol": {"primary_method": "BH", "alpha": 0.05, "families_frozen": true},
+  "sensitivity_protocol": {},
+  "adapter_config": {"random_seed": 7, "model": {}}
+}

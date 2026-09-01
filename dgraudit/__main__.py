@@ -13,6 +13,12 @@ def main() -> int:
     validate.add_argument("--config", required=True)
     validate.add_argument("--output")
     validate.add_argument("--debug", action="store_true")
+    validate_adapter = subparsers.add_parser(
+        "validate-adapter", help="Run V01-V09 adapter conformance for Quick Inspection readiness."
+    )
+    validate_adapter.add_argument("--config", required=True)
+    validate_adapter.add_argument("--output")
+    validate_adapter.add_argument("--debug", action="store_true")
     audit = subparsers.add_parser("audit", help="Run the offline audit and generate a Session v2.")
     audit.add_argument("--config", required=True)
     audit.add_argument("--output", default="dgrainsight_session_v2.json")
@@ -60,6 +66,15 @@ def main() -> int:
         if args.debug:
             forwarded.append("--debug")
         return validate_main(forwarded)
+    if args.command == "validate-adapter":
+        from dgraudit.cli.validate_adapter import main as validate_adapter_main
+
+        forwarded = ["--config", args.config]
+        if args.output:
+            forwarded.extend(["--output", args.output])
+        if args.debug:
+            forwarded.append("--debug")
+        return validate_adapter_main(forwarded)
     if args.command == "edges":
         from dgraudit.cli.inspect_edges import main as inspect_main
 

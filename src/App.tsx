@@ -43,7 +43,7 @@ export default function App() {
     <SystemOverview/>
     <WorkflowBar/>
     <section id="discovery-workspace" className="border-b border-line bg-white">
-      <WorkspaceHeader number="01" title="Pattern Discovery" text={imported ? 'Inspect stored model-native graphs and select an exact imported relation.' : 'Find a learned relation worth testing.'}/>
+      <WorkspaceHeader number="01" title="Pattern Discovery" text={imported ? 'Inspect the stored model-native graph and the audited relation fixed by the imported Session.' : 'Find a learned relation worth testing.'}/>
       {imported ? <ImportedModelLock model={sessionV2!.model.name as string} context={sessionV2!.model.native_context_type as string}/> : <ModelSwitch value={model} onChange={setModel}/>}
       {importedV2
         ? <ImportedSessionV2Workspace key={String((sessionV2.session as any).session_id)} session={sessionV2}/>

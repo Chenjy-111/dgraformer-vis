@@ -118,21 +118,27 @@ def candidate_identity(
     source: int,
     target: int,
 ) -> tuple[str, dict[str, Any]]:
-    original_scope = str(selection.get("scope", "local"))
     common = {
         "source": source,
         "target": target,
         "source_name": selection["source_name"],
         "target_name": selection["target_name"],
     }
-    if adapter == "dgraformer":
-        if original_scope == "local":
-            window = int(selection["context_index"])
-            return "single_window", {**common, "candidate_id": f"quick:dgra:window:{window}:{source}->{target}", "scope": "single_window", "native_context_type": "window", "window_index": window, "retained_contexts": [window]}
-        return "all_retained_windows", {**common, "candidate_id": f"quick:dgra:all:{source}->{target}", "scope": "all_retained_windows", "native_context_type": "window", "retained_contexts": []}
-    if adapter == "msgnet":
-        if original_scope == "local":
-            scale = int(selection["context_index"])
-            return "single_scale", {**common, "candidate_id": f"quick:msgnet:scale:{scale}:{source}->{target}", "scope": "single_scale", "native_context_type": "scale", "scale_index": scale, "retained_contexts": [scale]}
-        return "all_scales", {**common, "candidate_id": f"quick:msgnet:all:{source}->{target}", "scope": "all_scales", "native_context_type": "scale", "retained_contexts": [0, 1, 2]}
-    return "global_graph", {**common, "candidate_id": f"quick:mtgnn:global:{source}->{target}", "scope": "global_graph", "native_context_type": "global_graph", "retained_contexts": [0]}
+    required = (
+        "candidate_scope", "candidate_id", "candidate_native_context_type", "candidate_retained_contexts"
+    )
+    missing = [field for field in required if field not in selection]
+    if missing:
+        raise ValueError(f"Adapter selection is missing candidate identity fields: {missing}")
+    scope = str(selection["candidate_scope"])
+    identity = selection.get("candidate_identity", {})
+    if not isinstance(identity, Mapping):
+        raise ValueError("candidate_identity must be a mapping")
+    return scope, {
+        **common,
+        "candidate_id": str(selection["candidate_id"]),
+        "scope": scope,
+        "native_context_type": str(selection["candidate_native_context_type"]),
+        "retained_contexts": list(selection["candidate_retained_contexts"]),
+        **dict(identity),
+    }

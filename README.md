@@ -8,7 +8,14 @@ Formal evidence is candidate-relation-level across predeclared samples/tests. Ea
 
 Quick Inspection remains a real checkpoint-backed single-case workflow. It validates V01–V09, discovers native graph edges, performs real interventions, compares all unique eligible controls, and emits Session v2 with formal inference explicitly unavailable.
 
-Supported adapters are DGraFormer, MSGNet, and MTGNN. Their graph extraction and intervention contracts are documented in [docs/SUPPORTED_LOCAL_AUDIT.md](docs/SUPPORTED_LOCAL_AUDIT.md).
+DGraInsight separates model-specific graph semantics from a shared evidence-audit core.
+
+Official reference adapters are maintained for DGraFormer, MSGNet, and MTGNN. Additional learned-graph forecasting models can be integrated through the standardized Adapter Contract using model source, configuration, checkpoint and dataset. See the [Custom Adapter Guide](docs/CUSTOM_ADAPTER_GUIDE.md) and [supported local audit boundary](docs/SUPPORTED_LOCAL_AUDIT.md).
+
+- Official adapters are maintained reference integrations.
+- Custom adapters are explicit user-provided local integrations.
+- Quick Inspection is available after adapter conformance.
+- Formal Evidence Audit additionally requires a separately declared and validated formal audit protocol; it is never enabled by adapter conformance alone.
 
 ## Install and test
 
@@ -47,6 +54,22 @@ python -m dgraudit validate-session dgrainsight_session_v2.json
 
 On Windows, `Start-DGraInsight-Audit.cmd` launches the same current workflow.
 
+For an explicit custom integration, copy `dgraudit/examples/custom_adapter_template.py`, set `adapter: "custom"` plus the exact `custom_adapter.module` and `custom_adapter.class`, and run:
+
+```bash
+python -m dgraudit validate-adapter --config configs/my_custom_quick.json
+python -m dgraudit edges --config configs/my_custom_quick.json
+python -m dgraudit audit --config configs/my_custom_quick.json --output dgrainsight_session_v2.json
+```
+
+`configs/custom_adapter_fixture.json` is a deterministic test-only mechanism example, not an official research model.
+
+For a real-code controlled integration, `configs/custom_adapter_mtgnn_exchange.json` loads the public
+MTGNN source through `adapter: "custom"` and reproduces the official MTGNN execution without registry
+changes. See the [MTGNN external custom-adapter integration](docs/MTGNN_CUSTOM_ADAPTER_INTEGRATION.md).
+For the short user workflow—validate, choose an edge, generate JSON, and import it—see the
+[external MTGNN adapter README](integrations/mtgnn_external/README.md).
+
 ## Web
 
 ```bash
@@ -61,7 +84,9 @@ The built-in demo loads the two validated Session v2 assets under `public/data/e
 |---|---|
 | `dgraudit/v2/` | Current statistical protocol, inference, families, and Session v2 writer |
 | `dgraudit/adapters.py` | DGraFormer, MSGNet, and MTGNN adapter layer |
+| `dgraudit/registry.py` | Explicit local custom adapter loader; official registry remains unchanged |
 | `dgraudit/quick_audit.py` | Native Quick Inspection v2 runtime |
+| `dgraudit/examples/custom_adapter_template.py` | Copyable external adapter template |
 | `artifacts/dgraformer_frozen40/` | Minimal frozen DGraFormer formal operands |
 | `artifacts/msgnet_frozen14/` | Frozen MSGNet formal operands and trajectories |
 | `schemas/dgrainsight_audit_session_v2.schema.json` | Portable Session v2 JSON Schema |

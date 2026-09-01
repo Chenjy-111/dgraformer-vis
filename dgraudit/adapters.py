@@ -6,12 +6,56 @@ import sys
 import types
 from abc import ABC, abstractmethod
 from argparse import Namespace
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+
+@dataclass(frozen=True)
+class AdapterCapabilities:
+    """Technical execution capabilities; this never declares formal validity."""
+
+    graph_context_type: str
+    supports_quick_inspection: bool = True
+    supports_graph_override: bool = True
+    supports_multi_context: bool = False
+    supports_broader_context: bool = False
+    audit_graph_key: str = "audit_graph"
+    local_scope: str = "single_context"
+    broader_scope: str = "all_contexts"
+    dataset_formats: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class GraphContext:
+    """Canonical internal context used by custom adapters and the audit core."""
+
+    context_id: str
+    context_type: str
+    index: int
+    audit_graph: Any
+    graphs: Mapping[str, Any] = field(default_factory=dict)
+    display_label: str | None = None
+    metadata: Mapping[str, Any] = field(default_factory=dict)
+    identity: Mapping[str, Any] = field(default_factory=dict)
+
+    def as_mapping(self) -> dict[str, Any]:
+        graphs = dict(self.graphs)
+        graphs.setdefault("audit_graph", self.audit_graph)
+        return {
+            "context_id": self.context_id,
+            "context_type": self.context_type,
+            "index": self.index,
+            "audit_graph": self.audit_graph,
+            "graphs": graphs,
+            "display_label": self.display_label,
+            "metadata": dict(self.metadata),
+            "identity": dict(self.identity),
+        }
 
 
 def apply_graph_intervention(graph: torch.Tensor, protocol: Mapping[str, Any]) -> torch.Tensor:
@@ -61,6 +105,31 @@ def apply_graph_intervention(graph: torch.Tensor, protocol: Mapping[str, Any]) -
 
 
 class DynamicGraphForecastAdapter(ABC):
+    CAPABILITIES: AdapterCapabilities | None = None
+    ADAPTER_ID = ""
+    MODEL_NAME = ""
+    ADAPTER_VERSION: str | None = None
+
+    @classmethod
+    def from_audit_config(
+        cls, config: Mapping[str, Any], resolved_paths: Mapping[str, Path]
+    ) -> "DynamicGraphForecastAdapter":
+        """Stable external construction hook; subclasses may override it."""
+
+        return cls(config, resolved_paths)  # type: ignore[call-arg]
+
+    @classmethod
+    def validate_dataset_file(
+        cls, dataset_path: Path, dataset_config: Mapping[str, Any]
+    ) -> Mapping[str, Any] | None:
+        """Optionally validate a native non-CSV dataset before adapter construction.
+
+        Returning ``None`` selects DGraInsight's strict date-column CSV validator.
+        Custom formats should return bounded technical measurements or raise a clear error.
+        """
+
+        return None
+
     @abstractmethod
     def load_checkpoint(self, checkpoint_path: str) -> None: ...
 
@@ -85,8 +154,35 @@ class DynamicGraphForecastAdapter(ABC):
         """Release adapter-scoped process state after an offline operation."""
 
 
+def canonical_graph_contexts(extracted: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """Normalize custom-adapter GraphContext objects/mappings without guessing semantics."""
+
+    raw_contexts = extracted.get("contexts")
+    if not isinstance(raw_contexts, Sequence) or isinstance(raw_contexts, (str, bytes, bytearray)):
+        raise ValueError("extract_graph_stages must return a non-empty 'contexts' sequence.")
+    contexts: list[dict[str, Any]] = []
+    for raw in raw_contexts:
+        if isinstance(raw, GraphContext):
+            contexts.append(raw.as_mapping())
+        elif isinstance(raw, Mapping):
+            contexts.append(dict(raw))
+        else:
+            raise TypeError("Every graph context must be a GraphContext or mapping.")
+    if not contexts:
+        raise ValueError("extract_graph_stages returned no learned graph contexts.")
+    return contexts
+
+
 class DGraFormerAdapter(DynamicGraphForecastAdapter):
     """Thin adapter around the supplied, unmodified DGraFormer inference path."""
+
+    ADAPTER_ID = "dgraformer"
+    MODEL_NAME = "DGraFormer"
+    CAPABILITIES = AdapterCapabilities(
+        graph_context_type="window", supports_multi_context=True, supports_broader_context=True,
+        audit_graph_key="normalized", local_scope="single_window", broader_scope="all_retained_windows",
+        dataset_formats=("ett_hour",),
+    )
 
     def __init__(self, source_root: str, dataset_name: str, common: Mapping[str, Any], dataset: Mapping[str, Any], seed: int):
         self.source_root = Path(source_root).resolve()
@@ -254,6 +350,14 @@ class DGraFormerAdapter(DynamicGraphForecastAdapter):
 class MSGNetAdapter(DynamicGraphForecastAdapter):
     """Adapter around the supplied MSGNet source without editing upstream files."""
 
+    ADAPTER_ID = "msgnet"
+    MODEL_NAME = "MSGNet"
+    CAPABILITIES = AdapterCapabilities(
+        graph_context_type="scale", supports_multi_context=True, supports_broader_context=True,
+        audit_graph_key="adaptive", local_scope="single_scale", broader_scope="all_scales",
+        dataset_formats=("ett_hour",),
+    )
+
     def __init__(self, source_root: str, config: Mapping[str, Any]):
         self.source_root = Path(source_root).resolve()
         self.config = dict(config)
@@ -393,6 +497,13 @@ class MSGNetAdapter(DynamicGraphForecastAdapter):
 
 class MTGNNAdapter(DynamicGraphForecastAdapter):
     """Adapter around the supplied MTGNN source without editing upstream files."""
+
+    ADAPTER_ID = "mtgnn"
+    MODEL_NAME = "MTGNN"
+    CAPABILITIES = AdapterCapabilities(
+        graph_context_type="global_graph", audit_graph_key="learned_adjacency",
+        local_scope="global_graph", dataset_formats=("mtgnn_matrix",),
+    )
 
     def __init__(self, source_root: str, config: Mapping[str, Any]):
         self.source_root = Path(source_root).resolve()
