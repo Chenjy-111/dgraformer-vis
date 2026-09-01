@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, CheckCircle2, ChevronRight, CircleOff, Info, LoaderCircle } from 'lucide-react';
 import type { AuditSessionV2, AuditTensor, CandidateRelation, CaseEvidence, SensitivityResult } from '@/data/auditSessionV2';
 import { exactCase, sampleById, type CandidateBundle } from '@/data/auditSessionV2View';
+import { KatexSpan } from '@/components/KatexSpan';
 import { formalAvailabilityLabel } from './evidencePresentationLogic';
 
 export type FormalStatus = 'supported' | 'not_supported' | 'not_audited' | 'unavailable';
@@ -16,7 +17,11 @@ export function RelationAuditHeader({ relation, model, localContext, contextCoun
 function HeaderFact({ label, value, available }: { label: string; value: string; available?: boolean }) { return <div><div className="text-[10px] font-semibold uppercase tracking-wider text-ink-400">{label}</div><div className={`mt-1 text-[12px] font-semibold ${available === true ? 'text-[#176e69]' : 'text-ink-700'}`}>{value}</div></div>; }
 
 export function SelectedScopeComparison({ local, global, localLabel, globalLabel, equivalent = false }: { local: CandidateBundle | null; global: CandidateBundle | null; localLabel: string; globalLabel: string; equivalent?: boolean }) {
-  return <section className="card overflow-hidden"><header className="border-b border-line px-5 py-4"><div className="eyebrow">Formal audit results</div><h3 className="mt-1 text-[16px] font-semibold text-[#263b59]">Selected Scope Comparison</h3><p className="mt-2 text-[12px] leading-relaxed text-ink-500">{equivalent ? 'Equivalent intervention scope; the frozen records are shown without a strength comparison.' : comparisonText(local, global)}</p></header><div className="grid md:grid-cols-2"><ScopeColumn label={localLabel} bundle={local}/><ScopeColumn label={globalLabel} bundle={global} divider/></div></section>;
+  return <section className="card overflow-hidden"><header className="border-b border-line px-5 py-4"><div className="eyebrow">Formal audit results</div><h3 className="mt-1 text-[16px] font-semibold text-[#263b59]">Selected Scope Comparison</h3><p className="mt-2 text-[12px] leading-relaxed text-ink-500">{equivalent ? 'Equivalent intervention scope; the frozen records are shown without a strength comparison.' : comparisonText(local, global)}</p><StatusDecisionRule/></header><div className="grid md:grid-cols-2"><ScopeColumn label={localLabel} bundle={local}/><ScopeColumn label={globalLabel} bundle={global} divider/></div></section>;
+}
+
+function StatusDecisionRule() {
+  return <div className="mt-4 rounded-lg border border-line bg-[#f5f7fa] px-4 py-3"><div className="text-[10px] font-semibold uppercase tracking-wider text-ink-500">How status is assigned</div><div className="mt-2 overflow-x-auto text-[12px] text-ink-700"><KatexSpan tex={'q_i = \\operatorname{BH}(p_1,\\ldots,p_m)_i \\qquad \\mathrm{Supported} \\iff q_i < \\alpha'}/></div><p className="mt-2 text-[11px] leading-relaxed text-ink-500"><b className="text-ink-700">Not supported:</b> qᵢ ≥ α · <b className="text-ink-700">Formal inference unavailable:</b> no valid p or q · <b className="text-ink-700">Not audited:</b> no exact candidate record</p></div>;
 }
 
 function ScopeColumn({ label, bundle, divider = false }: { label: string; bundle: CandidateBundle | null; divider?: boolean }) {
