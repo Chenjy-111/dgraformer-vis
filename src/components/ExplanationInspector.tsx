@@ -16,7 +16,7 @@ export function ExplanationInspector() {
     <aside className="space-y-4">
       <div>
         <span className="eyebrow">Artifact inspector</span>
-        <p className="mt-2 text-[11px] leading-relaxed text-ink-400">Read-only fields from stored checkpoint artifacts. No explanation or functional-importance claim is generated here.</p>
+        <p className="mt-2 text-[11px] leading-relaxed text-ink-400">Read-only checkpoint fields.</p>
       </div>
 
       <section className="card p-4">
@@ -43,23 +43,23 @@ export function ExplanationInspector() {
             <Row label="Graph window" value={String(windowIdx + 1)} />
           </dl>
           <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-[10.5px] leading-relaxed text-amber-900">
-            Candidate only. Stored graph weight and rank do not establish functional importance. Use Intervention Validation to inspect checkpoint-replayed response and matched controls.
+            Candidate only. Validate it with the intervention and matched controls.
           </p>
         </section>
       ) : selectedNode != null && sample ? (
         <section className="card p-4">
           <div className="eyebrow">Selected variable</div>
           <h3 className="mt-2 text-[17px] font-semibold">{sample.variables[selectedNode]}</h3>
-          <p className="mt-3 text-[11px] leading-relaxed text-ink-400">Variable selection is navigational only. The interface does not infer hub, sink, importance, or causal roles.</p>
+          <p className="mt-3 text-[11px] leading-relaxed text-ink-400">Selection is navigational; no role is inferred.</p>
         </section>
       ) : (
         <section className="card p-4 text-[12px] leading-relaxed text-ink-400">
-          Select a model-retained edge in the 3D graph to inspect its stored fields and transfer it as a candidate relation.
+          Select an edge to inspect and test it.
         </section>
       )}
 
       <section className="rounded-xl border border-line bg-white p-4 text-[10.5px] leading-relaxed text-ink-400">
-        The browser loads precomputed artifacts and applies optional visibility filters. It does not rerun the forecasting model or alter any stored evidence result.
+        Precomputed artifacts only; the browser does not rerun the model.
       </section>
     </aside>
   );

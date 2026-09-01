@@ -43,7 +43,7 @@ export default function App() {
     <SystemOverview/>
     <WorkflowBar/>
     <section id="discovery-workspace" className="border-b border-line bg-white">
-      <WorkspaceHeader number="01" title="Pattern Discovery" text={imported ? 'Inspect the stored model-native graph and the audited relation fixed by the imported Session.' : 'Find a learned relation worth testing.'}/>
+      <WorkspaceHeader number="01" title="Pattern Discovery" text={imported ? 'Inspect the stored graph and audited relation.' : 'Find a relation worth testing.'}/>
       {imported ? <ImportedModelLock model={sessionV2!.model.name as string} context={sessionV2!.model.native_context_type as string}/> : <ModelSwitch value={model} onChange={setModel}/>}
       {importedV2
         ? <ImportedSessionV2Workspace key={String((sessionV2.session as any).session_id)} session={sessionV2}/>
@@ -64,7 +64,7 @@ export default function App() {
     <CaseStudy/>
     <Limitations/>
     <CitationSection/>
-    <footer className="border-t border-line bg-white px-5 py-8 text-center text-[12px] text-ink-400">DGraInsight · Interactive evidence validation for learned graph structures in multivariate forecasting</footer>
+    <footer className="border-t border-line bg-white px-5 py-8 text-center text-[12px] text-ink-400">DGraInsight · Evidence validation for learned graph structures</footer>
   </div>;
 }
 

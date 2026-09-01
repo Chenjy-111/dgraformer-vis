@@ -35,13 +35,13 @@ const MTGNN_BIBTEX = `@inproceedings{wu2020connecting,
 }`;
 
 export function CitationSection() {
-  return <Section id="cite" eyebrow="Citation & code" title="Supported forecasting model references" intro="DGraInsight provides a shared evidence-validation workflow over three independently published forecasting architectures. The model contributions remain credited to their original authors.">
+  return <Section id="cite" eyebrow="Citation & code" title="Model references" intro="Original papers and implementations for the supported models.">
     <div className="grid gap-5 lg:grid-cols-3">
       <PaperCard model="DGraFormer" context="Window-level learned graph adapter" title="DGraFormer: Dynamic Graph Learning Guided Multi-Scale Transformer for Multivariate Time Series Forecasting" authors="Han Yan, Dongliang Chen, Guiyuan Jiang, Bin Wang, Lei Cao, Junyu Dong, and Yanwei Yu" venue="IJCAI 2025 · pp. 3516–3524" code="https://github.com/yh-Hanniel/DGraFormer" bibtex={DGRAFORMER_BIBTEX}/>
       <PaperCard model="MSGNet" context="Scale-level learned graph adapter" title="MSGNet: Learning Multi-Scale Inter-Series Correlations for Multivariate Time Series Forecasting" authors="Wanlin Cai, Yuxuan Liang, Xianggen Liu, Jianshuai Feng, and Yuankai Wu" venue="AAAI 2024 · Vol. 38(10) · pp. 11141–11149" paper="https://doi.org/10.1609/aaai.v38i10.28991" code="https://github.com/YoZhibo/MSGNet" bibtex={MSGNET_BIBTEX}/>
       <PaperCard model="MTGNN" context="Global learned graph adapter" title="Connecting the Dots: Multivariate Time Series Forecasting with Graph Neural Networks" authors="Zonghan Wu, Shirui Pan, Guodong Long, Jing Jiang, Xiaojun Chang, and Chengqi Zhang" venue="KDD 2020" paper="https://arxiv.org/abs/2005.11650" code="https://github.com/nnzhan/MTGNN" bibtex={MTGNN_BIBTEX}/>
     </div>
-    <div className="mt-5 rounded-xl border border-line bg-white p-5 text-[11px] leading-relaxed text-ink-500"><b className="text-ink-800">System attribution.</b> DGraInsight is an independent evidence-validation system built around checkpoint artifacts from these model adapters. It does not claim the graph-learning, forecasting, or temporal-context mechanisms introduced by the source papers. A dedicated DGraInsight citation should be added here only after the system paper is publicly available.</div>
+    <div className="mt-5 rounded-xl border border-line bg-white p-5 text-[11px] leading-relaxed text-ink-500"><b className="text-ink-800">Attribution.</b> Model contributions belong to the original authors. DGraInsight is an independent validation system.</div>
   </Section>;
 }
 
