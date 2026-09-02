@@ -82,6 +82,7 @@ The built-in demo loads the two validated Session v2 assets under `public/data/e
 
 | Path | Role |
 |---|---|
+| `dgraudit/README.md` | Detailed local audit installation, workflow, CLI, validation, and troubleshooting guide |
 | `dgraudit/v2/` | Current statistical protocol, inference, families, and Session v2 writer |
 | `dgraudit/adapters.py` | DGraFormer, MSGNet, and MTGNN adapter layer |
 | `dgraudit/registry.py` | Explicit local custom adapter loader; official registry remains unchanged |
@@ -92,8 +93,9 @@ The built-in demo loads the two validated Session v2 assets under `public/data/e
 | `schemas/dgrainsight_audit_session_v2.schema.json` | Portable Session v2 JSON Schema |
 | `src/` | Current Web v2 application |
 | `tests/fixtures/` | Current graph and Session v2 regression fixtures |
+| `docs/history/` | Archived engineering audits, migration records, and release manifests |
 
-See [docs/AUDIT_SESSION_V2.md](docs/AUDIT_SESSION_V2.md) and [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md).
+See the [detailed audit guide](dgraudit/README.md), [Session v2 contract](docs/AUDIT_SESSION_V2.md), [reproducibility guide](docs/REPRODUCIBILITY.md), and [development history index](docs/history/README.md).
 
 ## External assets and release status
 
