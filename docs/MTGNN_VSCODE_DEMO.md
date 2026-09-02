@@ -3,7 +3,7 @@
 Open the repository folder in VS Code:
 
 ```text
-<your-local-path>\dgraformer-vis
+<your-local-path>\DGraInsight
 ```
 
 Open **Terminal → New Terminal**. Keep the terminal working directory at the repository root and use the Python environment in which `requirements.txt` was installed.
